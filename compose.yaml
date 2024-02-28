@@ -1,0 +1,53 @@
+version: "3.8"
+services:
+    client:
+        build: ./client
+        container_name: omni-client
+        ports:
+            - 3000:3000
+        develop:
+            watch:
+                - action: sync
+                  path: ./client
+                  target: /client
+                  ignore:
+                      - node_modules/
+                - action: rebuild
+                  path: ./client/package.json
+    auth:
+        build: ./auth
+        container_name: omni-auth
+        depends_on:
+            - db-user
+        ports:
+            - 4000:4000
+        env_file:
+            - path: ./auth/.env.development
+              required: true
+        environment:
+            DB_URL: mongodb://root:example@db-user:27017
+        develop:
+            watch:
+                - action: sync
+                  path: ./auth
+                  target: /auth
+                  ignore:
+                      - node_modules/
+                      - dist/
+                - action: rebuild
+                  path: ./auth/package.json
+    db-user:
+        build: ./db-user
+        image: mongo
+        restart: always
+        ports:
+            - 27017:27017
+        volumes:
+            - db_user:/data/db
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: example
+
+volumes:
+    db_user:
+        name: db_user_data
