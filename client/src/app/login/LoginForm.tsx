@@ -1,8 +1,9 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import { z } from "zod";
+
+import { useForm } from "react-hook-form";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,16 +15,20 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+    Eye as ShowPasswordIcon,
+    EyeOff as HidePasswordIcon,
+} from "lucide-react";
+import { useState } from "react";
 
 const formSchema = z.object({
-    username: z.string().min(2, {
-        message: "Username must be at least 2 characters.",
-    }),
-    password: z.string().min(7),
+    username: z.string().min(3, "Invalid"),
+    password: z.string().min(7, "Password should be at least 7 characters"),
     rememberMe: z.boolean().default(true).optional(),
 });
 
 export default function LoginForm() {
+    const [showPassword, setShowPassword] = useState(false);
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -58,15 +63,28 @@ export default function LoginForm() {
                     control={form.control}
                     name="password"
                     render={({ field }) => (
-                        <FormItem>
+                        <FormItem className="relative">
                             <FormLabel>Password</FormLabel>
                             <FormControl>
                                 <Input
-                                    type="password"
+                                    type={showPassword ? "text" : "password"}
                                     placeholder="password"
                                     {...field}
                                 />
                             </FormControl>
+                            {showPassword ? (
+                                <HidePasswordIcon
+                                    onClick={() => setShowPassword(false)}
+                                    size="1em"
+                                    className="text-primary absolute right-4 top-10"
+                                />
+                            ) : (
+                                <ShowPasswordIcon
+                                    onClick={() => setShowPassword(true)}
+                                    size="1em"
+                                    className="text-primary absolute right-4 top-10"
+                                />
+                            )}
                             <FormMessage />
                         </FormItem>
                     )}
@@ -92,7 +110,7 @@ export default function LoginForm() {
                 />
 
                 <Button className="w-full" type="submit">
-                    Submit
+                    Login
                 </Button>
             </form>
         </Form>
