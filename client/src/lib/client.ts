@@ -74,7 +74,7 @@ export default class API {
                 return res.data;
             })
             .catch((err) => {
-                console.log(err);
+                //console.log(err);
                 if (options?.toast) {
                     options.toast.error(
                         err.response?.data?.message || "Invalid Details"

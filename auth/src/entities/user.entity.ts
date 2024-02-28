@@ -29,10 +29,10 @@ export default class User {
     get() {
         return Object.freeze({
             name: this.name,
-            username: this.name,
-            email: this.name,
-            avatar: this.name,
-            password: this.name,
+            username: this.username,
+            email: this.email,
+            avatar: this.avatar,
+            password: this.password,
         });
     }
 }

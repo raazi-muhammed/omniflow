@@ -50,4 +50,4 @@ services:
 
 volumes:
     db_user:
-        name: db_user_data
+        name: omni_db_user_data

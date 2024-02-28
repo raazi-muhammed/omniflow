@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import API from "@/lib/client";
+import { useToast } from "@/components/ui/use-toast";
 
 const formSchema = z
     .object({
@@ -47,6 +48,8 @@ export default function SignUpForm() {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+    const { toast } = useToast();
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -57,17 +60,20 @@ export default function SignUpForm() {
         mode: "onTouched",
     });
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
+    async function onSubmit(values: z.infer<typeof formSchema>) {
         const api = new API();
-        api.auth()
-            .post("/sign-up", { data: values })
-            .then((res) => {
-                console.log(res);
-            })
-            .catch((err) => {
-                console.log(err);
+        const response = await api.auth().post("/sign-up", { data: values });
+        if (response.success) {
+            toast({
+                title: "Account created",
+                description: "Please login to use your account",
             });
-        console.log(values);
+        } else {
+            toast({
+                title: "Cannot create account",
+                description: response.message || "Internal server error",
+            });
+        }
     }
 
     return (
