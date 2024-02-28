@@ -1,5 +1,5 @@
 import app from "./app.js";
-import loadEnv from "./lib/loadEnv.js";
+import loadEnv from "./lib/load-env.js";
 
 const { PORT, SERVER_NAME } = loadEnv(["PORT", "SERVER_NAME"]);
 app.listen(PORT, () => {

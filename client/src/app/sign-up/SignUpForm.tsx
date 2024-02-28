@@ -20,6 +20,7 @@ import {
     EyeOff as HidePasswordIcon,
 } from "lucide-react";
 import { useState } from "react";
+import API from "@/lib/client";
 
 const formSchema = z
     .object({
@@ -57,6 +58,15 @@ export default function SignUpForm() {
     });
 
     function onSubmit(values: z.infer<typeof formSchema>) {
+        const api = new API();
+        api.auth()
+            .post("/sign-up", { data: values })
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
         console.log(values);
     }
 
