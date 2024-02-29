@@ -8,5 +8,8 @@ export default function adaptRequest(req: Request) {
         query: req.query,
         body: req.body,
         headers: req.headers,
+        cookies: req.cookies,
     });
 }
+
+export type IRequest = ReturnType<typeof adaptRequest>;

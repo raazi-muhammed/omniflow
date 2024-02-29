@@ -3,7 +3,6 @@ import IUserRepository from "../interfaces/repository.interface.js";
 import validateBody from "../lib/body-validator.js";
 import IPasswordHash from "../interfaces/password-hash.interface.js";
 import IToken from "../interfaces/token.interface.js";
-import { IResponse } from "../interfaces/response.interface.js";
 import ExpressReposeCreator from "../lib/express-response.js";
 
 const TOKEN_COOKIE_NAME = "__omniflow-user-token";

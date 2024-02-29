@@ -6,5 +6,6 @@ const router = express.Router();
 
 router.post("/sign-up", makeCallback(authControllers.signIn));
 router.post("/login", makeCallback(authControllers.login));
+router.get("/current-user", makeCallback(authControllers.currentUser));
 
 export default router;

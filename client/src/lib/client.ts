@@ -2,6 +2,7 @@ import axios from "axios";
 
 export default class API {
     private baseUrl: string;
+
     constructor() {
         this.baseUrl = "http://";
         return this;
@@ -12,7 +13,7 @@ export default class API {
         return this;
     }
 
-    async get(url: string, { params = {} }) {
+    async get(url: string, { params = {} } = {}) {
         return axios({
             baseURL: this.baseUrl,
             url,

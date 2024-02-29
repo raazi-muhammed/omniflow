@@ -4,13 +4,25 @@ import Avatar from "../custom/Avatar";
 import { Card } from "../ui/card";
 import Container from "./Container";
 import { ChevronDown as ChevronDownIcon } from "lucide-react";
-import { useAppSelector } from "@/redux/store";
+import { AppDispatch, useAppSelector } from "@/redux/store";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import { useEffect, useLayoutEffect } from "react";
+import API from "@/lib/client";
+import { useDispatch } from "react-redux";
+import { logUser } from "@/redux/features/authSlice";
 
 function Navbar() {
     const userData = useAppSelector((state) => state.authReducer);
-
+    const dispatch = useDispatch<AppDispatch>();
+    useEffect(() => {
+        const api = new API();
+        api.auth()
+            .get("/current-user")
+            .then((data) => {
+                dispatch(logUser(data.data));
+            });
+    });
     return (
         <Card className="rounded-none p-4">
             <Container>
