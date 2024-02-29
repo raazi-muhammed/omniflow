@@ -75,7 +75,7 @@ export default function SignUpForm() {
         const response = await api.auth().post("/sign-up", { data: values });
         if (response.success) {
             toast({
-                title: "Account created",
+                title: response.message || "Account created",
                 description: "Please login to use your account",
             });
         } else {

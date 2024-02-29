@@ -4,12 +4,17 @@ import { ISignInUseCase } from "../interfaces/use-case.interface.js";
 import validateBody from "../lib/body-validator.js";
 import IUserRepository from "../interfaces/repository.interface.js";
 import IPasswordHash from "../interfaces/password-hash.interface.js";
+import ExpressReposeCreator from "../lib/express-response.js";
 
-export default function makeSignInController(
-    signInUseCase: ISignInUseCase,
-    userRepository: IUserRepository,
-    passwordHash: IPasswordHash
-) {
+export default function buildSignInController({
+    signInUseCase,
+    userRepository,
+    passwordHash,
+}: {
+    signInUseCase: ISignInUseCase;
+    userRepository: IUserRepository;
+    passwordHash: IPasswordHash;
+}) {
     return async (req: Request) => {
         const userData: IUser = req.body;
         validateBody(userData, ["username", "email", "password", "name"]);
@@ -33,6 +38,10 @@ export default function makeSignInController(
         });
         if (!isUserCreated) throw new Error("Cannot create user");
 
-        return user;
+        const response = new ExpressReposeCreator();
+        return response
+            .setData(user)
+            .setStatusCode(201)
+            .setMessage("Account created");
     };
 }

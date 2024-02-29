@@ -1,9 +1,5 @@
 import axios from "axios";
 
-type Options = {
-    toast?: { error: (str: string) => void; success: (str: string) => void };
-};
-
 export default class API {
     private baseUrl: string;
     constructor() {
@@ -16,7 +12,7 @@ export default class API {
         return this;
     }
 
-    async get(url: string, { params = {} }, options: Options = {}) {
+    async get(url: string, { params = {} }) {
         return axios({
             baseURL: this.baseUrl,
             url,
@@ -25,17 +21,10 @@ export default class API {
             params,
         })
             .then((res) => res.data)
-            .catch((err) => {
-                console.log(err);
-                if (options?.toast) {
-                    options.toast.error(
-                        err.response?.data?.message || "Invalid Details"
-                    );
-                }
-            });
+            .catch((err) => err.response.data);
     }
 
-    async delete(url: string, { params = {} }, options: Options = {}) {
+    async delete(url: string, { params = {} }) {
         return axios({
             baseURL: this.baseUrl,
             url,
@@ -44,20 +33,12 @@ export default class API {
             params,
         })
             .then((res) => res.data)
-            .catch((err) => {
-                console.log(err);
-                if (options?.toast) {
-                    options.toast.error(
-                        err.response?.data?.message || "Invalid Details"
-                    );
-                }
-            });
+            .catch((err) => err.response.data);
     }
 
     async post(
         url: string,
-        { data, params = {} }: { data: Object; params?: Object },
-        options: Options = {}
+        { data, params = {} }: { data: Object; params?: Object }
     ) {
         return axios({
             baseURL: this.baseUrl,
@@ -67,27 +48,10 @@ export default class API {
             data,
             params,
         })
-            .then((res) => {
-                if (options?.toast) {
-                    options.toast.success(res?.data?.message || "Successful");
-                }
-                return res.data;
-            })
-            .catch((err) => {
-                //console.log(err);
-                if (options?.toast) {
-                    options.toast.error(
-                        err.response?.data?.message || "Invalid Details"
-                    );
-                }
-                return err.response.data;
-            });
+            .then((res) => res.data)
+            .catch((err) => err.response.data);
     }
-    async patch(
-        url: string,
-        { data = {}, params = {} },
-        options: Options = {}
-    ) {
+    async patch(url: string, { data = {}, params = {} }) {
         return axios({
             baseURL: this.baseUrl,
             url,
@@ -96,23 +60,10 @@ export default class API {
             data,
             params,
         })
-            .then((res) => {
-                if (options?.toast) {
-                    options.toast.success(res?.data?.message || "Successful");
-                }
-                return res.data;
-            })
-            .catch((err) => {
-                console.log(err);
-                if (options?.toast) {
-                    options.toast.error(
-                        err.response?.data?.message || "Invalid Details"
-                    );
-                }
-                return err.response.data;
-            });
+            .then((res) => res.data)
+            .catch((err) => err.response.data);
     }
-    async put(url: string, { data = {}, params = {} }, options: Options = {}) {
+    async put(url: string, { data = {}, params = {} }) {
         return axios({
             baseURL: this.baseUrl,
             url,
@@ -121,20 +72,7 @@ export default class API {
             data,
             params,
         })
-            .then((res) => {
-                if (options?.toast) {
-                    options.toast.success(res?.data?.message || "Successful");
-                }
-                return res.data;
-            })
-            .catch((err) => {
-                console.log(err);
-                if (options?.toast) {
-                    options.toast.error(
-                        err.response?.data?.message || "Invalid Details"
-                    );
-                }
-                return err.response.data;
-            });
+            .then((res) => res.data)
+            .catch((err) => err.response.data);
     }
 }

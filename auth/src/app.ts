@@ -15,6 +15,7 @@ const { SERVER_NAME, CORS_ORIGINS, NODE_ENV } = loadEnv([
     "SERVER_NAME",
     "CORS_ORIGINS",
     "NODE_ENV",
+    "ACCESS_TOKEN_SECRET",
 ]);
 
 app.use(cookieParser());

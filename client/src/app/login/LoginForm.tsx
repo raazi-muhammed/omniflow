@@ -20,6 +20,9 @@ import {
     EyeOff as HidePasswordIcon,
 } from "lucide-react";
 import { useState } from "react";
+import API from "@/lib/client";
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
     username: z
@@ -33,6 +36,9 @@ const formSchema = z.object({
 });
 
 export default function LoginForm() {
+    const { toast } = useToast();
+    const router = useRouter();
+
     const [showPassword, setShowPassword] = useState(false);
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -44,8 +50,21 @@ export default function LoginForm() {
         mode: "onTouched",
     });
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
+    async function onSubmit(values: z.infer<typeof formSchema>) {
         console.log(values);
+        const api = new API();
+        const response = await api.auth().post("/login", { data: values });
+        if (response.success) {
+            toast({
+                description: response.message || "Login successful",
+            });
+            router.push("/projects");
+        } else {
+            toast({
+                title: "Login failed",
+                description: response.message || "Login successful",
+            });
+        }
     }
 
     return (
