@@ -22,7 +22,12 @@ import {
 import { useState } from "react";
 
 const formSchema = z.object({
-    username: z.string().min(3, "Invalid"),
+    username: z
+        .string()
+        .min(3, "Invalid")
+        .refine((s) => /^[a-zA-Z0-9_-]+$/.test(s), {
+            message: "Only letters & numbers are allowed",
+        }),
     password: z.string().min(7, "Password should be at least 7 characters"),
     rememberMe: z.boolean().default(true).optional(),
 });

@@ -26,9 +26,19 @@ import { useToast } from "@/components/ui/use-toast";
 const formSchema = z
     .object({
         name: z.string().min(3, "Invalid"),
-        username: z.string().min(3, "Invalid"),
+        username: z
+            .string()
+            .min(3, "Invalid")
+            .refine((s) => /^[a-zA-Z0-9_-]+$/.test(s), {
+                message: "Only letters & numbers are allowed",
+            }),
         email: z.string().email(),
-        password: z.string().min(7, "Password should be at least 7 characters"),
+        password: z
+            .string()
+            .min(7, "Password should be at least 7 characters")
+            .refine((s) => /[a-zA-Z]/.test(s) && /\d/.test(s), {
+                message: "Password must contain both letters and numbers.",
+            }),
         confirmPassword: z
             .string()
             .min(7, "Password should be at least 7 characters"),
