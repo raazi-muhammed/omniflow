@@ -1,5 +1,5 @@
 import express from "express";
-import makeCallback from "../lib/express-callback.js";
+import { makeCallback } from "@omniflow/common";
 import authControllers from "../controllers/index.js";
 
 const router = express.Router();

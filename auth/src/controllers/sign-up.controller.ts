@@ -1,10 +1,9 @@
 import { Request } from "express";
 import { IUser } from "../interfaces/entity.interface.js";
 import { ISignInUseCase } from "../interfaces/use-case.interface.js";
-import validateBody from "../lib/body-validator.js";
+import { validateBody, ReposeCreator } from "@omniflow/common";
 import IUserRepository from "../interfaces/repository.interface.js";
 import IPasswordHash from "../interfaces/password-hash.interface.js";
-import ExpressReposeCreator from "../lib/express-response.js";
 
 export default function buildSignInController({
     signInUseCase,
@@ -38,7 +37,7 @@ export default function buildSignInController({
         });
         if (!isUserCreated) throw new Error("Cannot create user");
 
-        const response = new ExpressReposeCreator();
+        const response = new ReposeCreator();
         return response
             .setData(user)
             .setStatusCode(201)

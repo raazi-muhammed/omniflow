@@ -22,7 +22,7 @@ function Navbar() {
             .then((data) => {
                 dispatch(logUser(data.data));
             });
-    });
+    }, []);
     return (
         <Card className="rounded-none p-4">
             <Container>

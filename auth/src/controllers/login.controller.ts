@@ -1,9 +1,9 @@
 import { Request } from "express";
 import IUserRepository from "../interfaces/repository.interface.js";
-import validateBody from "../lib/body-validator.js";
+import { validateBody } from "@omniflow/common";
 import IPasswordHash from "../interfaces/password-hash.interface.js";
 import IToken from "../interfaces/token.interface.js";
-import ExpressReposeCreator from "../lib/express-response.js";
+import { ReposeCreator } from "@omniflow/common";
 
 const TOKEN_COOKIE_NAME = "__omniflow-user-token";
 
@@ -27,6 +27,8 @@ export default function buildLoginController({
         const userFound = await userRepository.findByUsername(
             inputData.username
         );
+        console.log({ userFound });
+
         if (!userFound) throw new Error("User not found");
 
         const doesPasswordMatch = await passwordHash.compare(
@@ -37,7 +39,7 @@ export default function buildLoginController({
 
         const userToken = token.sign(userFound);
 
-        const response = new ExpressReposeCreator();
+        const response = new ReposeCreator();
         return response
             .setData(userFound)
             .setHeaders({ "Set-Cookie": `${TOKEN_COOKIE_NAME}=${userToken}` })

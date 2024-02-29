@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import morgan from "morgan";
-import loadEnv from "./lib/load-env.js";
+import { loadEnv } from "@omniflow/common";
 import authRoutes from "./routers/index.js";
 
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` });

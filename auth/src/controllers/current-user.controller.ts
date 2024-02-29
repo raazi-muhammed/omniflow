@@ -1,7 +1,7 @@
 import IUserRepository from "../interfaces/repository.interface.js";
 import IToken from "../interfaces/token.interface.js";
-import { IRequest } from "../lib/adapt-request.js";
-import ExpressReposeCreator from "../lib/express-response.js";
+import { IRequest } from "@omniflow/common";
+import { ReposeCreator } from "@omniflow/common";
 
 export default function buildCurrentUserController({
     token,
@@ -11,11 +11,7 @@ export default function buildCurrentUserController({
     userRepository: IUserRepository;
 }) {
     return async (req: IRequest) => {
-        console.log(req);
-
         const tokenData = `Bearer ${req.cookies["__omniflow-user-token"]}`;
-
-        console.log({ tokenData });
 
         token.validate(tokenData);
 
@@ -28,7 +24,7 @@ export default function buildCurrentUserController({
         );
         if (!user) throw new Error("Not user found");
 
-        const response = new ExpressReposeCreator();
+        const response = new ReposeCreator();
         return response.setMessage("User logged in").setData(user);
     };
 }
