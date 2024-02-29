@@ -23,6 +23,9 @@ import { useState } from "react";
 import API from "@/lib/client";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/redux/store";
+import { logUser } from "@/redux/features/authSlice";
 
 const formSchema = z.object({
     username: z
@@ -38,6 +41,7 @@ const formSchema = z.object({
 export default function LoginForm() {
     const { toast } = useToast();
     const router = useRouter();
+    const dispatch = useDispatch<AppDispatch>();
 
     const [showPassword, setShowPassword] = useState(false);
     const form = useForm<z.infer<typeof formSchema>>({
@@ -58,6 +62,7 @@ export default function LoginForm() {
             toast({
                 description: response.message || "Login successful",
             });
+            dispatch(logUser(response.data));
             router.push("/projects");
         } else {
             toast({

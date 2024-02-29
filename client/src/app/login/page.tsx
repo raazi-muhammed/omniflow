@@ -15,7 +15,7 @@ export default function Login() {
         <main className="bg-main-pattern">
             <Container className="grid place-items-center min-h-screen">
                 <Card className="w-full max-w-lg md:max-w-4xl grid grid-cols-1 min-h-[35rem] md:grid-cols-2">
-                    <section className="bg-hero-pattern object-center  hidden md:flex flex-col justify-between p-8">
+                    <section className="bg-hero-pattern object-center hidden md:flex flex-col justify-between p-8">
                         <div className="flex gap-2">
                             <AppLogo />
                             <p className="text-semibold">Omniflow</p>
