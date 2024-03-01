@@ -1,9 +1,13 @@
 import express from "express";
 const router = express.Router();
+import projectControllers from "../controllers/index.js";
+import buildProjectRoute from "./project.routes.js";
+import { verifyUserMiddleware } from "@omniflow/common";
 
-router.get("/get-projects", (req, res) => {
-    console.log("hooi");
-    res.send("hooi");
+const projectRoutes = buildProjectRoute({
+    router,
+    verifyUserMiddleware,
+    controllers: projectControllers,
 });
 
-export default router;
+export default projectRoutes;

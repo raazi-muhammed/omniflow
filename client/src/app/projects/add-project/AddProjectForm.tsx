@@ -37,7 +37,7 @@ const formSchema = z.object({
     title: z.string().min(3, "Invalid"),
     priority: z.number(),
     startDate: z.date(),
-    endDate: z.date(),
+    dueDate: z.date(),
     projectLead: z.string().min(3, "Invalid"),
     description: z.string().min(3, "Invalid"),
 });
@@ -54,7 +54,7 @@ export default function AddProjectForm() {
             priority: 0,
             projectLead: "Raazi Muhammed",
             startDate: new Date(),
-            endDate: currentDate,
+            dueDate: currentDate,
         },
         mode: "onTouched",
     });
@@ -128,10 +128,10 @@ export default function AddProjectForm() {
                     />
                     <FormField
                         control={form.control}
-                        name="endDate"
+                        name="dueDate"
                         render={({ field }) => (
                             <FormItem className="flex flex-col">
-                                <FormLabel>End date</FormLabel>
+                                <FormLabel>Due date</FormLabel>
                                 <Popover>
                                     <PopoverTrigger asChild>
                                         <FormControl>

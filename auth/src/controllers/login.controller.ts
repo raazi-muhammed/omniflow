@@ -42,7 +42,9 @@ export default function buildLoginController({
         const response = new ReposeCreator();
         return response
             .setData(userFound)
-            .setHeaders({ "Set-Cookie": `${TOKEN_COOKIE_NAME}=${userToken}` })
+            .setHeaders({
+                "Set-Cookie": `${TOKEN_COOKIE_NAME}=${userToken}; Path=/`,
+            })
             .setMessage("Login successful");
     };
 }
