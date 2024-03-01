@@ -11,17 +11,10 @@ export default function buildCurrentUserController({
     userRepository: IUserRepository;
 }) {
     return async (req: IRequest) => {
-        const tokenData = `Bearer ${req.cookies["__omniflow-user-token"]}`;
+        const currentUser = req.body.currentUser;
+        if (!currentUser) throw new Error("No user found");
 
-        token.validate(tokenData);
-
-        const decodedTokenData = await token.verify(tokenData);
-
-        if (!decodedTokenData) throw new Error("Invalid token data");
-
-        const user = await userRepository.findByUsername(
-            decodedTokenData.username
-        );
+        const user = await userRepository.findByUsername(currentUser.username);
         if (!user) throw new Error("Not user found");
 
         const response = new ReposeCreator();

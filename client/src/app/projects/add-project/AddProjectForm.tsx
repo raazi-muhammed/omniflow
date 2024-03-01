@@ -2,9 +2,15 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-
+import { cn } from "@/lib/utils";
 import { useForm } from "react-hook-form";
-import { Checkbox } from "@/components/ui/checkbox";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -17,26 +23,50 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import Link from "next/link";
+import API from "@/lib/client";
+import { CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+import { Calendar } from "@/components/ui/calendar";
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover";
 
 const formSchema = z.object({
     title: z.string().min(3, "Invalid"),
-    priority: z.string().min(3, "Invalid"),
+    priority: z.number(),
+    startDate: z.date(),
+    endDate: z.date(),
     projectLead: z.string().min(3, "Invalid"),
     description: z.string().min(3, "Invalid"),
 });
 
 export default function AddProjectForm() {
+    const currentDate = new Date();
+    currentDate.setMonth(currentDate.getMonth() + 1);
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             title: "",
             description: "",
+            priority: 0,
+            projectLead: "Raazi Muhammed",
+            startDate: new Date(),
+            endDate: currentDate,
         },
         mode: "onTouched",
     });
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
+    async function onSubmit(values: z.infer<typeof formSchema>) {
         console.log(values);
+        const api = new API();
+
+        const response = await api
+            .project()
+            .post("/add-project", { data: values });
+        console.log(response);
     }
 
     return (
@@ -58,6 +88,88 @@ export default function AddProjectForm() {
                 <div className="grid grid-cols-2 gap-4">
                     <FormField
                         control={form.control}
+                        name="startDate"
+                        render={({ field }) => (
+                            <FormItem className="flex flex-col">
+                                <FormLabel>Start date</FormLabel>
+                                <Popover>
+                                    <PopoverTrigger asChild>
+                                        <FormControl>
+                                            <Button
+                                                variant={"outline"}
+                                                className={cn(
+                                                    "text-left font-normal h-12",
+                                                    !field.value &&
+                                                        "text-muted-foreground"
+                                                )}>
+                                                {field.value ? (
+                                                    format(field.value, "PPP")
+                                                ) : (
+                                                    <span>Start date</span>
+                                                )}
+                                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                            </Button>
+                                        </FormControl>
+                                    </PopoverTrigger>
+                                    <PopoverContent
+                                        className="w-auto p-0"
+                                        align="start">
+                                        <Calendar
+                                            mode="single"
+                                            selected={field.value}
+                                            onSelect={field.onChange}
+                                            initialFocus
+                                        />
+                                    </PopoverContent>
+                                </Popover>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="endDate"
+                        render={({ field }) => (
+                            <FormItem className="flex flex-col">
+                                <FormLabel>End date</FormLabel>
+                                <Popover>
+                                    <PopoverTrigger asChild>
+                                        <FormControl>
+                                            <Button
+                                                variant={"outline"}
+                                                className={cn(
+                                                    "text-left font-normal h-12",
+                                                    !field.value &&
+                                                        "text-muted-foreground"
+                                                )}>
+                                                {field.value ? (
+                                                    format(field.value, "PPP")
+                                                ) : (
+                                                    <span>End date</span>
+                                                )}
+                                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                            </Button>
+                                        </FormControl>
+                                    </PopoverTrigger>
+                                    <PopoverContent
+                                        className="w-auto p-0"
+                                        align="start">
+                                        <Calendar
+                                            mode="single"
+                                            selected={field.value}
+                                            onSelect={field.onChange}
+                                            initialFocus
+                                        />
+                                    </PopoverContent>
+                                </Popover>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                    <FormField
+                        control={form.control}
                         name="projectLead"
                         render={({ field }) => (
                             <FormItem>
@@ -75,9 +187,25 @@ export default function AddProjectForm() {
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Priority</FormLabel>
-                                <FormControl>
-                                    <Input placeholder="username" {...field} />
-                                </FormControl>
+                                <Select
+                                    onValueChange={(value) =>
+                                        field.onChange(Number(value))
+                                    }
+                                    defaultValue={String(field.value)}>
+                                    <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="priority" />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        <SelectItem value="0">None</SelectItem>
+                                        <SelectItem value="1">Low</SelectItem>
+                                        <SelectItem value="2">
+                                            Medium
+                                        </SelectItem>
+                                        <SelectItem value="3">High</SelectItem>
+                                    </SelectContent>
+                                </Select>
                                 <FormMessage />
                             </FormItem>
                         )}
@@ -88,7 +216,7 @@ export default function AddProjectForm() {
                     name="description"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>description</FormLabel>
+                            <FormLabel>Description</FormLabel>
                             <FormControl>
                                 <Textarea
                                     placeholder="description"

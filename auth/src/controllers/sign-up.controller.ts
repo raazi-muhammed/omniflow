@@ -1,7 +1,7 @@
 import { Request } from "express";
 import { IUser } from "../interfaces/entity.interface.js";
 import { ISignInUseCase } from "../interfaces/use-case.interface.js";
-import { validateBody, ReposeCreator } from "@omniflow/common";
+import { validateBody, ReposeCreator, IRequest } from "@omniflow/common";
 import IUserRepository from "../interfaces/repository.interface.js";
 import IPasswordHash from "../interfaces/password-hash.interface.js";
 
@@ -14,7 +14,7 @@ export default function buildSignInController({
     userRepository: IUserRepository;
     passwordHash: IPasswordHash;
 }) {
-    return async (req: Request) => {
+    return async (req: IRequest) => {
         const userData: IUser = req.body;
         validateBody(userData, ["username", "email", "password", "name"]);
 

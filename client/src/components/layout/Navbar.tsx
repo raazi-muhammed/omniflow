@@ -7,20 +7,25 @@ import { ChevronDown as ChevronDownIcon } from "lucide-react";
 import { AppDispatch, useAppSelector } from "@/redux/store";
 import { Button } from "../ui/button";
 import Link from "next/link";
-import { useEffect, useLayoutEffect } from "react";
+import { useEffect } from "react";
 import API from "@/lib/client";
 import { useDispatch } from "react-redux";
 import { logUser } from "@/redux/features/authSlice";
+import { useToast } from "../ui/use-toast";
 
 function Navbar() {
+    const { toast } = useToast();
     const userData = useAppSelector((state) => state.authReducer);
     const dispatch = useDispatch<AppDispatch>();
     useEffect(() => {
         const api = new API();
         api.auth()
             .get("/current-user")
-            .then((data) => {
-                dispatch(logUser(data.data));
+            .then((response) => {
+                dispatch(logUser(response.data));
+                toast({
+                    description: response.message || "Internal server error",
+                });
             });
     }, []);
     return (

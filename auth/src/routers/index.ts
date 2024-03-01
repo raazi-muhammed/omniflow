@@ -1,11 +1,16 @@
 import express from "express";
-import { makeCallback } from "@omniflow/common";
 import authControllers from "../controllers/index.js";
+import buildAuthRoutes from "./auth.routes.js";
+import buildVerifyUserMiddleware from "../lib/current-user-middleware.js";
+import token from "../lib/token.js";
 
 const router = express.Router();
 
-router.post("/sign-up", makeCallback(authControllers.signIn));
-router.post("/login", makeCallback(authControllers.login));
-router.get("/current-user", makeCallback(authControllers.currentUser));
+const verifyMiddleware = buildVerifyUserMiddleware({ token });
+const authRoutes = buildAuthRoutes({
+    router,
+    authControllers,
+    verifyMiddleware,
+});
 
-export default router;
+export default authRoutes;

@@ -12,6 +12,10 @@ export default class API {
         this.baseUrl += "localhost:4000/api/auth";
         return this;
     }
+    project() {
+        this.baseUrl += "localhost:4005/api/project";
+        return this;
+    }
 
     async get(url: string, { params = {} } = {}) {
         return axios({

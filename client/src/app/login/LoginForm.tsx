@@ -58,6 +58,7 @@ export default function LoginForm() {
         console.log(values);
         const api = new API();
         const response = await api.auth().post("/login", { data: values });
+
         if (response.success) {
             toast({
                 description: response.message || "Login successful",

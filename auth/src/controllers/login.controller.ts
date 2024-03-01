@@ -1,6 +1,6 @@
 import { Request } from "express";
 import IUserRepository from "../interfaces/repository.interface.js";
-import { validateBody } from "@omniflow/common";
+import { IRequest, validateBody } from "@omniflow/common";
 import IPasswordHash from "../interfaces/password-hash.interface.js";
 import IToken from "../interfaces/token.interface.js";
 import { ReposeCreator } from "@omniflow/common";
@@ -21,7 +21,7 @@ export default function buildLoginController({
     passwordHash: IPasswordHash;
     token: IToken;
 }) {
-    return async (req: Request) => {
+    return async (req: IRequest) => {
         const inputData: InputData = req.body;
         validateBody(inputData, ["username", "password"]);
         const userFound = await userRepository.findByUsername(

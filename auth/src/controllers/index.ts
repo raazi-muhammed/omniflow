@@ -5,6 +5,7 @@ import passwordHash from "../lib/password-hash.js";
 import buildLoginController from "./login.controller.js";
 import token from "../lib/token.js";
 import buildCurrentUserController from "./current-user.controller.js";
+import { IAuthController } from "../interfaces/controller.interface.js";
 
 const signIn = buildSignInController({
     signInUseCase: authUseCase.signIn,
@@ -20,8 +21,10 @@ const login = buildLoginController({
 
 const currentUser = buildCurrentUserController({ token, userRepository });
 
-export default Object.freeze({
+const authControllers: IAuthController = Object.freeze({
     signIn,
     login,
     currentUser,
 });
+
+export default authControllers;
