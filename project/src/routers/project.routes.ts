@@ -17,5 +17,6 @@ export default function buildProjectRoute({
         makeCallback(controllers.add)
     );
     router.get("/get-projects", makeCallback(controllers.getAll));
+    router.get("/get-project/:id", makeCallback(controllers.getProject));
     return router;
 }

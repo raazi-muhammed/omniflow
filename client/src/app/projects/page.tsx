@@ -42,25 +42,29 @@ export default function page() {
             {projects ? (
                 <section className="grid grid-cols-3 gap-4">
                     {projects.map((project) => (
-                        <Card>
-                            <CardHeader className="text-secondary">
-                                <p className="text-xl text-foreground font-semibold">
-                                    {project.title}
-                                </p>
-                                <small>{project.description}</small>
-                                <small>Lead: {project.projectLead.name}</small>
-                            </CardHeader>
-                            <CardContent className="flex">
-                                <section className="ms-auto flex gap-2">
-                                    {project.members.map((member) => (
-                                        <Avatar
-                                            size="sm"
-                                            src={member.avatar || ""}
-                                        />
-                                    ))}
-                                </section>
-                            </CardContent>
-                        </Card>
+                        <Link href={`/projects/${project._id}`}>
+                            <Card>
+                                <CardHeader className="text-secondary">
+                                    <p className="text-xl text-foreground font-semibold">
+                                        {project.title}
+                                    </p>
+                                    <small>{project.description}</small>
+                                    <small>
+                                        Lead: {project.projectLead.name}
+                                    </small>
+                                </CardHeader>
+                                <CardContent className="flex">
+                                    <section className="ms-auto flex gap-2">
+                                        {project.members.map((member) => (
+                                            <Avatar
+                                                size="sm"
+                                                src={member.avatar || ""}
+                                            />
+                                        ))}
+                                    </section>
+                                </CardContent>
+                            </Card>
+                        </Link>
                     ))}
                 </section>
             ) : (

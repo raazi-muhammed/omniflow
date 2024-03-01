@@ -14,5 +14,11 @@ export default function buildProjectRepository({
                 .populate("projectLead")
                 .populate("members");
         },
+        get: async (id: string) => {
+            return await database
+                .findById(id)
+                .populate("projectLead")
+                .populate("members");
+        },
     });
 }
