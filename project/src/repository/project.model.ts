@@ -1,19 +1,7 @@
-import mongoose, { Document } from "mongoose";
+import mongoose, { HydratedDocument } from "mongoose";
 import { IProject } from "../interfaces/entity.interface.js";
-import { IUser } from "@omniflow/common/dist/lib/token.js";
 
-export interface ProjectType extends Document, IProject {
-    _id?: string;
-    title: string;
-    description: string;
-    priority: number;
-    startDate: Date;
-    dueDate: Date;
-    projectLead: IUser;
-    members: IUser[];
-}
-
-const projectSchema = new mongoose.Schema(
+const projectSchema = new mongoose.Schema<IProject>(
     {
         title: {
             type: String,
@@ -28,20 +16,23 @@ const projectSchema = new mongoose.Schema(
             default: 0,
         },
         startDate: {
-            type: Number,
+            type: Date,
             default: new Date(),
         },
         dueDate: {
-            type: Number,
+            type: Date,
             default: new Date(),
         },
         projectLead: {
-            type: Object,
+            type: mongoose.Schema.Types.ObjectId,
             required: true,
+            ref: "Member",
         },
         members: [
             {
-                type: Object,
+                type: mongoose.Schema.Types.ObjectId,
+                required: true,
+                ref: "Member",
             },
         ],
     },
@@ -50,4 +41,9 @@ const projectSchema = new mongoose.Schema(
     }
 );
 
-export default mongoose.model<ProjectType>("Project", projectSchema);
+export type IDBProject = HydratedDocument<
+    IProject,
+    { createdAt: Date; updatedAt: Date }
+>;
+
+export default mongoose.model<IProject>("Project", projectSchema);

@@ -1,4 +1,4 @@
-import { IUser } from "@omniflow/common/dist/lib/token.js";
+import { Types } from "mongoose";
 
 export interface IProject {
     _id?: string;
@@ -7,8 +7,16 @@ export interface IProject {
     priority: number;
     startDate: Date;
     dueDate: Date;
-    projectLead: IUser;
-    members: IUser[];
+    projectLead: Types.ObjectId;
+    members: Types.ObjectId[];
+}
+
+export interface IMember {
+    role: "Team Lead" | "Freelance" | "Default";
+    name: string;
+    username: string;
+    email: string;
+    avatar?: string;
 }
 
 class ProjectEntityClass {
@@ -17,8 +25,8 @@ class ProjectEntityClass {
     priority: number;
     startDate: Date;
     dueDate: Date;
-    projectLead: IUser;
-    members: IUser[];
+    projectLead: Types.ObjectId;
+    members: Types.ObjectId[];
 
     constructor(data: IProject) {}
     validate: () => void;

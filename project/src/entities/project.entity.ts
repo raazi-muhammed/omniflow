@@ -1,5 +1,5 @@
-import { IUser } from "@omniflow/common/dist/lib/token.js";
-import { IProject } from "../interfaces/entity.interface.js";
+import { Types } from "mongoose";
+import { IMember, IProject } from "../interfaces/entity.interface.js";
 
 export default class Project {
     _id?: string;
@@ -8,8 +8,8 @@ export default class Project {
     priority: number;
     startDate: Date;
     dueDate: Date;
-    projectLead: IUser;
-    members: IUser[];
+    projectLead: Types.ObjectId;
+    members: Types.ObjectId[];
 
     constructor(data: IProject) {
         this.title = data.title;
