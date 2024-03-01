@@ -1,7 +1,6 @@
-import { makeCallback } from "@omniflow/common";
+import { IVerifyUserMiddleware, makeCallback } from "@omniflow/common";
 import { Router } from "express";
 import { IAuthController } from "../interfaces/controller.interface.js";
-import { IVerifyMiddleware } from "../lib/current-user-middleware.js";
 
 export default function buildAuthRoutes({
     router,
@@ -10,7 +9,7 @@ export default function buildAuthRoutes({
 }: {
     router: Router;
     authControllers: IAuthController;
-    verifyMiddleware: IVerifyMiddleware;
+    verifyMiddleware: IVerifyUserMiddleware;
 }) {
     router.post("/sign-up", makeCallback(authControllers.signIn));
     router.post("/login", makeCallback(authControllers.login));
