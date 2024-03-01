@@ -1,6 +1,8 @@
 import { projectRepository, memberRepository } from "../repository/index.js";
 import buildAddProjectController from "./add-project.controller.js";
 import projectUseCases from "../use-cases/index.js";
+import { IProjectController } from "../interfaces/controller.interface.js";
+import buildGetAllProjectsController from "./get-all-projects.controller.js";
 
 const add = buildAddProjectController({
     memberRepository,
@@ -8,6 +10,10 @@ const add = buildAddProjectController({
     addProjectUseCase: projectUseCases.add,
 });
 
-export default Object.freeze({
+const getAll = buildGetAllProjectsController({ projectRepository });
+
+const projectController: IProjectController = Object.freeze({
     add,
+    getAll,
 });
+export default projectController;

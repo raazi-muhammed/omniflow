@@ -4,6 +4,7 @@ import { IMember, IProject } from "./entity.interface.js";
 
 export type IProjectRepository = {
     add: (data: IProject) => Promise<IDBProject>;
+    getAll: () => Promise<IDBProject[]>;
 };
 export type IMemberRepository = {
     add: (data: IMember) => Promise<IDBMember>;

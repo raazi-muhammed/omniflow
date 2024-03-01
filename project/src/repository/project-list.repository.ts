@@ -8,5 +8,8 @@ export default function buildProjectRepository({
         add: async (projectData: IProject) => {
             return await database.create(projectData);
         },
+        getAll: async () => {
+            return await database.find();
+        },
     });
 }
