@@ -32,6 +32,7 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
+import { useToast } from "@/components/ui/use-toast";
 
 const formSchema = z.object({
     title: z.string().min(3, "Invalid"),
@@ -43,6 +44,7 @@ const formSchema = z.object({
 });
 
 export default function AddProjectForm() {
+    const { toast } = useToast();
     const currentDate = new Date();
     currentDate.setMonth(currentDate.getMonth() + 1);
 
@@ -66,7 +68,11 @@ export default function AddProjectForm() {
         const response = await api
             .project()
             .post("/add-project", { data: values });
+
         console.log(response);
+        toast({
+            description: response?.message || "Internal server error",
+        });
     }
 
     return (

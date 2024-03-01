@@ -59,6 +59,9 @@ export default function buildAddProjectController({
         if (!projectAdded) throw new Error("Cannot add project to db");
 
         const response = new ReposeCreator();
-        return response.setData(project).setStatusCode(201);
+        return response
+            .setData(project)
+            .setStatusCode(201)
+            .setMessage("Project added");
     };
 }

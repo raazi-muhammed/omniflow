@@ -9,7 +9,10 @@ export default function buildProjectRepository({
             return await database.create(projectData);
         },
         getAll: async () => {
-            return await database.find();
+            return await database
+                .find()
+                .populate("projectLead")
+                .populate("members");
         },
     });
 }

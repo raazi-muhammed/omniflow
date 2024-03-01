@@ -16,10 +16,6 @@ export default function buildProjectRoute({
         verifyUserMiddleware,
         makeCallback(controllers.add)
     );
-    router.get(
-        "/get-projects",
-        verifyUserMiddleware,
-        makeCallback(controllers.getAll)
-    );
+    router.get("/get-projects", makeCallback(controllers.getAll));
     return router;
 }

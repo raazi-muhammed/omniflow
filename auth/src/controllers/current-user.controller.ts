@@ -11,6 +11,8 @@ export default function buildCurrentUserController({
     userRepository: IUserRepository;
 }) {
     return async (req: IRequest) => {
+        console.log(req.body);
+
         const currentUser = req.body.currentUser;
         if (!currentUser) throw new Error("No user found");
 

@@ -26,7 +26,7 @@ export default class API {
             params,
         })
             .then((res) => res.data)
-            .catch((err) => err.response.data);
+            .catch((err) => err.response?.data);
     }
 
     async delete(url: string, { params = {} }) {

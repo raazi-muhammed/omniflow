@@ -22,6 +22,8 @@ export default function buildLoginController({
     token: IToken;
 }) {
     return async (req: IRequest) => {
+        console.log(req);
+
         const inputData: InputData = req.body;
         validateBody(inputData, ["username", "password"]);
         const userFound = await userRepository.findByUsername(
