@@ -7,10 +7,13 @@ import API from "@/lib/client";
 import { AddIcon } from "@/lib/icons";
 import { IProject } from "@/types/database";
 import Link from "next/link";
+import { cookies } from "next/headers";
 
 export async function getProjects() {
     const api = new API();
-    const response = await api.project().get("/get-projects");
+    const response = await api
+        .project()
+        .get("/get-projects", { headers: { Cookie: cookies().toString() } });
     return response?.data;
 }
 
@@ -19,7 +22,7 @@ export default async function page() {
 
     return (
         <Container>
-            <section className="flex gap-2 ms-auto w-fit my-8">
+            <section className="my-8 ms-auto flex w-fit gap-2">
                 <Link href="/projects/add-project">
                     <Button size="sm">
                         <AddIcon />
@@ -34,12 +37,12 @@ export default async function page() {
                         <Link href={`/projects/${project._id}`}>
                             <Card>
                                 <CardHeader className="text-secondary">
-                                    <p className="text-xl text-foreground font-semibold">
+                                    <p className="text-xl font-semibold text-foreground">
                                         {project.title}
                                     </p>
                                     <small>{project.description}</small>
                                     <small>
-                                        Lead: {project.projectLead.name}
+                                        Lead: {project.projectLead?.name}
                                     </small>
                                 </CardHeader>
                                 <CardContent className="flex">

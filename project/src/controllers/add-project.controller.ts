@@ -4,7 +4,7 @@ import {
     IProjectRepository,
 } from "../interfaces/repository.interface.js";
 import { IAddProjectUseCase } from "../interfaces/use-case.interface.js";
-import { IProject } from "../interfaces/entity.interface.js";
+import { IMember, IProject } from "../interfaces/entity.interface.js";
 
 function sanitizeProjectData(projectData: any): IProject {
     projectData.startDate = new Date(projectData.startDate);
@@ -24,9 +24,8 @@ export default function buildAddProjectController({
 }) {
     return async (req: IRequest) => {
         const projectData = req.body;
-        if (!projectData.currentUser) throw new Error("Please login");
-
-        console.log({ projectData });
+        const currentUser = req.currentUser;
+        if (!currentUser) throw new Error("Please login");
 
         validateBody(projectData, [
             "title",
@@ -38,12 +37,13 @@ export default function buildAddProjectController({
 
         const addProjectData = sanitizeProjectData(projectData);
 
-        console.log({ addProjectData });
-
-        const projectLead = await memberRepository.upsert(
-            projectData.currentUser
-        );
-        console.log({ projectLead });
+        const projectLead = await memberRepository.upsert({
+            email: currentUser.email,
+            avatar: currentUser.avatar,
+            name: currentUser.name,
+            username: currentUser.username,
+            role: "Team Lead",
+        } as IMember);
 
         const project = await addProjectUseCase({
             ...addProjectData,
@@ -51,10 +51,7 @@ export default function buildAddProjectController({
             members: [projectLead._id],
         });
 
-        console.log("adding project");
-
         const projectAdded = await projectRepository.add(project);
-        console.log({ projectAdded });
 
         if (!projectAdded) throw new Error("Cannot add project to db");
 

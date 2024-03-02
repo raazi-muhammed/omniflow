@@ -11,7 +11,10 @@ const add = buildAddProjectController({
     addProjectUseCase: projectUseCases.add,
 });
 
-const getAll = buildGetAllProjectsController({ projectRepository });
+const getAll = buildGetAllProjectsController({
+    memberRepository,
+    projectRepository,
+});
 const getProject = buildGetProjectController({ projectRepository });
 
 const projectController: IProjectController = Object.freeze({

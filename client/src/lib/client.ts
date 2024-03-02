@@ -17,13 +17,14 @@ export default class API {
         return this;
     }
 
-    async get(url: string, { params = {} } = {}) {
+    async get(url: string, { params = {}, headers = {} } = {}) {
         return axios({
             baseURL: this.baseUrl,
             url,
             method: "GET",
             withCredentials: true,
             params,
+            headers,
         })
             .then((res) => res.data)
             .catch((err) => err.response?.data);

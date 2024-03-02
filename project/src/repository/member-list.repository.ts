@@ -14,8 +14,17 @@ export default function buildMemberRepository({
         upsert: async (memberData: IMember) => {
             return (await database.findOneAndUpdate(
                 { username: memberData.username },
-                { memberData }
+                {
+                    username: memberData.username,
+                    name: memberData.name,
+                    email: memberData.email,
+                    avatar: memberData.avatar,
+                },
+                { upsert: true }
             )) as IDBMember;
+        },
+        getByUsername: async (username: string) => {
+            return (await database.findOne({ username })) as IDBMember;
         },
     });
 }

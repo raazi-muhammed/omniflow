@@ -3,11 +3,14 @@ import Container from "@/components/layout/Container";
 import API from "@/lib/client";
 import { IProject } from "@/types/database";
 import moment from "moment";
+import { cookies } from "next/headers";
 
 async function getProject(id: string) {
     const api = new API();
 
-    const response = await api.project().get(`/get-project/${id}`);
+    const response = await api.project().get(`/get-project/${id}`, {
+        headers: { Cookie: cookies().toString() },
+    });
     return response.data as IProject;
 }
 

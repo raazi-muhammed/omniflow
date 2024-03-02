@@ -7,7 +7,8 @@ export default function buildGetProjectController({
     projectRepository: IProjectRepository;
 }) {
     return async (req: IRequest) => {
-        console.log(req.params, req.query);
+        const currentUser = req.currentUser;
+        if (!currentUser) throw new Error("Please login");
 
         const projectId = req.params?.id;
         if (!projectId) throw new Error("Id not passed");
