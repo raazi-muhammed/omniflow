@@ -1,9 +1,8 @@
-import { Request } from "express";
 import IUserRepository from "../interfaces/repository.interface.js";
-import { IRequest, validateBody } from "@omniflow/common";
+import { IRequest, validateBody, IToken } from "@omniflow/common";
 import IPasswordHash from "../interfaces/password-hash.interface.js";
-import IToken from "../interfaces/token.interface.js";
 import { ReposeCreator } from "@omniflow/common";
+import { IUser } from "../interfaces/entity.interface.js";
 
 const TOKEN_COOKIE_NAME = "__omniflow-user-token";
 
@@ -19,7 +18,7 @@ export default function buildLoginController({
 }: {
     userRepository: IUserRepository;
     passwordHash: IPasswordHash;
-    token: IToken;
+    token: IToken<IUser>;
 }) {
     return async (req: IRequest) => {
         console.log(req);
