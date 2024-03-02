@@ -1,5 +1,5 @@
 import { IUserRepository } from "../interfaces/repository.interface.js";
-import { IRequest } from "@omniflow/common";
+import { ErrorHandler, IRequest } from "@omniflow/common";
 import { ReposeCreator, IToken } from "@omniflow/common";
 import { IUser } from "../interfaces/entity.interface.js";
 
@@ -11,15 +11,16 @@ export default function buildCurrentUserController({
     userRepository: IUserRepository;
 }) {
     return async (req: IRequest) => {
-        console.log({ currentUser: req.currentUser }, { body: req.body });
-
         const currentUser = req.currentUser;
-        if (!currentUser) throw new Error("No user found");
+        if (!currentUser) throw new ErrorHandler("Invalid token", 403);
 
         const user = await userRepository.findByUsername(currentUser.username);
-        if (!user) throw new Error("Not user found");
+        if (!user) throw new ErrorHandler("User not found", 404);
 
         const response = new ReposeCreator();
-        return response.setMessage("User logged in").setData(user);
+        return response
+            .setMessage("User logged in")
+            .setData(user)
+            .setStatusCode(200);
     };
 }

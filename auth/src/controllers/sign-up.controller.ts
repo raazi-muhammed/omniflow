@@ -1,6 +1,11 @@
 import { IUser } from "../interfaces/entity.interface.js";
 import { ISignInUseCase } from "../interfaces/use-case.interface.js";
-import { validateBody, ReposeCreator, IRequest } from "@omniflow/common";
+import {
+    validateBody,
+    ReposeCreator,
+    IRequest,
+    ErrorHandler,
+} from "@omniflow/common";
 import {
     IUserRepository,
     IVerificationCodeRepository,
@@ -31,26 +36,30 @@ export default function buildSignInController({
         const user = await signInUseCase({ ...userData, isVerified: false });
 
         const userWithSameMail = await userRepository.findByEmail(user.email);
-        if (userWithSameMail) throw new Error("email taken");
+        if (userWithSameMail) {
+            throw new ErrorHandler("Email already registered", 409);
+        }
 
         const userWithSameUsername = await userRepository.findByUsername(
             user.username
         );
-        if (userWithSameUsername) throw new Error("username taken");
+        if (userWithSameUsername) {
+            throw new ErrorHandler("Username already registered", 409);
+        }
 
         const hashedPassword = await passwordHash.hash(user.password);
-        if (!hashedPassword) throw new Error("An error occurred in password");
+        if (!hashedPassword) throw new ErrorHandler("An error occurred", 500);
 
         const isUserCreated = await userRepository.add({
             ...user,
             password: hashedPassword,
         });
-        if (!isUserCreated) throw new Error("Cannot create user");
+        if (!isUserCreated) throw new ErrorHandler("An error occurred", 500);
 
-        const verificationCodeNum = generateCode();
+        const generatedCode = generateCode();
 
         const verificationCode = await verificationCodeRepository.add({
-            code: verificationCodeNum,
+            code: generatedCode,
             user: isUserCreated._id,
         });
 
@@ -62,8 +71,7 @@ export default function buildSignInController({
 
         const response = new ReposeCreator();
         return response
-            .setData(user)
             .setStatusCode(201)
-            .setMessage("Verification mail send ");
+            .setMessage("Please check your mail for verification code");
     };
 }

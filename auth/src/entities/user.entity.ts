@@ -1,3 +1,4 @@
+import { ErrorHandler } from "@omniflow/common";
 import { IUser } from "../interfaces/entity.interface.js";
 
 export default class User {
@@ -21,10 +22,13 @@ export default class User {
 
     validate() {
         if (this.password.length < 7) {
-            throw new Error("Password should be great than 7");
+            throw new ErrorHandler(
+                "Password should be great than 7 characters",
+                400
+            );
         }
         if (!this.email) {
-            throw new Error("Invalid email");
+            throw new ErrorHandler("Invalid email", 400);
         }
     }
 
