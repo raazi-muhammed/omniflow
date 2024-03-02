@@ -1,21 +1,24 @@
+"use client";
+
 import Heading from "@/components/custom/Heading";
 import Container from "@/components/layout/Container";
 import API from "@/lib/client";
 import { IProject } from "@/types/database";
 import moment from "moment";
-import { cookies } from "next/headers";
+import { useEffect, useState } from "react";
 
-async function getProject(id: string) {
-    const api = new API();
-
-    const response = await api.project().get(`/get-project/${id}`, {
-        headers: { Cookie: cookies().toString() },
-    });
-    return response.data as IProject;
-}
-
-export default async function page({ params }: { params: { id: string } }) {
-    const project: IProject = await getProject(params.id);
+export default function page({ params }: { params: { id: string } }) {
+    // const project: IProject = await getProject(params.id);
+    const [project, setProject] = useState<IProject | null>(null);
+    useEffect(() => {
+        const api = new API();
+        api.project()
+            .get(`/get-project/${params.id}`)
+            .then((response) => {
+                console.log(response);
+                setProject(response.data as IProject);
+            });
+    }, []);
     return (
         <main>
             <div className="mt-12"></div>

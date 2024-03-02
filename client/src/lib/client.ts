@@ -16,6 +16,10 @@ export default class API {
         this.baseUrl += "localhost:4005/api/project";
         return this;
     }
+    team() {
+        this.baseUrl += "localhost:4010/api/team";
+        return this;
+    }
 
     async get(url: string, { params = {}, headers = {} } = {}) {
         return axios({

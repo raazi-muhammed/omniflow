@@ -1,19 +1,26 @@
-import { IVerifyUserMiddleware, makeCallback } from "@omniflow/common";
+import {
+    IVerifyProjectMiddleware,
+    IVerifyUserMiddleware,
+    makeCallback,
+} from "@omniflow/common";
 import { Router } from "express";
 import { ITeamController } from "../interfaces/controller.interface.js";
 
 export default function buildTeamRoutes({
     router,
-    verifyUserMiddleware,
+    verifyUser,
+    verifyProject,
     controllers,
 }: {
     router: Router;
-    verifyUserMiddleware: IVerifyUserMiddleware;
+    verifyUser: IVerifyUserMiddleware;
+    verifyProject: IVerifyProjectMiddleware;
     controllers: ITeamController;
 }) {
     router.post(
         "/add-team",
-        verifyUserMiddleware,
+        verifyUser,
+        verifyProject,
         makeCallback(controllers.addTeam)
     );
     return router;
