@@ -17,5 +17,11 @@ export default function buildUserRoutes({
         makeCallback(authControllers.getProfile)
     );
 
+    router.post(
+        "/edit-profile",
+        verifyMiddleware,
+        makeCallback(authControllers.editProfile)
+    );
+
     return router;
 }

@@ -7,6 +7,10 @@ export type IUserRepository = {
     add: (data: IUser) => Promise<IDBUser | null>;
     findByEmail: (email: string) => Promise<IDBUser | null>;
     findByUsername: (username: string) => Promise<IDBUser | null>;
+    editUser: ({}: {
+        userId: Types.ObjectId;
+        name: string;
+    }) => Promise<IDBUser | null>;
     verifyUser: (email: string) => Promise<boolean | null>;
 };
 

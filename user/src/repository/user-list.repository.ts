@@ -25,5 +25,12 @@ export default function makeUserRepository({
             );
             return updated.acknowledged;
         },
+        editUser: async ({ userId, name }) => {
+            const data = await database.findOneAndUpdate(
+                { _id: userId },
+                { name }
+            );
+            return data as IDBUser;
+        },
     });
 }

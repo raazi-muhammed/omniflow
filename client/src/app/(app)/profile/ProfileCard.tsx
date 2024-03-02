@@ -7,9 +7,9 @@ type Prop = {
 };
 export default function ProfileCard({ children, title }: Prop) {
     return (
-        <Card className="p-4 pt-2">
+        <section className="p-4 pt-2">
             <small className="text-secondary">{title}</small>
             {children}
-        </Card>
+        </section>
     );
 }
