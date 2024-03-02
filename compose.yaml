@@ -60,6 +60,28 @@ services:
                       - dist/
                 - action: rebuild
                   path: ./project/package.json
+    team:
+        build: ./team
+        container_name: omni-team
+        depends_on:
+            - db-team
+        ports:
+            - 4010:4010
+        env_file:
+            - path: ./team/.env.development
+              required: true
+        environment:
+            DB_URL: mongodb://root:example@db-team:27017
+        develop:
+            watch:
+                - action: sync
+                  path: ./team
+                  target: /team
+                  ignore:
+                      - node_modules/
+                      - dist/
+                - action: rebuild
+                  path: ./team/package.json
     db-user:
         build: ./db-user
         image: mongo
@@ -82,9 +104,22 @@ services:
         environment:
             MONGO_INITDB_ROOT_USERNAME: root
             MONGO_INITDB_ROOT_PASSWORD: example
+    db-team:
+        build: ./db-team
+        image: mongo
+        restart: always
+        ports:
+            - 27019:27017
+        volumes:
+            - db_team:/data/db
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: example
 
 volumes:
     db_user:
         name: omni_db_user_data
     db_project:
         name: omni_db_project_data
+    db_team:
+        name: omni_db_team_data
