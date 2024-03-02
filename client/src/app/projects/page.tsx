@@ -1,5 +1,3 @@
-"use client";
-
 import Avatar from "@/components/custom/Avatar";
 import Heading from "@/components/custom/Heading";
 import Container from "@/components/layout/Container";
@@ -9,25 +7,16 @@ import API from "@/lib/client";
 import { AddIcon } from "@/lib/icons";
 import { IProject } from "@/types/database";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
-/* export async function getProjects() {
+export async function getProjects() {
     const api = new API();
     const response = await api.project().get("/get-projects");
     return response?.data;
 }
- */
-export default function page() {
-    // const projects: IProject[] = await getProjects();
-    const [projects, setProjects] = useState<IProject[]>([]);
-    useEffect(() => {
-        const api = new API();
-        api.project()
-            .get("/get-projects")
-            .then((res) => {
-                setProjects(res.data);
-            });
-    }, []);
+
+export default async function page() {
+    const projects: IProject[] = await getProjects();
+
     return (
         <Container>
             <section className="flex gap-2 ms-auto w-fit my-8">

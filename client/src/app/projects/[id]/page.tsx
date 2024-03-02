@@ -1,23 +1,18 @@
-"use client";
-
 import Heading from "@/components/custom/Heading";
 import Container from "@/components/layout/Container";
 import API from "@/lib/client";
 import { IProject } from "@/types/database";
-import { useEffect, useState } from "react";
 import moment from "moment";
 
-export default function page({ params }: { params: { id: string } }) {
-    const [project, setProject] = useState<IProject | null>(null);
-    useEffect(() => {
-        const api = new API();
+async function getProject(id: string) {
+    const api = new API();
 
-        api.project()
-            .get(`/get-project/${params.id}`)
-            .then((response) => {
-                setProject(response.data);
-            });
-    }, []);
+    const response = await api.project().get(`/get-project/${id}`);
+    return response.data as IProject;
+}
+
+export default async function page({ params }: { params: { id: string } }) {
+    const project: IProject = await getProject(params.id);
     return (
         <main>
             <div className="mt-12"></div>

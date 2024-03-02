@@ -14,6 +14,8 @@ services:
                       - node_modules/
                 - action: rebuild
                   path: ./client/package.json
+        profiles:
+            - donotstart
     auth:
         build: ./auth
         container_name: omni-auth
