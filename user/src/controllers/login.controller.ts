@@ -1,5 +1,12 @@
 import { IUserRepository } from "../interfaces/repository.interface.js";
-import { IRequest, validateBody, IToken, ErrorHandler } from "@omniflow/common";
+import {
+    IRequest,
+    validateBody,
+    IToken,
+    ErrorHandler,
+    UserNotFoundError,
+    UnauthorizedError,
+} from "@omniflow/common";
 import IPasswordHash from "../interfaces/password-hash.interface.js";
 import { ReposeCreator } from "@omniflow/common";
 import { IUser } from "../interfaces/entity.interface.js";
@@ -24,8 +31,7 @@ export default function buildLoginController({
         validateBody(inputData, ["email", "password"]);
 
         const userFound = await userRepository.findByEmail(inputData.email);
-
-        if (!userFound) throw new ErrorHandler("User not found", 404);
+        if (!userFound) throw new UserNotFoundError();
 
         const doesPasswordMatch = await passwordHash.compare(
             inputData.password,
@@ -33,11 +39,11 @@ export default function buildLoginController({
         );
 
         if (!doesPasswordMatch) {
-            throw new ErrorHandler("Incorrect password", 401);
+            throw new UnauthorizedError("Incorrect password");
         }
 
         if (!userFound.isVerified) {
-            throw new ErrorHandler("Account is not verified", 401);
+            throw new UnauthorizedError("Account is not verified");
         }
 
         const userToken = token.sign(userFound);

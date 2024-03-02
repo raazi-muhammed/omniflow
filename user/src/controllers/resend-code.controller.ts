@@ -1,7 +1,9 @@
 import {
+    AnErrorOccurredError,
     ErrorHandler,
     IRequest,
     ReposeCreator,
+    UserNotFoundError,
     validateBody,
 } from "@omniflow/common";
 import {
@@ -27,7 +29,7 @@ export default function buildResendCodeUpController({
         validateBody(userBody, ["email"]);
 
         const user = await userRepository.findByEmail(userBody.email);
-        if (!user) throw new ErrorHandler("No user found", 404);
+        if (!user) throw new UserNotFoundError();
 
         const generatedCode = generateCode();
 
@@ -35,6 +37,8 @@ export default function buildResendCodeUpController({
             code: generatedCode,
             user: user._id,
         });
+
+        if (!verificationCode) throw new AnErrorOccurredError();
 
         mailService.sendVerificationCodeMail({
             email: user.email,

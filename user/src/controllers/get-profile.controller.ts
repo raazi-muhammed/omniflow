@@ -1,4 +1,10 @@
-import { ErrorHandler, IRequest, ReposeCreator } from "@omniflow/common";
+import {
+    ErrorHandler,
+    IRequest,
+    ReposeCreator,
+    UserNotFoundError,
+    UserUnauthorizedError,
+} from "@omniflow/common";
 import { IUserRepository } from "../interfaces/repository.interface.js";
 
 export default function buildGetProfileController({
@@ -8,11 +14,11 @@ export default function buildGetProfileController({
 }) {
     return async (req: IRequest) => {
         const currentUser = req.currentUser;
-        if (!currentUser) throw new ErrorHandler("No user found", 404);
+        if (!currentUser) throw new UserUnauthorizedError();
 
         const userData = await userRepository.findByEmail(currentUser.email);
 
-        if (!userData) throw new ErrorHandler("Nor user found", 404);
+        if (!userData) throw new UserNotFoundError();
 
         const response = new ReposeCreator();
         return response.setData(userData).setStatusCode(200);

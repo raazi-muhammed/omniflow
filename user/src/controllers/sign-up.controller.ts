@@ -5,6 +5,9 @@ import {
     ReposeCreator,
     IRequest,
     ErrorHandler,
+    ConflictError,
+    InternalServerError,
+    AnErrorOccurredError,
 } from "@omniflow/common";
 import {
     IUserRepository,
@@ -37,24 +40,24 @@ export default function buildSignInController({
 
         const userWithSameMail = await userRepository.findByEmail(user.email);
         if (userWithSameMail) {
-            throw new ErrorHandler("Email already registered", 409);
+            throw new ConflictError("Email already registered");
         }
 
         const userWithSameUsername = await userRepository.findByUsername(
             user.username
         );
         if (userWithSameUsername) {
-            throw new ErrorHandler("Username already registered", 409);
+            throw new ConflictError("Username already registered");
         }
 
         const hashedPassword = await passwordHash.hash(user.password);
-        if (!hashedPassword) throw new ErrorHandler("An error occurred", 500);
+        if (!hashedPassword) throw new AnErrorOccurredError();
 
         const isUserCreated = await userRepository.add({
             ...user,
             password: hashedPassword,
         });
-        if (!isUserCreated) throw new ErrorHandler("An error occurred", 500);
+        if (!isUserCreated) throw new AnErrorOccurredError();
 
         const generatedCode = generateCode();
 
@@ -64,7 +67,7 @@ export default function buildSignInController({
         });
 
         if (!verificationCode) {
-            throw new ErrorHandler("Cannot create verification code", 500);
+            throw new AnErrorOccurredError();
         }
 
         mailService.sendVerificationCodeMail({
