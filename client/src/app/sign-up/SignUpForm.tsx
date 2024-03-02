@@ -74,7 +74,7 @@ export default function SignUpForm() {
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         const api = new API();
-        const response = await api.auth().post("/sign-up", { data: values });
+        const response = await api.user().post("/sign-up", { data: values });
         if (response.success) {
             toast({
                 title: response.message || "Account created",

@@ -17,7 +17,7 @@ export function ResendCode({ email }: { email: string }) {
     async function handleResend() {
         const api = new API();
         const response = await api
-            .auth()
+            .user()
             .post("/resend-code", { data: { email } });
         toast({
             description: response.message,

@@ -16,28 +16,28 @@ services:
                   path: ./client/package.json
         profiles:
             - donotstart
-    auth:
-        build: ./auth
-        container_name: omni-auth
+    user:
+        build: ./user
+        container_name: omni-user
         depends_on:
             - db-user
         ports:
             - 4000:4000
         env_file:
-            - path: ./auth/.env.development
+            - path: ./user/.env.development
               required: true
         environment:
             DB_URL: mongodb://root:example@db-user:27017
         develop:
             watch:
                 - action: sync
-                  path: ./auth
-                  target: /auth
+                  path: ./user
+                  target: /user
                   ignore:
                       - node_modules/
                       - dist/
                 - action: rebuild
-                  path: ./auth/package.json
+                  path: ./user/package.json
     project:
         build: ./project
         container_name: omni-project

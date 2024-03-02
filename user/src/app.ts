@@ -37,7 +37,7 @@ if (NODE_ENV === "production") {
     app.use(morgan("dev"));
 }
 
-app.use("/api/auth", authRoutes);
+app.use("/api/user", authRoutes);
 
 app.all("*", (req, res) => {
     console.log(`@${SERVER_NAME}`, req.method, req.originalUrl);

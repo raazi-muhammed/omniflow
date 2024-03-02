@@ -52,7 +52,7 @@ export default function LoginForm() {
     async function onSubmit(values: z.infer<typeof formSchema>) {
         console.log(values);
         const api = new API();
-        const response = await api.auth().post("/login", { data: values });
+        const response = await api.user().post("/login", { data: values });
 
         if (response.success) {
             toast({

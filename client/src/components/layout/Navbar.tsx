@@ -19,7 +19,7 @@ function Navbar() {
     const dispatch = useDispatch<AppDispatch>();
     useEffect(() => {
         const api = new API();
-        api.auth()
+        api.user()
             .get("/current-user")
             .then((response) => {
                 dispatch(logUser(response.data));

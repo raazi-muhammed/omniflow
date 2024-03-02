@@ -8,8 +8,8 @@ export default class API {
         return this;
     }
 
-    auth() {
-        this.baseUrl += "localhost:4000/api/auth";
+    user() {
+        this.baseUrl += "localhost:4000/api/user";
         return this;
     }
     project() {

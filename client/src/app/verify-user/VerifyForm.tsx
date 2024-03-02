@@ -47,7 +47,7 @@ export default function VerifyForm() {
     async function onSubmit(values: z.infer<typeof formSchema>) {
         console.log(values);
         const api = new API();
-        const response = await api.auth().post("/verify-user", {
+        const response = await api.user().post("/verify-user", {
             data: { code: Number(values.code), email: userEmail },
         });
 

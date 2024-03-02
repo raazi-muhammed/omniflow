@@ -22,7 +22,7 @@ export function UserDropDownMenu() {
 
     async function handleLogout() {
         const api = new API();
-        const response = await api.auth().post("/logout", { data: {} });
+        const response = await api.user().post("/logout", { data: {} });
         toast({
             description: response.message || "User logged out",
         });
