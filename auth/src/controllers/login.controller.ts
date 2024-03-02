@@ -3,8 +3,7 @@ import { IRequest, validateBody, IToken, ErrorHandler } from "@omniflow/common";
 import IPasswordHash from "../interfaces/password-hash.interface.js";
 import { ReposeCreator } from "@omniflow/common";
 import { IUser } from "../interfaces/entity.interface.js";
-
-const TOKEN_COOKIE_NAME = "__omniflow-user-token";
+import { TOKEN_COOKIE_NAME } from "../lib/constants.js";
 
 type InputData = {
     email: string;

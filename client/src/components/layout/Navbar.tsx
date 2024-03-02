@@ -3,7 +3,6 @@
 import Avatar from "../custom/Avatar";
 import { Card } from "../ui/card";
 import Container from "./Container";
-import { ChevronDown as ChevronDownIcon } from "lucide-react";
 import { AppDispatch, useAppSelector } from "@/redux/store";
 import { Button } from "../ui/button";
 import Link from "next/link";
@@ -12,6 +11,7 @@ import API from "@/lib/client";
 import { useDispatch } from "react-redux";
 import { logUser } from "@/redux/features/authSlice";
 import { useToast } from "../ui/use-toast";
+import { UserDropDownMenu } from "./UserDropDownMenu";
 
 function Navbar() {
     const { toast } = useToast();
@@ -31,21 +31,19 @@ function Navbar() {
     return (
         <Card className="rounded-none p-4">
             <Container>
-                <nav className="flex ms-auto w-fit gap-8">
+                <nav className="ms-auto flex w-fit gap-8">
                     <div className="ms-auto flex gap-4">
                         {userData.userData ? (
                             <>
                                 <Avatar src="https://github.com/shadcn.png" />
                                 <div>
                                     <p>{userData.userData?.name}</p>
-                                    <small className="text-secondary flex -mt-1">
+                                    <small className="-mt-1 flex text-secondary">
                                         {userData.userData?.email}
                                     </small>
                                 </div>
-                                <ChevronDownIcon
-                                    size="1em"
-                                    className="my-auto text-secondary"
-                                />
+
+                                <UserDropDownMenu />
                             </>
                         ) : (
                             <Link href="/login">

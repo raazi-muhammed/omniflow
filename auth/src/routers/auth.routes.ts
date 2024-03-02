@@ -15,6 +15,7 @@ export default function buildAuthRoutes({
     router.post("/login", makeCallback(authControllers.login));
     router.post("/verify-user", makeCallback(authControllers.verifyUser));
     router.post("/resend-code", makeCallback(authControllers.resendCode));
+    router.post("/logout", makeCallback(authControllers.logOut));
     router.get(
         "/current-user",
         verifyMiddleware,

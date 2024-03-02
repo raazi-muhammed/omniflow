@@ -13,6 +13,7 @@ import { mailService } from "../lib/mail-server.js";
 import buildVerifyUserController from "./verify-user.controller.js";
 import { generateVerificationCode } from "../lib/code-generator.js";
 import buildResendCodeUpController from "./resend-code.controller.js";
+import buildLogOutUserController from "./logout-user.controller.js";
 
 const signIn = buildSignInController({
     signInUseCase: authUseCase.signIn,
@@ -35,6 +36,7 @@ const login = buildLoginController({
 });
 
 const currentUser = buildCurrentUserController({ token, userRepository });
+const logOut = buildLogOutUserController();
 
 const resendCode = buildResendCodeUpController({
     userRepository,
@@ -49,6 +51,7 @@ const authControllers: IAuthController = Object.freeze({
     currentUser,
     verifyUser,
     resendCode,
+    logOut,
 });
 
 export default authControllers;
