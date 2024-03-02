@@ -63,10 +63,10 @@ export default function buildSignInController({
             user: isUserCreated._id,
         });
 
-        mailService.send({
+        mailService.sendVerificationCodeMail({
             email: user.email,
-            subject: "verification code from omniflow",
-            message: `your code is ${verificationCode.code}`,
+            code: verificationCode.code,
+            name: user.name,
         });
 
         const response = new ReposeCreator();
