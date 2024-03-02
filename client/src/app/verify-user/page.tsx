@@ -13,13 +13,8 @@ export default function page() {
             <Card className="m-auto my-auto h-fit w-full max-w-lg">
                 <CardHeader>
                     <CardTitle>Verify your account</CardTitle>
-                    <CardDescription>
-                        We have send a verification to your mail
-                    </CardDescription>
                 </CardHeader>
-                <CardContent>
-                    <VerifyForm />
-                </CardContent>
+                <VerifyForm />
             </Card>
         </main>
     );

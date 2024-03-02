@@ -58,7 +58,7 @@ export default function buildSignInController({
 
         const generatedCode = generateCode();
 
-        const verificationCode = await verificationCodeRepository.add({
+        const verificationCode = await verificationCodeRepository.upsert({
             code: generatedCode,
             user: isUserCreated._id,
         });

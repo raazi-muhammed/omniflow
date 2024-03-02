@@ -4,19 +4,23 @@ import { IUser } from "./entity.interface.js";
 import { IDBVerificationCode } from "../repository/verification-code.model.js";
 
 export type IUserRepository = {
-    add: (data: IUser) => Promise<IDBUser>;
-    findByEmail: (email: string) => Promise<IDBUser>;
-    findByUsername: (username: string) => Promise<IDBUser>;
-    verifyUser: (email: string) => Promise<boolean>;
+    add: (data: IUser) => Promise<IDBUser | null>;
+    findByEmail: (email: string) => Promise<IDBUser | null>;
+    findByUsername: (username: string) => Promise<IDBUser | null>;
+    verifyUser: (email: string) => Promise<boolean | null>;
 };
 
 export type IVerificationCodeRepository = {
-    add: ({
+    upsert: ({
         code,
         user,
     }: {
         code: number;
         user: Types.ObjectId;
-    }) => Promise<IDBVerificationCode>;
-    find: ({ user }: { user: Types.ObjectId }) => Promise<IDBVerificationCode>;
+    }) => Promise<IDBVerificationCode | null>;
+    find: ({
+        user,
+    }: {
+        user: Types.ObjectId;
+    }) => Promise<IDBVerificationCode | null>;
 };

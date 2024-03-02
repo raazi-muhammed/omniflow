@@ -21,6 +21,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import { logUser } from "@/redux/features/authSlice";
+import { CardContent, CardDescription, CardFooter } from "@/components/ui/card";
+import { ResendCode } from "./ResendCode";
 
 const formSchema = z.object({
     code: z
@@ -65,34 +67,45 @@ export default function VerifyForm() {
 
     return (
         <>
-            <p>{userEmail}</p>
-            <Form {...form}>
-                <form
-                    onSubmit={form.handleSubmit(onSubmit)}
-                    className="space-y-4">
-                    <FormField
-                        control={form.control}
-                        name="code"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Code</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        type="number"
-                                        placeholder="code"
-                                        {...field}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
+            <CardContent>
+                <CardDescription className="-mt-2 mb-3">
+                    We have send an email to {userEmail} containing the
+                    verification code
+                </CardDescription>
+                <Form {...form}>
+                    <form
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        className="space-y-4">
+                        <FormField
+                            control={form.control}
+                            name="code"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Code</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            type="number"
+                                            placeholder="code"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
-                    <Button className="w-full" type="submit">
-                        Verify
-                    </Button>
-                </form>
-            </Form>
+                        <Button className="w-full" type="submit">
+                            Verify
+                        </Button>
+                    </form>
+                </Form>
+            </CardContent>
+            <CardFooter>
+                <small className="mx-auto text-secondary">
+                    Did you not receive the code? Kindly request a
+                    <ResendCode email={userEmail || ""} />
+                </small>
+            </CardFooter>
         </>
     );
 }
