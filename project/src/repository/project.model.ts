@@ -1,4 +1,4 @@
-import mongoose, { HydratedDocument } from "mongoose";
+import mongoose, { HydratedDocument, Model } from "mongoose";
 import { IProject } from "../interfaces/entity.interface.js";
 
 const projectSchema = new mongoose.Schema<IProject>(
@@ -45,5 +45,6 @@ export type IDBProject = HydratedDocument<
     IProject,
     { createdAt: Date; updatedAt: Date }
 >;
+export type IProjectModel = Model<IProject>;
 
 export default mongoose.model<IProject>("Project", projectSchema);

@@ -1,4 +1,4 @@
-import mongoose, { HydratedDocument } from "mongoose";
+import mongoose, { HydratedDocument, Model } from "mongoose";
 import { IMember } from "../interfaces/entity.interface.js";
 
 const membersSchema = new mongoose.Schema<IMember>(
@@ -28,5 +28,7 @@ export type IDBMember = HydratedDocument<
     IMember,
     { createdAt: Date; updatedAt: Date }
 >;
+
+export type IMemberModel = Model<IMember>;
 
 export default mongoose.model<IMember>("Member", membersSchema);

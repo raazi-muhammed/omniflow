@@ -1,16 +1,11 @@
-import mongoose, { Document } from "mongoose";
+import mongoose, { HydratedDocument, Model } from "mongoose";
 import { IUser } from "../interfaces/entity.interface.js";
 
-export interface UserType extends Document, IUser {
-    _id: string;
-}
-
-const userSchema = new mongoose.Schema(
+const userSchema = new mongoose.Schema<IUser>(
     {
         email: {
             type: String,
             required: true,
-            //unique: true,
         },
         name: {
             type: String,
@@ -33,4 +28,11 @@ const userSchema = new mongoose.Schema(
     }
 );
 
-export default mongoose.model<UserType>("User", userSchema);
+export type IDBUser = HydratedDocument<
+    IUser,
+    { createdAt: Date; updatedAt: Date }
+>;
+
+export type IUserModel = Model<IUser>;
+
+export default mongoose.model<IUser>("User", userSchema);
