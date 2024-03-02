@@ -63,6 +63,10 @@ export default function buildSignInController({
             user: isUserCreated._id,
         });
 
+        if (!verificationCode) {
+            throw new ErrorHandler("Cannot create verification code", 500);
+        }
+
         mailService.sendVerificationCodeMail({
             email: user.email,
             code: verificationCode.code,

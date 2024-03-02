@@ -7,4 +7,5 @@ export type IAuthController = {
     currentUser: (req: IRequest) => Promise<ReposeCreator>;
     verifyUser: (req: IRequest) => Promise<ReposeCreator>;
     resendCode: (req: IRequest) => Promise<ReposeCreator>;
+    getProfile: (req: IRequest) => Promise<ReposeCreator>;
 };

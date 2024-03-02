@@ -14,6 +14,7 @@ import buildVerifyUserController from "./verify-user.controller.js";
 import { generateVerificationCode } from "../lib/code-generator.js";
 import buildResendCodeUpController from "./resend-code.controller.js";
 import buildLogOutUserController from "./logout-user.controller.js";
+import buildGetProfileController from "./get-profile.controller.js";
 
 const signIn = buildSignInController({
     signInUseCase: authUseCase.signIn,
@@ -45,6 +46,10 @@ const resendCode = buildResendCodeUpController({
     verificationCodeRepository,
 });
 
+const getProfile = buildGetProfileController({
+    userRepository,
+});
+
 const authControllers: IAuthController = Object.freeze({
     signIn,
     login,
@@ -52,6 +57,7 @@ const authControllers: IAuthController = Object.freeze({
     verifyUser,
     resendCode,
     logOut,
+    getProfile,
 });
 
 export default authControllers;

@@ -20,6 +20,10 @@ export function UserDropDownMenu() {
     const router = useRouter();
     const dispatch = useDispatch<AppDispatch>();
 
+    function handleProfile() {
+        router.push("/profile");
+    }
+
     async function handleLogout() {
         const api = new API();
         const response = await api.user().post("/logout", { data: {} });
@@ -43,7 +47,9 @@ export function UserDropDownMenu() {
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                    <DropdownMenuItem>Profile</DropdownMenuItem>
+                    <DropdownMenuItem onClick={handleProfile}>
+                        Profile
+                    </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuItem onClick={handleLogout}>
                     Log out
