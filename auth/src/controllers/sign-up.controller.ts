@@ -1,24 +1,34 @@
-import { Request } from "express";
 import { IUser } from "../interfaces/entity.interface.js";
 import { ISignInUseCase } from "../interfaces/use-case.interface.js";
 import { validateBody, ReposeCreator, IRequest } from "@omniflow/common";
-import IUserRepository from "../interfaces/repository.interface.js";
+import {
+    IUserRepository,
+    IVerificationCodeRepository,
+} from "../interfaces/repository.interface.js";
 import IPasswordHash from "../interfaces/password-hash.interface.js";
+import { IMailService } from "../lib/mail-server.js";
+import { IGenerateVerificationCode } from "../interfaces/lib.interface.js";
 
 export default function buildSignInController({
     signInUseCase,
     userRepository,
     passwordHash,
+    mailService,
+    generateCode,
+    verificationCodeRepository,
 }: {
     signInUseCase: ISignInUseCase;
     userRepository: IUserRepository;
     passwordHash: IPasswordHash;
+    mailService: IMailService;
+    generateCode: IGenerateVerificationCode;
+    verificationCodeRepository: IVerificationCodeRepository;
 }) {
     return async (req: IRequest) => {
         const userData: IUser = req.body;
         validateBody(userData, ["username", "email", "password", "name"]);
 
-        const user = await signInUseCase(userData);
+        const user = await signInUseCase({ ...userData, isVerified: false });
 
         const userWithSameMail = await userRepository.findByEmail(user.email);
         if (userWithSameMail) throw new Error("email taken");
@@ -37,10 +47,23 @@ export default function buildSignInController({
         });
         if (!isUserCreated) throw new Error("Cannot create user");
 
+        const verificationCodeNum = generateCode();
+
+        const verificationCode = await verificationCodeRepository.add({
+            code: verificationCodeNum,
+            user: isUserCreated._id,
+        });
+
+        mailService.send({
+            email: user.email,
+            subject: "verification code from omniflow",
+            message: `your code is ${verificationCode.code}`,
+        });
+
         const response = new ReposeCreator();
         return response
             .setData(user)
             .setStatusCode(201)
-            .setMessage("Account created");
+            .setMessage("Verification mail send ");
     };
 }

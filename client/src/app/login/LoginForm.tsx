@@ -28,12 +28,7 @@ import { AppDispatch } from "@/redux/store";
 import { logUser } from "@/redux/features/authSlice";
 
 const formSchema = z.object({
-    username: z
-        .string()
-        .min(3, "Invalid")
-        .refine((s) => /^[a-zA-Z0-9_-]+$/.test(s), {
-            message: "Only letters & numbers are allowed",
-        }),
+    email: z.string().email(),
     password: z.string().min(7, "Password should be at least 7 characters"),
     rememberMe: z.boolean().default(true).optional(),
 });
@@ -47,7 +42,7 @@ export default function LoginForm() {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            username: "",
+            email: "",
             password: "",
             rememberMe: true,
         },
@@ -78,12 +73,12 @@ export default function LoginForm() {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                 <FormField
                     control={form.control}
-                    name="username"
+                    name="email"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Username</FormLabel>
+                            <FormLabel>Email</FormLabel>
                             <FormControl>
-                                <Input placeholder="username" {...field} />
+                                <Input placeholder="email" {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -106,13 +101,13 @@ export default function LoginForm() {
                                 <HidePasswordIcon
                                     onClick={() => setShowPassword(false)}
                                     size="1em"
-                                    className="text-primary absolute right-4 top-10"
+                                    className="absolute right-4 top-10 text-primary"
                                 />
                             ) : (
                                 <ShowPasswordIcon
                                     onClick={() => setShowPassword(true)}
                                     size="1em"
-                                    className="text-primary absolute right-4 top-10"
+                                    className="absolute right-4 top-10 text-primary"
                                 />
                             )}
                             <FormMessage />

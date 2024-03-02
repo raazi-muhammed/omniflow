@@ -5,6 +5,7 @@ export default class User {
     username: string;
     email: string;
     password: string;
+    isVerified: boolean;
     avatar?: string;
 
     constructor(data: IUser) {
@@ -12,6 +13,7 @@ export default class User {
         this.username = data.username;
         this.email = data.email;
         this.password = data.password;
+        this.isVerified = data.isVerified;
         if (data.avatar) {
             this.avatar = data.avatar;
         }
@@ -33,6 +35,7 @@ export default class User {
             email: this.email,
             avatar: this.avatar,
             password: this.password,
+            isVerified: this.isVerified,
         });
     }
 }

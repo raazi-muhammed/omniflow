@@ -1,4 +1,4 @@
-import IUserRepository from "../interfaces/repository.interface.js";
+import { IUserRepository } from "../interfaces/repository.interface.js";
 import { IRequest, validateBody, IToken } from "@omniflow/common";
 import IPasswordHash from "../interfaces/password-hash.interface.js";
 import { ReposeCreator } from "@omniflow/common";
@@ -7,7 +7,7 @@ import { IUser } from "../interfaces/entity.interface.js";
 const TOKEN_COOKIE_NAME = "__omniflow-user-token";
 
 type InputData = {
-    username: string;
+    email: string;
     password: string;
 };
 
@@ -21,14 +21,10 @@ export default function buildLoginController({
     token: IToken<IUser>;
 }) {
     return async (req: IRequest) => {
-        console.log(req);
-
         const inputData: InputData = req.body;
-        validateBody(inputData, ["username", "password"]);
-        const userFound = await userRepository.findByUsername(
-            inputData.username
-        );
-        console.log({ userFound });
+        validateBody(inputData, ["email", "password"]);
+
+        const userFound = await userRepository.findByEmail(inputData.email);
 
         if (!userFound) throw new Error("User not found");
 
@@ -37,6 +33,8 @@ export default function buildLoginController({
             userFound.password
         );
         if (!doesPasswordMatch) throw new Error("Incorrect password");
+
+        if (!userFound.isVerified) throw new Error("Account is not verified");
 
         const userToken = token.sign(userFound);
 

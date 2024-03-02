@@ -13,6 +13,7 @@ export default function buildAuthRoutes({
 }) {
     router.post("/sign-up", makeCallback(authControllers.signIn));
     router.post("/login", makeCallback(authControllers.login));
+    router.post("/verify-user", makeCallback(authControllers.verifyUser));
     router.get(
         "/current-user",
         verifyMiddleware,

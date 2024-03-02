@@ -22,6 +22,7 @@ import {
 import { useState } from "react";
 import API from "@/lib/client";
 import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 
 const formSchema = z
     .object({
@@ -57,6 +58,7 @@ const formSchema = z
 export default function SignUpForm() {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const router = useRouter();
 
     const { toast } = useToast();
 
@@ -76,8 +78,9 @@ export default function SignUpForm() {
         if (response.success) {
             toast({
                 title: response.message || "Account created",
-                description: "Please login to use your account",
+                description: "Now verify user account",
             });
+            router.push(`/verify-user?email=${values.email}`);
         } else {
             toast({
                 title: "Cannot create account",
@@ -146,13 +149,13 @@ export default function SignUpForm() {
                                 <HidePasswordIcon
                                     onClick={() => setShowPassword(false)}
                                     size="1em"
-                                    className="text-primary absolute right-4 top-10"
+                                    className="absolute right-4 top-10 text-primary"
                                 />
                             ) : (
                                 <ShowPasswordIcon
                                     onClick={() => setShowPassword(true)}
                                     size="1em"
-                                    className="text-primary absolute right-4 top-10"
+                                    className="absolute right-4 top-10 text-primary"
                                 />
                             )}
                             <FormMessage />
@@ -182,13 +185,13 @@ export default function SignUpForm() {
                                         setShowConfirmPassword(false)
                                     }
                                     size="1em"
-                                    className="text-primary absolute right-4 top-10"
+                                    className="absolute right-4 top-10 text-primary"
                                 />
                             ) : (
                                 <ShowPasswordIcon
                                     onClick={() => setShowConfirmPassword(true)}
                                     size="1em"
-                                    className="text-primary absolute right-4 top-10"
+                                    className="absolute right-4 top-10 text-primary"
                                 />
                             )}
                             <FormMessage />

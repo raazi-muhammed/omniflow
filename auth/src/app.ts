@@ -16,6 +16,11 @@ const { SERVER_NAME, CORS_ORIGINS, NODE_ENV } = loadEnv([
     "CORS_ORIGINS",
     "NODE_ENV",
     "ACCESS_TOKEN_SECRET",
+    "SMPT_HOST",
+    "SMPT_PORT",
+    "SMPT_SERVICE",
+    "SMPT_MAIL",
+    "SMPT_PASSWORD",
 ]);
 
 app.use(cookieParser());

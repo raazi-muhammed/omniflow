@@ -1,10 +1,18 @@
+import { Types } from "mongoose";
+
 export interface IUser {
-    _id?: string;
     name: string;
     username: string;
     email: string;
     password: string;
+    isVerified: boolean;
     avatar?: string;
+}
+
+export interface IVerificationCode {
+    user: Types.ObjectId;
+    code: number;
+    expiresAt: Date;
 }
 
 class UserEntityClass {

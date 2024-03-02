@@ -1,4 +1,4 @@
-import IUserRepository from "../interfaces/repository.interface.js";
+import { IUserRepository } from "../interfaces/repository.interface.js";
 import { IRequest } from "@omniflow/common";
 import { ReposeCreator, IToken } from "@omniflow/common";
 import { IUser } from "../interfaces/entity.interface.js";
