@@ -23,5 +23,17 @@ export default function buildTeamRoutes({
         verifyProject,
         makeCallback(controllers.addTeam)
     );
+    router.post(
+        "/invite-member",
+        verifyUser,
+        verifyProject,
+        makeCallback(controllers.inviteMember)
+    );
+    router.get(
+        "/get-teams",
+        verifyUser,
+        verifyProject,
+        makeCallback(controllers.getTeams)
+    );
     return router;
 }

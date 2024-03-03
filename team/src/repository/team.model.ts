@@ -11,16 +11,31 @@ const teamSchema = new mongoose.Schema<ITeam>(
             type: String,
             required: true,
         },
+        project: {
+            type: String,
+            required: true,
+        },
         lead: {
             type: mongoose.Schema.Types.ObjectId,
-            required: true,
             ref: "Member",
         },
         members: [
             {
-                type: mongoose.Schema.Types.ObjectId,
-                required: true,
-                ref: "Member",
+                role: {
+                    type: String,
+                    enum: ["TEAM_LEAD", "DEFAULT"],
+                    default: "DEFAULT",
+                },
+                inviteStatus: {
+                    type: String,
+                    enum: ["ACCEPTED", "REJECTED", "PENDING"],
+                    default: "PENDING",
+                },
+                info: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    required: true,
+                    ref: "Member",
+                },
             },
         ],
     },

@@ -1,6 +1,6 @@
 import { IRequest, ReposeCreator } from "@omniflow/common";
 
-export default function addTeamController() {
+export default function buildTeamController() {
     return async (req: IRequest) => {
         console.log({ user: req.currentUser, project: req.currentProject });
 

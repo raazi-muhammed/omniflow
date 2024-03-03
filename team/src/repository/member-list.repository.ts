@@ -13,7 +13,7 @@ export default function buildMemberRepository({
         },
         upsert: async (memberData: IMember) => {
             return (await database.findOneAndUpdate(
-                { username: memberData.username },
+                { email: memberData.email },
                 {
                     username: memberData.username,
                     name: memberData.name,
@@ -25,6 +25,9 @@ export default function buildMemberRepository({
         },
         getByUsername: async (username: string) => {
             return (await database.findOne({ username })) as IDBMember;
+        },
+        getByEmail: async (email: string) => {
+            return (await database.findOne({ email })) as IDBMember;
         },
     });
 }
