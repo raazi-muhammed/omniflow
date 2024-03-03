@@ -26,6 +26,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import { logUser } from "@/redux/features/authSlice";
 import { userLogin } from "@/services/auth.service";
+import Spinner from "@/components/custom/Spinner";
 
 const formSchema = z.object({
     email: z.string().email(),
@@ -49,7 +50,7 @@ export default function LoginForm() {
         mode: "onTouched",
     });
 
-    async function onSubmit(values: z.infer<typeof formSchema>) {
+    function onSubmit(values: z.infer<typeof formSchema>) {
         userLogin(values)
             .then((response) => {
                 toast({
@@ -132,7 +133,10 @@ export default function LoginForm() {
                     )}
                 />
 
-                <Button className="w-full" type="submit">
+                <Button
+                    disabled={!form.formState.isValid}
+                    className="w-full"
+                    type="submit">
                     Login
                 </Button>
             </form>

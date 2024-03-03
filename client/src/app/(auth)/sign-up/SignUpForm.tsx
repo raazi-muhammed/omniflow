@@ -73,20 +73,6 @@ export default function SignUpForm() {
     });
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        /*  const api = new API();
-        const response = await api.user().post("/sign-up", { data: values });
-        if (response.success) {
-            toast({
-                title: response.message || "Account created",
-                description: "Now verify user account",
-            });
-            router.push(`/verify-user?email=${values.email}`);
-        } else {
-            toast({
-                title: "Cannot create account",
-                description: response.message || "Internal server error",
-            });
-        } */
         userSignUp(values)
             .then((response) => {
                 toast({
@@ -235,7 +221,10 @@ export default function SignUpForm() {
                     )}
                 />
 
-                <Button className="w-full" type="submit">
+                <Button
+                    className="w-full"
+                    type="submit"
+                    disabled={!form.formState.isValid}>
                     Sign Up
                 </Button>
             </form>
