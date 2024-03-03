@@ -29,5 +29,8 @@ export default function buildMemberRepository({
         getByEmail: async (email: string) => {
             return (await database.findOne({ email })) as IDBMember;
         },
+        getById: async (id: string) => {
+            return (await database.findById(id)) as IDBMember;
+        },
     });
 }

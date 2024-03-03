@@ -5,6 +5,8 @@ import {
     validateBody,
     AnErrorOccurredError,
     ReposeCreator,
+    IToken,
+    loadEnv,
 } from "@omniflow/common";
 import {
     IMemberRepository,
@@ -14,16 +16,20 @@ import { IAddMemberUseCase } from "../interfaces/use-case.interface.js";
 import { InviteStatus, Role } from "../interfaces/entity.interface.js";
 import { ICreateNameFromEmail } from "../interfaces/utils.interface.js";
 
+const { CLIENT_URL } = loadEnv(["CLIENT_URL"]);
+
 export default function buildInviteMemberController({
     memberRepository,
     teamRepository,
     addMemberUseCase,
     createNameFromEmail,
+    token,
 }: {
     addMemberUseCase: IAddMemberUseCase;
     teamRepository: ITeamRepository;
     memberRepository: IMemberRepository;
     createNameFromEmail: ICreateNameFromEmail;
+    token: IToken<{ projectId: string; memberId: string }>;
 }) {
     return async (req: IRequest) => {
         const { currentUser, currentProject, body } = req;
@@ -65,6 +71,16 @@ export default function buildInviteMemberController({
         });
 
         console.log({ newTeam });
+
+        const tokenData = {
+            projectId: currentProject._id,
+            memberId: userToInvite._id,
+        };
+
+        const inviteToken = token.sign(tokenData);
+        const url = `${CLIENT_URL}/invitation?token=${inviteToken}`;
+
+        console.log({ inviteToken, url });
 
         const response = new ReposeCreator();
         return response.setStatusCode(201).setMessage("User invited");

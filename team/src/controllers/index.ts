@@ -5,6 +5,8 @@ import teamUseCases from "../use-cases/index.js";
 import buildGetTeamsController from "./get-teams.controller.js";
 import buildAddTeamController from "./add-team.controller.js";
 import { createNameFromEmail } from "../lib/utils.js";
+import { token } from "@omniflow/common";
+import buildChangeInvitationStatusController from "./change-invitation-status.controller.js";
 
 const addTeam = buildAddTeamController({
     addTeamUseCase: teamUseCases.addTeam,
@@ -13,6 +15,7 @@ const addTeam = buildAddTeamController({
 });
 const inviteMember = buildInviteMemberController({
     memberRepository,
+    token,
     addMemberUseCase: teamUseCases.addMember,
     teamRepository,
     createNameFromEmail,
@@ -21,10 +24,18 @@ const inviteMember = buildInviteMemberController({
 const getTeams = buildGetTeamsController({
     teamRepository,
 });
+
+const changeInvitationStatus = buildChangeInvitationStatusController({
+    token,
+    teamRepository,
+    memberRepository,
+});
+
 const teamController: ITeamController = Object.freeze({
     addTeam,
     inviteMember,
     getTeams,
+    changeInvitationStatus,
 });
 
 export default teamController;

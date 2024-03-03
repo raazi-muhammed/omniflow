@@ -55,3 +55,20 @@ export async function getTeams(
             });
     });
 }
+
+export async function changeInvitationStatus(
+    values: { token: string; invitationAccepted: boolean },
+    config?: AxiosRequestConfig
+): Promise<IResponse> {
+    const url = new BuildUrl().team(`/change-invitation-status`);
+    return new Promise((resolve, reject) => {
+        axios
+            .post(url, values, { ...config, withCredentials: true })
+            .then((response) => {
+                resolve(adaptSuccessResponse(response));
+            })
+            .catch((error) => {
+                reject(adaptErrorResponse(error));
+            });
+    });
+}
