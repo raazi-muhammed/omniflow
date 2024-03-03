@@ -9,7 +9,6 @@ const teamSchema = new mongoose.Schema<ITeam>(
         },
         avatar: {
             type: String,
-            required: true,
         },
         project: {
             type: String,

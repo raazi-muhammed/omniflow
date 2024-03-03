@@ -1,10 +1,55 @@
-import { IRequest, ReposeCreator } from "@omniflow/common";
+import {
+    AnErrorOccurredError,
+    IRequest,
+    ReposeCreator,
+    UnauthorizedError,
+    UserUnauthorizedError,
+    validateBody,
+} from "@omniflow/common";
+import {
+    IMemberRepository,
+    ITeamRepository,
+} from "../interfaces/repository.interface.js";
+import { IAddTeamUseCase } from "../interfaces/use-case.interface.js";
+import { InviteStatus, Role } from "../interfaces/entity.interface.js";
 
-export default function buildTeamController() {
+export default function buildAddTeamController({
+    teamRepository,
+    addTeamUseCase,
+    memberRepository,
+}: {
+    addTeamUseCase: IAddTeamUseCase;
+    teamRepository: ITeamRepository;
+    memberRepository: IMemberRepository;
+}) {
     return async (req: IRequest) => {
-        console.log({ user: req.currentUser, project: req.currentProject });
+        const { currentUser, currentProject } = req;
+        const teamInput = req.body;
+
+        validateBody(teamInput, ["name"]);
+        if (!currentUser) throw new UserUnauthorizedError();
+        if (!currentProject) {
+            throw new UnauthorizedError("Project not authorized");
+        }
+
+        const user = await memberRepository.upsert(currentUser);
+
+        const team = addTeamUseCase({
+            name: teamInput.name,
+            project: currentProject._id,
+            lead: user._id,
+            members: [
+                {
+                    role: Role.TEAM_LEAD,
+                    inviteStatus: InviteStatus.ACCEPTED,
+                    info: user._id,
+                },
+            ],
+        });
+        const teamAdded = await teamRepository.add(team);
+        if (!teamAdded) throw new AnErrorOccurredError();
 
         const response = new ReposeCreator();
-        return response.setData("Hello how are you??");
+        return response.setData(teamAdded).setMessage("Team added");
     };
 }

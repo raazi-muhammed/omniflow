@@ -23,6 +23,23 @@ export async function inviteMemberToTeam(
     });
 }
 
+export async function addTeam(
+    values: { name: string },
+    config?: AxiosRequestConfig
+): Promise<IResponse> {
+    const url = new BuildUrl().team(`/add-team`);
+    return new Promise((resolve, reject) => {
+        axios
+            .post(url, values, { ...config, withCredentials: true })
+            .then((response) => {
+                resolve(adaptSuccessResponse(response));
+            })
+            .catch((error) => {
+                reject(adaptErrorResponse(error));
+            });
+    });
+}
+
 export async function getTeams(
     config?: AxiosRequestConfig
 ): Promise<IResponse> {

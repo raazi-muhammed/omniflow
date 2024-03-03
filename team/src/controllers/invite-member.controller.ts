@@ -32,10 +32,7 @@ export default function buildInviteMemberController({
             throw new UnauthorizedError("Project not authorized");
         }
 
-        console.log({ currentProject });
-
         let userToInvite = await memberRepository.getByEmail(userEmail);
-        console.log({ userToInvite });
         if (!userToInvite) {
             const memberToAdd = addMemberUseCase({
                 email: userEmail,
@@ -43,8 +40,7 @@ export default function buildInviteMemberController({
                 name: "dummy",
             });
 
-            const userToInvite = await memberRepository.upsert(memberToAdd);
-            console.log({ userToInvite });
+            userToInvite = await memberRepository.upsert(memberToAdd);
             if (!userToInvite) {
                 throw new AnErrorOccurredError();
             }
@@ -53,8 +49,6 @@ export default function buildInviteMemberController({
         const team = await teamRepository.getDefaultTeam({
             projectId: currentProject._id,
         });
-
-        console.log({ team });
 
         const newTeam = await teamRepository.addMember({
             teamId: team._id,

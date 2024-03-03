@@ -1,4 +1,8 @@
-import { IDType, IMemberInProject } from "../interfaces/entity.interface.js";
+import {
+    IDType,
+    IMemberInProject,
+    ITeam,
+} from "../interfaces/entity.interface.js";
 import { IDBTeam, ITeamModel } from "./team.model.js";
 
 export default function buildTeamRepository({
@@ -22,25 +26,28 @@ export default function buildTeamRepository({
             )) as IDBTeam;
         },
         getDefaultTeam: async ({ projectId }: { projectId: string }) => {
-            return (await database.findOneAndUpdate(
-                {
-                    project: projectId,
-                    name: "Default",
-                },
-                {
-                    name: "Default",
-                    avatar: null,
-                    project: projectId,
-                    lead: null,
-                    members: [],
-                },
-                { upsert: true, new: true }
-            )) as IDBTeam;
+            const team = await database.findOne({
+                project: projectId,
+                name: "Default",
+            });
+            if (team) return team as IDBTeam;
+
+            const upsertTeam = await database.create({
+                name: "Default",
+                avatar: null,
+                project: projectId,
+                lead: null,
+                members: [],
+            });
+            return upsertTeam as IDBTeam;
         },
         getTeams: async ({ projectId }: { projectId: string }) => {
             return (await database
                 .find({ project: projectId })
                 .populate("members.info")) as IDBTeam[];
+        },
+        add: async (data: ITeam) => {
+            return (await database.create(data)) as IDBTeam;
         },
     });
 }

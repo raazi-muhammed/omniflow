@@ -14,6 +14,8 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { addTeam } from "@/services/team.service";
+import { useToast } from "@/components/ui/use-toast";
 
 const formSchema = z.object({
     name: z.string().min(3, "Invalid"),
@@ -21,6 +23,7 @@ const formSchema = z.object({
 });
 
 export default function AddTeamForm() {
+    const { toast } = useToast();
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -32,9 +35,18 @@ export default function AddTeamForm() {
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         console.log(values);
-        /*  const api = new API();
-        const response = await api.team().post("/add-team", { data: values });
-        console.log(response); */
+        addTeam(values)
+            .then((response) => {
+                toast({
+                    description: response?.message || "Team added",
+                });
+            })
+            .catch((error) => {
+                toast({
+                    title: "Team adding failed",
+                    description: error || "Team adding failed",
+                });
+            });
     }
 
     return (

@@ -20,7 +20,7 @@ export default function buildMemberRepository({
                     email: memberData.email,
                     avatar: memberData.avatar,
                 },
-                { upsert: true }
+                { upsert: true, new: true }
             )) as IDBMember;
         },
         getByUsername: async (username: string) => {

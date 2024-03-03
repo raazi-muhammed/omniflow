@@ -1,11 +1,15 @@
+import Avatar from "@/components/custom/Avatar";
 import Heading from "@/components/custom/Heading";
 import Container from "@/components/layout/Container";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { AddIcon } from "@/lib/icons";
 import { getTeams } from "@/services/team.service";
 import { ITeam } from "@/types/database";
 import { cookies } from "next/headers";
 import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
 
 async function loadTeams() {
     const response = await getTeams({
@@ -26,7 +30,7 @@ export default async function page() {
                             Invite an member
                         </Button>
                     </Link>
-                    <Link href="/projects/add-project">
+                    <Link href="/projects/id/teams/add-team">
                         <Button size="sm">
                             <AddIcon />
                             Add a team
@@ -34,15 +38,41 @@ export default async function page() {
                     </Link>
                 </section>
                 <Heading>Teams</Heading>
+                <br />
                 {teams.map((team) => (
                     <>
-                        <p>{team.name}</p>
-                        {team.members.map((member) => (
-                            <>
-                                <p>{member.info.name}</p>
-                                <p>{member.info.email}</p>
-                            </>
-                        ))}
+                        <section className="flex justify-between">
+                            <Heading className="text-xl">{team.name}</Heading>
+                            <Button size="sm" variant="secondary">
+                                Add a member
+                            </Button>
+                        </section>
+                        <small className="text-secondary">Members</small>
+                        <section className="grid grid-cols-4 gap-4">
+                            {team.members.length <= 0 && <p>No members</p>}
+                            {team.members.map((member) => (
+                                <Card className="flex gap-4 p-4 align-middle">
+                                    <div className="my-auto">
+                                        <Avatar
+                                            src={member.info.avatar || ""}
+                                        />
+                                    </div>
+                                    <div>
+                                        <small className="text-secondary">
+                                            {member.info.email}
+                                        </small>
+                                        <p>{member.info.name}</p>
+                                        <Badge variant="secondary">
+                                            {member.role}
+                                        </Badge>
+                                        <Badge variant="secondary">
+                                            {member.inviteStatus}
+                                        </Badge>
+                                    </div>
+                                </Card>
+                            ))}
+                        </section>
+                        <Separator className="my-4" />
                     </>
                 ))}
             </Container>
