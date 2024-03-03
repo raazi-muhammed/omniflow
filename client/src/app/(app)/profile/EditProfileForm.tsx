@@ -18,6 +18,7 @@ import API from "@/lib/client";
 import { useToast } from "@/components/ui/use-toast";
 import { IUser } from "@/types/database";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const formSchema = z.object({
     name: z.string().min(3, "Invalid"),
@@ -26,7 +27,7 @@ const formSchema = z.object({
 export default function EditProfileForm({ user }: { user: IUser }) {
     const { toast } = useToast();
     const router = useRouter();
-
+    const [image, setImage] = useState<File>();
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -36,10 +37,16 @@ export default function EditProfileForm({ user }: { user: IUser }) {
     });
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
+        const data = new FormData();
+        data.append("name", values.name);
+        if (image) {
+            data.append("avatar", image);
+        }
+
         const api = new API();
-        const response = await api
-            .user()
-            .post("/edit-profile", { data: values });
+        const response = await api.user().post("/edit-profile", {
+            data,
+        });
         console.log(response);
 
         if (response.success) {
@@ -70,6 +77,16 @@ export default function EditProfileForm({ user }: { user: IUser }) {
                             <FormMessage />
                         </FormItem>
                     )}
+                />
+                <Input
+                    // @ts-ignore
+                    onChange={(e) => {
+                        if (e.target.files) {
+                            setImage(e.target.files[0]);
+                        }
+                    }}
+                    type="file"
+                    accept="images/*"
                 />
 
                 <Button className="w-full" type="submit">

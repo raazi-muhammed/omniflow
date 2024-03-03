@@ -10,6 +10,7 @@ export type IUserRepository = {
     editUser: ({}: {
         userId: Types.ObjectId;
         name: string;
+        avatar: string;
     }) => Promise<IDBUser | null>;
     verifyUser: (email: string) => Promise<boolean | null>;
 };

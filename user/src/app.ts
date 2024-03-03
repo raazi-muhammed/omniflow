@@ -21,6 +21,10 @@ const { SERVER_NAME, CORS_ORIGINS, NODE_ENV } = loadEnv([
     "SMPT_SERVICE",
     "SMPT_MAIL",
     "SMPT_PASSWORD",
+    "BUCKET_NAME",
+    "BUCKET_REGION",
+    "AWS_SECRET_KEY",
+    "AWS_ACCESS_KEY",
 ]);
 
 app.use(cookieParser());

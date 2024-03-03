@@ -1,4 +1,8 @@
-import axios from "axios";
+import axios, {
+    AxiosHeaders,
+    AxiosRequestConfig,
+    HeadersDefaults,
+} from "axios";
 
 export default class API {
     private baseUrl: string;
@@ -54,6 +58,7 @@ export default class API {
             baseURL: this.baseUrl,
             url,
             method: "POST",
+            headers: { "content-type": "multipart/form-data" },
             withCredentials: true,
             data,
             params,

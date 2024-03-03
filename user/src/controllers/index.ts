@@ -16,6 +16,7 @@ import buildResendCodeUpController from "./resend-code.controller.js";
 import buildLogOutUserController from "./logout-user.controller.js";
 import buildGetProfileController from "./get-profile.controller.js";
 import buildEditProfileController from "./edit-profile.controller.js";
+import { uploadImageToS3 } from "../lib/file-bucket.js";
 
 const signIn = buildSignInController({
     signInUseCase: authUseCase.signIn,
@@ -51,7 +52,10 @@ const getProfile = buildGetProfileController({
     userRepository,
 });
 
-const editProfile = buildEditProfileController({ userRepository });
+const editProfile = buildEditProfileController({
+    imageUpload: uploadImageToS3,
+    userRepository,
+});
 
 const authControllers: IAuthController = Object.freeze({
     signIn,

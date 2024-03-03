@@ -25,10 +25,10 @@ export default function makeUserRepository({
             );
             return updated.acknowledged;
         },
-        editUser: async ({ userId, name }) => {
+        editUser: async ({ userId, name, avatar }) => {
             const data = await database.findOneAndUpdate(
                 { _id: userId },
-                { name }
+                { name, avatar }
             );
             return data as IDBUser;
         },

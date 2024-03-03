@@ -6,10 +6,12 @@ export default function buildUserRoutes({
     router,
     authControllers,
     verifyMiddleware,
+    updateImageMiddleware,
 }: {
     router: Router;
     authControllers: IAuthController;
     verifyMiddleware: IVerifyUserMiddleware;
+    updateImageMiddleware: any;
 }) {
     router.get(
         "/get-profile",
@@ -20,6 +22,7 @@ export default function buildUserRoutes({
     router.post(
         "/edit-profile",
         verifyMiddleware,
+        updateImageMiddleware,
         makeCallback(authControllers.editProfile)
     );
 
