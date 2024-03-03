@@ -1,7 +1,7 @@
 import {
     AnErrorOccurredError,
     IRequest,
-    ReposeCreator,
+    ResponseCreator,
     UnauthorizedError,
     UserUnauthorizedError,
     validateBody,
@@ -49,7 +49,7 @@ export default function buildAddTeamController({
         const teamAdded = await teamRepository.add(team);
         if (!teamAdded) throw new AnErrorOccurredError();
 
-        const response = new ReposeCreator();
+        const response = new ResponseCreator();
         return response.setData(teamAdded).setMessage("Team added");
     };
 }

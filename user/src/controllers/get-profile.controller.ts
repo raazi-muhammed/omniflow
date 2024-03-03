@@ -1,6 +1,6 @@
 import {
     IRequest,
-    ReposeCreator,
+    ResponseCreator,
     UserNotFoundError,
     UserUnauthorizedError,
 } from "@omniflow/common";
@@ -18,7 +18,7 @@ export default function buildGetProfileController({
         const userData = await userRepository.findByEmail(currentUser.email);
         if (!userData) throw new UserNotFoundError();
 
-        const response = new ReposeCreator();
+        const response = new ResponseCreator();
         return response.setData(userData).setStatusCode(200);
     };
 }

@@ -1,4 +1,4 @@
-import { IRequest, ReposeCreator, validateBody } from "@omniflow/common";
+import { IRequest, ResponseCreator, validateBody } from "@omniflow/common";
 import {
     IMemberRepository,
     IProjectRepository,
@@ -68,7 +68,7 @@ export default function buildAddProjectController({
 
         if (!projectAdded) throw new Error("Cannot add project to db");
 
-        const response = new ReposeCreator();
+        const response = new ResponseCreator();
         return response
             .setData(project)
             .setStatusCode(201)

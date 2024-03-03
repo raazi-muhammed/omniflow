@@ -1,4 +1,4 @@
-import { IRequest, ReposeCreator } from "@omniflow/common";
+import { IRequest, ResponseCreator } from "@omniflow/common";
 import {
     IMemberRepository,
     IProjectRepository,
@@ -20,7 +20,7 @@ export default function buildGetAllProjectsController({
 
         const data = await projectRepository.getAll(user._id);
 
-        const response = new ReposeCreator();
+        const response = new ResponseCreator();
         return response.setData(data);
     };
 }

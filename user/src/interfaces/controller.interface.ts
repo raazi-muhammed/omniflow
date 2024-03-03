@@ -1,12 +1,12 @@
-import { IRequest, ReposeCreator } from "@omniflow/common";
+import { IRequest, ResponseCreator } from "@omniflow/common";
 
 export type IAuthController = {
-    signIn: (req: IRequest) => Promise<ReposeCreator>;
-    login: (req: IRequest) => Promise<ReposeCreator>;
-    logOut: (req: IRequest) => Promise<ReposeCreator>;
-    currentUser: (req: IRequest) => Promise<ReposeCreator>;
-    editProfile: (req: IRequest) => Promise<ReposeCreator>;
-    verifyUser: (req: IRequest) => Promise<ReposeCreator>;
-    resendCode: (req: IRequest) => Promise<ReposeCreator>;
-    getProfile: (req: IRequest) => Promise<ReposeCreator>;
+    signIn: (req: IRequest) => Promise<ResponseCreator>;
+    login: (req: IRequest) => Promise<ResponseCreator>;
+    logOut: (req: IRequest) => Promise<ResponseCreator>;
+    currentUser: (req: IRequest) => Promise<ResponseCreator>;
+    editProfile: (req: IRequest) => Promise<ResponseCreator>;
+    verifyUser: (req: IRequest) => Promise<ResponseCreator>;
+    resendCode: (req: IRequest) => Promise<ResponseCreator>;
+    getProfile: (req: IRequest) => Promise<ResponseCreator>;
 };

@@ -1,6 +1,6 @@
 import {
     IRequest,
-    ReposeCreator,
+    ResponseCreator,
     UnauthorizedError,
     UserUnauthorizedError,
 } from "@omniflow/common";
@@ -23,7 +23,7 @@ export default function buildGetTeamsController({
             projectId: currentProject._id,
         });
 
-        const response = new ReposeCreator();
+        const response = new ResponseCreator();
         return response.setData(teams);
     };
 }

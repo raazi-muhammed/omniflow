@@ -1,8 +1,8 @@
-import { IRequest, ReposeCreator } from "@omniflow/common";
+import { IRequest, ResponseCreator } from "@omniflow/common";
 
 export type ITeamController = {
-    addTeam: (req: IRequest) => Promise<ReposeCreator>;
-    inviteMember: (req: IRequest) => Promise<ReposeCreator>;
-    getTeams: (req: IRequest) => Promise<ReposeCreator>;
-    changeInvitationStatus: (req: IRequest) => Promise<ReposeCreator>;
+    addTeam: (req: IRequest) => Promise<ResponseCreator>;
+    inviteMember: (req: IRequest) => Promise<ResponseCreator>;
+    getTeams: (req: IRequest) => Promise<ResponseCreator>;
+    changeInvitationStatus: (req: IRequest) => Promise<ResponseCreator>;
 };

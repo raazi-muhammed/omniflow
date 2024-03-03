@@ -2,7 +2,7 @@ import { IUser } from "../interfaces/entity.interface.js";
 import { ISignInUseCase } from "../interfaces/use-case.interface.js";
 import {
     validateBody,
-    ReposeCreator,
+    ResponseCreator,
     IRequest,
     ConflictError,
     AnErrorOccurredError,
@@ -75,7 +75,7 @@ export default function buildSignInController({
             name: user.name,
         });
 
-        const response = new ReposeCreator();
+        const response = new ResponseCreator();
         return response
             .setStatusCode(201)
             .setMessage("Please check your mail for verification code");

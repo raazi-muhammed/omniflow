@@ -1,4 +1,4 @@
-import { IRequest, IToken, ReposeCreator } from "@omniflow/common";
+import { IRequest, IToken, ResponseCreator } from "@omniflow/common";
 import { IProjectRepository } from "../interfaces/repository.interface.js";
 import { IProject } from "../interfaces/entity.interface.js";
 
@@ -22,7 +22,7 @@ export default function buildGetProjectController({
 
         const projectToken = token.sign(projectData);
 
-        const response = new ReposeCreator();
+        const response = new ResponseCreator();
         return response.setData(projectData).setHeaders({
             "Set-Cookie": `${TOKEN_COOKIE_NAME_PROJECT}=${projectToken}; Path=/`,
         });

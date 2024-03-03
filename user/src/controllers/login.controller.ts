@@ -7,7 +7,7 @@ import {
     UnauthorizedError,
 } from "@omniflow/common";
 import IPasswordHash from "../interfaces/password-hash.interface.js";
-import { ReposeCreator } from "@omniflow/common";
+import { ResponseCreator } from "@omniflow/common";
 import { IUser } from "../interfaces/entity.interface.js";
 import { TOKEN_COOKIE_NAME } from "../lib/constants.js";
 
@@ -47,7 +47,7 @@ export default function buildLoginController({
 
         const userToken = token.sign(userFound);
 
-        const response = new ReposeCreator();
+        const response = new ResponseCreator();
         return response
             .setData(userFound)
             .setHeaders({

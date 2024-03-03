@@ -1,4 +1,12 @@
-import { sendMail } from "@omniflow/common";
+import { loadEnv, sendMail } from "@omniflow/common";
+
+loadEnv([
+    "SMPT_HOST",
+    "SMPT_PORT",
+    "SMPT_SERVICE",
+    "SMPT_MAIL",
+    "SMPT_PASSWORD",
+]);
 
 async function sendInvitationEmail({
     email,

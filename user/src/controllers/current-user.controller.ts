@@ -4,7 +4,7 @@ import {
     UserNotFoundError,
     UserUnauthorizedError,
 } from "@omniflow/common";
-import { ReposeCreator } from "@omniflow/common";
+import { ResponseCreator } from "@omniflow/common";
 
 export default function buildCurrentUserController({
     userRepository,
@@ -18,7 +18,7 @@ export default function buildCurrentUserController({
         const user = await userRepository.findByUsername(currentUser.username);
         if (!user) throw new UserNotFoundError();
 
-        const response = new ReposeCreator();
+        const response = new ResponseCreator();
         return response
             .setMessage("User logged in")
             .setData(user)

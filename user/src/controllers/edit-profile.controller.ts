@@ -1,7 +1,7 @@
 import {
     AnErrorOccurredError,
     IRequest,
-    ReposeCreator,
+    ResponseCreator,
     UserNotFoundError,
     UserUnauthorizedError,
     validateBody,
@@ -42,7 +42,7 @@ export default function buildEditProfileController({
 
         if (!updatedUser) throw new AnErrorOccurredError();
 
-        const response = new ReposeCreator();
+        const response = new ResponseCreator();
         return response.setMessage("User edited").setData(updatedUser);
     };
 }

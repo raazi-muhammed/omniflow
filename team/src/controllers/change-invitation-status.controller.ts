@@ -2,7 +2,7 @@ import {
     AnErrorOccurredError,
     IRequest,
     IToken,
-    ReposeCreator,
+    ResponseCreator,
     UnauthorizedError,
     UserUnauthorizedError,
     validateBody,
@@ -58,7 +58,7 @@ export default function buildChangeInvitationStatusController({
             if (!isUpdated) throw new AnErrorOccurredError();
         }
 
-        const response = new ReposeCreator();
+        const response = new ResponseCreator();
         return response.setMessage(
             invitationAccepted ? "Invitation accepted" : "Invitation rejected"
         );

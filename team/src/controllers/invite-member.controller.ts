@@ -4,7 +4,7 @@ import {
     UnauthorizedError,
     validateBody,
     AnErrorOccurredError,
-    ReposeCreator,
+    ResponseCreator,
     IToken,
     loadEnv,
 } from "@omniflow/common";
@@ -95,7 +95,7 @@ export default function buildInviteMemberController({
             invitationLink: url,
         });
 
-        const response = new ReposeCreator();
+        const response = new ResponseCreator();
         return response.setStatusCode(201).setMessage("User invited");
     };
 }

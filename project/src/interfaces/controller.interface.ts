@@ -1,7 +1,7 @@
-import { IRequest, ReposeCreator } from "@omniflow/common";
+import { IRequest, ResponseCreator } from "@omniflow/common";
 
 export type IProjectController = {
-    add: (req: IRequest) => Promise<ReposeCreator>;
-    getAll: (req: IRequest) => Promise<ReposeCreator>;
-    getProject: (req: IRequest) => Promise<ReposeCreator>;
+    add: (req: IRequest) => Promise<ResponseCreator>;
+    getAll: (req: IRequest) => Promise<ResponseCreator>;
+    getProject: (req: IRequest) => Promise<ResponseCreator>;
 };

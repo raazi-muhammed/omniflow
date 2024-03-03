@@ -1,7 +1,7 @@
 import {
     AnErrorOccurredError,
     IRequest,
-    ReposeCreator,
+    ResponseCreator,
     UserNotFoundError,
     validateBody,
 } from "@omniflow/common";
@@ -45,7 +45,7 @@ export default function buildResendCodeUpController({
             name: user.name,
         });
 
-        const response = new ReposeCreator();
+        const response = new ResponseCreator();
         return response.setMessage("Mail sent").setStatusCode(201);
     };
 }

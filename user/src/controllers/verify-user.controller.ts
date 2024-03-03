@@ -2,7 +2,7 @@ import {
     AnErrorOccurredError,
     IRequest,
     NotFoundError,
-    ReposeCreator,
+    ResponseCreator,
     UserNotFoundError,
     validateBody,
 } from "@omniflow/common";
@@ -39,7 +39,7 @@ export default function buildVerifyUserController({
         const isVerified = userRepository.verifyUser(email);
         if (!isVerified) throw new AnErrorOccurredError();
 
-        const response = new ReposeCreator();
+        const response = new ResponseCreator();
         return response.setMessage("Account verified").setStatusCode(200);
     };
 }
