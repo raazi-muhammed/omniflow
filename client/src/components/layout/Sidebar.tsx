@@ -16,12 +16,12 @@ export default function Sidebar() {
         },
         {
             title: "Overview",
-            url: "/projects",
+            url: "#",
             identifier: "projects",
         },
         {
             title: "Teams",
-            url: "#",
+            url: "/projects/id/teams",
             identifier: "teams",
         },
     ];

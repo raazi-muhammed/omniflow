@@ -1,5 +1,9 @@
 import { Types } from "mongoose";
-import { IMember, IProject } from "../interfaces/entity.interface.js";
+import {
+    IProject,
+    InviteStatus,
+    Role,
+} from "../interfaces/entity.interface.js";
 
 export default class Project {
     _id?: string;
@@ -9,7 +13,11 @@ export default class Project {
     startDate: Date;
     dueDate: Date;
     projectLead: Types.ObjectId;
-    members: Types.ObjectId[];
+    members: {
+        role: Role;
+        inviteStatus: InviteStatus;
+        info: Types.ObjectId;
+    }[];
 
     constructor(data: IProject) {
         this.title = data.title;

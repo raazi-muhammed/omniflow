@@ -49,7 +49,7 @@ export default async function page() {
                                         {project.members.map((member) => (
                                             <Avatar
                                                 size="sm"
-                                                src={member.avatar || ""}
+                                                src={member.info.avatar || ""}
                                             />
                                         ))}
                                     </section>

@@ -4,7 +4,12 @@ import {
     IProjectRepository,
 } from "../interfaces/repository.interface.js";
 import { IAddProjectUseCase } from "../interfaces/use-case.interface.js";
-import { IMember, IProject } from "../interfaces/entity.interface.js";
+import {
+    IMember,
+    IProject,
+    InviteStatus,
+    Role,
+} from "../interfaces/entity.interface.js";
 
 function sanitizeProjectData(projectData: any): IProject {
     projectData.startDate = new Date(projectData.startDate);
@@ -48,8 +53,16 @@ export default function buildAddProjectController({
         const project = await addProjectUseCase({
             ...addProjectData,
             projectLead: projectLead._id,
-            members: [projectLead._id],
+            members: [
+                {
+                    role: Role.TEAM_LEAD,
+                    inviteStatus: InviteStatus.ACCEPTED,
+                    info: projectLead._id,
+                },
+            ],
         });
+
+        console.log({ project });
 
         const projectAdded = await projectRepository.add(project);
 

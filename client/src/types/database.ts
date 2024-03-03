@@ -15,5 +15,5 @@ export interface IProject {
     startDate: Date;
     dueDate: Date;
     projectLead: IUser;
-    members: IUser[];
+    members: { info: IUser }[];
 }

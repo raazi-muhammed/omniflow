@@ -1,5 +1,15 @@
 import { Types } from "mongoose";
 
+export enum Role {
+    TEAM_LEAD = "TEAM_LEAD",
+    DEFAULT = "DEFAULT",
+}
+export enum InviteStatus {
+    ACCEPTED = "ACCEPTED",
+    REJECTED = "REJECTED",
+    PENDING = "PENDING",
+}
+
 export interface IProject {
     _id?: string;
     title: string;
@@ -8,7 +18,11 @@ export interface IProject {
     startDate: Date;
     dueDate: Date;
     projectLead: Types.ObjectId;
-    members: Types.ObjectId[];
+    members: {
+        role: Role;
+        inviteStatus: InviteStatus;
+        info: Types.ObjectId;
+    }[];
 }
 
 export interface IMember {
@@ -26,7 +40,11 @@ class ProjectEntityClass {
     startDate: Date;
     dueDate: Date;
     projectLead: Types.ObjectId;
-    members: Types.ObjectId[];
+    members: {
+        role: Role;
+        inviteStatus: InviteStatus;
+        info: Types.ObjectId;
+    }[];
 
     constructor(data: IProject) {}
     validate: () => void;

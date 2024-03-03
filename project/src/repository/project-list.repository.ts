@@ -14,15 +14,15 @@ export default function buildProjectRepository({
         },
         getAll: async (userId: Types.ObjectId) => {
             return (await database
-                .find({ members: { $in: [userId] } })
+                .find({ "members.info": userId })
                 .populate("projectLead")
-                .populate("members")) as IDBProject[];
+                .populate("members.info")) as IDBProject[];
         },
         get: async (id: string) => {
             return (await database
                 .findById(id)
                 .populate("projectLead")
-                .populate("members")) as IDBProject;
+                .populate("members.info")) as IDBProject;
         },
     });
 }

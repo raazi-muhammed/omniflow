@@ -22,8 +22,6 @@ export default function buildGetProjectController({
 
         const projectToken = token.sign(projectData);
 
-        console.log({ projectToken });
-
         const response = new ReposeCreator();
         return response.setData(projectData).setHeaders({
             "Set-Cookie": `${TOKEN_COOKIE_NAME_PROJECT}=${projectToken}; Path=/`,
