@@ -3,7 +3,6 @@ import {
     IRequest,
     validateBody,
     IToken,
-    ErrorHandler,
     UserNotFoundError,
     UnauthorizedError,
 } from "@omniflow/common";

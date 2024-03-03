@@ -1,6 +1,5 @@
 import {
     AnErrorOccurredError,
-    ErrorHandler,
     IRequest,
     ReposeCreator,
     UserNotFoundError,
@@ -10,8 +9,8 @@ import {
     IUserRepository,
     IVerificationCodeRepository,
 } from "../interfaces/repository.interface.js";
-import { IMailService } from "../lib/mail-server.js";
 import { IGenerateVerificationCode } from "../interfaces/lib.interface.js";
+import { IMailService } from "../lib/send-verification-mail.js";
 
 export default function buildResendCodeUpController({
     verificationCodeRepository,

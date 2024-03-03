@@ -1,18 +1,14 @@
 import { IUserRepository } from "../interfaces/repository.interface.js";
 import {
-    ErrorHandler,
     IRequest,
     UserNotFoundError,
     UserUnauthorizedError,
 } from "@omniflow/common";
-import { ReposeCreator, IToken } from "@omniflow/common";
-import { IUser } from "../interfaces/entity.interface.js";
+import { ReposeCreator } from "@omniflow/common";
 
 export default function buildCurrentUserController({
-    token,
     userRepository,
 }: {
-    token: IToken<IUser>;
     userRepository: IUserRepository;
 }) {
     return async (req: IRequest) => {

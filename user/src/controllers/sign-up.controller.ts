@@ -12,8 +12,9 @@ import {
     IVerificationCodeRepository,
 } from "../interfaces/repository.interface.js";
 import IPasswordHash from "../interfaces/password-hash.interface.js";
-import { IMailService } from "../lib/mail-server.js";
+
 import { IGenerateVerificationCode } from "../interfaces/lib.interface.js";
+import { IMailService } from "../lib/send-verification-mail.js";
 
 export default function buildSignInController({
     signInUseCase,

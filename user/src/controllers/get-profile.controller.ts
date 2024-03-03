@@ -1,5 +1,4 @@
 import {
-    ErrorHandler,
     IRequest,
     ReposeCreator,
     UserNotFoundError,

@@ -9,7 +9,6 @@ import buildLoginController from "./login.controller.js";
 import { token } from "@omniflow/common";
 import buildCurrentUserController from "./current-user.controller.js";
 import { IAuthController } from "../interfaces/controller.interface.js";
-import { mailService } from "../lib/mail-server.js";
 import buildVerifyUserController from "./verify-user.controller.js";
 import { generateVerificationCode } from "../lib/code-generator.js";
 import buildResendCodeUpController from "./resend-code.controller.js";
@@ -17,6 +16,7 @@ import buildLogOutUserController from "./logout-user.controller.js";
 import buildGetProfileController from "./get-profile.controller.js";
 import buildEditProfileController from "./edit-profile.controller.js";
 import { uploadImageToS3 } from "../lib/file-bucket.js";
+import { mailService } from "../lib/send-verification-mail.js";
 
 const signIn = buildSignInController({
     signInUseCase: authUseCase.signIn,
@@ -38,7 +38,7 @@ const login = buildLoginController({
     token,
 });
 
-const currentUser = buildCurrentUserController({ token, userRepository });
+const currentUser = buildCurrentUserController({ userRepository });
 const logOut = buildLogOutUserController();
 
 const resendCode = buildResendCodeUpController({
