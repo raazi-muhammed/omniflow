@@ -15,6 +15,7 @@ import {
 import { IAddMemberUseCase } from "../interfaces/use-case.interface.js";
 import { InviteStatus, Role } from "../interfaces/entity.interface.js";
 import { ICreateNameFromEmail } from "../interfaces/utils.interface.js";
+import { IMailService } from "../lib/send-invitation-mail.js";
 
 const { CLIENT_URL } = loadEnv(["CLIENT_URL"]);
 
@@ -24,12 +25,14 @@ export default function buildInviteMemberController({
     addMemberUseCase,
     createNameFromEmail,
     token,
+    mailService,
 }: {
     addMemberUseCase: IAddMemberUseCase;
     teamRepository: ITeamRepository;
     memberRepository: IMemberRepository;
     createNameFromEmail: ICreateNameFromEmail;
     token: IToken<{ projectId: string; memberId: string }>;
+    mailService: IMailService;
 }) {
     return async (req: IRequest) => {
         const { currentUser, currentProject, body } = req;
@@ -81,6 +84,11 @@ export default function buildInviteMemberController({
         const url = `${CLIENT_URL}/invitation?token=${inviteToken}`;
 
         console.log({ inviteToken, url });
+
+        mailService.sendInvitationEmail({
+            email: userToInvite.email,
+            invitationLink: url,
+        });
 
         const response = new ReposeCreator();
         return response.setStatusCode(201).setMessage("User invited");

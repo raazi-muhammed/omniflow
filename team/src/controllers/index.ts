@@ -7,6 +7,7 @@ import buildAddTeamController from "./add-team.controller.js";
 import { createNameFromEmail } from "../lib/utils.js";
 import { token } from "@omniflow/common";
 import buildChangeInvitationStatusController from "./change-invitation-status.controller.js";
+import { mailService } from "../lib/send-invitation-mail.js";
 
 const addTeam = buildAddTeamController({
     addTeamUseCase: teamUseCases.addTeam,
@@ -18,6 +19,7 @@ const inviteMember = buildInviteMemberController({
     token,
     addMemberUseCase: teamUseCases.addMember,
     teamRepository,
+    mailService,
     createNameFromEmail,
 });
 

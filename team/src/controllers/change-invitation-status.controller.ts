@@ -58,6 +58,8 @@ export default function buildChangeInvitationStatusController({
         }
 
         const response = new ReposeCreator();
-        return response.setMessage("Invitation accepted");
+        return response.setMessage(
+            invitationAccepted ? "Invitation accepted" : "Invitation rejected"
+        );
     };
 }
