@@ -4,6 +4,7 @@ import { teamRepository, memberRepository } from "../repository/index.js";
 import teamUseCases from "../use-cases/index.js";
 import buildGetTeamsController from "./get-teams.controller.js";
 import buildAddTeamController from "./add-team.controller.js";
+import { createNameFromEmail } from "../lib/utils.js";
 
 const addTeam = buildAddTeamController({
     addTeamUseCase: teamUseCases.addTeam,
@@ -14,6 +15,7 @@ const inviteMember = buildInviteMemberController({
     memberRepository,
     addMemberUseCase: teamUseCases.addMember,
     teamRepository,
+    createNameFromEmail,
 });
 
 const getTeams = buildGetTeamsController({

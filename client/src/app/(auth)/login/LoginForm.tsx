@@ -26,7 +26,6 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import { logUser } from "@/redux/features/authSlice";
 import { userLogin } from "@/services/auth.service";
-import Spinner from "@/components/custom/Spinner";
 
 const formSchema = z.object({
     email: z.string().email(),

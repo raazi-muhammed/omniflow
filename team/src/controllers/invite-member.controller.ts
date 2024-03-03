@@ -12,15 +12,18 @@ import {
 } from "../interfaces/repository.interface.js";
 import { IAddMemberUseCase } from "../interfaces/use-case.interface.js";
 import { InviteStatus, Role } from "../interfaces/entity.interface.js";
+import { ICreateNameFromEmail } from "../interfaces/utils.interface.js";
 
 export default function buildInviteMemberController({
     memberRepository,
     teamRepository,
     addMemberUseCase,
+    createNameFromEmail,
 }: {
     addMemberUseCase: IAddMemberUseCase;
     teamRepository: ITeamRepository;
     memberRepository: IMemberRepository;
+    createNameFromEmail: ICreateNameFromEmail;
 }) {
     return async (req: IRequest) => {
         const { currentUser, currentProject, body } = req;
@@ -33,11 +36,13 @@ export default function buildInviteMemberController({
         }
 
         let userToInvite = await memberRepository.getByEmail(userEmail);
+
         if (!userToInvite) {
+            const placeHolder = createNameFromEmail(userEmail);
             const memberToAdd = addMemberUseCase({
                 email: userEmail,
-                username: "Dummy",
-                name: "dummy",
+                username: placeHolder.username,
+                name: placeHolder.name,
             });
 
             userToInvite = await memberRepository.upsert(memberToAdd);

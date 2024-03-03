@@ -1,11 +1,16 @@
 "use client";
 
-import Link from "next/link";
 import { Button } from "../ui/button";
 import { usePathname } from "next/navigation";
 import AppLogo from "../custom/AppLogo";
+import { useAppSelector } from "@/redux/store";
+import Link from "next/link";
 
 export default function Sidebar() {
+    const projectInfo = useAppSelector(
+        (state) => state.projectReducer.projectData
+    );
+
     const pathname = usePathname();
 
     const options = [
@@ -16,12 +21,12 @@ export default function Sidebar() {
         },
         {
             title: "Overview",
-            url: "#",
-            identifier: "projects",
+            url: `/projects/${projectInfo?._id}`,
+            identifier: projectInfo?._id,
         },
         {
             title: "Teams",
-            url: "/projects/id/teams",
+            url: `/projects/${projectInfo?._id}/teams`,
             identifier: "teams",
         },
     ];
@@ -35,7 +40,7 @@ export default function Sidebar() {
             <div className="grid gap-2">
                 {options.map((opt) => (
                     <>
-                        {pathname.includes(opt.identifier) ? (
+                        {pathname.endsWith(opt.identifier || "~") ? (
                             <Link href={opt.url}>
                                 <Button className="flex w-full justify-start shadow-sm">
                                     <span className="text-start">
