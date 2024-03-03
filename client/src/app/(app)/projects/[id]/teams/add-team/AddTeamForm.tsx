@@ -14,7 +14,6 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import API from "@/lib/client";
 
 const formSchema = z.object({
     name: z.string().min(3, "Invalid"),
@@ -33,9 +32,9 @@ export default function AddTeamForm() {
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         console.log(values);
-        const api = new API();
+        /*  const api = new API();
         const response = await api.team().post("/add-team", { data: values });
-        console.log(response);
+        console.log(response); */
     }
 
     return (

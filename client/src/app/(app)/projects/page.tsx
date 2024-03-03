@@ -3,22 +3,21 @@ import Heading from "@/components/custom/Heading";
 import Container from "@/components/layout/Container";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import API from "@/lib/client";
 import { AddIcon } from "@/lib/icons";
 import { IProject } from "@/types/database";
 import Link from "next/link";
 import { cookies } from "next/headers";
+import { getProjects } from "@/services/project.service";
 
-export async function getProjects() {
-    const api = new API();
-    const response = await api
-        .project()
-        .get("/get-projects", { headers: { Cookie: cookies().toString() } });
-    return response?.data;
+export async function getProjectsData() {
+    const response = await getProjects({
+        headers: { Cookie: cookies().toString() },
+    });
+    return response.data as IProject[];
 }
 
 export default async function page() {
-    const projects: IProject[] = await getProjects();
+    const projects: IProject[] = await getProjectsData();
 
     return (
         <Container>

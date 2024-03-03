@@ -17,7 +17,6 @@ export default function buildGetProfileController({
         if (!currentUser) throw new UserUnauthorizedError();
 
         const userData = await userRepository.findByEmail(currentUser.email);
-
         if (!userData) throw new UserNotFoundError();
 
         const response = new ReposeCreator();

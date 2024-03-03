@@ -20,9 +20,9 @@ import {
     EyeOff as HidePasswordIcon,
 } from "lucide-react";
 import { useState } from "react";
-import API from "@/lib/client";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
+import { userSignUp } from "@/services/auth.service";
 
 const formSchema = z
     .object({
@@ -72,8 +72,8 @@ export default function SignUpForm() {
         mode: "onTouched",
     });
 
-    async function onSubmit(values: z.infer<typeof formSchema>) {
-        const api = new API();
+    function onSubmit(values: z.infer<typeof formSchema>) {
+        /*  const api = new API();
         const response = await api.user().post("/sign-up", { data: values });
         if (response.success) {
             toast({
@@ -86,7 +86,21 @@ export default function SignUpForm() {
                 title: "Cannot create account",
                 description: response.message || "Internal server error",
             });
-        }
+        } */
+        userSignUp(values)
+            .then((response) => {
+                toast({
+                    title: response.message || "Account created",
+                    description: "Now verify user account",
+                });
+                router.push(`/verify-user?email=${values.email}`);
+            })
+            .catch((error) => {
+                toast({
+                    title: "Cannot create account",
+                    description: error || "Internal server error",
+                });
+            });
     }
 
     return (

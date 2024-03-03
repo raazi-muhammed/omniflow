@@ -1,4 +1,4 @@
-import { AwardIcon, ChevronDown as ChevronDownIcon } from "lucide-react";
+import { ChevronDown as ChevronDownIcon } from "lucide-react";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -8,12 +8,13 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import API from "@/lib/client";
 import { useToast } from "../ui/use-toast";
 import { useRouter } from "next/navigation";
 import { AppDispatch } from "@/redux/store";
 import { useDispatch } from "react-redux";
 import { logout } from "@/redux/features/authSlice";
+import { userLogOut } from "@/services/auth.service";
+import { error } from "console";
 
 export function UserDropDownMenu() {
     const { toast } = useToast();
@@ -24,14 +25,20 @@ export function UserDropDownMenu() {
         router.push("/profile");
     }
 
-    async function handleLogout() {
-        const api = new API();
-        const response = await api.user().post("/logout", { data: {} });
-        toast({
-            description: response.message || "User logged out",
-        });
-        dispatch(logout());
-        router.push("/login");
+    function handleLogout() {
+        userLogOut()
+            .then((response) => {
+                toast({
+                    description: response.message || "User logged out",
+                });
+                dispatch(logout());
+                router.push("/login");
+            })
+            .catch((error) => {
+                toast({
+                    description: error || "User logged out failed",
+                });
+            });
     }
     return (
         <DropdownMenu>

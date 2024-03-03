@@ -7,24 +7,27 @@ import { AppDispatch, useAppSelector } from "@/redux/store";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { useEffect } from "react";
-import API from "@/lib/client";
 import { useDispatch } from "react-redux";
 import { logUser } from "@/redux/features/authSlice";
 import { useToast } from "../ui/use-toast";
 import { UserDropDownMenu } from "./UserDropDownMenu";
+import { getCurrentUser } from "@/services/user.service";
 
 function Navbar() {
     const { toast } = useToast();
     const userData = useAppSelector((state) => state.authReducer);
     const dispatch = useDispatch<AppDispatch>();
     useEffect(() => {
-        const api = new API();
-        api.user()
-            .get("/current-user")
+        getCurrentUser()
             .then((response) => {
                 dispatch(logUser(response.data));
                 toast({
                     description: response.message || "Internal server error",
+                });
+            })
+            .catch((error) => {
+                toast({
+                    description: error || "Internal server error",
                 });
             });
     }, []);

@@ -20,12 +20,12 @@ import {
     EyeOff as HidePasswordIcon,
 } from "lucide-react";
 import { useState } from "react";
-import API from "@/lib/client";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import { logUser } from "@/redux/features/authSlice";
+import { userLogin } from "@/services/auth.service";
 
 const formSchema = z.object({
     email: z.string().email(),
@@ -50,22 +50,20 @@ export default function LoginForm() {
     });
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values);
-        const api = new API();
-        const response = await api.user().post("/login", { data: values });
-
-        if (response.success) {
-            toast({
-                description: response.message || "Login successful",
+        userLogin(values)
+            .then((response) => {
+                toast({
+                    description: response?.message || "Login successful",
+                });
+                dispatch(logUser(response.data));
+                router.push("/projects");
+            })
+            .catch((error) => {
+                toast({
+                    title: "Login failed",
+                    description: error || "Login successful",
+                });
             });
-            dispatch(logUser(response.data));
-            router.push("/projects");
-        } else {
-            toast({
-                title: "Login failed",
-                description: response.message || "Login successful",
-            });
-        }
     }
 
     return (

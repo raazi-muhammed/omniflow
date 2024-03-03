@@ -15,7 +15,6 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import API from "@/lib/client";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useDispatch } from "react-redux";
@@ -23,6 +22,7 @@ import { AppDispatch } from "@/redux/store";
 import { logUser } from "@/redux/features/authSlice";
 import { CardContent, CardDescription, CardFooter } from "@/components/ui/card";
 import { ResendCode } from "./ResendCode";
+import { verifyUser } from "@/services/auth.service";
 
 const formSchema = z.object({
     code: z
@@ -45,24 +45,20 @@ export default function VerifyForm() {
     });
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values);
-        const api = new API();
-        const response = await api.user().post("/verify-user", {
-            data: { code: Number(values.code), email: userEmail },
-        });
-
-        if (response.success) {
-            toast({
-                description: response.message || "Verification successful",
+        verifyUser({ code: Number(values.code), email: userEmail || "" })
+            .then((response) => {
+                toast({
+                    description: response.message || "Verification successful",
+                });
+                dispatch(logUser(response.data));
+                router.push("/login");
+            })
+            .catch((error) => {
+                toast({
+                    title: "Verification failed",
+                    description: error || "failed",
+                });
             });
-            dispatch(logUser(response.data));
-            router.push("/login");
-        } else {
-            toast({
-                title: "Verification failed",
-                description: response.message || "failed",
-            });
-        }
     }
 
     return (

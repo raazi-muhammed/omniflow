@@ -23,7 +23,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import Link from "next/link";
-import API from "@/lib/client";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
@@ -33,6 +32,7 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 import { useToast } from "@/components/ui/use-toast";
+import { addProject } from "@/services/project.service";
 
 const formSchema = z.object({
     title: z.string().min(3, "Invalid"),
@@ -63,7 +63,7 @@ export default function AddProjectForm() {
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         console.log(values);
-        const api = new API();
+        /* const api = new API();
 
         const response = await api
             .project()
@@ -72,7 +72,18 @@ export default function AddProjectForm() {
         console.log(response);
         toast({
             description: response?.message || "Internal server error",
-        });
+        }); */
+        addProject(values)
+            .then((response) => {
+                toast({
+                    description: response?.message || "Project added",
+                });
+            })
+            .catch((error) => {
+                toast({
+                    description: error || "Project adding failed",
+                });
+            });
     }
 
     return (
@@ -234,7 +245,7 @@ export default function AddProjectForm() {
                     )}
                 />
 
-                <div className="flex gap-4 ms-auto w-fit">
+                <div className="ms-auto flex w-fit gap-4">
                     <Link href="/projects">
                         <Button type="button" variant="outline">
                             Cancel

@@ -14,11 +14,11 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import API from "@/lib/client";
 import { useToast } from "@/components/ui/use-toast";
 import { IUser } from "@/types/database";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { editUserProfile } from "@/services/user.service";
 
 const formSchema = z.object({
     name: z.string().min(3, "Invalid"),
@@ -36,30 +36,25 @@ export default function EditProfileForm({ user }: { user: IUser }) {
         mode: "onTouched",
     });
 
-    async function onSubmit(values: z.infer<typeof formSchema>) {
+    function onSubmit(values: z.infer<typeof formSchema>) {
         const data = new FormData();
         data.append("name", values.name);
         if (image) {
             data.append("avatar", image);
         }
-
-        const api = new API();
-        const response = await api.user().post("/edit-profile", {
-            data,
-        });
-        console.log(response);
-
-        if (response.success) {
-            toast({
-                description: response.message || "Profile edited",
+        editUserProfile(data)
+            .then((response) => {
+                toast({
+                    description: response.message || "Profile edited",
+                });
+                router.refresh();
+            })
+            .catch((error) => {
+                toast({
+                    title: "Cannot edit profile",
+                    description: error || "Internal server error",
+                });
             });
-            router.refresh();
-        } else {
-            toast({
-                title: "Cannot edit profile",
-                description: response.message || "Internal server error",
-            });
-        }
     }
 
     return (
