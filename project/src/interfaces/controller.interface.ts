@@ -4,4 +4,5 @@ export type IProjectController = {
     add: (req: IRequest) => Promise<ResponseCreator>;
     getAll: (req: IRequest) => Promise<ResponseCreator>;
     getProject: (req: IRequest) => Promise<ResponseCreator>;
+    currentProject: (req: IRequest) => Promise<ResponseCreator>;
 };

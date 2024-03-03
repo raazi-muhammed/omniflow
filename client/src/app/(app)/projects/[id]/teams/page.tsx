@@ -54,6 +54,7 @@ export default async function page() {
                                 <Card className="flex gap-4 p-4 align-middle">
                                     <div className="my-auto">
                                         <Avatar
+                                            name={member.info.name}
                                             src={member.info.avatar || ""}
                                         />
                                     </div>

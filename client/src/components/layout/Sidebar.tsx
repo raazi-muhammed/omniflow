@@ -3,15 +3,26 @@
 import { Button } from "../ui/button";
 import { usePathname } from "next/navigation";
 import AppLogo from "../custom/AppLogo";
-import { useAppSelector } from "@/redux/store";
+import { AppDispatch, useAppSelector } from "@/redux/store";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { getCurrentProject } from "@/services/project.service";
+import { useDispatch } from "react-redux";
+import { setProject } from "@/redux/features/projectSlice";
+import { IProject } from "@/types/database";
 
 export default function Sidebar() {
+    const dispatch = useDispatch<AppDispatch>();
+    const pathname = usePathname();
     const projectInfo = useAppSelector(
         (state) => state.projectReducer.projectData
     );
 
-    const pathname = usePathname();
+    useEffect(() => {
+        getCurrentProject().then((response) => {
+            dispatch(setProject(response.data as IProject));
+        });
+    }, []);
 
     const options = [
         {

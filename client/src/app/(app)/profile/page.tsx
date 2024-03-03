@@ -25,7 +25,11 @@ export default async function page() {
                 <Card>
                     <CardContent className="pt-8">
                         <div className="mb-4 grid place-items-center">
-                            <Avatar size="lg" src={user.avatar || ""} />
+                            <Avatar
+                                name={user.name}
+                                size="lg"
+                                src={user.avatar || ""}
+                            />
                         </div>
                         <ProfileCard title="Name">
                             <p>{user.name}</p>

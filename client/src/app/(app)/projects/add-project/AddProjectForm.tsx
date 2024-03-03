@@ -33,6 +33,8 @@ import {
 } from "@/components/ui/popover";
 import { useToast } from "@/components/ui/use-toast";
 import { addProject } from "@/services/project.service";
+import { useAppSelector } from "@/redux/store";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
     title: z.string().min(3, "Invalid"),
@@ -45,8 +47,10 @@ const formSchema = z.object({
 
 export default function AddProjectForm() {
     const { toast } = useToast();
+    const router = useRouter();
     const currentDate = new Date();
     currentDate.setMonth(currentDate.getMonth() + 1);
+    const user = useAppSelector((state) => state.authReducer.userData?.name);
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -54,7 +58,7 @@ export default function AddProjectForm() {
             title: "",
             description: "",
             priority: 0,
-            projectLead: "Raazi Muhammed",
+            projectLead: user || "You",
             startDate: new Date(),
             dueDate: currentDate,
         },
@@ -63,21 +67,12 @@ export default function AddProjectForm() {
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         console.log(values);
-        /* const api = new API();
-
-        const response = await api
-            .project()
-            .post("/add-project", { data: values });
-
-        console.log(response);
-        toast({
-            description: response?.message || "Internal server error",
-        }); */
         addProject(values)
             .then((response) => {
                 toast({
                     description: response?.message || "Project added",
                 });
+                router.push("/projects");
             })
             .catch((error) => {
                 toast({
@@ -192,7 +187,11 @@ export default function AddProjectForm() {
                             <FormItem>
                                 <FormLabel>Project lead</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="username" {...field} />
+                                    <Input
+                                        disabled={true}
+                                        placeholder="username"
+                                        {...field}
+                                    />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>

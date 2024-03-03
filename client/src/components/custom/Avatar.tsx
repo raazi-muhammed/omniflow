@@ -3,33 +3,80 @@ import {
     AvatarFallback,
     AvatarImage,
 } from "@/components/ui/avatar";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { generateFallbackAvatar } from "@/lib/utils";
 
 type Props = {
     size?: "sm" | "default" | "lg";
     src: string;
-    fallback?: string;
+    name: string;
+    email?: string;
+    tooltip?: boolean;
 };
-export default function Avatar({ src, fallback = "IM", size }: Props) {
+export default function Avatar({
+    src,
+    name,
+    email,
+    size,
+    tooltip = false,
+}: Props) {
     switch (size) {
         case "sm":
-            return (
-                <AvatarMain className="h-8 w-8">
-                    <AvatarImage className="object-cover" src={src} />
-                    <AvatarFallback>{fallback}</AvatarFallback>
-                </AvatarMain>
-            );
+            if (tooltip) {
+                return (
+                    <TooltipProvider>
+                        <Tooltip>
+                            <TooltipTrigger>
+                                <AvatarMain className="h-8 w-8">
+                                    <AvatarImage
+                                        className="object-cover"
+                                        src={src}
+                                    />
+                                    <AvatarFallback>
+                                        {generateFallbackAvatar(name)}
+                                    </AvatarFallback>
+                                </AvatarMain>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>{name}</p>
+                                <small className="text-secondary">
+                                    {email}
+                                </small>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
+                );
+            } else {
+                return (
+                    <AvatarMain className="h-8 w-8">
+                        <AvatarImage className="object-cover" src={src} />
+                        <AvatarFallback>
+                            {generateFallbackAvatar(name)}
+                        </AvatarFallback>
+                    </AvatarMain>
+                );
+            }
         case "lg":
             return (
                 <AvatarMain className="h-36 w-36 border">
                     <AvatarImage className="object-cover" src={src} />
-                    <AvatarFallback>{fallback}</AvatarFallback>
+                    <AvatarFallback>
+                        {generateFallbackAvatar(name)}
+                    </AvatarFallback>
                 </AvatarMain>
             );
         default:
             return (
                 <AvatarMain>
                     <AvatarImage className="object-cover" src={src} />
-                    <AvatarFallback>{fallback}</AvatarFallback>
+                    <AvatarFallback>
+                        {generateFallbackAvatar(name)}
+                    </AvatarFallback>
                 </AvatarMain>
             );
     }

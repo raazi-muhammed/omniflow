@@ -38,7 +38,10 @@ function Navbar() {
                     <div className="ms-auto flex gap-4">
                         {userData.userData ? (
                             <>
-                                <Avatar src={userData.userData.avatar || ""} />
+                                <Avatar
+                                    name={userData.userData.name}
+                                    src={userData.userData.avatar || ""}
+                                />
                                 <div>
                                     <p>{userData.userData?.name}</p>
                                     <small className="-mt-1 flex text-secondary">

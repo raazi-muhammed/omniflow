@@ -62,3 +62,19 @@ export async function getProject(
             });
     });
 }
+
+export async function getCurrentProject(
+    config?: AxiosRequestConfig
+): Promise<IResponse> {
+    const url = new BuildUrl().project(`/current-project`);
+    return new Promise((resolve, reject) => {
+        axios
+            .get(url, { ...config, withCredentials: true })
+            .then((response) => {
+                resolve(adaptSuccessResponse(response));
+            })
+            .catch((error) => {
+                reject(adaptErrorResponse(error));
+            });
+    });
+}

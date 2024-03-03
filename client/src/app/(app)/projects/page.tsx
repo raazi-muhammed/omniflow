@@ -48,6 +48,9 @@ export default async function page() {
                                     <section className="ms-auto flex gap-2">
                                         {project.members.map((member) => (
                                             <Avatar
+                                                tooltip={true}
+                                                name={member.info.name}
+                                                email={member.info.email}
                                                 size="sm"
                                                 src={member.info.avatar || ""}
                                             />
