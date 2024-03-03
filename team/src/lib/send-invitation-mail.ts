@@ -3,8 +3,10 @@ import { sendMail } from "@omniflow/common";
 async function sendInvitationEmail({
     email,
     invitationLink,
+    message,
 }: {
     email: string;
+    message: string;
     invitationLink: string;
 }) {
     sendMail({
@@ -80,6 +82,7 @@ link : ${invitationLink}
 
         <p>Invitation Link</p>
 <br/>
+<p>${message}</p>
             <a href="${invitationLink}">View invitation</a>
 
 

@@ -14,7 +14,10 @@ import {
 } from "../interfaces/repository.interface.js";
 import { IAddMemberUseCase } from "../interfaces/use-case.interface.js";
 import { InviteStatus, Role } from "../interfaces/entity.interface.js";
-import { ICreateNameFromEmail } from "../interfaces/utils.interface.js";
+import {
+    ICreateNameFromEmail,
+    InvitationTokenData,
+} from "../interfaces/utils.interface.js";
 import { IMailService } from "../lib/send-invitation-mail.js";
 
 const { CLIENT_URL } = loadEnv(["CLIENT_URL"]);
@@ -31,25 +34,25 @@ export default function buildInviteMemberController({
     teamRepository: ITeamRepository;
     memberRepository: IMemberRepository;
     createNameFromEmail: ICreateNameFromEmail;
-    token: IToken<{ projectId: string; memberId: string }>;
+    token: IToken<InvitationTokenData>;
     mailService: IMailService;
 }) {
     return async (req: IRequest) => {
-        const { currentUser, currentProject, body } = req;
-        validateBody(body, ["email"]);
-        const userEmail = body.email;
+        const { currentUser, currentProject } = req;
+        const userInput = req.body;
+        validateBody(userInput, ["email", "message"]);
 
         if (!currentUser) throw new UserUnauthorizedError();
         if (!currentProject) {
             throw new UnauthorizedError("Project not authorized");
         }
 
-        let userToInvite = await memberRepository.getByEmail(userEmail);
+        let userToInvite = await memberRepository.getByEmail(userInput.email);
 
         if (!userToInvite) {
-            const placeHolder = createNameFromEmail(userEmail);
+            const placeHolder = createNameFromEmail(userInput.email);
             const memberToAdd = addMemberUseCase({
-                email: userEmail,
+                email: userInput.email,
                 username: placeHolder.username,
                 name: placeHolder.name,
             });
@@ -75,18 +78,20 @@ export default function buildInviteMemberController({
 
         console.log({ newTeam });
 
-        const tokenData = {
+        const tokenData: InvitationTokenData = {
             projectId: currentProject._id,
-            memberId: userToInvite._id,
+            memberId: String(userToInvite._id),
+            message: userInput.message,
         };
 
         const inviteToken = token.sign(tokenData);
-        const url = `${CLIENT_URL}/invitation?token=${inviteToken}`;
+        const url = `${CLIENT_URL}/invitation?token=${inviteToken}&message=${userInput.message}`;
 
         console.log({ inviteToken, url });
 
         mailService.sendInvitationEmail({
             email: userToInvite.email,
+            message: userInput.message,
             invitationLink: url,
         });
 

@@ -15,23 +15,30 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { inviteMemberToTeam } from "@/services/team.service";
 import { useToast } from "@/components/ui/use-toast";
+import { Textarea } from "@/components/ui/textarea";
+import { useAppSelector } from "@/redux/store";
 
 const formSchema = z.object({
     email: z.string().email(),
+    message: z.string().min(5),
 });
 
 export default function InviteMemberForm() {
-    const router = useRouter();
     const { toast } = useToast();
+
+    const myName =
+        useAppSelector((state) => state.authReducer).userData?.name || "User";
+    const projectName =
+        useAppSelector((state) => state.projectReducer).projectData?.title ||
+        "Project";
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             email: "",
+            message: `${myName} is inviting to join on the project ${projectName}`,
         },
         mode: "onTouched",
     });
@@ -40,15 +47,12 @@ export default function InviteMemberForm() {
         inviteMemberToTeam(values)
             .then((response) => {
                 toast({
-                    description: response?.message || "Login successful",
+                    description: response?.message || "Success",
                 });
-
-                //router.push("/projects");
             })
             .catch((error) => {
                 toast({
-                    title: "Login failed",
-                    description: error || "Login successful",
+                    description: error || "Error",
                 });
             });
     }
@@ -64,6 +68,19 @@ export default function InviteMemberForm() {
                             <FormLabel>Email</FormLabel>
                             <FormControl>
                                 <Input placeholder="email" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="message"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Message</FormLabel>
+                            <FormControl>
+                                <Textarea placeholder="message" {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>

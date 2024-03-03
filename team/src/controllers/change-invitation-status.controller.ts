@@ -11,13 +11,14 @@ import {
     IMemberRepository,
     ITeamRepository,
 } from "../interfaces/repository.interface.js";
+import { InvitationTokenData } from "../interfaces/utils.interface.js";
 
 export default function buildChangeInvitationStatusController({
     token,
     memberRepository,
     teamRepository,
 }: {
-    token: IToken<{ projectId: string; memberId: string }>;
+    token: IToken<InvitationTokenData>;
     memberRepository: IMemberRepository;
     teamRepository: ITeamRepository;
 }) {

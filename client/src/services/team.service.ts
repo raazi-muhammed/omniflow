@@ -7,7 +7,7 @@ import {
 } from "./utils";
 
 export async function inviteMemberToTeam(
-    values: { email: string },
+    values: { email: string; message: string },
     config?: AxiosRequestConfig
 ): Promise<IResponse> {
     const url = new BuildUrl().team(`/invite-member`);
