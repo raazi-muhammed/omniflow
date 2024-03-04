@@ -12,15 +12,18 @@ import {
     ITeamRepository,
 } from "../interfaces/repository.interface.js";
 import { InvitationTokenData } from "../interfaces/utils.interface.js";
+import { IAddMemberProducer } from "../interfaces/events.interface.js";
 
 export default function buildChangeInvitationStatusController({
     token,
     memberRepository,
     teamRepository,
+    productAddMember,
 }: {
     token: IToken<InvitationTokenData>;
     memberRepository: IMemberRepository;
     teamRepository: ITeamRepository;
+    productAddMember: IAddMemberProducer;
 }) {
     return async (req: IRequest) => {
         const { currentUser } = req;
@@ -47,7 +50,13 @@ export default function buildChangeInvitationStatusController({
                 projectId: tokenData.projectId,
                 memberId: String(memberDetails._id),
             });
+
             if (!isUpdated) throw new AnErrorOccurredError();
+
+            productAddMember({
+                userData: memberDetails,
+                projectId: tokenData.projectId,
+            });
         } else {
             const isUpdated = await teamRepository.invitationRejected({
                 projectId: tokenData.projectId,

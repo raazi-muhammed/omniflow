@@ -4,10 +4,10 @@ import { IAddProjectUseCase } from "../interfaces/use-case.interface.js";
 
 export default function buildEditProjectController({
     projectRepository,
-    addProjectUseCase,
+    createProject,
 }: {
     projectRepository: IProjectRepository;
-    addProjectUseCase: IAddProjectUseCase;
+    createProject: IAddProjectUseCase;
 }) {
     return async (req: IRequest) => {
         const { currentProject } = req;
@@ -20,7 +20,7 @@ export default function buildEditProjectController({
             "description",
         ]);
 
-        const project = await addProjectUseCase(projectData);
+        const project = createProject(projectData);
 
         const updateProject = await projectRepository.edit({
             _id: currentProject._id,

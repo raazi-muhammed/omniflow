@@ -9,6 +9,7 @@ import { token } from "@omniflow/common";
 import buildChangeInvitationStatusController from "./change-invitation-status.controller.js";
 import { mailService } from "../lib/send-invitation-mail.js";
 import buildGetMembersListController from "./get-members-list.controller.js";
+import producer from "../events/producer.js";
 
 const addTeam = buildAddTeamController({
     addTeamUseCase: teamUseCases.addTeam,
@@ -33,6 +34,7 @@ const getMembersList = buildGetMembersListController({
 
 const changeInvitationStatus = buildChangeInvitationStatusController({
     token,
+    productAddMember: producer.productAddMember,
     teamRepository,
     memberRepository,
 });

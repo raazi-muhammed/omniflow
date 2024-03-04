@@ -13,8 +13,8 @@ import { InviteStatus, Role } from "../interfaces/entity.interface.js";
 
 export default function buildAddTeamController({
     teamRepository,
-    addTeamUseCase,
     memberRepository,
+    addTeamUseCase,
 }: {
     addTeamUseCase: IAddTeamUseCase;
     teamRepository: ITeamRepository;

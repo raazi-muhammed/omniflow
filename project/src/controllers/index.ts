@@ -8,16 +8,18 @@ import { token } from "@omniflow/common";
 import buildGetCurrentProject from "./get-current-project.js";
 import buildEditProjectController from "./edit-project.controller.js";
 import buildDeleteProjectController from "./delete-project.controller.js";
+import buildAddMemberToProject from "./add-member-to-project.js";
+import useCases from "../use-cases/index.js";
 
 const add = buildAddProjectController({
     memberRepository,
     projectRepository,
-    addProjectUseCase: projectUseCases.add,
+    createProject: projectUseCases.createProject,
 });
 
 const edit = buildEditProjectController({
     projectRepository,
-    addProjectUseCase: projectUseCases.add,
+    createProject: projectUseCases.createProject,
 });
 
 const getAll = buildGetAllProjectsController({
@@ -30,6 +32,13 @@ const deleteProject = buildDeleteProjectController({
 const getProject = buildGetProjectController({ token, projectRepository });
 
 const currentProject = buildGetCurrentProject({ projectRepository });
+
+const addMemberToProject = buildAddMemberToProject({
+    createMember: useCases.createMember,
+    memberRepository,
+    projectRepository,
+});
+
 const projectController: IProjectController = Object.freeze({
     add,
     edit,
@@ -37,5 +46,7 @@ const projectController: IProjectController = Object.freeze({
     getAll,
     getProject,
     currentProject,
+    addMemberToProject,
 });
+
 export default projectController;

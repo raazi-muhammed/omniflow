@@ -67,3 +67,9 @@ export interface IMemberEntityConstructor {
 export interface IProjectEntityConstructor {
     new (date: IProject): IProjectEntity;
 }
+
+export interface IMemberInProject {
+    role: Role;
+    inviteStatus: InviteStatus;
+    info: Types.ObjectId;
+}

@@ -21,11 +21,11 @@ function sanitizeProjectData(projectData: any): IProject {
 export default function buildAddProjectController({
     projectRepository,
     memberRepository,
-    addProjectUseCase,
+    createProject,
 }: {
     projectRepository: IProjectRepository;
     memberRepository: IMemberRepository;
-    addProjectUseCase: IAddProjectUseCase;
+    createProject: IAddProjectUseCase;
 }) {
     return async (req: IRequest) => {
         const projectData = req.body;
@@ -49,7 +49,7 @@ export default function buildAddProjectController({
             role: Role.TEAM_LEAD,
         } as IMember);
 
-        const project = await addProjectUseCase({
+        const project = await createProject({
             ...addProjectData,
             projectLead: projectLead._id,
             members: [

@@ -13,7 +13,6 @@ export default function error({
     reset: () => void;
 }) {
     useEffect(() => {
-        // Log the error to an error reporting service
         console.error({ error });
     }, [error]);
 
@@ -21,16 +20,13 @@ export default function error({
         <div>
             <Container>
                 <h2 className="mt-14 text-center">
-                    {error?.message || "Somethings went wrong"}
+                    {error?.message ? error.message : "Somethings went wrong"}
                 </h2>
                 <Button
                     size="icon"
                     variant="ghost"
                     className="mx-auto my-8 flex"
-                    onClick={
-                        // Attempt to recover by trying to re-render the segment
-                        () => reset()
-                    }>
+                    onClick={() => reset()}>
                     <RotateCw />
                 </Button>
             </Container>

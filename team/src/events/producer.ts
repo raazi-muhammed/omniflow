@@ -1,4 +1,6 @@
 import { Kafka } from "kafkajs";
+import { buildAddMemberProducer } from "./add-member.producer.js";
+import { IAddMemberProducer } from "../interfaces/events.interface.js";
 
 const KAFKA_BROKER_ADDRESS = process.env.KAFKA_BROKER;
 if (!KAFKA_BROKER_ADDRESS) {
@@ -10,13 +12,13 @@ const kafka = new Kafka({
 });
 
 const producer = kafka.producer();
-
 await producer.connect();
 console.log("producer connected");
 
-await producer.send({
-    topic: "test-topic",
-    messages: [{ value: "Hello KafkaJS user!" }],
+const productAddMember: IAddMemberProducer = buildAddMemberProducer(producer);
+
+const eventProducer = Object.freeze({
+    productAddMember,
 });
 
-await producer.disconnect();
+export default eventProducer;

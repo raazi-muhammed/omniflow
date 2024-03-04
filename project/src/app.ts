@@ -5,7 +5,7 @@ import cors from "cors";
 import morgan from "morgan";
 import { ErrorHandlingMiddleware, loadEnv } from "@omniflow/common";
 import authRoutes from "./routers/index.js";
-import "./events/kafka.js";
+import "./events/consumers.js";
 
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 

@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import { IProject } from "../interfaces/entity.interface.js";
+import { IMemberInProject, IProject } from "../interfaces/entity.interface.js";
 import { IProjectRepository } from "../interfaces/repository.interface.js";
 import { IDBProject, IProjectModel } from "./project.model.js";
 
@@ -48,6 +48,21 @@ export default function buildProjectRepository({
                 }
             );
             return result.modifiedCount > 0;
+        },
+        addMember: async ({
+            projectId,
+            member,
+        }: {
+            projectId: string;
+            member: IMemberInProject;
+        }) => {
+            const response = await database.updateOne(
+                { _id: projectId },
+                {
+                    $addToSet: { members: member },
+                }
+            );
+            return response.acknowledged;
         },
     });
 }
