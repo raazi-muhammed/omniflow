@@ -30,7 +30,6 @@ export default function buildAddProjectController({
     return async (req: IRequest) => {
         const projectData = req.body;
         const currentUser = req.currentUser;
-        if (!currentUser) throw new Error("Please login");
 
         validateBody(projectData, [
             "title",

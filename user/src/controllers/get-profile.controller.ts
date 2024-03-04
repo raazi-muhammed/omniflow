@@ -13,7 +13,6 @@ export default function buildGetProfileController({
 }) {
     return async (req: IRequest) => {
         const currentUser = req.currentUser;
-        if (!currentUser) throw new UserUnauthorizedError();
 
         const userData = await userRepository.findByEmail(currentUser.email);
         if (!userData) throw new UserNotFoundError();

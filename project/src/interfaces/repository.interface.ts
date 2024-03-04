@@ -4,12 +4,12 @@ import { IDBProject } from "../repository/project.model.js";
 import { IMember, IProject } from "./entity.interface.js";
 
 export type IProjectRepository = {
-    add: (data: IProject) => Promise<IDBProject>;
-    getAll: (userId: Types.ObjectId) => Promise<IDBProject[]>;
-    get: (id: string) => Promise<IDBProject>;
+    add: (data: IProject) => Promise<IDBProject | null>;
+    getAll: (userId: Types.ObjectId) => Promise<IDBProject[] | null>;
+    get: (id: string) => Promise<IDBProject | null>;
 };
 export type IMemberRepository = {
-    add: (data: IMember) => Promise<IDBMember>;
-    upsert: (data: IMember) => Promise<IDBMember>;
-    getByUsername: (username: string) => Promise<IDBMember>;
+    add: (data: IMember) => Promise<IDBMember | null>;
+    upsert: (data: IMember) => Promise<IDBMember | null>;
+    getByUsername: (username: string) => Promise<IDBMember | null>;
 };

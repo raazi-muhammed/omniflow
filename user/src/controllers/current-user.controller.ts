@@ -13,7 +13,6 @@ export default function buildCurrentUserController({
 }) {
     return async (req: IRequest) => {
         const currentUser = req.currentUser;
-        if (!currentUser) throw new UserUnauthorizedError();
 
         const user = await userRepository.findByUsername(currentUser.username);
         if (!user) throw new UserNotFoundError();

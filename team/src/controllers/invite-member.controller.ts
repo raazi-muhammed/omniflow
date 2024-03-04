@@ -38,14 +38,9 @@ export default function buildInviteMemberController({
     mailService: IMailService;
 }) {
     return async (req: IRequest) => {
-        const { currentUser, currentProject } = req;
+        const { currentProject } = req;
         const userInput = req.body;
         validateBody(userInput, ["email", "message"]);
-
-        if (!currentUser) throw new UserUnauthorizedError();
-        if (!currentProject) {
-            throw new UnauthorizedError("Project not authorized");
-        }
 
         let userToInvite = await memberRepository.getByEmail(userInput.email);
 

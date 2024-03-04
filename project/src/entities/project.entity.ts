@@ -1,11 +1,12 @@
 import { Types } from "mongoose";
 import {
     IProject,
+    IProjectEntity,
     InviteStatus,
     Role,
 } from "../interfaces/entity.interface.js";
 
-export default class Project {
+export default class Project implements IProjectEntity {
     _id?: string;
     title: string;
     description: string;

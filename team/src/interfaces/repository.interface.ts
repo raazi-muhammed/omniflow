@@ -11,23 +11,23 @@ export type ITeamRepository = {
     addMember: (data: {
         teamId: IDType;
         member: IMemberInProject;
-    }) => Promise<IDBTeam>;
-    getDefaultTeam: (data: { projectId: string }) => Promise<IDBTeam>;
-    getTeams: (data: { projectId: string }) => Promise<IDBTeam[]>;
-    add: (data: ITeam) => Promise<IDBTeam>;
+    }) => Promise<IDBTeam | null>;
+    getDefaultTeam: (data: { projectId: string }) => Promise<IDBTeam | null>;
+    getTeams: (data: { projectId: string }) => Promise<IDBTeam[] | null>;
+    add: (data: ITeam) => Promise<IDBTeam | null>;
     invitationAccepted: (data: {
         projectId: string;
         memberId: string;
-    }) => Promise<boolean>;
+    }) => Promise<boolean | null>;
     invitationRejected: (data: {
         projectId: string;
         memberId: string;
-    }) => Promise<boolean>;
+    }) => Promise<boolean | null>;
 };
 export type IMemberRepository = {
-    add: (data: IMember) => Promise<IDBMember>;
-    upsert: (data: IMember) => Promise<IDBMember>;
-    getByUsername: (username: string) => Promise<IDBMember>;
-    getByEmail: (email: string) => Promise<IDBMember>;
-    getById: (id: string) => Promise<IDBMember>;
+    add: (data: IMember) => Promise<IDBMember | null>;
+    upsert: (data: IMember) => Promise<IDBMember | null>;
+    getByUsername: (username: string) => Promise<IDBMember | null>;
+    getByEmail: (email: string) => Promise<IDBMember | null>;
+    getById: (id: string) => Promise<IDBMember | null>;
 };

@@ -24,8 +24,6 @@ export default function buildChangeInvitationStatusController({
 }) {
     return async (req: IRequest) => {
         const { currentUser } = req;
-        if (!currentUser) throw new UserUnauthorizedError();
-
         validateBody(req.body, ["token", "invitationAccepted"]);
 
         const tokenBody = req.body.token;

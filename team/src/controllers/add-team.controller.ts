@@ -25,12 +25,7 @@ export default function buildAddTeamController({
     return async (req: IRequest) => {
         const { currentUser, currentProject } = req;
         const teamInput = req.body;
-
         validateBody(teamInput, ["name"]);
-        if (!currentUser) throw new UserUnauthorizedError();
-        if (!currentProject) {
-            throw new UnauthorizedError("Project not authorized");
-        }
 
         const user = await memberRepository.upsert(currentUser);
 

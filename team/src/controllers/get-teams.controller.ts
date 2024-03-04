@@ -12,12 +12,7 @@ export default function buildGetTeamsController({
     teamRepository: ITeamRepository;
 }) {
     return async (req: IRequest) => {
-        const { currentUser, currentProject } = req;
-
-        if (!currentUser) throw new UserUnauthorizedError();
-        if (!currentProject) {
-            throw new UnauthorizedError("Project not authorized");
-        }
+        const { currentProject } = req;
 
         const teams = await teamRepository.getTeams({
             projectId: currentProject._id,

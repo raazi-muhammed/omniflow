@@ -18,7 +18,7 @@ export default function buildEditProfileController({
 }) {
     return async (req: IRequest) => {
         const currentUser = req.currentUser;
-        if (!currentUser) throw new UserUnauthorizedError();
+
         const userInput = req.body;
         const imageInput = req.file;
         validateBody(userInput, ["name"]);

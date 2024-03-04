@@ -12,9 +12,6 @@ export default function buildGetProjectController({
     token: IToken<IProject>;
 }) {
     return async (req: IRequest) => {
-        const currentUser = req.currentUser;
-        if (!currentUser) throw new Error("Please login");
-
         const projectId = req.params?.id;
         if (!projectId) throw new Error("Id not passed");
 

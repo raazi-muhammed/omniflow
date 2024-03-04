@@ -7,6 +7,3 @@ export const userRepository = makeUserRepository({ database: userModel });
 export const verificationCodeRepository = makeVerificationCodeRepository({
     database: verificationCodeModel,
 });
-
-// export type UserListType = typeof userRepository;
-// export type UserListType = typeof userRepository;

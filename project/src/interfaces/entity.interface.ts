@@ -26,14 +26,13 @@ export interface IProject {
 }
 
 export interface IMember {
-    role: "Team Lead" | "Freelance" | "Default";
     name: string;
     username: string;
     email: string;
     avatar?: string;
 }
 
-class ProjectEntityClass {
+export interface IProjectEntity extends IProject {
     title: string;
     description: string;
     priority: number;
@@ -46,9 +45,23 @@ class ProjectEntityClass {
         info: Types.ObjectId;
     }[];
 
-    constructor(data: IProject) {}
     validate: () => void;
     get: () => IProject;
 }
 
-export type IProjectEntity = typeof ProjectEntityClass;
+export interface IMemberEntity extends IMember {
+    name: string;
+    username: string;
+    email: string;
+    avatar?: string;
+
+    get: () => IMember;
+}
+
+export interface IMemberEntityConstructor {
+    new (data: IMember): IMemberEntity;
+}
+
+export interface IProjectEntityConstructor {
+    new (date: IProject): IProjectEntity;
+}

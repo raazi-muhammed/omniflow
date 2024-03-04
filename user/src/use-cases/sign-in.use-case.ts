@@ -1,6 +1,9 @@
-import { IUser, IUserEntity } from "../interfaces/entity.interface.js";
+import {
+    IUser,
+    IUserEntityConstructor,
+} from "../interfaces/entity.interface.js";
 
-export default function buildSignIn(User: IUserEntity) {
+export default function buildSignIn(User: IUserEntityConstructor) {
     return async (userData: IUser) => {
         const user = new User(userData);
         user.validate();

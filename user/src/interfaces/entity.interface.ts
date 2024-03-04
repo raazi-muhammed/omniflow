@@ -15,16 +15,17 @@ export interface IVerificationCode {
     expiresAt: Date;
 }
 
-class UserEntityClass {
+export interface IUserEntity extends IUser {
     name: string;
     username: string;
     email: string;
     password: string;
     avatar?: string;
 
-    constructor(data: IUser) {}
     validate: () => void;
     get: () => IUser;
 }
 
-export type IUserEntity = typeof UserEntityClass;
+export interface IUserEntityConstructor {
+    new (data: IUser): IUserEntity;
+}

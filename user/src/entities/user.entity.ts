@@ -1,7 +1,7 @@
 import { ErrorHandler } from "@omniflow/common";
-import { IUser } from "../interfaces/entity.interface.js";
+import { IUser, IUserEntity } from "../interfaces/entity.interface.js";
 
-export default class User {
+export default class User implements IUserEntity {
     name: string;
     username: string;
     email: string;
@@ -15,9 +15,7 @@ export default class User {
         this.email = data.email;
         this.password = data.password;
         this.isVerified = data.isVerified;
-        if (data.avatar) {
-            this.avatar = data.avatar;
-        }
+        this.avatar = data?.avatar;
     }
 
     validate() {
