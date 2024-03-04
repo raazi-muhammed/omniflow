@@ -129,6 +129,7 @@ export default function buildTeamRepository({
                     $match: {
                         project: projectId,
                         "members.info": { $exists: true },
+                        "members.inviteStatus": InviteStatus.ACCEPTED,
                     },
                 },
                 {

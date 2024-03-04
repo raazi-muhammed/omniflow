@@ -1,7 +1,5 @@
 import {
     IRequest,
-    UserUnauthorizedError,
-    UnauthorizedError,
     validateBody,
     AnErrorOccurredError,
     ResponseCreator,

@@ -4,7 +4,7 @@ import {
     IToken,
     ResponseCreator,
     UnauthorizedError,
-    UserUnauthorizedError,
+    UserNotFoundError,
     validateBody,
 } from "@omniflow/common";
 import {
@@ -32,11 +32,11 @@ export default function buildChangeInvitationStatusController({
         if (!tokenBody) throw new Error("No token founds");
 
         const tokenData = await token.verify(`Bearer ${tokenBody}`);
-        console.log("Change invs", { tokenData });
 
         const memberDetails = await memberRepository.getById(
             tokenData.memberId
         );
+        if (!memberDetails) throw new UserNotFoundError();
 
         if (memberDetails.email !== currentUser.email) {
             throw new UnauthorizedError("please login, unauthorized");

@@ -43,12 +43,14 @@ services:
         container_name: omni-project
         depends_on:
             - db-project
+            - kafka
         ports:
             - 4005:4005
         env_file:
             - path: ./project/.env.development
               required: true
         environment:
+            KAFKA_BROKER: kafka:9092
             DB_URL: mongodb://root:example@db-project:27017
         develop:
             watch:
@@ -65,12 +67,14 @@ services:
         container_name: omni-team
         depends_on:
             - db-team
+            - kafka
         ports:
             - 4010:4010
         env_file:
             - path: ./team/.env.development
               required: true
         environment:
+            KAFKA_BROKER: kafka:9092
             DB_URL: mongodb://root:example@db-team:27017
         develop:
             watch:
@@ -115,6 +119,29 @@ services:
         environment:
             MONGO_INITDB_ROOT_USERNAME: root
             MONGO_INITDB_ROOT_PASSWORD: example
+    zookeeper:
+        image: confluentinc/cp-zookeeper:7.3.0
+        container_name: omni-zookeeper
+        environment:
+            ZOOKEEPER_CLIENT_PORT: 2181
+            ZOOKEEPER_TICK_TIME: 2000
+        ports:
+            - 2181:2181
+    kafka:
+        image: confluentinc/cp-kafka:7.3.0
+        container_name: omni-kafka
+        depends_on:
+            - zookeeper
+        ports:
+            - 9092:9092
+        environment:
+            KAFKA_BROKER_ID: 1
+            KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+            KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+            KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://kafka:9092
+            KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+            KAFKA_LOG4J_LOGGERS: org.apache.zookeeper=ERROR,org.apache.kafka=ERROR,kafka=ERROR, kafka.cluster=ERROR,kafka.controller=ERROR,kafka.coordinator=ERROR,kafka.log=ERROR,kafka.server=ERROR,kafka.zookeeper=ERROR,state.change.logger=ERROR,kafka.cluster.Partition=ERROR,kafka.network=ERROR,kafka.common=ERROR,kafka.log.LogCleaner=ERROR
+            KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
 volumes:
     db_user:
