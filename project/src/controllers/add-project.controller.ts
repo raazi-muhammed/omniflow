@@ -46,7 +46,7 @@ export default function buildAddProjectController({
             avatar: currentUser.avatar,
             name: currentUser.name,
             username: currentUser.username,
-            role: "Team Lead",
+            role: Role.TEAM_LEAD,
         } as IMember);
 
         const project = await addProjectUseCase({
@@ -60,8 +60,6 @@ export default function buildAddProjectController({
                 },
             ],
         });
-
-        console.log({ project });
 
         const projectAdded = await projectRepository.add(project);
 

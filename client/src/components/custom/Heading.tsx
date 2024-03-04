@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 type Props = {
     children: ReactNode;
     className?: string;
-    variant?: "default";
+    variant?: "default" | "spaced";
 };
 
 export default function Heading({
@@ -18,6 +18,16 @@ export default function Heading({
                 <h3
                     className={cn(
                         "text-primary text-3xl font-semibold my-2",
+                        className
+                    )}>
+                    {children}
+                </h3>
+            );
+        case "spaced":
+            return (
+                <h3
+                    className={cn(
+                        "text-primary text-3xl font-semibold my-2 mt-12",
                         className
                     )}>
                     {children}

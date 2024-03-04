@@ -4,6 +4,7 @@ import Heading from "@/components/custom/Heading";
 import ActionItemsContainer from "@/components/layout/ActionItemsContainer";
 import Container from "@/components/layout/Container";
 import { Button } from "@/components/ui/button";
+import { EditIcon } from "@/lib/icons";
 import { setProject as setProjectOnRedux } from "@/redux/features/projectSlice";
 import { AppDispatch } from "@/redux/store";
 import { getProject } from "@/services/project.service";
@@ -29,7 +30,7 @@ export default function page({ params }: { params: { id: string } }) {
                 <ActionItemsContainer>
                     <Link href={`${project?._id}/edit-project`}>
                         <Button size="sm" variant="secondary">
-                            Edit Project
+                            <EditIcon /> Edit Project
                         </Button>
                     </Link>
                 </ActionItemsContainer>
