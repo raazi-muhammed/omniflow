@@ -8,6 +8,7 @@ export type IProjectController = {
     deleteProject: (req: IRequest) => Promise<ResponseCreator>;
     getProject: (req: IRequest) => Promise<ResponseCreator>;
     currentProject: (req: IRequest) => Promise<ResponseCreator>;
+    changeProjectLead: (req: IRequest) => Promise<ResponseCreator>;
     addMemberToProject: (data: {
         userData: IMember;
         projectId: string;

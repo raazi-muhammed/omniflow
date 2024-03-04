@@ -64,5 +64,20 @@ export default function buildProjectRepository({
             );
             return response.acknowledged;
         },
+        changeTeamLead: async ({
+            userId,
+            projectId,
+        }: {
+            userId: string;
+            projectId: string;
+        }) => {
+            const response = await database.updateOne(
+                { _id: projectId },
+                {
+                    projectLead: userId,
+                }
+            );
+            return response.acknowledged;
+        },
     });
 }

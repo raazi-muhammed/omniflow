@@ -1,13 +1,15 @@
 import Container from "@/components/layout/Container";
 import InviteMemberForm from "./InviteMemberFrom";
+import FormWrapper from "@/components/layout/FormWrapper";
+import Heading from "@/components/custom/Heading";
 
 export default function page() {
     return (
         <Container>
-            <div className="mx-auto mt-24 max-w-lg">
-                <p>Invite a member</p>
+            <FormWrapper>
+                <Heading variant="spaced"> Invite a member</Heading>
                 <InviteMemberForm />
-            </div>
+            </FormWrapper>
         </Container>
     );
 }

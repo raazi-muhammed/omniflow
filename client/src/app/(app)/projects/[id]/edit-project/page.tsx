@@ -19,12 +19,12 @@ import ChangeProjectLeadForm from "./ChangeProjectLeadForm";
 export default function page() {
     return (
         <main className="w-full">
-            <Container className="flex">
+            <Container className="flex flex-col gap-8 xl:flex-row">
                 <FormWrapper>
                     <Heading variant="spaced">Edit Project</Heading>
                     <EditProjectForm />
                 </FormWrapper>
-                <section className="mx-auto mt-16 w-96">
+                <section className="mx-auto mt-16 w-full max-w-sm">
                     <Accordion type="single" collapsible>
                         <AccordionItem value="delete-project">
                             <AccordionTrigger>
@@ -55,7 +55,7 @@ export default function page() {
                                     Change Project lead
                                 </div>
                             </AccordionTrigger>
-                            <AccordionContent className="p-2">
+                            <AccordionContent className="p-2 pb-8">
                                 <ChangeProjectLeadForm />
                             </AccordionContent>
                         </AccordionItem>

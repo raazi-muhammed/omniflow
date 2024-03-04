@@ -8,6 +8,7 @@ import { IProject } from "@/types/database";
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { getProjects } from "@/services/project.service";
+import ResponsiveGridContainer from "@/components/layout/ResponsiveGridContainer";
 
 export async function getProjectsData() {
     const response = await getProjects({
@@ -31,7 +32,7 @@ export default async function page() {
             </section>
             <Heading>Projects</Heading>
             {projects ? (
-                <section className="grid grid-cols-3 gap-4">
+                <ResponsiveGridContainer>
                     {projects.map((project) => (
                         <Link href={`/projects/${project._id}`}>
                             <Card>
@@ -39,9 +40,8 @@ export default async function page() {
                                     <p className="text-xl font-semibold text-foreground">
                                         {project.title}
                                     </p>
-                                    <small>{project.description}</small>
-                                    <small>
-                                        Lead: {project.projectLead?.name}
+                                    <small className="line-clamp-3">
+                                        {project.description}
                                     </small>
                                 </CardHeader>
                                 <CardContent className="flex">
@@ -60,7 +60,7 @@ export default async function page() {
                             </Card>
                         </Link>
                     ))}
-                </section>
+                </ResponsiveGridContainer>
             ) : (
                 <p>No projects</p>
             )}

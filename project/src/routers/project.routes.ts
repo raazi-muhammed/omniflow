@@ -50,5 +50,11 @@ export default function buildProjectRoute({
         verifyProjectMiddleware,
         makeCallback(controllers.currentProject)
     );
+    router.post(
+        "/change-project-lead",
+        verifyUserMiddleware,
+        verifyProjectMiddleware,
+        makeCallback(controllers.changeProjectLead)
+    );
     return router;
 }

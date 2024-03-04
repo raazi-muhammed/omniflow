@@ -13,8 +13,7 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { addTeam, getMembersList } from "@/services/team.service";
+import { getMembersList } from "@/services/team.service";
 import { useToast } from "@/components/ui/use-toast";
 import { useEffect, useState } from "react";
 import {
@@ -25,6 +24,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { IAllMemberList } from "@/types/database";
+import { changeTeamLead } from "@/services/project.service";
 
 const formSchema = z.object({
     lead: z.string().min(3, "Invalid"),
@@ -50,18 +50,17 @@ export default function ChangeProjectLeadForm() {
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         console.log(values);
-        /* addTeam(values)
+        changeTeamLead(values)
             .then((response) => {
                 toast({
-                    description: response?.message || "Team added",
+                    description: response?.message || "Success",
                 });
             })
             .catch((error) => {
                 toast({
-                    title: "Team adding failed",
-                    description: error || "Team adding failed",
+                    description: error || "Error",
                 });
-            }); */
+            });
     }
 
     return (

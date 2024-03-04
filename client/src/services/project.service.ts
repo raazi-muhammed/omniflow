@@ -116,3 +116,20 @@ export async function getCurrentProject(
             });
     });
 }
+
+export async function changeTeamLead(
+    values: { lead: string },
+    config?: AxiosRequestConfig
+): Promise<IResponse> {
+    const url = new BuildUrl().project("/change-project-lead");
+    return new Promise((resolve, reject) => {
+        axios
+            .post(url, values, { ...config, withCredentials: true })
+            .then((response) => {
+                resolve(adaptSuccessResponse(response));
+            })
+            .catch((error) => {
+                reject(adaptErrorResponse(error));
+            });
+    });
+}

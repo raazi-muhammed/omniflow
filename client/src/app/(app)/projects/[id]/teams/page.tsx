@@ -11,6 +11,7 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import ActionItemsContainer from "@/components/layout/ActionItemsContainer";
+import ResponsiveGridContainer from "@/components/layout/ResponsiveGridContainer";
 
 async function loadTeams() {
     const response = await getTeams({
@@ -38,8 +39,6 @@ export default async function page() {
                         </Button>
                     </Link>
                 </ActionItemsContainer>
-                <Heading>Teams</Heading>
-                <br />
                 {teams.map((team) => (
                     <>
                         <section className="flex justify-between">
@@ -49,7 +48,7 @@ export default async function page() {
                             </Button>
                         </section>
                         <small className="text-secondary">Members</small>
-                        <section className="grid grid-cols-4 gap-4">
+                        <ResponsiveGridContainer>
                             {team.members.length <= 0 && <p>No members</p>}
                             {team.members.map((member) => (
                                 <Card className="flex gap-4 p-4 align-middle">
@@ -73,7 +72,7 @@ export default async function page() {
                                     </div>
                                 </Card>
                             ))}
-                        </section>
+                        </ResponsiveGridContainer>
                         <Separator className="my-4" />
                     </>
                 ))}

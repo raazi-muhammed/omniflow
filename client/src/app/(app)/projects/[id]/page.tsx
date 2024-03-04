@@ -1,5 +1,6 @@
 "use client";
 
+import Avatar from "@/components/custom/Avatar";
 import Heading from "@/components/custom/Heading";
 import ActionItemsContainer from "@/components/layout/ActionItemsContainer";
 import Container from "@/components/layout/Container";
@@ -36,17 +37,31 @@ export default function page({ params }: { params: { id: string } }) {
                 </ActionItemsContainer>
                 {project ? (
                     <>
-                        <small>Title</small>
+                        <small className="text-secondary">Title</small>
                         <Heading>{project.title}</Heading>
                         <br />
-                        <small>Description</small>
-                        <p>{project.description}</p>
+                        <small className="text-secondary">Description</small>
+                        <p className="max-w-2xl">{project.description}</p>
                         <br />
-                        <small>Start Date</small>
+                        <small className="text-secondary">Start Date</small>
                         <p>{moment(project.startDate).format("LL")}</p>
                         <br />
-                        <small>Due Date</small>
+                        <small className="text-secondary">Due Date</small>
                         <p>{moment(project.dueDate).format("LL")}</p>
+                        <br />
+                        <small className="text-secondary">Team Lead</small>
+                        <div className="flex gap-3">
+                            <div className="my-auto">
+                                <Avatar
+                                    name={project.projectLead.name}
+                                    src={project.projectLead.avatar || ""}
+                                />
+                            </div>
+                            <div>
+                                <p>{project.projectLead.name}</p>
+                                <small>{project.projectLead.email}</small>
+                            </div>
+                        </div>
                     </>
                 ) : (
                     <p>loading</p>

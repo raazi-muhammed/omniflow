@@ -13,9 +13,14 @@ export type IProjectRepository = {
         projectId: string;
         member: IMemberInProject;
     }) => Promise<boolean | null>;
+    changeTeamLead: (data: {
+        projectId: string;
+        userId: string;
+    }) => Promise<boolean | null>;
 };
 export type IMemberRepository = {
     add: (data: IMember) => Promise<IDBMember | null>;
     upsert: (data: IMember) => Promise<IDBMember | null>;
     getByUsername: (username: string) => Promise<IDBMember | null>;
+    getByEmail: (email: string) => Promise<IDBMember | null>;
 };

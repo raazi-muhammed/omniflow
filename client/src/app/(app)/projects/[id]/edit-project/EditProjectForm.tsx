@@ -4,13 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { cn } from "@/lib/utils";
 import { useForm } from "react-hook-form";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -199,6 +192,7 @@ export default function EditProjectForm() {
                             <FormLabel>Description</FormLabel>
                             <FormControl>
                                 <Textarea
+                                    rows={10}
                                     placeholder="description"
                                     {...field}
                                 />
