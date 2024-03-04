@@ -72,3 +72,19 @@ export async function changeInvitationStatus(
             });
     });
 }
+
+export async function getMembersList(
+    config?: AxiosRequestConfig
+): Promise<IResponse> {
+    const url = new BuildUrl().team(`/get-members-list`);
+    return new Promise((resolve, reject) => {
+        axios
+            .get(url, { ...config, withCredentials: true })
+            .then((response) => {
+                resolve(adaptSuccessResponse(response));
+            })
+            .catch((error) => {
+                reject(adaptErrorResponse(error));
+            });
+    });
+}

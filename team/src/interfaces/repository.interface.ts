@@ -15,6 +15,9 @@ export type ITeamRepository = {
     getDefaultTeam: (data: { projectId: string }) => Promise<IDBTeam | null>;
     getTeams: (data: { projectId: string }) => Promise<IDBTeam[] | null>;
     add: (data: ITeam) => Promise<IDBTeam | null>;
+    getAllMembers: (data: {
+        projectId: string;
+    }) => Promise<IAllMemberList[] | null>;
     invitationAccepted: (data: {
         projectId: string;
         memberId: string;
@@ -23,6 +26,11 @@ export type ITeamRepository = {
         projectId: string;
         memberId: string;
     }) => Promise<boolean | null>;
+    removeMemberFromTeam: (data: {
+        projectId: string;
+        teamName: string;
+        memberEmail: string;
+    }) => Promise<boolean | null>;
 };
 export type IMemberRepository = {
     add: (data: IMember) => Promise<IDBMember | null>;
@@ -30,4 +38,10 @@ export type IMemberRepository = {
     getByUsername: (username: string) => Promise<IDBMember | null>;
     getByEmail: (email: string) => Promise<IDBMember | null>;
     getById: (id: string) => Promise<IDBMember | null>;
+};
+
+export type IAllMemberList = {
+    project: string;
+    team: string;
+    info: IMember;
 };

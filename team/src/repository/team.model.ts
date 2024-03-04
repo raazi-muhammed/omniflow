@@ -20,6 +20,7 @@ const teamSchema = new mongoose.Schema<ITeam>(
         },
         members: [
             {
+                _id: false,
                 role: {
                     type: String,
                     enum: ["TEAM_LEAD", "DEFAULT"],

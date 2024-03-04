@@ -21,11 +21,11 @@ export default function buildAddTeamController({
     memberRepository: IMemberRepository;
 }) {
     return async (req: IRequest) => {
-        const { currentUser, currentProject } = req;
+        const { currentProject } = req;
         const teamInput = req.body;
-        validateBody(teamInput, ["name"]);
+        validateBody(teamInput, ["name", "lead"]);
 
-        const user = await memberRepository.upsert(currentUser);
+        const user = await memberRepository.getByEmail(teamInput.lead);
 
         const team = addTeamUseCase({
             name: teamInput.name,
@@ -39,6 +39,13 @@ export default function buildAddTeamController({
                 },
             ],
         });
+
+        await teamRepository.removeMemberFromTeam({
+            teamName: "Default",
+            projectId: currentProject._id,
+            memberEmail: String(user._id),
+        });
+
         const teamAdded = await teamRepository.add(team);
         if (!teamAdded) throw new AnErrorOccurredError();
 

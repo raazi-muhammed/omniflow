@@ -39,3 +39,9 @@ export interface ITeam {
     }[];
     lead?: IUser;
 }
+
+export type IAllMemberList = {
+    project: string;
+    team: string;
+    info: IUser;
+};

@@ -40,5 +40,11 @@ export default function buildTeamRoutes({
         verifyProject,
         makeCallback(controllers.getTeams)
     );
+    router.get(
+        "/get-members-list",
+        verifyUser,
+        verifyProject,
+        makeCallback(controllers.getMembersList)
+    );
     return router;
 }

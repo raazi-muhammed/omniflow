@@ -4,13 +4,18 @@ import {
     ITeam,
     InviteStatus,
 } from "../interfaces/entity.interface.js";
+import {
+    IAllMemberList,
+    ITeamRepository,
+} from "../interfaces/repository.interface.js";
 import { IDBTeam, ITeamModel } from "./team.model.js";
+import _ from "lodash";
 
 export default function buildTeamRepository({
     database,
 }: {
     database: ITeamModel;
-}) {
+}): ITeamRepository {
     return Object.freeze({
         addMember: async ({
             teamId,
@@ -49,6 +54,31 @@ export default function buildTeamRepository({
         },
         add: async (data: ITeam) => {
             return (await database.create(data)) as IDBTeam;
+        },
+        removeMemberFromTeam: async ({
+            memberEmail,
+            teamName,
+            projectId,
+        }: {
+            memberEmail: string;
+            teamName: string;
+            projectId: string;
+        }) => {
+            console.log(
+                await database.find({ project: projectId, name: teamName })
+            );
+            const response = await database.updateOne(
+                { project: projectId, name: teamName },
+                {
+                    $pull: {
+                        members: {
+                            info: memberEmail,
+                        },
+                    },
+                }
+            );
+            console.log({ response });
+            return response.modifiedCount > 0;
         },
         invitationAccepted: async ({
             projectId,
@@ -89,6 +119,42 @@ export default function buildTeamRepository({
                 }
             );
             return data.modifiedCount > 0;
+        },
+        getAllMembers: async ({ projectId }: { projectId: string }) => {
+            const data = await database.aggregate([
+                {
+                    $unwind: "$members",
+                },
+                {
+                    $match: {
+                        project: projectId,
+                        "members.info": { $exists: true },
+                    },
+                },
+                {
+                    $lookup: {
+                        from: "members",
+                        localField: "members.info",
+                        foreignField: "_id",
+                        as: "memberDetails",
+                    },
+                },
+                {
+                    $unwind: "$memberDetails",
+                },
+                {
+                    $project: {
+                        _id: 0,
+                        team: "$name",
+                        project: 1,
+                        info: "$memberDetails",
+                    },
+                },
+            ]);
+            const uniqueData = _.uniqBy(data, function (e) {
+                return e.info.email;
+            });
+            return uniqueData as IAllMemberList[];
         },
     });
 }

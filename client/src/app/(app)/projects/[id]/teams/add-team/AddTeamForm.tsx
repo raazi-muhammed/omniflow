@@ -14,8 +14,17 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { addTeam } from "@/services/team.service";
+import { addTeam, getMembersList } from "@/services/team.service";
 import { useToast } from "@/components/ui/use-toast";
+import { useEffect, useState } from "react";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import { IAllMemberList } from "@/types/database";
 
 const formSchema = z.object({
     name: z.string().min(3, "Invalid"),
@@ -24,14 +33,22 @@ const formSchema = z.object({
 
 export default function AddTeamForm() {
     const { toast } = useToast();
+    const [membersList, setMembersList] = useState<IAllMemberList[]>([]);
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: "",
-            lead: "Raazi Muhammed",
+            lead: "",
         },
         mode: "onTouched",
     });
+
+    useEffect(() => {
+        getMembersList().then((response) => {
+            console.log(response.data);
+            setMembersList(response.data as IAllMemberList[]);
+        });
+    }, []);
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         console.log(values);
@@ -71,9 +88,22 @@ export default function AddTeamForm() {
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Lead</FormLabel>
-                            <FormControl>
-                                <Input placeholder="team lead" {...field} />
-                            </FormControl>
+                            <Select
+                                onValueChange={field.onChange}
+                                defaultValue={field.value}>
+                                <FormControl>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Select a lead" />
+                                    </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                    {membersList.map((member) => (
+                                        <SelectItem value={member.info.email}>
+                                            {`${member.info.name}, ${member.info.email}`}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
                             <FormMessage />
                         </FormItem>
                     )}
