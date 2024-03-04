@@ -1,9 +1,4 @@
-import {
-    IRequest,
-    ResponseCreator,
-    UnauthorizedError,
-    UserUnauthorizedError,
-} from "@omniflow/common";
+import { IRequest, ResponseCreator } from "@omniflow/common";
 import { ITeamRepository } from "../interfaces/repository.interface.js";
 
 export default function buildGetTeamsController({

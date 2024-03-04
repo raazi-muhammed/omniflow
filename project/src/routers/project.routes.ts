@@ -22,6 +22,18 @@ export default function buildProjectRoute({
         verifyUserMiddleware,
         makeCallback(controllers.add)
     );
+    router.post(
+        "/edit-project",
+        verifyUserMiddleware,
+        verifyProjectMiddleware,
+        makeCallback(controllers.edit)
+    );
+    router.delete(
+        "/delete-project",
+        verifyUserMiddleware,
+        verifyProjectMiddleware,
+        makeCallback(controllers.deleteProject)
+    );
     router.get(
         "/get-projects",
         verifyUserMiddleware,

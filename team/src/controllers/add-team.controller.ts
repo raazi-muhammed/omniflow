@@ -2,8 +2,6 @@ import {
     AnErrorOccurredError,
     IRequest,
     ResponseCreator,
-    UnauthorizedError,
-    UserUnauthorizedError,
     validateBody,
 } from "@omniflow/common";
 import {

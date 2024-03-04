@@ -14,6 +14,7 @@ export default class Project implements IProjectEntity {
     startDate: Date;
     dueDate: Date;
     projectLead: Types.ObjectId;
+    isDeleted: boolean;
     members: {
         role: Role;
         inviteStatus: InviteStatus;
@@ -28,6 +29,7 @@ export default class Project implements IProjectEntity {
         this.dueDate = data.dueDate;
         this.projectLead = data.projectLead;
         this.members = data.members;
+        this.isDeleted = data.isDeleted;
     }
 
     validate() {
@@ -41,6 +43,7 @@ export default class Project implements IProjectEntity {
             priority: this.priority,
             startDate: this.startDate,
             dueDate: this.dueDate,
+            isDeleted: this.isDeleted,
             projectLead: this.projectLead,
             members: this.members,
         });

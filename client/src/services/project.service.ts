@@ -46,6 +46,28 @@ export async function addProject(
     });
 }
 
+export async function editProject(
+    values: {
+        title: string;
+        startDate: Date;
+        dueDate: Date;
+        description: string;
+    },
+    config?: AxiosRequestConfig
+): Promise<IResponse> {
+    const url = new BuildUrl().project("/edit-project");
+    return new Promise((resolve, reject) => {
+        axios
+            .post(url, values, { ...config, withCredentials: true })
+            .then((response) => {
+                resolve(adaptSuccessResponse(response));
+            })
+            .catch((error) => {
+                reject(adaptErrorResponse(error));
+            });
+    });
+}
+
 export async function getProject(
     { id }: { id: string },
     config?: AxiosRequestConfig
@@ -54,6 +76,22 @@ export async function getProject(
     return new Promise((resolve, reject) => {
         axios
             .get(url, { ...config, withCredentials: true })
+            .then((response) => {
+                resolve(adaptSuccessResponse(response));
+            })
+            .catch((error) => {
+                reject(adaptErrorResponse(error));
+            });
+    });
+}
+
+export async function deleteProject(
+    config?: AxiosRequestConfig
+): Promise<IResponse> {
+    const url = new BuildUrl().project(`/delete-project`);
+    return new Promise((resolve, reject) => {
+        axios
+            .delete(url, { ...config, withCredentials: true })
             .then((response) => {
                 resolve(adaptSuccessResponse(response));
             })

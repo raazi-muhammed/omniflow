@@ -10,6 +10,7 @@ import { cookies } from "next/headers";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import ActionItemsContainer from "@/components/layout/ActionItemsContainer";
 
 async function loadTeams() {
     const response = await getTeams({
@@ -23,7 +24,7 @@ export default async function page() {
     return (
         <div className="w-full">
             <Container>
-                <section className="my-8 ms-auto flex w-fit justify-end gap-4">
+                <ActionItemsContainer>
                     <Link href="/projects/id/teams/invite-member">
                         <Button size="sm" variant="secondary">
                             <AddIcon />
@@ -36,7 +37,7 @@ export default async function page() {
                             Add a team
                         </Button>
                     </Link>
-                </section>
+                </ActionItemsContainer>
                 <Heading>Teams</Heading>
                 <br />
                 {teams.map((team) => (
