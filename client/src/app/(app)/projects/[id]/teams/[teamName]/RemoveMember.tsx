@@ -12,8 +12,10 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/components/ui/use-toast";
 import { removeMember } from "@/services/team.service";
+import { useState } from "react";
 
 export default function RemoveMember({
     email,
@@ -22,6 +24,7 @@ export default function RemoveMember({
     email: string;
     team: string;
 }) {
+    const [open, setOpen] = useState(false);
     const { toast } = useToast();
     function handleRemoveMember() {
         removeMember({ email, team })
@@ -37,11 +40,15 @@ export default function RemoveMember({
             });
     }
     return (
-        <AlertDialog>
+        <AlertDialog open={open} onOpenChange={(e) => setOpen(e)}>
             <AlertDialogTrigger asChild>
-                <Button type="button" variant="destructive">
+                <DropdownMenuItem
+                    onClick={(e) => {
+                        e.preventDefault();
+                        setOpen(true);
+                    }}>
                     Remove
-                </Button>
+                </DropdownMenuItem>
             </AlertDialogTrigger>
             <AlertDialogContent>
                 <AlertDialogHeader>
@@ -54,9 +61,9 @@ export default function RemoveMember({
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={handleRemoveMember}>
+                    <Button variant="destructive" onClick={handleRemoveMember}>
                         Remove
-                    </AlertDialogAction>
+                    </Button>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

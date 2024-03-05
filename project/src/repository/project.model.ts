@@ -23,7 +23,7 @@ const projectSchema = new mongoose.Schema<IProject>(
             type: Date,
             default: new Date(),
         },
-        projectLead: {
+        lead: {
             type: mongoose.Schema.Types.ObjectId,
             required: true,
             ref: "Member",

@@ -1,9 +1,6 @@
-import Container from "@/components/layout/Container";
 import EditProjectForm from "./EditProjectForm";
-import { Button } from "@/components/ui/button";
 import DeleteProject from "./DeleteProject";
 import Heading from "@/components/custom/Heading";
-import FormWrapper from "@/components/layout/FormWrapper";
 import {
     Accordion,
     AccordionContent,
@@ -15,16 +12,21 @@ import {
     RefreshCw as ChangeRoleIcon,
 } from "lucide-react";
 import ChangeProjectLeadForm from "./ChangeProjectLeadForm";
+import {
+    SectionAside,
+    SectionContent,
+    SectionSplitter,
+} from "@/components/layout/SectinSplitter";
 
 export default function page() {
     return (
         <main className="w-full">
-            <Container className="flex flex-col gap-8 xl:flex-row">
-                <FormWrapper>
+            <SectionSplitter>
+                <SectionContent>
                     <Heading variant="spaced">Edit Project</Heading>
                     <EditProjectForm />
-                </FormWrapper>
-                <section className="mx-auto mt-16 w-full max-w-sm">
+                </SectionContent>
+                <SectionAside>
                     <Accordion type="single" collapsible>
                         <AccordionItem value="delete-project">
                             <AccordionTrigger>
@@ -60,8 +62,8 @@ export default function page() {
                             </AccordionContent>
                         </AccordionItem>
                     </Accordion>
-                </section>
-            </Container>
+                </SectionAside>
+            </SectionSplitter>
         </main>
     );
 }

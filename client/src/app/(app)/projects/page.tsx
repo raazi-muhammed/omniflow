@@ -9,12 +9,13 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import { getProjects } from "@/services/project.service";
 import ResponsiveGridContainer from "@/components/layout/ResponsiveGridContainer";
+import ErrorMessage from "@/components/custom/ErrorMessage";
 
 export async function getProjectsData() {
     const response = await getProjects({
         headers: { Cookie: cookies().toString() },
     });
-    return response.data as IProject[];
+    return response?.data as IProject[];
 }
 
 export default async function page() {
@@ -31,39 +32,38 @@ export default async function page() {
                 </Link>
             </section>
             <Heading>Projects</Heading>
-            {projects ? (
-                <ResponsiveGridContainer>
-                    {projects.map((project) => (
-                        <Link href={`/projects/${project._id}`}>
-                            <Card>
-                                <CardHeader className="text-secondary">
-                                    <p className="text-xl font-semibold text-foreground">
-                                        {project.title}
-                                    </p>
-                                    <small className="line-clamp-3">
-                                        {project.description}
-                                    </small>
-                                </CardHeader>
-                                <CardContent className="flex">
-                                    <section className="ms-auto flex gap-2">
-                                        {project.members.map((member) => (
-                                            <Avatar
-                                                tooltip={true}
-                                                name={member.info.name}
-                                                email={member.info.email}
-                                                size="sm"
-                                                src={member.info.avatar || ""}
-                                            />
-                                        ))}
-                                    </section>
-                                </CardContent>
-                            </Card>
-                        </Link>
-                    ))}
-                </ResponsiveGridContainer>
-            ) : (
-                <p>No projects</p>
+            {projects.length <= 0 && (
+                <ErrorMessage>No projected found</ErrorMessage>
             )}
+            <ResponsiveGridContainer>
+                {projects.map((project) => (
+                    <Link href={`/projects/${project._id}`}>
+                        <Card>
+                            <CardHeader className="text-secondary">
+                                <p className="text-xl font-semibold text-foreground">
+                                    {project.title}
+                                </p>
+                                <small className="line-clamp-3">
+                                    {project.description}
+                                </small>
+                            </CardHeader>
+                            <CardContent className="flex">
+                                <section className="ms-auto flex gap-2">
+                                    {project.members.map((member) => (
+                                        <Avatar
+                                            tooltip={true}
+                                            name={member.info.name}
+                                            email={member.info.email}
+                                            size="sm"
+                                            src={member.info.avatar || ""}
+                                        />
+                                    ))}
+                                </section>
+                            </CardContent>
+                        </Card>
+                    </Link>
+                ))}
+            </ResponsiveGridContainer>
         </Container>
     );
 }

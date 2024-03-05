@@ -13,7 +13,7 @@ export default class Project implements IProjectEntity {
     priority: number;
     startDate: Date;
     dueDate: Date;
-    projectLead: Types.ObjectId;
+    lead: Types.ObjectId;
     isDeleted: boolean;
     members: {
         role: Role;
@@ -27,7 +27,7 @@ export default class Project implements IProjectEntity {
         this.priority = data.priority;
         this.startDate = data.startDate;
         this.dueDate = data.dueDate;
-        this.projectLead = data.projectLead;
+        this.lead = data.lead;
         this.members = data.members;
         this.isDeleted = data.isDeleted;
     }
@@ -44,7 +44,7 @@ export default class Project implements IProjectEntity {
             startDate: this.startDate,
             dueDate: this.dueDate,
             isDeleted: this.isDeleted,
-            projectLead: this.projectLead,
+            lead: this.lead,
             members: this.members,
         });
     }

@@ -59,6 +59,7 @@
 
         --destructive: 0 62.8% 30.6%;
         --destructive-foreground: 210 40% 98%;
+        --destructive-border: 210 40% 98%;
 
         --border: 226 51% 28%;
         --input: 226 51% 28%;
@@ -67,6 +68,10 @@
         --gradient-primary-to: 226 100% 60%;
         --gradient-primary-from: 226 93% 43%;
         --gradient-primary-border: 226 99% 67%;
+
+        --gradient-destructive-to: 0 75% 50%;
+        --gradient-destructive-from: 3 86% 59%;
+        --gradient-destructive-border: 11 83% 59%;
 
         --gradient-card-to: 226 68% 12%;
         --gradient-card-from: 227 47% 7%;

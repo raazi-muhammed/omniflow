@@ -2,14 +2,15 @@ import Heading from "@/components/custom/Heading";
 import Container from "@/components/layout/Container";
 import React from "react";
 import AddProjectForm from "./AddProjectForm";
+import FormWrapper from "@/components/layout/FormWrapper";
 
 export default function AddProject() {
     return (
         <Container>
-            <section className="max-w-xl mx-auto mt-24">
-                <Heading>Add project</Heading>
+            <FormWrapper>
+                <Heading variant="spaced">Add project</Heading>
                 <AddProjectForm />
-            </section>
+            </FormWrapper>
         </Container>
     );
 }

@@ -20,7 +20,7 @@ export default function error({
         <div>
             <Container>
                 <h2 className="mt-14 text-center">
-                    {error?.message ? error.message : "Somethings went wrong"}
+                    {error?.message ? error?.message : "Somethings went wrong"}
                 </h2>
                 <Button
                     size="icon"

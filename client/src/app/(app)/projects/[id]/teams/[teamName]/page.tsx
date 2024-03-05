@@ -1,12 +1,10 @@
 import Avatar from "@/components/custom/Avatar";
 import Heading from "@/components/custom/Heading";
-import Container from "@/components/layout/Container";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { getTeamMembers } from "@/services/team.service";
 import { ITeam, ITeamMember } from "@/types/database";
-import { DeleteIcon } from "lucide-react";
+import { Trash2 as DeleteIcon, RefreshCw as ChangeIcon } from "lucide-react";
 import { cookies } from "next/headers";
 import {
     Accordion,
@@ -15,9 +13,14 @@ import {
     AccordionTrigger,
 } from "@/components/ui/accordion";
 import ChangeTeamLeadForm from "./ChangeTeamLeadForm";
-import RemoveMember from "./RemoveMember";
-import MoveToTeamSelector from "./MoveToTeamSelector";
+
 import RemoveTeam from "./RemoveTeam";
+import {
+    SectionAside,
+    SectionContent,
+    SectionSplitter,
+} from "@/components/layout/SectinSplitter";
+import MemberActionDropDown from "./MemberActionDropDown";
 
 export async function getTeamsData(teamName: string) {
     const response = await getTeamMembers(
@@ -37,49 +40,45 @@ export default async function page({
     const team = await getTeamsData(params.teamName);
     return (
         <main className="w-full">
-            <Container className="flex flex-col gap-8 xl:flex-row">
-                <section className="w-full max-w-3xl">
+            <SectionSplitter>
+                <SectionContent>
                     <Heading variant="spaced">{team.name}</Heading>
                     <section className="grid grid-cols-2 gap-4">
                         {team.members.map((member) => (
                             <Card>
-                                <CardHeader className="flex flex-row">
-                                    <div className="my-auto me-2">
-                                        <Avatar
-                                            name={member.info.name}
-                                            src={member.info.avatar || ""}
-                                        />
-                                    </div>
-                                    <section>
-                                        <p>{member.info.name}</p>
-                                        <small className="text-secondary">
-                                            {member.info.email}
-                                        </small>
-                                        <div className="mt-2 flex gap-2">
-                                            <Badge variant="secondary">
-                                                {member.inviteStatus}
-                                            </Badge>
-                                            <Badge variant="secondary">
-                                                {member.role}
-                                            </Badge>
+                                <CardContent className="mt-4 flex justify-between gap-4 pe-2">
+                                    <div className="flex w-full gap-2">
+                                        <div className="my-auto">
+                                            <Avatar
+                                                name={member.info.name}
+                                                src={member.info.avatar || ""}
+                                            />
                                         </div>
-                                    </section>
-                                </CardHeader>
-                                <CardContent className="flex gap-2">
-                                    <RemoveMember
-                                        team={team.name}
-                                        email={member.info.email}
-                                    />
-                                    <MoveToTeamSelector
-                                        fromTeam={team.name}
-                                        email={member.info.email}
+                                        <section>
+                                            <p>{member.info.name}</p>
+                                            <small className="text-secondary">
+                                                {member.info.email}
+                                            </small>
+                                            <div className="mt-2 flex gap-2">
+                                                <Badge variant="secondary">
+                                                    {member.inviteStatus}
+                                                </Badge>
+                                                <Badge variant="secondary">
+                                                    {member.role}
+                                                </Badge>
+                                            </div>
+                                        </section>
+                                    </div>
+                                    <MemberActionDropDown
+                                        teamName={team.name}
+                                        memberEmail={member.info.email}
                                     />
                                 </CardContent>
                             </Card>
                         ))}
                     </section>
-                </section>
-                <section className="mx-auto mt-16 w-full max-w-sm">
+                </SectionContent>
+                <SectionAside>
                     <Accordion type="single" collapsible>
                         <AccordionItem value="delete-team">
                             <AccordionTrigger>
@@ -103,7 +102,7 @@ export default async function page({
                         <AccordionItem value="change-team-lead">
                             <AccordionTrigger>
                                 <div className="flex gap-2">
-                                    <DeleteIcon
+                                    <ChangeIcon
                                         size="1.2em"
                                         className="my-auto"
                                     />
@@ -118,8 +117,8 @@ export default async function page({
                             </AccordionContent>
                         </AccordionItem>
                     </Accordion>
-                </section>
-            </Container>
+                </SectionAside>
+            </SectionSplitter>
         </main>
     );
 }

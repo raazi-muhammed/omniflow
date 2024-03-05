@@ -17,7 +17,7 @@ export interface IProject {
     priority: number;
     startDate: Date;
     dueDate: Date;
-    projectLead: Types.ObjectId;
+    lead: Types.ObjectId;
     isDeleted: boolean;
     members: {
         role: Role;
@@ -40,7 +40,7 @@ export interface IProjectEntity extends IProject {
     startDate: Date;
     dueDate: Date;
     isDeleted: boolean;
-    projectLead: Types.ObjectId;
+    lead: Types.ObjectId;
     members: {
         role: Role;
         inviteStatus: InviteStatus;

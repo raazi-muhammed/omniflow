@@ -51,7 +51,7 @@ export default function buildAddProjectController({
 
         const project = await createProject({
             ...addProjectData,
-            projectLead: projectLead._id,
+            lead: projectLead._id,
             members: [
                 {
                     role: Role.TEAM_LEAD,

@@ -48,9 +48,9 @@ export default function DeleteProject() {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={handleDeleteProject}>
-                        Resend
-                    </AlertDialogAction>
+                    <Button variant="destructive" onClick={handleDeleteProject}>
+                        Remove
+                    </Button>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

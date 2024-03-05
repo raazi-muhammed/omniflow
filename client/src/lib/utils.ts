@@ -6,6 +6,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function generateFallbackAvatar(name: string): string {
+    if (!name) return "";
     return name
         .split(" ")
         .map((word) => word.charAt(0).toUpperCase())

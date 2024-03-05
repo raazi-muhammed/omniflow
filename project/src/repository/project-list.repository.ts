@@ -29,13 +29,13 @@ export default function buildProjectRepository({
         getAll: async (userId: Types.ObjectId) => {
             return (await database
                 .find({ "members.info": userId, isDeleted: false })
-                .populate("projectLead")
+                .populate("lead")
                 .populate("members.info")) as IDBProject[];
         },
         get: async (id: string) => {
             return (await database
                 .findById(id)
-                .populate("projectLead")
+                .populate("lead")
                 .populate("members.info")) as IDBProject;
         },
         delete: async (id: string) => {
@@ -74,7 +74,7 @@ export default function buildProjectRepository({
             const response = await database.updateOne(
                 { _id: projectId },
                 {
-                    projectLead: userId,
+                    lead: userId,
                 }
             );
             return response.acknowledged;

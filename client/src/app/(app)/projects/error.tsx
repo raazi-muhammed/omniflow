@@ -31,7 +31,7 @@ export default function error({
                     </Link>
                 </section>
                 <h2 className="mt-14 text-center">
-                    {error?.message || "Somethings went wrong"}
+                    {error?.message ? error?.message : "Somethings went wrong"}
                 </h2>
                 <Button
                     size="icon"

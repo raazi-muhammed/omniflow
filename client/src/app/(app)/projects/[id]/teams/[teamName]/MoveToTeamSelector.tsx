@@ -5,8 +5,7 @@ import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
+    DropdownMenuSubContent,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/components/ui/use-toast";
@@ -45,19 +44,14 @@ export default function MoveToTeamSelector({
             });
     }
     return (
-        <DropdownMenu>
-            <DropdownMenuTrigger>
-                <Button>Open</Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-                {teams.map((team) => (
-                    <DropdownMenuItem
-                        disabled={fromTeam === team.name}
-                        onClick={() => handleMoveTeam(team.name)}>
-                        {team.name}
-                    </DropdownMenuItem>
-                ))}
-            </DropdownMenuContent>
-        </DropdownMenu>
+        <DropdownMenuSubContent>
+            {teams.map((team) => (
+                <DropdownMenuItem
+                    disabled={fromTeam === team.name}
+                    onClick={() => handleMoveTeam(team.name)}>
+                    {team.name}
+                </DropdownMenuItem>
+            ))}
+        </DropdownMenuSubContent>
     );
 }

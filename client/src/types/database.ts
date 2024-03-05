@@ -14,7 +14,7 @@ export interface IProject {
     priority: number;
     startDate: Date;
     dueDate: Date;
-    projectLead: IUser;
+    lead: IUser;
     members: { info: IUser }[];
 }
 

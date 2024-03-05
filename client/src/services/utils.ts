@@ -36,5 +36,5 @@ export function adaptSuccessResponse(response: AxiosResponse): IResponse {
 export function adaptErrorResponse(
     error: AxiosError<{ message?: string }>
 ): string | undefined {
-    return error?.response?.data?.message;
+    return error?.response?.data?.message || "Internal server error";
 }

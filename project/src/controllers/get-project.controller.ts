@@ -17,6 +17,8 @@ export default function buildGetProjectController({
 
         const projectData = await projectRepository.get(req.params.id);
 
+        console.log({ projectData });
+
         const projectToken = token.sign(projectData);
 
         const response = new ResponseCreator();
