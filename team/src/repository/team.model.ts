@@ -18,6 +18,10 @@ const teamSchema = new mongoose.Schema<ITeam>(
             type: mongoose.Schema.Types.ObjectId,
             ref: "Member",
         },
+        isDeleted: {
+            type: Boolean,
+            default: false,
+        },
         members: [
             {
                 _id: false,

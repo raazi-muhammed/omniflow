@@ -16,6 +16,7 @@ export interface ITeam {
     name: string;
     avatar?: string;
     project: string;
+    isDeleted?: boolean;
     members: {
         role: Role;
         inviteStatus: InviteStatus;

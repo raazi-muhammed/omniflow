@@ -32,7 +32,7 @@ export default function Avatar({
                     <TooltipProvider>
                         <Tooltip>
                             <TooltipTrigger>
-                                <AvatarMain className="h-8 w-8">
+                                <AvatarMain className="my-auto h-8 w-8">
                                     <AvatarImage
                                         className="object-cover"
                                         src={src}
@@ -53,7 +53,7 @@ export default function Avatar({
                 );
             } else {
                 return (
-                    <AvatarMain className="h-8 w-8">
+                    <AvatarMain className="my-auto h-8 w-8">
                         <AvatarImage className="object-cover" src={src} />
                         <AvatarFallback>
                             {generateFallbackAvatar(name)}
@@ -63,7 +63,7 @@ export default function Avatar({
             }
         case "lg":
             return (
-                <AvatarMain className="h-36 w-36 border">
+                <AvatarMain className="my-auto h-36 w-36 border">
                     <AvatarImage className="object-cover" src={src} />
                     <AvatarFallback>
                         {generateFallbackAvatar(name)}
@@ -73,7 +73,7 @@ export default function Avatar({
         default:
             return (
                 <AvatarMain>
-                    <AvatarImage className="object-cover" src={src} />
+                    <AvatarImage className="my-auto object-cover" src={src} />
                     <AvatarFallback>
                         {generateFallbackAvatar(name)}
                     </AvatarFallback>

@@ -32,12 +32,14 @@ export interface ITeam {
     name: string;
     avatar?: string;
     project: string;
-    members: {
-        role: Role;
-        inviteStatus: InviteStatus;
-        info: IUser;
-    }[];
+    members: ITeamMember[];
     lead?: IUser;
+}
+
+export interface ITeamMember {
+    role: Role;
+    inviteStatus: InviteStatus;
+    info: IUser;
 }
 
 export type IAllMemberList = {

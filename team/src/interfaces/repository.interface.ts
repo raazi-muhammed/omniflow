@@ -12,8 +12,26 @@ export type ITeamRepository = {
         teamId: IDType;
         member: IMemberInProject;
     }) => Promise<IDBTeam | null>;
+    addMemberToTeam: (data: {
+        member: IMemberInProject;
+        teamName: string;
+        projectId: string;
+    }) => Promise<boolean | null>;
     getDefaultTeam: (data: { projectId: string }) => Promise<IDBTeam | null>;
     getTeams: (data: { projectId: string }) => Promise<IDBTeam[] | null>;
+    getTeam: (data: {
+        projectId: string;
+        teamName: string;
+    }) => Promise<IDBTeam | null>;
+    removeTeam: (data: {
+        projectId: string;
+        teamName: string;
+    }) => Promise<boolean | null>;
+    changeTeamLead: (data: {
+        projectId: string;
+        teamName: string;
+        userId: string;
+    }) => Promise<boolean | null>;
     add: (data: ITeam) => Promise<IDBTeam | null>;
     getAllMembers: (data: {
         projectId: string;
@@ -29,7 +47,7 @@ export type ITeamRepository = {
     removeMemberFromTeam: (data: {
         projectId: string;
         teamName: string;
-        memberEmail: string;
+        memberId: string;
     }) => Promise<boolean | null>;
 };
 export type IMemberRepository = {

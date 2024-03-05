@@ -23,6 +23,12 @@ export default function buildTeamRoutes({
         verifyProject,
         makeCallback(controllers.addTeam)
     );
+    router.patch(
+        "/remove-team",
+        verifyUser,
+        verifyProject,
+        makeCallback(controllers.removeTeam)
+    );
     router.post(
         "/invite-member",
         verifyUser,
@@ -45,6 +51,30 @@ export default function buildTeamRoutes({
         verifyUser,
         verifyProject,
         makeCallback(controllers.getMembersList)
+    );
+    router.post(
+        "/change-team-lead",
+        verifyUser,
+        verifyProject,
+        makeCallback(controllers.changeTeamLead)
+    );
+    router.get(
+        "/team-members",
+        verifyUser,
+        verifyProject,
+        makeCallback(controllers.getMemberFromTeam)
+    );
+    router.post(
+        "/move-member",
+        verifyUser,
+        verifyProject,
+        makeCallback(controllers.moveMember)
+    );
+    router.post(
+        "/remove-member",
+        verifyUser,
+        verifyProject,
+        makeCallback(controllers.removeMemberFromTeam)
     );
     return router;
 }

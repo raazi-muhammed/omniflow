@@ -43,7 +43,7 @@ export default function buildAddTeamController({
         await teamRepository.removeMemberFromTeam({
             teamName: "Default",
             projectId: currentProject._id,
-            memberEmail: String(user._id),
+            memberId: String(user._id),
         });
 
         const teamAdded = await teamRepository.add(team);

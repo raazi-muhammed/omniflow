@@ -1,8 +1,10 @@
+import { Types, isValidObjectId } from "mongoose";
 import {
     IDType,
     IMemberInProject,
     ITeam,
     InviteStatus,
+    Role,
 } from "../interfaces/entity.interface.js";
 import {
     IAllMemberList,
@@ -49,35 +51,103 @@ export default function buildTeamRepository({
         },
         getTeams: async ({ projectId }: { projectId: string }) => {
             return (await database
-                .find({ project: projectId })
+                .find({ project: projectId, isDeleted: false })
                 .populate("members.info")) as IDBTeam[];
+        },
+        getTeam: async ({
+            projectId,
+            teamName,
+        }: {
+            projectId: string;
+            teamName: string;
+        }) => {
+            return (await database
+                .findOne({ project: projectId, name: teamName })
+                .populate("members.info")) as IDBTeam;
+        },
+        removeTeam: async ({
+            projectId,
+            teamName,
+        }: {
+            projectId: string;
+            teamName: string;
+        }) => {
+            const response = await database.updateOne(
+                { project: projectId, name: teamName },
+                { isDeleted: true }
+            );
+            return response.acknowledged;
+        },
+        changeTeamLead: async ({
+            projectId,
+            teamName,
+            userId,
+        }: {
+            projectId: string;
+            teamName: string;
+            userId: string;
+        }) => {
+            const response = await database.findOne({
+                project: projectId,
+                name: teamName,
+            });
+            response.lead = new Types.ObjectId(userId);
+            response.members = response.members.map((m) => {
+                if (m.info.toString() == userId) {
+                    return {
+                        ...m,
+                        role: Role.TEAM_LEAD,
+                    };
+                }
+                return {
+                    ...m,
+                    role: Role.DEFAULT,
+                };
+            });
+            response.save();
+            return true;
         },
         add: async (data: ITeam) => {
             return (await database.create(data)) as IDBTeam;
         },
         removeMemberFromTeam: async ({
-            memberEmail,
+            memberId,
             teamName,
             projectId,
         }: {
-            memberEmail: string;
+            memberId: string;
             teamName: string;
             projectId: string;
         }) => {
-            console.log(
-                await database.find({ project: projectId, name: teamName })
-            );
             const response = await database.updateOne(
                 { project: projectId, name: teamName },
                 {
                     $pull: {
                         members: {
-                            info: memberEmail,
+                            info: memberId,
                         },
                     },
                 }
             );
-            console.log({ response });
+            return response.modifiedCount > 0;
+        },
+        addMemberToTeam: async ({
+            member,
+            teamName,
+            projectId,
+        }: {
+            member: IMemberInProject;
+            teamName: string;
+            projectId: string;
+        }) => {
+            const response = await database.updateOne(
+                { project: projectId, name: teamName },
+                {
+                    $addToSet: {
+                        members: member,
+                    },
+                }
+            );
             return response.modifiedCount > 0;
         },
         invitationAccepted: async ({

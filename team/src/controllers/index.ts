@@ -10,6 +10,11 @@ import buildChangeInvitationStatusController from "./change-invitation-status.co
 import { mailService } from "../lib/send-invitation-mail.js";
 import buildGetMembersListController from "./get-members-list.controller.js";
 import producer from "../events/producer.js";
+import buildGetMembersFromTeamController from "./get-members-from-team.controller.js";
+import buildChangeTeamLeadController from "./change-team-lead.controller.js";
+import buildMoveMemberToTeamController from "./move-member-to-team.controller.js";
+import buildRemoveMemberFromTeamController from "./remove-member-from-team.controller.js";
+import buildRemoveTeamController from "./remove-team.controller.js";
 
 const addTeam = buildAddTeamController({
     addTeamUseCase: teamUseCases.addTeam,
@@ -39,12 +44,35 @@ const changeInvitationStatus = buildChangeInvitationStatusController({
     memberRepository,
 });
 
+const changeTeamLead = buildChangeTeamLeadController({
+    teamRepository,
+    memberRepository,
+});
+
+const getMemberFromTeam = buildGetMembersFromTeamController({ teamRepository });
+
+const moveMember = buildMoveMemberToTeamController({
+    teamRepository,
+    memberRepository,
+});
+
+const removeMemberFromTeam = buildRemoveMemberFromTeamController({
+    teamRepository,
+    memberRepository,
+});
+
+const removeTeam = buildRemoveTeamController({ teamRepository });
 const teamController: ITeamController = Object.freeze({
     addTeam,
     inviteMember,
     getTeams,
     changeInvitationStatus,
     getMembersList,
+    getMemberFromTeam,
+    changeTeamLead,
+    moveMember,
+    removeMemberFromTeam,
+    removeTeam,
 });
 
 export default teamController;

@@ -117,7 +117,7 @@ export async function getCurrentProject(
     });
 }
 
-export async function changeTeamLead(
+export async function changeProjectLead(
     values: { lead: string },
     config?: AxiosRequestConfig
 ): Promise<IResponse> {

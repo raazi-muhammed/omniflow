@@ -3,9 +3,9 @@ import Heading from "@/components/custom/Heading";
 import Container from "@/components/layout/Container";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { AddIcon } from "@/lib/icons";
+import { AddIcon, EditIcon } from "@/lib/icons";
 import { getTeams } from "@/services/team.service";
-import { ITeam } from "@/types/database";
+import { ITeam, InviteStatus, Role } from "@/types/database";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
@@ -43,9 +43,11 @@ export default async function page() {
                     <>
                         <section className="flex justify-between">
                             <Heading className="text-xl">{team.name}</Heading>
-                            <Button size="sm" variant="secondary">
-                                Add a member
-                            </Button>
+                            <Link href={`teams/${team.name}`}>
+                                <Button size="sm" variant="secondary">
+                                    <EditIcon /> Edit team
+                                </Button>
+                            </Link>
                         </section>
                         <small className="text-secondary">Members</small>
                         <ResponsiveGridContainer>
@@ -58,17 +60,23 @@ export default async function page() {
                                             src={member.info.avatar || ""}
                                         />
                                     </div>
-                                    <div>
+                                    <div className="my-auto">
                                         <small className="text-secondary">
                                             {member.info.email}
                                         </small>
                                         <p>{member.info.name}</p>
-                                        <Badge variant="secondary">
-                                            {member.role}
-                                        </Badge>
-                                        <Badge variant="secondary">
-                                            {member.inviteStatus}
-                                        </Badge>
+                                        {member.role !== Role.DEFAULT ? (
+                                            <Badge variant="secondary">
+                                                {member.role}
+                                            </Badge>
+                                        ) : null}
+
+                                        {member.inviteStatus !==
+                                        InviteStatus.ACCEPTED ? (
+                                            <Badge variant="secondary">
+                                                {member.inviteStatus}
+                                            </Badge>
+                                        ) : null}
                                     </div>
                                 </Card>
                             ))}

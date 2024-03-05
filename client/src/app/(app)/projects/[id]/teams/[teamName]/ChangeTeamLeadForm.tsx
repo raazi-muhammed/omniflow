@@ -13,9 +13,7 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { getMembersList } from "@/services/team.service";
 import { useToast } from "@/components/ui/use-toast";
-import { useEffect, useState } from "react";
 import {
     Select,
     SelectContent,
@@ -23,16 +21,21 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { IAllMemberList } from "@/types/database";
-import { changeProjectLead } from "@/services/project.service";
+import { ITeamMember, InviteStatus } from "@/types/database";
+import { changeTeamLead } from "@/services/team.service";
 
 const formSchema = z.object({
     lead: z.string().min(3, "Invalid"),
 });
 
-export default function ChangeProjectLeadForm() {
+export default function ChangeTeamLeadForm({
+    membersList,
+    teamName,
+}: {
+    membersList: ITeamMember[];
+    teamName: string;
+}) {
     const { toast } = useToast();
-    const [membersList, setMembersList] = useState<IAllMemberList[]>([]);
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -41,16 +44,8 @@ export default function ChangeProjectLeadForm() {
         mode: "onTouched",
     });
 
-    useEffect(() => {
-        getMembersList().then((response) => {
-            console.log(response.data);
-            setMembersList(response.data as IAllMemberList[]);
-        });
-    }, []);
-
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values);
-        changeProjectLead(values)
+        changeTeamLead({ lead: values.lead, teamName })
             .then((response) => {
                 toast({
                     description: response?.message || "Success",
@@ -82,9 +77,15 @@ export default function ChangeProjectLeadForm() {
                                 </FormControl>
                                 <SelectContent>
                                     {membersList.map((member) => (
-                                        <SelectItem value={member.info.email}>
-                                            {`${member.info.name}, ${member.info.email}`}
-                                        </SelectItem>
+                                        <>
+                                            {member.inviteStatus ==
+                                            InviteStatus.ACCEPTED ? (
+                                                <SelectItem
+                                                    value={member.info.email}>
+                                                    {`${member.info.name}, ${member.info.email}`}
+                                                </SelectItem>
+                                            ) : null}
+                                        </>
                                     ))}
                                 </SelectContent>
                             </Select>
