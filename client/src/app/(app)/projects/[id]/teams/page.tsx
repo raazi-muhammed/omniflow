@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import ActionItemsContainer from "@/components/layout/ActionItemsContainer";
 import ResponsiveGridContainer from "@/components/layout/ResponsiveGridContainer";
+import ErrorMessage from "@/components/custom/ErrorMessage";
 
 async function loadTeams() {
     const response = await getTeams({
@@ -49,9 +50,12 @@ export default async function page() {
                                 </Button>
                             </Link>
                         </section>
-                        <small className="text-secondary">Members</small>
                         <ResponsiveGridContainer>
-                            {team.members.length <= 0 && <p>No members</p>}
+                            {team.members.length <= 0 && (
+                                <ErrorMessage>
+                                    No Members on this team
+                                </ErrorMessage>
+                            )}
                             {team.members.map((member) => (
                                 <Card className="flex gap-4 p-4 align-middle">
                                     <div className="my-auto">

@@ -26,5 +26,11 @@ export default function buildUserRoutes({
         makeCallback(authControllers.editProfile)
     );
 
+    router.get(
+        "/get-public-user",
+        verifyMiddleware,
+        makeCallback(authControllers.getPublicUser)
+    );
+
     return router;
 }

@@ -38,16 +38,16 @@ export default function buildInviteMemberController({
     return async (req: IRequest) => {
         const { currentProject } = req;
         const userInput = req.body;
-        validateBody(userInput, ["email", "message"]);
+        validateBody(userInput, ["email", "message", "username", "name"]);
 
         let userToInvite = await memberRepository.getByEmail(userInput.email);
 
         if (!userToInvite) {
-            const placeHolder = createNameFromEmail(userInput.email);
             const memberToAdd = addMemberUseCase({
                 email: userInput.email,
-                username: placeHolder.username,
-                name: placeHolder.name,
+                username: userInput.username,
+                name: userInput.name,
+                avatar: userInput?.avatar,
             });
 
             userToInvite = await memberRepository.upsert(memberToAdd);

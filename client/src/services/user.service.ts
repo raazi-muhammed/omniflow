@@ -54,3 +54,20 @@ export async function getCurrentUser(
             });
     });
 }
+
+export async function getPublicUser(
+    { email }: { email: string },
+    config?: AxiosRequestConfig
+): Promise<IResponse> {
+    const url = new BuildUrl().user(`/get-public-user?email=${email}`);
+    return new Promise((resolve, reject) => {
+        axios
+            .get(url, { ...config, withCredentials: true })
+            .then((response) => {
+                resolve(adaptSuccessResponse(response));
+            })
+            .catch((error) => {
+                reject(adaptErrorResponse(error));
+            });
+    });
+}

@@ -19,6 +19,8 @@ import { inviteMemberToTeam } from "@/services/team.service";
 import { useToast } from "@/components/ui/use-toast";
 import { Textarea } from "@/components/ui/textarea";
 import { useAppSelector } from "@/redux/store";
+import { getPublicUser } from "@/services/user.service";
+import { IUser } from "@/types/database";
 
 const formSchema = z.object({
     email: z.string().email(),
@@ -44,11 +46,35 @@ export default function InviteMemberForm() {
     });
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        inviteMemberToTeam(values)
+        getPublicUser({ email: values.email })
             .then((response) => {
-                toast({
-                    description: response?.message || "Success",
-                });
+                console.log({ response });
+
+                const userDetails: IUser = response.data;
+
+                if (!userDetails.email || !userDetails.name) {
+                    toast({
+                        description: "Invalid user",
+                    });
+                    return;
+                }
+                inviteMemberToTeam({
+                    email: userDetails.email,
+                    username: userDetails.username,
+                    avatar: userDetails.avatar,
+                    name: userDetails.name,
+                    message: values.message,
+                })
+                    .then((response) => {
+                        toast({
+                            description: response?.message || "Success",
+                        });
+                    })
+                    .catch((error) => {
+                        toast({
+                            description: error || "Error",
+                        });
+                    });
             })
             .catch((error) => {
                 toast({

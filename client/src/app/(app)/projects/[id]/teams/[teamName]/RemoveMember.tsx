@@ -2,7 +2,6 @@
 
 import {
     AlertDialog,
-    AlertDialogAction,
     AlertDialogCancel,
     AlertDialogContent,
     AlertDialogDescription,
@@ -32,6 +31,7 @@ export default function RemoveMember({
                 toast({
                     description: response.message,
                 });
+                setOpen(false);
             })
             .catch((error) => {
                 toast({

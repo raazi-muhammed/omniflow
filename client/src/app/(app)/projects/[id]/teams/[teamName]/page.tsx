@@ -21,6 +21,7 @@ import {
     SectionSplitter,
 } from "@/components/layout/SectinSplitter";
 import MemberActionDropDown from "./MemberActionDropDown";
+import ErrorMessage from "@/components/custom/ErrorMessage";
 
 export async function getTeamsData(teamName: string) {
     const response = await getTeamMembers(
@@ -76,6 +77,11 @@ export default async function page({
                                 </CardContent>
                             </Card>
                         ))}
+                        {team.members.length <= 0 && (
+                            <ErrorMessage>
+                                There are no members on {team.name}
+                            </ErrorMessage>
+                        )}
                     </section>
                 </SectionContent>
                 <SectionAside>

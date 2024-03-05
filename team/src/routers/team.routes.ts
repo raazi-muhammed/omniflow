@@ -70,7 +70,7 @@ export default function buildTeamRoutes({
         verifyProject,
         makeCallback(controllers.moveMember)
     );
-    router.post(
+    router.patch(
         "/remove-member",
         verifyUser,
         verifyProject,
