@@ -32,9 +32,9 @@ function Navbar() {
             });
     }, []);
     return (
-        <Card className="rounded-none p-4">
-            <Container>
-                <nav className="ms-auto flex w-fit gap-8">
+        <Card className="flex min-h-20 rounded-none">
+            <Container className="my-auto h-fit">
+                <nav className="my-auto ms-auto flex w-fit gap-8">
                     <div className="ms-auto flex gap-4">
                         {userData.userData ? (
                             <>
@@ -48,7 +48,6 @@ function Navbar() {
                                         {userData.userData?.email}
                                     </small>
                                 </div>
-
                                 <UserDropDownMenu />
                             </>
                         ) : (

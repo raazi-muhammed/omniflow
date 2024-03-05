@@ -21,10 +21,6 @@ export function UserDropDownMenu() {
     const router = useRouter();
     const dispatch = useDispatch<AppDispatch>();
 
-    function handleProfile() {
-        router.push("/profile");
-    }
-
     function handleLogout() {
         userLogOut()
             .then((response) => {
@@ -53,11 +49,12 @@ export function UserDropDownMenu() {
             <DropdownMenuContent className="w-56">
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuGroup>
-                    <DropdownMenuItem onClick={handleProfile}>
-                        Profile
-                    </DropdownMenuItem>
-                </DropdownMenuGroup>
+                <DropdownMenuItem onClick={() => router.push("/profile")}>
+                    Profile
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => router.push("/projects")}>
+                    Projects
+                </DropdownMenuItem>
                 <DropdownMenuItem onClick={handleLogout}>
                     Log out
                 </DropdownMenuItem>

@@ -30,6 +30,7 @@ const projectSchema = new mongoose.Schema<IProject>(
         },
         members: [
             {
+                _id: false,
                 role: {
                     type: String,
                     enum: ["TEAM_LEAD", "DEFAULT"],

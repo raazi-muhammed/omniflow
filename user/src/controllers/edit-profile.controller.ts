@@ -3,12 +3,11 @@ import {
     IRequest,
     ResponseCreator,
     UserNotFoundError,
-    UserUnauthorizedError,
     validateBody,
 } from "@omniflow/common";
 import { IUserRepository } from "../interfaces/repository.interface.js";
 import { IUploadImage } from "../interfaces/lib.interface.js";
-
+import _ from "lodash";
 export default function buildEditProfileController({
     userRepository,
     imageUpload,
@@ -26,8 +25,9 @@ export default function buildEditProfileController({
         const user = await userRepository.findByEmail(currentUser.email);
         if (!user) throw new UserNotFoundError();
 
-        let avatar = null;
-        if (imageInput) {
+        let avatar = user.avatar;
+
+        if (!_.isNil(imageInput)) {
             avatar = await imageUpload({
                 mimetype: imageInput.mimetype,
                 imageBuffer: imageInput.buffer,

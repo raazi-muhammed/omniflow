@@ -22,12 +22,12 @@ import { editUserProfile } from "@/services/user.service";
 
 const formSchema = z.object({
     name: z.string().min(3, "Invalid"),
+    picture: z.any(),
 });
 
 export default function EditProfileForm({ user }: { user: IUser }) {
     const { toast } = useToast();
     const router = useRouter();
-    const [image, setImage] = useState<File>();
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -36,11 +36,13 @@ export default function EditProfileForm({ user }: { user: IUser }) {
         mode: "onTouched",
     });
 
+    const { isDirty, isValid } = form.formState;
+
     function onSubmit(values: z.infer<typeof formSchema>) {
         const data = new FormData();
         data.append("name", values.name);
-        if (image) {
-            data.append("avatar", image);
+        if (values.picture) {
+            data.append("avatar", values.picture[0]);
         }
         editUserProfile(data)
             .then((response) => {
@@ -73,19 +75,28 @@ export default function EditProfileForm({ user }: { user: IUser }) {
                         </FormItem>
                     )}
                 />
-                <Input
-                    // @ts-ignore
-                    onChange={(e) => {
-                        if (e.target.files) {
-                            setImage(e.target.files[0]);
-                        }
-                    }}
-                    type="file"
-                    accept="images/*"
+                <FormField
+                    control={form.control}
+                    name="picture"
+                    render={({}) => (
+                        <FormItem>
+                            <FormLabel>Image</FormLabel>
+                            <FormControl>
+                                <Input
+                                    {...form.register("picture")}
+                                    type="file"
+                                    accept="images/*"
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
                 />
-
-                <Button className="w-full" type="submit">
-                    Edit
+                <Button
+                    disabled={!isDirty || !isValid}
+                    className="w-full"
+                    type="submit">
+                    Save
                 </Button>
             </form>
         </Form>
