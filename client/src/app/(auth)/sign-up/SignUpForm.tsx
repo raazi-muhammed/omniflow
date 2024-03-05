@@ -82,10 +82,17 @@ export default function SignUpForm() {
                 router.push(`/verify-user?email=${values.email}`);
             })
             .catch((error) => {
-                toast({
-                    title: "Cannot create account",
-                    description: error || "Internal server error",
-                });
+                const sanitizedError: string = error.toLowerCase();
+                if (sanitizedError.includes("email")) {
+                    form.setError("email", { message: error });
+                } else if (sanitizedError.includes("username")) {
+                    form.setError("username", { message: error });
+                } else {
+                    toast({
+                        title: "Cannot create account",
+                        description: error || "Internal server error",
+                    });
+                }
             });
     }
 

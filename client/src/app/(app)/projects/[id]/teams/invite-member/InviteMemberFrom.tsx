@@ -49,14 +49,10 @@ export default function InviteMemberForm() {
     function onSubmit(values: z.infer<typeof formSchema>) {
         getPublicUser({ email: values.email })
             .then((response) => {
-                console.log({ response });
-
                 const userDetails: IUser = response.data;
 
                 if (!userDetails.email || !userDetails.name) {
-                    toast({
-                        description: "Invalid user",
-                    });
+                    form.setError("email", { message: "Invalid user" });
                     return;
                 }
                 inviteMemberToTeam({
@@ -80,9 +76,14 @@ export default function InviteMemberForm() {
                     });
             })
             .catch((error) => {
-                toast({
-                    description: error || "Error",
-                });
+                const sanitizedError: string = error.toLowerCase();
+                if (sanitizedError.includes("user")) {
+                    form.setError("email", { message: error });
+                } else {
+                    toast({
+                        description: error || "Error",
+                    });
+                }
             });
     }
 

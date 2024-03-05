@@ -33,7 +33,7 @@ export default function buildAddTeamController({
             projectId: currentProject._id,
             teamName: teamInput.name,
         });
-        if (foundTeam) throw new ConflictError("Project name taken");
+        if (foundTeam) throw new ConflictError("Team name taken");
 
         const team = addTeamUseCase({
             name: teamInput.name,

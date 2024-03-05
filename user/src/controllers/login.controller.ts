@@ -42,7 +42,7 @@ export default function buildLoginController({
         }
 
         if (!userFound.isVerified) {
-            throw new UnauthorizedError("Account is not verified");
+            throw new UnauthorizedError("User is not verified");
         }
 
         const userToken = token.sign(userFound);

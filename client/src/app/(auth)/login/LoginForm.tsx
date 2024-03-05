@@ -1,5 +1,4 @@
 "use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
@@ -59,10 +58,19 @@ export default function LoginForm() {
                 router.push("/projects");
             })
             .catch((error) => {
-                toast({
-                    title: "Login failed",
-                    description: error || "Login successful",
-                });
+                console.log(error);
+
+                const sanitizedError: string = error.toLowerCase();
+                if (sanitizedError.includes("user")) {
+                    form.setError("email", { message: error });
+                } else if (sanitizedError.includes("password")) {
+                    form.setError("password", { message: error });
+                } else {
+                    toast({
+                        title: "Login failed",
+                        description: error || "Error",
+                    });
+                }
             });
     }
 

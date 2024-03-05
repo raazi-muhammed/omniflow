@@ -63,10 +63,15 @@ export default function AddTeamForm() {
                 router.refresh();
             })
             .catch((error) => {
-                toast({
-                    title: "Team adding failed",
-                    description: error || "Team adding failed",
-                });
+                const sanitizedError: string = error.toLowerCase();
+                if (sanitizedError.includes("name")) {
+                    form.setError("name", { message: error });
+                } else {
+                    toast({
+                        title: "Team adding failed",
+                        description: error || "Team adding failed",
+                    });
+                }
             });
     }
 
