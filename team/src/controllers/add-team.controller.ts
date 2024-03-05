@@ -1,5 +1,7 @@
 import {
     AnErrorOccurredError,
+    BadRequestError,
+    ConflictError,
     IRequest,
     ResponseCreator,
     validateBody,
@@ -26,6 +28,12 @@ export default function buildAddTeamController({
         validateBody(teamInput, ["name", "lead"]);
 
         const user = await memberRepository.getByEmail(teamInput.lead);
+
+        const foundTeam = await teamRepository.getTeam({
+            projectId: currentProject._id,
+            teamName: teamInput.name,
+        });
+        if (foundTeam) throw new ConflictError("Project name taken");
 
         const team = addTeamUseCase({
             name: teamInput.name,

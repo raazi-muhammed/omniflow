@@ -18,6 +18,7 @@ export default function buildGetAllProjectsController({
         if (!user) throw new Error("Not a member on any project");
 
         const data = await projectRepository.getAll(user._id);
+        console.log({ data });
 
         const response = new ResponseCreator();
         return response.setData(data);

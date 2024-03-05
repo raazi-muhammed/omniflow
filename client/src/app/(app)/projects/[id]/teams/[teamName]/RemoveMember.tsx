@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/components/ui/use-toast";
 import { removeMember } from "@/services/team.service";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function RemoveMember({
@@ -25,6 +26,7 @@ export default function RemoveMember({
 }) {
     const [open, setOpen] = useState(false);
     const { toast } = useToast();
+    const router = useRouter();
     function handleRemoveMember() {
         removeMember({ email, team })
             .then((response) => {
@@ -32,6 +34,7 @@ export default function RemoveMember({
                     description: response.message,
                 });
                 setOpen(false);
+                router.refresh();
             })
             .catch((error) => {
                 toast({

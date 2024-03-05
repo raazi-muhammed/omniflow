@@ -2,7 +2,6 @@
 
 import {
     AlertDialog,
-    AlertDialogAction,
     AlertDialogCancel,
     AlertDialogContent,
     AlertDialogDescription,
@@ -14,15 +13,19 @@ import {
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { deleteProject } from "@/services/project.service";
+import { useRouter } from "next/navigation";
 
 export default function DeleteProject() {
     const { toast } = useToast();
+    const router = useRouter();
     function handleDeleteProject() {
         deleteProject()
             .then((response) => {
                 toast({
                     description: response.message,
                 });
+                router.push("/projects");
+                router.refresh();
             })
             .catch((error) => {
                 toast({

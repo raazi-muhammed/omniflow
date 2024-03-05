@@ -21,6 +21,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useAppSelector } from "@/redux/store";
 import { getPublicUser } from "@/services/user.service";
 import { IUser } from "@/types/database";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
     email: z.string().email(),
@@ -29,7 +30,7 @@ const formSchema = z.object({
 
 export default function InviteMemberForm() {
     const { toast } = useToast();
-
+    const router = useRouter();
     const myName =
         useAppSelector((state) => state.authReducer).userData?.name || "User";
     const projectName =
@@ -69,6 +70,8 @@ export default function InviteMemberForm() {
                         toast({
                             description: response?.message || "Success",
                         });
+                        router.back();
+                        router.refresh();
                     })
                     .catch((error) => {
                         toast({

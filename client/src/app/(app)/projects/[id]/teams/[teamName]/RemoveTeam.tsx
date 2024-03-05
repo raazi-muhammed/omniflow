@@ -13,15 +13,19 @@ import {
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { removeTeam } from "@/services/team.service";
+import { useRouter } from "next/navigation";
 
 export default function RemoveTeam({ team }: { team: string }) {
     const { toast } = useToast();
+    const router = useRouter();
     function handleRemoveMember() {
         removeTeam({ name: team })
             .then((response) => {
                 toast({
                     description: response.message,
                 });
+                router.back();
+                router.refresh();
             })
             .catch((error) => {
                 toast({

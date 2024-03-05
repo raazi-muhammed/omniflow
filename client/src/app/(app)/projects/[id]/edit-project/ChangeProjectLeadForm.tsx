@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/select";
 import { IAllMemberList } from "@/types/database";
 import { changeProjectLead } from "@/services/project.service";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
     lead: z.string().min(3, "Invalid"),
@@ -32,6 +33,7 @@ const formSchema = z.object({
 
 export default function ChangeProjectLeadForm() {
     const { toast } = useToast();
+    const router = useRouter();
     const [membersList, setMembersList] = useState<IAllMemberList[]>([]);
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -55,6 +57,8 @@ export default function ChangeProjectLeadForm() {
                 toast({
                     description: response?.message || "Success",
                 });
+                router.back();
+                router.refresh();
             })
             .catch((error) => {
                 toast({

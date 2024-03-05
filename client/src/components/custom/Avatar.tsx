@@ -1,8 +1,4 @@
-import {
-    Avatar as AvatarMain,
-    AvatarFallback,
-    AvatarImage,
-} from "@/components/ui/avatar";
+import { Avatar as AvatarMain, AvatarFallback } from "@/components/ui/avatar";
 import {
     Tooltip,
     TooltipContent,
@@ -10,6 +6,7 @@ import {
     TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { generateFallbackAvatar } from "@/lib/utils";
+import Image from "next/image";
 
 type Props = {
     size?: "sm" | "default" | "lg";
@@ -33,9 +30,12 @@ export default function Avatar({
                         <Tooltip>
                             <TooltipTrigger>
                                 <AvatarMain className="my-auto h-8 w-8">
-                                    <AvatarImage
-                                        className="object-cover"
+                                    <Image
+                                        className="aspect-square h-full w-full"
                                         src={src}
+                                        width={32}
+                                        height={32}
+                                        alt="Profile picture"
                                     />
                                     <AvatarFallback>
                                         {generateFallbackAvatar(name)}
@@ -54,7 +54,13 @@ export default function Avatar({
             } else {
                 return (
                     <AvatarMain className="my-auto h-8 w-8">
-                        <AvatarImage className="object-cover" src={src} />
+                        <Image
+                            className="aspect-square h-full w-full"
+                            src={src}
+                            width={32}
+                            height={32}
+                            alt="Profile picture"
+                        />
                         <AvatarFallback>
                             {generateFallbackAvatar(name)}
                         </AvatarFallback>
@@ -64,7 +70,13 @@ export default function Avatar({
         case "lg":
             return (
                 <AvatarMain className="my-auto h-36 w-36 border">
-                    <AvatarImage className="object-cover" src={src} />
+                    <Image
+                        className="aspect-square h-full w-full"
+                        src={src}
+                        width={144}
+                        height={144}
+                        alt="Profile picture"
+                    />
                     <AvatarFallback>
                         {generateFallbackAvatar(name)}
                     </AvatarFallback>
@@ -73,7 +85,14 @@ export default function Avatar({
         default:
             return (
                 <AvatarMain>
-                    <AvatarImage className="my-auto object-cover" src={src} />
+                    <Image
+                        className="aspect-square h-full w-full"
+                        src={src}
+                        width={32}
+                        height={32}
+                        alt="Profile picture"
+                    />
+
                     <AvatarFallback>
                         {generateFallbackAvatar(name)}
                     </AvatarFallback>

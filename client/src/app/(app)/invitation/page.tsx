@@ -10,14 +10,14 @@ import {
 } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
 import { changeInvitationStatus } from "@/services/team.service";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function page() {
     const { toast } = useToast();
     const searchParams = useSearchParams();
     const token = searchParams.get("token");
     const message = searchParams.get("message");
-
+    const router = useRouter();
     function handleAcceptInvitation() {
         if (!token) {
             toast({
@@ -33,6 +33,7 @@ export default function page() {
                 toast({
                     description: response?.message || "Invitation accepted",
                 });
+                router.push("/projects");
             })
             .catch((error) => {
                 toast({
@@ -56,6 +57,7 @@ export default function page() {
                 toast({
                     description: response?.message || "Invitation accepted",
                 });
+                router.push("/projects");
             })
             .catch((error) => {
                 toast({

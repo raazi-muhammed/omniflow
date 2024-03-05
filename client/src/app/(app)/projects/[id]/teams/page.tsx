@@ -40,6 +40,9 @@ export default async function page() {
                         </Button>
                     </Link>
                 </ActionItemsContainer>
+                {teams.length <= 0 && (
+                    <ErrorMessage>Not teams yet</ErrorMessage>
+                )}
                 {teams.map((team) => (
                     <>
                         <section className="flex justify-between">

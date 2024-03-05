@@ -41,12 +41,14 @@ export default function buildProjectRepository({
         delete: async (id: string) => {
             const result = await database.updateOne(
                 {
-                    _id: id,
+                    _id: new Types.ObjectId(id),
                 },
                 {
                     isDeleted: true,
                 }
             );
+            console.log({ result });
+
             return result.modifiedCount > 0;
         },
         addMember: async ({

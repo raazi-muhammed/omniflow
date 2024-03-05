@@ -57,7 +57,7 @@ export default function EditProjectForm() {
                     title: "test",
                     startDate: new Date(),
                     dueDate: new Date(),
-                    description: "hoooi",
+                    description: "",
                 };
             }
         },
@@ -77,7 +77,7 @@ export default function EditProjectForm() {
                 toast({
                     description: response?.message || "Project updated",
                 });
-                //router.push("/projects");
+                router.refresh();
             })
             .catch((error) => {
                 toast({

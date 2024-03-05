@@ -32,7 +32,7 @@ const deleteProject = buildDeleteProjectController({
 });
 const getProject = buildGetProjectController({ token, projectRepository });
 
-const currentProject = buildGetCurrentProject({ projectRepository });
+const currentProject = buildGetCurrentProject({ token, projectRepository });
 
 const addMemberToProject = buildAddMemberToProject({
     createMember: useCases.createMember,

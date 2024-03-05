@@ -37,6 +37,7 @@ export default function buildTeamRepository({
             const team = await database.findOne({
                 project: projectId,
                 name: "Default",
+                isDeleted: false,
             });
             if (team) return team as IDBTeam;
 
@@ -45,6 +46,7 @@ export default function buildTeamRepository({
                 avatar: null,
                 project: projectId,
                 lead: null,
+                isDeleted: false,
                 members: [],
             });
             return upsertTeam as IDBTeam;
@@ -62,7 +64,11 @@ export default function buildTeamRepository({
             teamName: string;
         }) => {
             return (await database
-                .findOne({ project: projectId, name: teamName })
+                .findOne({
+                    project: projectId,
+                    name: teamName,
+                    isDeleted: false,
+                })
                 .populate("members.info")) as IDBTeam;
         },
         removeTeam: async ({
@@ -73,7 +79,7 @@ export default function buildTeamRepository({
             teamName: string;
         }) => {
             const response = await database.updateOne(
-                { project: projectId, name: teamName },
+                { project: projectId, name: teamName, isDeleted: false },
                 { isDeleted: true }
             );
             return response.acknowledged;
@@ -90,6 +96,7 @@ export default function buildTeamRepository({
             const response = await database.findOne({
                 project: projectId,
                 name: teamName,
+                isDeleted: false,
             });
             response.lead = new Types.ObjectId(userId);
             response.members = response.members.map((m) => {
@@ -120,7 +127,7 @@ export default function buildTeamRepository({
             projectId: string;
         }) => {
             const response = await database.updateOne(
-                { project: projectId, name: teamName },
+                { project: projectId, name: teamName, isDeleted: false },
                 {
                     $pull: {
                         members: {
@@ -141,7 +148,7 @@ export default function buildTeamRepository({
             projectId: string;
         }) => {
             const response = await database.updateOne(
-                { project: projectId, name: teamName },
+                { project: projectId, name: teamName, isDeleted: false },
                 {
                     $addToSet: {
                         members: member,

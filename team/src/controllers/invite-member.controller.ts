@@ -24,7 +24,6 @@ export default function buildInviteMemberController({
     memberRepository,
     teamRepository,
     addMemberUseCase,
-    createNameFromEmail,
     token,
     mailService,
 }: {

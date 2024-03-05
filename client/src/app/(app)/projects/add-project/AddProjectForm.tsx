@@ -73,6 +73,7 @@ export default function AddProjectForm() {
                     description: response?.message || "Project added",
                 });
                 router.push("/projects");
+                router.refresh();
             })
             .catch((error) => {
                 toast({
