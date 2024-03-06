@@ -25,7 +25,7 @@ export async function connectKafka() {
         eachMessage: async ({ topic, partition, message }) => {
             switch (topic) {
                 case "member-added-to-team":
-                    projectController.addMemberToProject(
+                    projectController.addProjectMember(
                         JSON.parse(message.value.toString())
                     );
                     break;

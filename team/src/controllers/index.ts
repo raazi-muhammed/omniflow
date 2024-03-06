@@ -8,12 +8,12 @@ import { createNameFromEmail } from "../lib/utils.js";
 import { token } from "@omniflow/common";
 import buildChangeInvitationStatusController from "./change-invitation-status.controller.js";
 import { mailService } from "../lib/send-invitation-mail.js";
-import buildGetMembersListController from "./get-members-list.controller.js";
+import buildGetMembersListController from "./get-members.controller.js";
 import producer from "../events/producer.js";
-import buildGetMembersFromTeamController from "./get-members-from-team.controller.js";
+import buildGetMembersFromTeamController from "./get-team-members.controller.js";
 import buildChangeTeamLeadController from "./change-team-lead.controller.js";
-import buildMoveMemberToTeamController from "./move-member-to-team.controller.js";
-import buildRemoveMemberFromTeamController from "./remove-member-from-team.controller.js";
+import buildMoveMemberToTeamController from "./move-team-member.controller.js";
+import buildRemoveMemberFromTeamController from "./remove-team-member.controller.js";
 import buildRemoveTeamController from "./remove-team.controller.js";
 
 const addTeam = buildAddTeamController({
@@ -33,11 +33,11 @@ const inviteMember = buildInviteMemberController({
 const getTeams = buildGetTeamsController({
     teamRepository,
 });
-const getMembersList = buildGetMembersListController({
+const getMembers = buildGetMembersListController({
     teamRepository,
 });
 
-const changeInvitationStatus = buildChangeInvitationStatusController({
+const changeMemberInvitationStatus = buildChangeInvitationStatusController({
     token,
     productAddMember: producer.productAddMember,
     teamRepository,
@@ -49,14 +49,14 @@ const changeTeamLead = buildChangeTeamLeadController({
     memberRepository,
 });
 
-const getMemberFromTeam = buildGetMembersFromTeamController({ teamRepository });
+const getTeamMembers = buildGetMembersFromTeamController({ teamRepository });
 
-const moveMember = buildMoveMemberToTeamController({
+const moveTeamMember = buildMoveMemberToTeamController({
     teamRepository,
     memberRepository,
 });
 
-const removeMemberFromTeam = buildRemoveMemberFromTeamController({
+const removeTeamMember = buildRemoveMemberFromTeamController({
     teamRepository,
     memberRepository,
 });
@@ -66,12 +66,12 @@ const teamController: ITeamController = Object.freeze({
     addTeam,
     inviteMember,
     getTeams,
-    changeInvitationStatus,
-    getMembersList,
-    getMemberFromTeam,
+    changeMemberInvitationStatus,
+    getMembers,
+    getTeamMembers,
     changeTeamLead,
-    moveMember,
-    removeMemberFromTeam,
+    moveTeamMember,
+    removeTeamMember,
     removeTeam,
 });
 

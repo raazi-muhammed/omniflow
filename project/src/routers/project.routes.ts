@@ -20,12 +20,12 @@ export default function buildProjectRoute({
     router.post(
         "/projects",
         verifyUserMiddleware,
-        makeCallback(controllers.add)
+        makeCallback(controllers.addProject)
     );
     router.get(
         "/projects",
         verifyUserMiddleware,
-        makeCallback(controllers.getAll)
+        makeCallback(controllers.getProjects)
     );
     router.get(
         "/projects/current",
@@ -37,7 +37,7 @@ export default function buildProjectRoute({
         "/projects/current",
         verifyUserMiddleware,
         verifyProjectMiddleware,
-        makeCallback(controllers.edit)
+        makeCallback(controllers.editProject)
     );
     router.delete(
         "/projects/current",

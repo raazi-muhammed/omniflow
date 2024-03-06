@@ -39,7 +39,7 @@ export default function buildTeamRoutes({
         "/teams/members",
         verifyUser,
         verifyProject,
-        makeCallback(controllers.getMembersList)
+        makeCallback(controllers.getMembers)
     );
 
     router.post(
@@ -51,13 +51,13 @@ export default function buildTeamRoutes({
     router.put(
         "/teams/members/invite/status",
         verifyUser,
-        makeCallback(controllers.changeInvitationStatus)
+        makeCallback(controllers.changeMemberInvitationStatus)
     );
     router.get(
         "/teams/:name/members",
         verifyUser,
         verifyProject,
-        makeCallback(controllers.getMemberFromTeam)
+        makeCallback(controllers.getTeamMembers)
     );
     router.patch(
         "/teams/:name/members/change-lead",
@@ -69,13 +69,13 @@ export default function buildTeamRoutes({
         "/teams/:name/members/move",
         verifyUser,
         verifyProject,
-        makeCallback(controllers.moveMember)
+        makeCallback(controllers.moveTeamMember)
     );
     router.delete(
         "/teams/:name/members/:email",
         verifyUser,
         verifyProject,
-        makeCallback(controllers.removeMemberFromTeam)
+        makeCallback(controllers.removeTeamMember)
     );
 
     return router;
