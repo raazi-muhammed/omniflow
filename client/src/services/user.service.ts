@@ -9,7 +9,7 @@ import {
 export async function getUserProfile(
     config: AxiosRequestConfig
 ): Promise<IResponse> {
-    const url = new BuildUrl().user("/get-profile");
+    const url = new BuildUrl().user("/users/:id");
     return new Promise((resolve, reject) => {
         axios
             .get(url, { ...config, withCredentials: true })
@@ -26,10 +26,10 @@ export async function editUserProfile(
     data: FormData,
     config?: AxiosRequestConfig
 ): Promise<IResponse> {
-    const url = new BuildUrl().user("/edit-profile");
+    const url = new BuildUrl().user("/users/:id");
     return new Promise((resolve, reject) => {
         axios
-            .post(url, data, { ...config, withCredentials: true })
+            .put(url, data, { ...config, withCredentials: true })
             .then((response) => {
                 resolve(adaptSuccessResponse(response));
             })
@@ -42,7 +42,7 @@ export async function editUserProfile(
 export async function getCurrentUser(
     config?: AxiosRequestConfig
 ): Promise<IResponse> {
-    const url = new BuildUrl().user("/current-user");
+    const url = new BuildUrl().user("/users/current");
     return new Promise((resolve, reject) => {
         axios
             .get(url, { ...config, withCredentials: true })
@@ -59,7 +59,7 @@ export async function getPublicUser(
     { email }: { email: string },
     config?: AxiosRequestConfig
 ): Promise<IResponse> {
-    const url = new BuildUrl().user(`/get-public-user?email=${email}`);
+    const url = new BuildUrl().user(`/users/public/${email}`);
     return new Promise((resolve, reject) => {
         axios
             .get(url, { ...config, withCredentials: true })
@@ -79,7 +79,7 @@ export async function changePassword(
     },
     config?: AxiosRequestConfig
 ): Promise<IResponse> {
-    const url = new BuildUrl().user(`/change-password`);
+    const url = new BuildUrl().user(`/users/change-password`);
     return new Promise((resolve, reject) => {
         axios
             .patch(url, values, { ...config, withCredentials: true })

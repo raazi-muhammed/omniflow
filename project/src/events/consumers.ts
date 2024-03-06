@@ -10,7 +10,7 @@ export async function connectKafka() {
     const kafka = new Kafka({
         clientId: "my-app",
         logLevel: 0,
-        brokers: ["kafka:9092"],
+        brokers: [KAFKA_BROKER_ADDRESS],
     });
     const consumer = kafka.consumer({ groupId: "test-group" });
 

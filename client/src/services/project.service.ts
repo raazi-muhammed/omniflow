@@ -9,7 +9,7 @@ import {
 export async function getProjects(
     config: AxiosRequestConfig
 ): Promise<IResponse> {
-    const url = new BuildUrl().project("/get-projects");
+    const url = new BuildUrl().project("/projects");
     return new Promise((resolve, reject) => {
         axios
             .get(url, { ...config, withCredentials: true })
@@ -33,7 +33,7 @@ export async function addProject(
     },
     config?: AxiosRequestConfig
 ): Promise<IResponse> {
-    const url = new BuildUrl().project("/add-project");
+    const url = new BuildUrl().project("/projects");
     return new Promise((resolve, reject) => {
         axios
             .post(url, values, { ...config, withCredentials: true })
@@ -55,10 +55,10 @@ export async function editProject(
     },
     config?: AxiosRequestConfig
 ): Promise<IResponse> {
-    const url = new BuildUrl().project("/edit-project");
+    const url = new BuildUrl().project("/projects/current");
     return new Promise((resolve, reject) => {
         axios
-            .post(url, values, { ...config, withCredentials: true })
+            .put(url, values, { ...config, withCredentials: true })
             .then((response) => {
                 resolve(adaptSuccessResponse(response));
             })
@@ -72,7 +72,7 @@ export async function getProject(
     { id }: { id: string },
     config?: AxiosRequestConfig
 ): Promise<IResponse> {
-    const url = new BuildUrl().project(`/get-project/${id}`);
+    const url = new BuildUrl().project(`/projects/${id}`);
     return new Promise((resolve, reject) => {
         axios
             .get(url, { ...config, withCredentials: true })
@@ -88,7 +88,7 @@ export async function getProject(
 export async function deleteProject(
     config?: AxiosRequestConfig
 ): Promise<IResponse> {
-    const url = new BuildUrl().project(`/delete-project`);
+    const url = new BuildUrl().project(`/projects/current`);
     return new Promise((resolve, reject) => {
         axios
             .delete(url, { ...config, withCredentials: true })
@@ -104,7 +104,7 @@ export async function deleteProject(
 export async function getCurrentProject(
     config?: AxiosRequestConfig
 ): Promise<IResponse> {
-    const url = new BuildUrl().project(`/current-project`);
+    const url = new BuildUrl().project(`/projects/current`);
     return new Promise((resolve, reject) => {
         axios
             .get(url, { ...config, withCredentials: true })
@@ -121,10 +121,10 @@ export async function changeProjectLead(
     values: { lead: string },
     config?: AxiosRequestConfig
 ): Promise<IResponse> {
-    const url = new BuildUrl().project("/change-project-lead");
+    const url = new BuildUrl().project("/projects/current/change-lead");
     return new Promise((resolve, reject) => {
         axios
-            .post(url, values, { ...config, withCredentials: true })
+            .patch(url, values, { ...config, withCredentials: true })
             .then((response) => {
                 resolve(adaptSuccessResponse(response));
             })

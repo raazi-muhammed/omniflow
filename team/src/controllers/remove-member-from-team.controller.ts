@@ -18,11 +18,11 @@ export default function buildRemoveMemberFromTeamController({
 }) {
     return async (req: IRequest) => {
         const { currentProject } = req;
-        const inputData = req.body;
+        const inputData = req.params;
 
-        validateBody(inputData, ["team", "email"]);
+        validateBody(inputData, ["name", "email"]);
 
-        console.log("hooi");
+        console.log({ inputData });
 
         const user = await memberRepository.getByEmail(inputData.email);
         if (!user) throw new UserNotFoundError();

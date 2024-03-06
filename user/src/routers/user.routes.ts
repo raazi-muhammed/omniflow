@@ -14,27 +14,30 @@ export default function buildUserRoutes({
     updateImageMiddleware: any;
 }) {
     router.get(
-        "/get-profile",
+        "/users/public/:email",
         verifyMiddleware,
-        makeCallback(authControllers.getProfile)
+        makeCallback(authControllers.getPublicUser)
     );
-
-    router.post(
-        "/edit-profile",
+    router.get(
+        "/users/current",
         verifyMiddleware,
-        updateImageMiddleware,
-        makeCallback(authControllers.editProfile)
+        makeCallback(authControllers.currentUser)
     );
     router.patch(
-        "/change-password",
+        "/users/change-password",
         verifyMiddleware,
         makeCallback(authControllers.changePassword)
     );
-
     router.get(
-        "/get-public-user",
+        "/users/:id",
         verifyMiddleware,
-        makeCallback(authControllers.getPublicUser)
+        makeCallback(authControllers.getProfile)
+    );
+    router.put(
+        "/users/:id",
+        verifyMiddleware,
+        updateImageMiddleware,
+        makeCallback(authControllers.editProfile)
     );
 
     return router;

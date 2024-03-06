@@ -18,43 +18,44 @@ export default function buildProjectRoute({
     controllers: IProjectController;
 }) {
     router.post(
-        "/add-project",
+        "/projects",
         verifyUserMiddleware,
         makeCallback(controllers.add)
     );
-    router.post(
-        "/edit-project",
+    router.get(
+        "/projects",
+        verifyUserMiddleware,
+        makeCallback(controllers.getAll)
+    );
+    router.get(
+        "/projects/current",
+        verifyUserMiddleware,
+        verifyProjectMiddleware,
+        makeCallback(controllers.currentProject)
+    );
+    router.put(
+        "/projects/current",
         verifyUserMiddleware,
         verifyProjectMiddleware,
         makeCallback(controllers.edit)
     );
     router.delete(
-        "/delete-project",
+        "/projects/current",
         verifyUserMiddleware,
         verifyProjectMiddleware,
         makeCallback(controllers.deleteProject)
     );
-    router.get(
-        "/get-projects",
-        verifyUserMiddleware,
-        makeCallback(controllers.getAll)
-    );
-    router.get(
-        "/get-project/:id",
-        verifyUserMiddleware,
-        makeCallback(controllers.getProject)
-    );
-    router.get(
-        "/current-project",
-        verifyUserMiddleware,
-        verifyProjectMiddleware,
-        makeCallback(controllers.currentProject)
-    );
-    router.post(
-        "/change-project-lead",
+    router.patch(
+        "/projects/current/change-lead",
         verifyUserMiddleware,
         verifyProjectMiddleware,
         makeCallback(controllers.changeProjectLead)
     );
+    router.get(
+        "/projects/:id",
+        verifyUserMiddleware,
+        makeCallback(controllers.getProject)
+    );
+
     return router;
 }

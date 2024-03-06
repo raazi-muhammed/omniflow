@@ -17,64 +17,66 @@ export default function buildTeamRoutes({
     verifyProject: IVerifyProjectMiddleware;
     controllers: ITeamController;
 }) {
-    router.post(
-        "/add-team",
-        verifyUser,
-        verifyProject,
-        makeCallback(controllers.addTeam)
-    );
-    router.patch(
-        "/remove-team",
-        verifyUser,
-        verifyProject,
-        makeCallback(controllers.removeTeam)
-    );
-    router.post(
-        "/invite-member",
-        verifyUser,
-        verifyProject,
-        makeCallback(controllers.inviteMember)
-    );
-    router.post(
-        "/change-invitation-status",
-        verifyUser,
-        makeCallback(controllers.changeInvitationStatus)
-    );
     router.get(
-        "/get-teams",
+        "/teams",
         verifyUser,
         verifyProject,
         makeCallback(controllers.getTeams)
     );
+    router.post(
+        "/teams",
+        verifyUser,
+        verifyProject,
+        makeCallback(controllers.addTeam)
+    );
+    router.delete(
+        "/teams/:name",
+        verifyUser,
+        verifyProject,
+        makeCallback(controllers.removeTeam)
+    );
     router.get(
-        "/get-members-list",
+        "/teams/members",
         verifyUser,
         verifyProject,
         makeCallback(controllers.getMembersList)
     );
+
     router.post(
-        "/change-team-lead",
+        "/teams/members/invite",
         verifyUser,
         verifyProject,
-        makeCallback(controllers.changeTeamLead)
+        makeCallback(controllers.inviteMember)
+    );
+    router.put(
+        "/teams/members/invite/status",
+        verifyUser,
+        makeCallback(controllers.changeInvitationStatus)
     );
     router.get(
-        "/team-members",
+        "/teams/:name/members",
         verifyUser,
         verifyProject,
         makeCallback(controllers.getMemberFromTeam)
     );
-    router.post(
-        "/move-member",
+    router.patch(
+        "/teams/:name/members/change-lead",
+        verifyUser,
+        verifyProject,
+        makeCallback(controllers.changeTeamLead)
+    );
+    router.patch(
+        "/teams/:name/members/move",
         verifyUser,
         verifyProject,
         makeCallback(controllers.moveMember)
     );
-    router.patch(
-        "/remove-member",
+    router.delete(
+        "/teams/:name/members/:email",
         verifyUser,
         verifyProject,
         makeCallback(controllers.removeMemberFromTeam)
     );
+
     return router;
 }

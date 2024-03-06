@@ -76,7 +76,7 @@ export default function SignUpForm() {
         userSignUp(values)
             .then((response) => {
                 toast({
-                    title: response.message || "Account created",
+                    title: response.message,
                     description: "Now verify user account",
                 });
                 router.push(`/verify-user?email=${values.email}`);
@@ -89,8 +89,7 @@ export default function SignUpForm() {
                     form.setError("username", { message: error });
                 } else {
                     toast({
-                        title: "Cannot create account",
-                        description: error || "Internal server error",
+                        description: error,
                     });
                 }
             });

@@ -12,7 +12,7 @@ export default function buildGetPublicUserController({
     userRepository: IUserRepository;
 }) {
     return async (req: IRequest) => {
-        const userEmail = req.query.email;
+        const userEmail = req.params.email;
         if (!userEmail || typeof userEmail !== "string") {
             throw new BadRequestError("Invalid email");
         }

@@ -52,14 +52,12 @@ export default function LoginForm() {
         userLogin(values)
             .then((response) => {
                 toast({
-                    description: response?.message || "Login successful",
+                    description: response?.message,
                 });
                 dispatch(logUser(response.data));
                 router.push("/projects");
             })
             .catch((error) => {
-                console.log(error);
-
                 const sanitizedError: string = error.toLowerCase();
                 if (sanitizedError.includes("user")) {
                     form.setError("email", { message: error });
@@ -67,8 +65,7 @@ export default function LoginForm() {
                     form.setError("password", { message: error });
                 } else {
                     toast({
-                        title: "Login failed",
-                        description: error || "Error",
+                        description: error,
                     });
                 }
             });

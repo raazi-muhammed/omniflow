@@ -44,7 +44,7 @@ export async function verifyUser(values: {
     code: number;
     email: string;
 }): Promise<IResponse> {
-    const url = new BuildUrl().user("/verify-user");
+    const url = new BuildUrl().user("/sign-up/verify-user");
     return new Promise((resolve, reject) => {
         axios
             .post(url, values, { withCredentials: true })
@@ -60,7 +60,7 @@ export async function verifyUser(values: {
 export async function resendCode(values: {
     email: string;
 }): Promise<IResponse> {
-    const url = new BuildUrl().user("/resend-code");
+    const url = new BuildUrl().user("/sign-up/verify-user/resend-code");
     return new Promise((resolve, reject) => {
         axios
             .post(url, values, { withCredentials: true })

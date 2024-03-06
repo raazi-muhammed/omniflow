@@ -11,6 +11,7 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { getTeams, moveMember } from "@/services/team.service";
 import { ITeam } from "@/types/database";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function MoveToTeamSelector({
@@ -22,6 +23,7 @@ export default function MoveToTeamSelector({
 }) {
     const { toast } = useToast();
     const [teams, setTeams] = useState<ITeam[]>([]);
+    const router = useRouter();
 
     useEffect(() => {
         getTeams().then((response) => {
@@ -36,6 +38,7 @@ export default function MoveToTeamSelector({
                 toast({
                     description: response?.message || "Success",
                 });
+                router.refresh();
             })
             .catch((error) => {
                 toast({

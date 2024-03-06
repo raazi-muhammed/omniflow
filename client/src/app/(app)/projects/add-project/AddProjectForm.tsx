@@ -70,14 +70,14 @@ export default function AddProjectForm() {
         addProject(values)
             .then((response) => {
                 toast({
-                    description: response?.message || "Project added",
+                    description: response.message,
                 });
                 router.push("/projects");
                 router.refresh();
             })
             .catch((error) => {
                 toast({
-                    description: error || "Project adding failed",
+                    description: error,
                 });
             });
     }

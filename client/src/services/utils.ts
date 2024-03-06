@@ -23,18 +23,18 @@ export class BuildUrl {
 }
 
 export type IResponse = {
-    message?: string;
+    message: string;
     data?: any;
 };
 
 export function adaptSuccessResponse(response: AxiosResponse): IResponse {
     return {
-        message: response?.data?.message,
+        message: response?.data?.message || "Success",
         data: response?.data?.data,
     };
 }
 export function adaptErrorResponse(
     error: AxiosError<{ message?: string }>
-): string | undefined {
-    return error?.response?.data?.message || "Internal server error";
+): string {
+    return error?.response?.data?.message || "Error";
 }

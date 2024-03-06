@@ -35,7 +35,7 @@ export default function Avatar({
                             <TooltipTrigger>
                                 <AvatarMain className="my-auto h-8 w-8">
                                     <Image
-                                        className="z-10 aspect-square h-full w-full"
+                                        className="z-10 aspect-square h-full w-full object-cover"
                                         src={src}
                                         width={32}
                                         height={32}
@@ -59,7 +59,7 @@ export default function Avatar({
                 return (
                     <AvatarMain className="my-auto h-8 w-8">
                         <Image
-                            className="z-10 aspect-square h-full w-full"
+                            className="z-10 aspect-square h-full w-full object-cover"
                             src={src}
                             width={32}
                             height={32}
@@ -75,7 +75,7 @@ export default function Avatar({
             return (
                 <AvatarMain className="my-auto h-36 w-36 border text-5xl">
                     <Image
-                        className="z-10 aspect-square h-full w-full"
+                        className="z-10 aspect-square h-full w-full object-cover"
                         src={src}
                         width={144}
                         height={144}
@@ -90,7 +90,7 @@ export default function Avatar({
             return (
                 <AvatarMain>
                     <Image
-                        className="z-10 aspect-square h-full w-full"
+                        className="z-10 aspect-square h-full w-full object-cover"
                         src={src}
                         width={32}
                         height={32}

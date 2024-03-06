@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 import { useForm } from "react-hook-form";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -48,15 +47,14 @@ export default function VerifyForm() {
         verifyUser({ code: Number(values.code), email: userEmail || "" })
             .then((response) => {
                 toast({
-                    description: response.message || "Verification successful",
+                    description: response.message,
                 });
                 dispatch(logUser(response.data));
                 router.push("/login");
             })
             .catch((error) => {
                 toast({
-                    title: "Verification failed",
-                    description: error || "failed",
+                    description: error,
                 });
             });
     }

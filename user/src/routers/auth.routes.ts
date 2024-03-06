@@ -5,7 +5,6 @@ import { IAuthController } from "../interfaces/controller.interface.js";
 export default function buildAuthRoutes({
     router,
     authControllers,
-    verifyMiddleware,
 }: {
     router: Router;
     authControllers: IAuthController;
@@ -13,14 +12,15 @@ export default function buildAuthRoutes({
 }) {
     router.post("/sign-up", makeCallback(authControllers.signIn));
     router.post("/login", makeCallback(authControllers.login));
-    router.post("/verify-user", makeCallback(authControllers.verifyUser));
-    router.post("/resend-code", makeCallback(authControllers.resendCode));
-    router.post("/logout", makeCallback(authControllers.logOut));
-    router.get(
-        "/current-user",
-        verifyMiddleware,
-        makeCallback(authControllers.currentUser)
+    router.post(
+        "/sign-up/verify-user",
+        makeCallback(authControllers.verifyUser)
     );
+    router.post(
+        "/sign-up/verify-user/resend-code",
+        makeCallback(authControllers.resendCode)
+    );
+    router.post("/logout", makeCallback(authControllers.logOut));
 
     return router;
 }

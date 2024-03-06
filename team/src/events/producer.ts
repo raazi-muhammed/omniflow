@@ -8,7 +8,7 @@ if (!KAFKA_BROKER_ADDRESS) {
 }
 const kafka = new Kafka({
     clientId: "my-app",
-    brokers: ["kafka:9092"],
+    brokers: [KAFKA_BROKER_ADDRESS],
 });
 
 const producer = kafka.producer();

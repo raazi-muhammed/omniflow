@@ -13,7 +13,7 @@ export default function buildGetMembersFromTeamController({
 }) {
     return async (req: IRequest) => {
         const { currentProject } = req;
-        const { team } = req.query;
+        const team = req.params.name;
 
         if (!team || typeof team !== "string") {
             throw new BadRequestError("Invalid team data");
@@ -25,7 +25,6 @@ export default function buildGetMembersFromTeamController({
         });
 
         if (!data) throw new AnErrorOccurredError();
-        console.log({ data });
 
         const response = new ResponseCreator();
 

@@ -9,7 +9,9 @@ export default function buildRemoveTeamController({
     return async (req: IRequest) => {
         const { currentProject } = req;
 
-        const inputData = req.body;
+        const inputData = req.params;
+        console.log({ inputData, name: inputData.name });
+
         validateBody(inputData, ["name"]);
 
         await teamRepository.removeTeam({

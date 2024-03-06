@@ -16,7 +16,7 @@ export async function inviteMemberToTeam(
     },
     config?: AxiosRequestConfig
 ): Promise<IResponse> {
-    const url = new BuildUrl().team(`/invite-member`);
+    const url = new BuildUrl().team(`/teams/members/invite`);
     return new Promise((resolve, reject) => {
         axios
             .post(url, values, { ...config, withCredentials: true })
@@ -33,7 +33,7 @@ export async function addTeam(
     values: { name: string },
     config?: AxiosRequestConfig
 ): Promise<IResponse> {
-    const url = new BuildUrl().team(`/add-team`);
+    const url = new BuildUrl().team(`/teams`);
     return new Promise((resolve, reject) => {
         axios
             .post(url, values, { ...config, withCredentials: true })
@@ -47,13 +47,13 @@ export async function addTeam(
 }
 
 export async function removeTeam(
-    values: { name: string },
+    value: { name: string },
     config?: AxiosRequestConfig
 ): Promise<IResponse> {
-    const url = new BuildUrl().team(`/remove-team`);
+    const url = new BuildUrl().team(`/teams/${value.name}`);
     return new Promise((resolve, reject) => {
         axios
-            .patch(url, values, { ...config, withCredentials: true })
+            .delete(url, { ...config, withCredentials: true })
             .then((response) => {
                 resolve(adaptSuccessResponse(response));
             })
@@ -66,7 +66,7 @@ export async function removeTeam(
 export async function getTeams(
     config?: AxiosRequestConfig
 ): Promise<IResponse> {
-    const url = new BuildUrl().team(`/get-teams`);
+    const url = new BuildUrl().team(`/teams`);
     return new Promise((resolve, reject) => {
         axios
             .get(url, { ...config, withCredentials: true })
@@ -83,7 +83,7 @@ export async function changeInvitationStatus(
     values: { token: string; invitationAccepted: boolean },
     config?: AxiosRequestConfig
 ): Promise<IResponse> {
-    const url = new BuildUrl().team(`/change-invitation-status`);
+    const url = new BuildUrl().team(`/teams/members/invite/status`);
     return new Promise((resolve, reject) => {
         axios
             .post(url, values, { ...config, withCredentials: true })
@@ -99,7 +99,7 @@ export async function changeInvitationStatus(
 export async function getMembersList(
     config?: AxiosRequestConfig
 ): Promise<IResponse> {
-    const url = new BuildUrl().team(`/get-members-list`);
+    const url = new BuildUrl().team(`/teams/members`);
     return new Promise((resolve, reject) => {
         axios
             .get(url, { ...config, withCredentials: true })
@@ -116,7 +116,7 @@ export async function getTeamMembers(
     { teamName }: { teamName: string },
     config?: AxiosRequestConfig
 ): Promise<IResponse> {
-    const url = new BuildUrl().team(`/team-members?team=${teamName}`);
+    const url = new BuildUrl().team(`/teams/${teamName}/members`);
     return new Promise((resolve, reject) => {
         axios
             .get(url, { ...config, withCredentials: true })
@@ -133,10 +133,12 @@ export async function changeTeamLead(
     values: { lead: string; teamName: string },
     config?: AxiosRequestConfig
 ): Promise<IResponse> {
-    const url = new BuildUrl().team(`/change-team-lead`);
+    const url = new BuildUrl().team(
+        `/teams/${values.teamName}/members/change-lead`
+    );
     return new Promise((resolve, reject) => {
         axios
-            .post(url, values, { ...config, withCredentials: true })
+            .patch(url, values, { ...config, withCredentials: true })
             .then((response) => {
                 resolve(adaptSuccessResponse(response));
             })
@@ -150,10 +152,10 @@ export async function moveMember(
     values: { toTeam: string; fromTeam: string; email: string },
     config?: AxiosRequestConfig
 ): Promise<IResponse> {
-    const url = new BuildUrl().team(`/move-member`);
+    const url = new BuildUrl().team(`/teams/${values.toTeam}/members/move`);
     return new Promise((resolve, reject) => {
         axios
-            .post(url, values, { ...config, withCredentials: true })
+            .patch(url, values, { ...config, withCredentials: true })
             .then((response) => {
                 resolve(adaptSuccessResponse(response));
             })
@@ -167,10 +169,12 @@ export async function removeMember(
     values: { team: string; email: string },
     config?: AxiosRequestConfig
 ): Promise<IResponse> {
-    const url = new BuildUrl().team(`/remove-member`);
+    const url = new BuildUrl().team(
+        `/teams/${values.team}/members/${values.email}`
+    );
     return new Promise((resolve, reject) => {
         axios
-            .patch(url, values, { ...config, withCredentials: true })
+            .delete(url, { ...config, withCredentials: true })
             .then((response) => {
                 resolve(adaptSuccessResponse(response));
             })

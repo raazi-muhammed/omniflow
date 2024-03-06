@@ -12,5 +12,7 @@ app.listen(PORT, () => {
     console.log(`Server started (${SERVER_NAME})\t: http://localhost:${PORT}`);
 
     connectDatabase();
-    connectKafka();
+    connectKafka().catch((err) => {
+        console.log(err);
+    });
 });
