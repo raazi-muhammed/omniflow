@@ -15,6 +15,9 @@ export async function getProjectsData() {
     const response = await getProjects({
         headers: { Cookie: cookies().toString() },
     });
+
+    console.log({ response });
+
     return response?.data as IProject[];
 }
 

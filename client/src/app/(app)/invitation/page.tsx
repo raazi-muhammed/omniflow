@@ -34,6 +34,7 @@ export default function page() {
                     description: response?.message || "Invitation accepted",
                 });
                 router.push("/projects");
+                router.refresh();
             })
             .catch((error) => {
                 toast({

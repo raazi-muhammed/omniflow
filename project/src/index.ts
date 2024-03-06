@@ -1,6 +1,7 @@
 import app from "./app.js";
 import { loadEnv } from "@omniflow/common";
-import "./repository/connect.js";
+import { connectDatabase } from "./repository/connect.js";
+import { connectKafka } from "./events/consumers.js";
 
 const { PORT, SERVER_NAME } = loadEnv(["PORT", "SERVER_NAME"]);
 app.listen(PORT, () => {
@@ -9,4 +10,7 @@ app.listen(PORT, () => {
         return;
     }
     console.log(`Server started (${SERVER_NAME})\t: http://localhost:${PORT}`);
+
+    connectDatabase();
+    connectKafka();
 });

@@ -46,7 +46,7 @@ export default function DeleteProject() {
                         Are you absolutely sure?
                     </AlertDialogTitle>
                     <AlertDialogDescription>
-                        Are you sure you want to delete this project
+                        Are you sure you want to delete this project return
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>

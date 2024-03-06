@@ -14,11 +14,8 @@ export default function buildGetAllProjectsController({
     return async (req: IRequest) => {
         const currentUser = req.currentUser;
 
-        const user = await memberRepository.getByUsername(currentUser.username);
-        if (!user) throw new Error("Not a member on any project");
-
-        const data = await projectRepository.getAll(user._id);
-        console.log({ data });
+        const user = await memberRepository.upsert(currentUser);
+        const data = await projectRepository.getAll(user?._id);
 
         const response = new ResponseCreator();
         return response.setData(data);
