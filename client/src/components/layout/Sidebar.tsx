@@ -48,7 +48,6 @@ export default function Sidebar() {
 
     const urls = pathname.split("/").slice(3);
     urls.push("overview");
-    console.log(urls);
 
     return (
         <aside className="ab sticky top-0 -mt-20 h-screen min-w-64 border border-t-0 bg-gradient-to-br from-card-from to-card-to p-2 py-8">

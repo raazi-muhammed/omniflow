@@ -86,3 +86,17 @@
         @apply bg-background text-foreground;
     }
 }
+
+img:before {
+    content: "Image is not listed";
+    display: block;
+    width: 0px;
+    margin-bottom: 10px;
+}
+
+img:after {
+    content: "";
+    width: 0px;
+    display: block;
+    font-size: 12px;
+}

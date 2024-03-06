@@ -14,7 +14,7 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion";
-import { DeleteIcon } from "lucide-react";
+import { UserRound as ProfileIcon } from "lucide-react";
 import EditProfileForm from "./EditProfileForm";
 
 export async function getUserData() {
@@ -51,7 +51,7 @@ export default async function page() {
                         <AccordionItem value="delete-project">
                             <AccordionTrigger>
                                 <div className="flex gap-2">
-                                    <DeleteIcon
+                                    <ProfileIcon
                                         size="1.2em"
                                         className="my-auto"
                                     />

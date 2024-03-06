@@ -1,4 +1,8 @@
-import { Avatar as AvatarMain, AvatarFallback } from "@/components/ui/avatar";
+import {
+    Avatar as AvatarMain,
+    AvatarFallback,
+    AvatarImage,
+} from "@/components/ui/avatar";
 import {
     Tooltip,
     TooltipContent,
@@ -86,14 +90,13 @@ export default function Avatar({
             return (
                 <AvatarMain>
                     <Image
-                        className="aspect-square h-full w-full"
+                        className="z-10 aspect-square h-full w-full"
                         src={src}
                         width={32}
                         height={32}
                         alt="Profile picture"
                     />
-
-                    <AvatarFallback>
+                    <AvatarFallback className="z-1 -ml-10">
                         {generateFallbackAvatar(name)}
                     </AvatarFallback>
                 </AvatarMain>
