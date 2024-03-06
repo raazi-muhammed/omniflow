@@ -10,4 +10,5 @@ export type IAuthController = {
     resendCode: (req: IRequest) => Promise<ResponseCreator>;
     getProfile: (req: IRequest) => Promise<ResponseCreator>;
     getPublicUser: (req: IRequest) => Promise<ResponseCreator>;
+    changePassword: (req: IRequest) => Promise<ResponseCreator>;
 };

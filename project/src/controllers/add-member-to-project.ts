@@ -18,7 +18,6 @@ export default function buildAddMemberToProject({
         const user = createMember(data.userData);
 
         const userFound = await memberRepository.upsert(user);
-        console.log({ userFound });
 
         await projectRepository.addMember({
             projectId: data.projectId,

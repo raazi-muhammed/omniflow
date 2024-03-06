@@ -13,19 +13,18 @@ export type IUserRepository = {
         avatar: string;
     }) => Promise<IDBUser | null>;
     verifyUser: (email: string) => Promise<boolean | null>;
+    changePassword: (data: {
+        userId: string;
+        newPassword: string;
+    }) => Promise<boolean | null>;
 };
 
 export type IVerificationCodeRepository = {
-    upsert: ({
-        code,
-        user,
-    }: {
+    upsert: (data: {
         code: number;
         user: Types.ObjectId;
     }) => Promise<IDBVerificationCode | null>;
-    find: ({
-        user,
-    }: {
+    find: (data: {
         user: Types.ObjectId;
     }) => Promise<IDBVerificationCode | null>;
 };

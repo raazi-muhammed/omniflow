@@ -25,6 +25,11 @@ export default function buildUserRoutes({
         updateImageMiddleware,
         makeCallback(authControllers.editProfile)
     );
+    router.patch(
+        "/change-password",
+        verifyMiddleware,
+        makeCallback(authControllers.changePassword)
+    );
 
     router.get(
         "/get-public-user",

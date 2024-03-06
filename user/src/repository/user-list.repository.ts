@@ -32,5 +32,21 @@ export default function makeUserRepository({
             );
             return data as IDBUser;
         },
+        changePassword: async ({
+            userId,
+            newPassword,
+        }: {
+            userId: string;
+            newPassword: string;
+        }) => {
+            const data = await database.updateOne(
+                {
+                    _id: userId,
+                },
+                { password: newPassword }
+            );
+
+            return data.modifiedCount > 0;
+        },
     });
 }

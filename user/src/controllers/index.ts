@@ -18,6 +18,7 @@ import buildEditProfileController from "./edit-profile.controller.js";
 import { uploadImageToS3 } from "../lib/file-bucket.js";
 import { mailService } from "../lib/send-verification-mail.js";
 import buildGetPublicUserController from "./get-public-user.controller.js";
+import buildChangePasswordController from "./change-password.controller.js";
 
 const signIn = buildSignInController({
     signInUseCase: authUseCase.signIn,
@@ -37,6 +38,11 @@ const login = buildLoginController({
     userRepository,
     passwordHash,
     token,
+});
+
+const changePassword = buildChangePasswordController({
+    userRepository,
+    passwordHash,
 });
 
 const currentUser = buildCurrentUserController({ userRepository });
@@ -69,6 +75,7 @@ const authControllers: IAuthController = Object.freeze({
     getProfile,
     editProfile,
     getPublicUser,
+    changePassword,
 });
 
 export default authControllers;

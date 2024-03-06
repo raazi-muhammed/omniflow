@@ -14,8 +14,12 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion";
-import { UserRound as ProfileIcon } from "lucide-react";
+import {
+    UserRound as ProfileIcon,
+    Key as ChangePasswordIcon,
+} from "lucide-react";
 import EditProfileForm from "./EditProfileForm";
+import ChangePasswordForm from "./ChangePasswordForm";
 
 export async function getUserData() {
     const response = await getUserProfile({
@@ -48,7 +52,7 @@ export default async function page() {
                 </SectionContent>
                 <SectionAside>
                     <Accordion type="single" collapsible>
-                        <AccordionItem value="delete-project">
+                        <AccordionItem value="edit-profile">
                             <AccordionTrigger>
                                 <div className="flex gap-2">
                                     <ProfileIcon
@@ -60,6 +64,20 @@ export default async function page() {
                             </AccordionTrigger>
                             <AccordionContent className="p-2 pb-4">
                                 <EditProfileForm user={user} />
+                            </AccordionContent>
+                        </AccordionItem>
+                        <AccordionItem value="change-password">
+                            <AccordionTrigger>
+                                <div className="flex gap-2">
+                                    <ChangePasswordIcon
+                                        size="1.2em"
+                                        className="my-auto"
+                                    />
+                                    Change password
+                                </div>
+                            </AccordionTrigger>
+                            <AccordionContent className="p-2 pb-4">
+                                <ChangePasswordForm />
                             </AccordionContent>
                         </AccordionItem>
                     </Accordion>

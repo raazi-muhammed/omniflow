@@ -35,13 +35,13 @@ export default function Avatar({
                             <TooltipTrigger>
                                 <AvatarMain className="my-auto h-8 w-8">
                                     <Image
-                                        className="aspect-square h-full w-full"
+                                        className="z-10 aspect-square h-full w-full"
                                         src={src}
                                         width={32}
                                         height={32}
                                         alt="Profile picture"
                                     />
-                                    <AvatarFallback>
+                                    <AvatarFallback className="z-1 -ml-8">
                                         {generateFallbackAvatar(name)}
                                     </AvatarFallback>
                                 </AvatarMain>
@@ -59,13 +59,13 @@ export default function Avatar({
                 return (
                     <AvatarMain className="my-auto h-8 w-8">
                         <Image
-                            className="aspect-square h-full w-full"
+                            className="z-10 aspect-square h-full w-full"
                             src={src}
                             width={32}
                             height={32}
                             alt="Profile picture"
                         />
-                        <AvatarFallback>
+                        <AvatarFallback className="z-1 -ml-8">
                             {generateFallbackAvatar(name)}
                         </AvatarFallback>
                     </AvatarMain>
@@ -73,15 +73,15 @@ export default function Avatar({
             }
         case "lg":
             return (
-                <AvatarMain className="my-auto h-36 w-36 border">
+                <AvatarMain className="my-auto h-36 w-36 border text-5xl">
                     <Image
-                        className="aspect-square h-full w-full"
+                        className="z-10 aspect-square h-full w-full"
                         src={src}
                         width={144}
                         height={144}
                         alt="Profile picture"
                     />
-                    <AvatarFallback>
+                    <AvatarFallback className="z-1 -ml-36">
                         {generateFallbackAvatar(name)}
                     </AvatarFallback>
                 </AvatarMain>

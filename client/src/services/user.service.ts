@@ -71,3 +71,23 @@ export async function getPublicUser(
             });
     });
 }
+
+export async function changePassword(
+    values: {
+        currentPassword: string;
+        newPassword: string;
+    },
+    config?: AxiosRequestConfig
+): Promise<IResponse> {
+    const url = new BuildUrl().user(`/change-password`);
+    return new Promise((resolve, reject) => {
+        axios
+            .patch(url, values, { ...config, withCredentials: true })
+            .then((response) => {
+                resolve(adaptSuccessResponse(response));
+            })
+            .catch((error) => {
+                reject(adaptErrorResponse(error));
+            });
+    });
+}

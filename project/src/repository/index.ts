@@ -14,5 +14,3 @@ export const projectRepository: IProjectRepository = buildProjectRepository({
 export const memberRepository: IMemberRepository = buildMemberRepository({
     database: memberModel,
 });
-
-// export type ProjectListType = typeof projectRepository;

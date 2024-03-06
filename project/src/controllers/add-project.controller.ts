@@ -54,7 +54,7 @@ export default function buildAddProjectController({
             lead: projectLead._id,
             members: [
                 {
-                    role: Role.TEAM_LEAD,
+                    role: Role.DEFAULT,
                     inviteStatus: InviteStatus.ACCEPTED,
                     info: projectLead._id,
                 },
