@@ -15,10 +15,6 @@ const { SERVER_NAME, CORS_ORIGINS, NODE_ENV, PORT } = loadEnv([
     "CORS_ORIGINS",
     "NODE_ENV",
     "ACCESS_TOKEN_SECRET",
-    "BUCKET_NAME",
-    "BUCKET_REGION",
-    "AWS_SECRET_KEY",
-    "AWS_ACCESS_KEY",
 ]);
 
 app.use(cookieParser());
