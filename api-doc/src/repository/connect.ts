@@ -4,8 +4,8 @@ const URL: string | undefined = process.env.DB_URL;
 if (URL) {
     mongoose
         .connect(URL)
-        .then(() => console.log("User/auth database status\t: Connected"))
+        .then(() => console.log("Database status\t: Connected"))
         .catch((err) => {
             console.log(err);
         });
-} else console.log("User/auth database status\t: CANNOT CONNECT: No url");
+} else console.log("Database status\t: CANNOT CONNECT: No url");
