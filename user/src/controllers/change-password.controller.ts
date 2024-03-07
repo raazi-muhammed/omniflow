@@ -1,5 +1,6 @@
 import {
     AnErrorOccurredError,
+    BadRequestError,
     IRequest,
     ResponseCreator,
     UnauthorizedError,
@@ -17,12 +18,16 @@ export default function buildChangePasswordController({
     userRepository: IUserRepository;
 }) {
     return async (req: IRequest) => {
-        const { currentUser } = req;
+        const currentUser = req.currentUser;
+        const username = req.params.username;
+        if (!username) throw new BadRequestError();
+        if (currentUser.username !== username) throw new UnauthorizedError();
+
         const userInput = req.body;
 
         validateBody(userInput, ["currentPassword", "newPassword"]);
 
-        const user = await userRepository.findByEmail(currentUser.email);
+        const user = await userRepository.findByUsername(username);
         if (!user) throw new UserNotFoundError();
 
         const doesPasswordMatch = await passwordHash.compare(

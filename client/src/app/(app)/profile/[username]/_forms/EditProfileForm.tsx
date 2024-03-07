@@ -44,7 +44,7 @@ export default function EditProfileForm({ user }: { user: IUser }) {
         if (values.picture) {
             data.append("avatar", values.picture[0]);
         }
-        editUserProfile(data)
+        editUserProfile(user.username, data)
             .then((response) => {
                 toast({
                     description: response.message || "Profile edited",

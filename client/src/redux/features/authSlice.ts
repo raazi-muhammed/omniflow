@@ -3,6 +3,7 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 type UserData = {
     name: string;
     email: string;
+    username: string;
     avatar?: string;
 };
 type InitialState = {

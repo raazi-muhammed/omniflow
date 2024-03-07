@@ -40,7 +40,7 @@ const formSchema = z
         path: ["confirmPassword"],
     });
 
-export default function ChangePasswordForm() {
+export default function ChangePasswordForm({ username }: { username: string }) {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -57,7 +57,7 @@ export default function ChangePasswordForm() {
     });
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        changePassword({
+        changePassword(username, {
             currentPassword: values.currentPassword,
             newPassword: values.newPassword,
         })

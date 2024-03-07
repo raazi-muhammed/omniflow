@@ -21,15 +21,19 @@ import {
 import EditProfileForm from "./_forms/EditProfileForm";
 import ChangePasswordForm from "./_forms/ChangePasswordForm";
 
-export async function getUserData() {
-    const response = await getUserProfile({
+export async function getUserData(username: string) {
+    const response = await getUserProfile(username, {
         headers: { Cookie: cookies().toString() },
     });
     return response?.data;
 }
 
-export default async function page() {
-    const user: IUser = (await getUserData()) as IUser;
+export default async function page({
+    params,
+}: {
+    params: { username: string };
+}) {
+    const user: IUser = (await getUserData(params.username)) as IUser;
     return (
         <main>
             <SectionSplitter>
@@ -77,7 +81,7 @@ export default async function page() {
                                 </div>
                             </AccordionTrigger>
                             <AccordionContent className="p-2 pb-4">
-                                <ChangePasswordForm />
+                                <ChangePasswordForm username={user.username} />
                             </AccordionContent>
                         </AccordionItem>
                     </Accordion>

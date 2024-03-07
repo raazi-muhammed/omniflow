@@ -75,45 +75,14 @@ export default function buildUserRoutes({
 
     /**
      * @openapi
-     * /users/change-password:
-     *   patch:
-     *     summary: Get public user details
-     *     requestBody:
-     *       required: true
-     *       content:
-     *         application/json:
-     *           schema:
-     *             type: object
-     *             properties:
-     *               currentPassword:
-     *                 type: string
-     *               newPassword:
-     *                 type: string
-     *             required:
-     *               - currentPassword
-     *               - newPassword
-     *     responses:
-     *       '200':
-     *         description: Password changed
-     *       '401':
-     *         description: Incorrect password
-     */
-    router.patch(
-        "/users/change-password",
-        verifyMiddleware,
-        makeCallback(authControllers.changePassword)
-    );
-
-    /**
-     * @openapi
-     * /users/{id}:
+     * /users/{username}:
      *   get:
      *     summary: Get user details
      *     parameters:
-     *       - name: id
+     *       - name: username
      *         in: path
      *         required: true
-     *         description: id to find the user
+     *         description: username to find the user
      *         schema:
      *           type: string
      *     responses:
@@ -127,21 +96,21 @@ export default function buildUserRoutes({
      *         description: Incorrect password
      */
     router.get(
-        "/users/:id",
+        "/users/:username",
         verifyMiddleware,
         makeCallback(authControllers.getProfile)
     );
 
     /**
      * @openapi
-     * /users/{id}:
+     * /users/{username}:
      *   put:
      *     summary: Edit user details
      *     parameters:
-     *       - name: id
+     *       - name: username
      *         in: path
      *         required: true
-     *         description: id to find the user
+     *         description: username to find the user
      *         schema:
      *           type: string
      *     requestBody:
@@ -164,10 +133,48 @@ export default function buildUserRoutes({
      *         description: User not found
      */
     router.put(
-        "/users/:id",
+        "/users/:username",
         verifyMiddleware,
         updateImageMiddleware,
         makeCallback(authControllers.editProfile)
+    );
+
+    /**
+     * @openapi
+     * /users/{username}/change-password:
+     *   patch:
+     *     summary: Get public user details
+     *     parameters:
+     *       - name: username
+     *         in: path
+     *         required: true
+     *         description: username to find the user
+     *         schema:
+     *           type: string
+     *     requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             type: object
+     *             properties:
+     *               currentPassword:
+     *                 type: string
+     *               newPassword:
+     *                 type: string
+     *             required:
+     *               - currentPassword
+     *               - newPassword
+     *     responses:
+     *       '200':
+     *         description: Password changed
+     *       '401':
+     *         description: Incorrect password
+     */
+    router.patch(
+        "/users/:username/change-password",
+        verifyMiddleware,
+        makeCallback(authControllers.changePassword)
     );
 
     return router;

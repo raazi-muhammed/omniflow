@@ -48,7 +48,9 @@ function Navbar() {
                                         {userData.userData?.email}
                                     </small>
                                 </div>
-                                <UserDropDownMenu />
+                                <UserDropDownMenu
+                                    username={userData.userData.username}
+                                />
                             </>
                         ) : (
                             <Link href="/login">

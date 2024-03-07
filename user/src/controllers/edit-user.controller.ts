@@ -1,7 +1,9 @@
 import {
     AnErrorOccurredError,
+    BadRequestError,
     IRequest,
     ResponseCreator,
+    UnauthorizedError,
     UserNotFoundError,
     validateBody,
 } from "@omniflow/common";
@@ -17,6 +19,10 @@ export default function buildEditProfileController({
 }) {
     return async (req: IRequest) => {
         const currentUser = req.currentUser;
+        const username = req.params.username;
+        if (!username) throw new BadRequestError();
+
+        if (currentUser.username !== username) throw new UnauthorizedError();
 
         const userInput = req.body;
         const imageInput = req.file;

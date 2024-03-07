@@ -14,9 +14,8 @@ import { AppDispatch } from "@/redux/store";
 import { useDispatch } from "react-redux";
 import { logout } from "@/redux/features/authSlice";
 import { userLogOut } from "@/services/auth.service";
-import { error } from "console";
 
-export function UserDropDownMenu() {
+export function UserDropDownMenu({ username }: { username: string }) {
     const { toast } = useToast();
     const router = useRouter();
     const dispatch = useDispatch<AppDispatch>();
@@ -49,7 +48,8 @@ export function UserDropDownMenu() {
             <DropdownMenuContent className="w-56">
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => router.push("/profile")}>
+                <DropdownMenuItem
+                    onClick={() => router.push(`/profile/${username}`)}>
                     Profile
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => router.push("/projects")}>

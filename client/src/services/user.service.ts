@@ -7,9 +7,10 @@ import {
 } from "./utils";
 
 export async function getUserProfile(
+    username: string,
     config: AxiosRequestConfig
 ): Promise<IResponse> {
-    const url = new BuildUrl().user("/users/:id");
+    const url = new BuildUrl().user(`/users/${username}`);
     return new Promise((resolve, reject) => {
         axios
             .get(url, { ...config, withCredentials: true })
@@ -23,10 +24,11 @@ export async function getUserProfile(
 }
 
 export async function editUserProfile(
+    username: string,
     data: FormData,
     config?: AxiosRequestConfig
 ): Promise<IResponse> {
-    const url = new BuildUrl().user("/users/:id");
+    const url = new BuildUrl().user(`/users/${username}`);
     return new Promise((resolve, reject) => {
         axios
             .put(url, data, { ...config, withCredentials: true })
@@ -73,13 +75,14 @@ export async function getPublicUser(
 }
 
 export async function changePassword(
+    username: string,
     values: {
         currentPassword: string;
         newPassword: string;
     },
     config?: AxiosRequestConfig
 ): Promise<IResponse> {
-    const url = new BuildUrl().user(`/users/change-password`);
+    const url = new BuildUrl().user(`/users/${username}/change-password`);
     return new Promise((resolve, reject) => {
         axios
             .patch(url, values, { ...config, withCredentials: true })
