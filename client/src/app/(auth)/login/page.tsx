@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/card";
 import Link from "next/link";
 import AppLogo from "@/components/custom/AppLogo";
-import LoginForm from "./LoginForm";
+import LoginForm from "./_forms/LoginForm";
 import Container from "@/components/layout/Container";
 
 export default function Login() {

@@ -5,7 +5,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import VerifyForm from "./VerifyForm";
+import VerifyForm from "./_forms/VerifyForm";
 
 export default function page() {
     return (

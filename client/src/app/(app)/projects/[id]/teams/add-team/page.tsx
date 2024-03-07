@@ -1,5 +1,5 @@
 import Heading from "@/components/custom/Heading";
-import AddTeamForm from "./AddTeamForm";
+import AddTeamForm from "./_forms/AddTeamForm";
 import Container from "@/components/layout/Container";
 import FormWrapper from "@/components/layout/FormWrapper";
 

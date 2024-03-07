@@ -6,7 +6,7 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import Link from "next/link";
-import SignUpForm from "./SignUpForm";
+import SignUpForm from "./_forms/SignUpForm";
 import AppLogo from "@/components/custom/AppLogo";
 import Container from "@/components/layout/Container";
 

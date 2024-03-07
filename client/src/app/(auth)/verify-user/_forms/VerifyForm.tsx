@@ -20,7 +20,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import { logUser } from "@/redux/features/authSlice";
 import { CardContent, CardDescription, CardFooter } from "@/components/ui/card";
-import { ResendCode } from "./ResendCode";
+import { ResendCode } from "../_components/ResendCode";
 import { verifyUser } from "@/services/auth.service";
 
 const formSchema = z.object({

@@ -1,5 +1,5 @@
-import EditProjectForm from "./EditProjectForm";
-import DeleteProject from "./DeleteProject";
+import EditProjectForm from "./_forms/EditProjectForm";
+import DeleteProject from "./_components/DeleteProject";
 import Heading from "@/components/custom/Heading";
 import {
     Accordion,
@@ -11,7 +11,7 @@ import {
     Trash2 as DeleteIcon,
     RefreshCw as ChangeRoleIcon,
 } from "lucide-react";
-import ChangeProjectLeadForm from "./ChangeProjectLeadForm";
+import ChangeProjectLeadForm from "./_forms/ChangeProjectLeadForm";
 import {
     SectionAside,
     SectionContent,

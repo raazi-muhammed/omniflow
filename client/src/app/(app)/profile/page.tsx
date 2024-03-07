@@ -18,8 +18,8 @@ import {
     UserRound as ProfileIcon,
     Key as ChangePasswordIcon,
 } from "lucide-react";
-import EditProfileForm from "./EditProfileForm";
-import ChangePasswordForm from "./ChangePasswordForm";
+import EditProfileForm from "./_forms/EditProfileForm";
+import ChangePasswordForm from "./_forms/ChangePasswordForm";
 
 export async function getUserData() {
     const response = await getUserProfile({

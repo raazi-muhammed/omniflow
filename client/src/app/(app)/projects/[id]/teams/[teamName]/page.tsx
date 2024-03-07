@@ -12,15 +12,15 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion";
-import ChangeTeamLeadForm from "./ChangeTeamLeadForm";
+import ChangeTeamLeadForm from "./_forms/ChangeTeamLeadForm";
 
-import RemoveTeam from "./RemoveTeam";
+import RemoveTeam from "./_components/RemoveTeam";
 import {
     SectionAside,
     SectionContent,
     SectionSplitter,
 } from "@/components/layout/SectinSplitter";
-import MemberActionDropDown from "./MemberActionDropDown";
+import MemberActionDropDown from "./_components/MemberActionDropDown";
 import ErrorMessage from "@/components/custom/ErrorMessage";
 
 export async function getTeamsData(teamName: string) {
