@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import AppLogo from "../custom/AppLogo";
 import { AppDispatch, useAppSelector } from "@/redux/store";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { getCurrentProject } from "@/services/project.service";
 import { useDispatch } from "react-redux";
 import { setProject } from "@/redux/features/projectSlice";
@@ -42,6 +42,12 @@ export default function Sidebar() {
             title: "Teams",
             url: `/projects/${projectInfo?._id}/teams`,
             identifier: "teams",
+            icon: <Users className="me-2" size="1.3em" />,
+        },
+        {
+            title: "API Docs",
+            url: `/projects/${projectInfo?._id}/api-docs`,
+            identifier: "api-docs",
             icon: <Users className="me-2" size="1.3em" />,
         },
     ];

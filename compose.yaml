@@ -2,7 +2,7 @@ version: "3.8"
 services:
     client:
         build: ./client
-        container_name: omni-client
+        container_name: omniflow-client
         ports:
             - 3000:3000
         develop:
@@ -18,7 +18,7 @@ services:
             - donotstart
     user:
         build: ./user
-        container_name: omni-user
+        container_name: omniflow-user
         depends_on:
             - db-user
         ports:
@@ -40,7 +40,7 @@ services:
                   path: ./user/package.json
     project:
         build: ./project
-        container_name: omni-project
+        container_name: omniflow-project
         depends_on:
             - db-project
             - redpanda
@@ -64,7 +64,7 @@ services:
                   path: ./project/package.json
     team:
         build: ./team
-        container_name: omni-team
+        container_name: omniflow-team
         depends_on:
             - db-team
             - redpanda
@@ -86,6 +86,30 @@ services:
                       - dist/
                 - action: rebuild
                   path: ./team/package.json
+    api-doc:
+        build: ./api-doc
+        container_name: omniflow-api-doc
+        depends_on:
+            - db-api-doc
+            - redpanda
+        ports:
+            - 4015:4015
+        env_file:
+            - path: ./api-doc/.env.development
+              required: true
+        environment:
+            KAFKA_BROKER: redpanda:29092
+            DB_URL: mongodb://root:example@db-api-doc:27017
+        develop:
+            watch:
+                - action: sync
+                  path: ./api-doc
+                  target: /api-doc
+                  ignore:
+                      - node_modules/
+                      - dist/
+                - action: rebuild
+                  path: ./api-doc/package.json
     db-user:
         build: ./db-user
         image: mongo
@@ -119,9 +143,20 @@ services:
         environment:
             MONGO_INITDB_ROOT_USERNAME: root
             MONGO_INITDB_ROOT_PASSWORD: example
+    db-api-doc:
+        build: ./db-api-doc
+        image: mongo
+        restart: always
+        ports:
+            - 27020:27017
+        volumes:
+            - db_api_doc:/data/db
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: example
     redpanda:
         image: docker.redpanda.com/vectorized/redpanda:v22.2.2
-        container_name: redpanda_example_broker
+        container_name: omniflow-redpanda
         command:
             - redpanda start
             - --kafka-addr PLAINTEXT://0.0.0.0:29092
@@ -136,3 +171,5 @@ volumes:
         name: omni_db_project_data
     db_team:
         name: omni_db_team_data
+    db_api_doc:
+        name: omni_db_api_doc_data
