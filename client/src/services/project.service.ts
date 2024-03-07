@@ -5,11 +5,13 @@ import {
     adaptErrorResponse,
     adaptSuccessResponse,
 } from "./utils";
+import "./interceptor";
 
 export async function getProjects(
     config: AxiosRequestConfig
 ): Promise<IResponse> {
     const url = new BuildUrl().project("/projects");
+
     return new Promise((resolve, reject) => {
         axios
             .get(url, { ...config, withCredentials: true })
@@ -34,6 +36,7 @@ export async function addProject(
     config?: AxiosRequestConfig
 ): Promise<IResponse> {
     const url = new BuildUrl().project("/projects");
+
     return new Promise((resolve, reject) => {
         axios
             .post(url, values, { ...config, withCredentials: true })
@@ -73,6 +76,7 @@ export async function getProject(
     config?: AxiosRequestConfig
 ): Promise<IResponse> {
     const url = new BuildUrl().project(`/projects/${id}`);
+
     return new Promise((resolve, reject) => {
         axios
             .get(url, { ...config, withCredentials: true })

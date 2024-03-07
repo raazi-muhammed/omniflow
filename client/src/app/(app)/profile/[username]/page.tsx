@@ -20,10 +20,15 @@ import {
 } from "lucide-react";
 import EditProfileForm from "./_forms/EditProfileForm";
 import ChangePasswordForm from "./_forms/ChangePasswordForm";
+import { USER_TOKEN_COOKIE } from "@/constants/cookies";
 
 export async function getUserData(username: string) {
+    const token = cookies().get(USER_TOKEN_COOKIE)?.value;
+
     const response = await getUserProfile(username, {
-        headers: { Cookie: cookies().toString() },
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
     });
     return response?.data;
 }

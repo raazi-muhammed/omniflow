@@ -5,12 +5,14 @@ import {
     adaptErrorResponse,
     adaptSuccessResponse,
 } from "./utils";
+import "./interceptor";
 
 export async function userLogin(values: {
     email: string;
     password: string;
 }): Promise<IResponse> {
     const url = new BuildUrl().user("/login");
+
     return new Promise((resolve, reject) => {
         axios
             .post(url, values, { withCredentials: true })

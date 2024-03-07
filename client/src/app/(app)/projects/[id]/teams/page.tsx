@@ -13,10 +13,17 @@ import { Separator } from "@/components/ui/separator";
 import ActionItemsContainer from "@/components/layout/ActionItemsContainer";
 import ResponsiveGridContainer from "@/components/layout/ResponsiveGridContainer";
 import ErrorMessage from "@/components/custom/ErrorMessage";
+import { PROJECT_TOKEN_COOKIE, USER_TOKEN_COOKIE } from "@/constants/cookies";
 
 async function loadTeams() {
+    const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
+    const projectToken = cookies().get(PROJECT_TOKEN_COOKIE)?.value;
+
     const response = await getTeams({
-        headers: { Cookie: cookies().toString() },
+        headers: {
+            Authorization: `Bearer ${userToken}`,
+            Project: `Bearer ${projectToken}`,
+        },
     });
     return response.data;
 }

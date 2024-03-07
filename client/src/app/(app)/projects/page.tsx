@@ -10,10 +10,15 @@ import { cookies } from "next/headers";
 import { getProjects } from "@/services/project.service";
 import ResponsiveGridContainer from "@/components/layout/ResponsiveGridContainer";
 import ErrorMessage from "@/components/custom/ErrorMessage";
+import { USER_TOKEN_COOKIE } from "@/constants/cookies";
 
 export async function getProjectsData() {
+    const token = cookies().get(USER_TOKEN_COOKIE)?.value;
+
     const response = await getProjects({
-        headers: { Cookie: cookies().toString() },
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
     });
 
     console.log({ response });

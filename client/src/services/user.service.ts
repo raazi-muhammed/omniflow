@@ -5,6 +5,7 @@ import {
     adaptErrorResponse,
     adaptSuccessResponse,
 } from "./utils";
+import "./interceptor";
 
 export async function getUserProfile(
     username: string,
