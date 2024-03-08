@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import morgan from "morgan";
 import { ErrorHandlingMiddleware, loadEnv } from "@omniflow/common";
+import { endpointRoutes } from "./routes/index.js";
 
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 
@@ -31,7 +32,7 @@ if (NODE_ENV === "production") {
     app.use(morgan("dev"));
 }
 
-// app.use("/api/user", authRoutes);
+app.use("/api/api-doc", endpointRoutes);
 
 app.all("*", (req, res) => {
     console.log(`@${SERVER_NAME}`, req.method, req.originalUrl);

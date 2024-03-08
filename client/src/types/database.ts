@@ -47,3 +47,11 @@ export type IAllMemberList = {
     team: string;
     info: IUser;
 };
+
+export type IEndpoint = {
+    name: string;
+    route: string;
+    method: string;
+    summary?: string;
+    projectId: string;
+};

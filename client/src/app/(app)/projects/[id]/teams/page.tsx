@@ -34,13 +34,13 @@ export default async function page() {
         <div className="w-full">
             <Container>
                 <ActionItemsContainer>
-                    <Link href="/projects/id/teams/invite-member">
+                    <Link href="teams/invite-member">
                         <Button size="sm" variant="secondary">
                             <AddIcon />
                             Invite an member
                         </Button>
                     </Link>
-                    <Link href="/projects/id/teams/add-team">
+                    <Link href="teams/add-team">
                         <Button size="sm">
                             <AddIcon />
                             Add a team

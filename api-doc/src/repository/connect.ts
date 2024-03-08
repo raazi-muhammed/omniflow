@@ -1,11 +1,12 @@
-import mongoose from "mongoose";
+import { Sequelize } from "sequelize";
 const URL: string | undefined = process.env.DB_URL;
 
-if (URL) {
-    mongoose
-        .connect(URL)
-        .then(() => console.log("Database status\t: Connected"))
-        .catch((err) => {
-            console.log(err);
-        });
-} else console.log("Database status\t: CANNOT CONNECT: No url");
+if (!URL) throw new Error("Database status\t: CANNOT CONNECT: No url");
+export const sequelize = new Sequelize(URL);
+
+try {
+    await sequelize.authenticate();
+    console.log("Database status\t\t: Connected");
+} catch (error) {
+    console.error("Database status\t: CANNOT CONNECT:", error);
+}

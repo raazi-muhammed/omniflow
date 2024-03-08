@@ -1,30 +1,54 @@
 import Heading from "@/components/custom/Heading";
+import ActionItemsContainer from "@/components/layout/ActionItemsContainer";
 import Container from "@/components/layout/Container";
+import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { PROJECT_TOKEN_COOKIE, USER_TOKEN_COOKIE } from "@/constants/cookies";
+import { AddIcon } from "@/lib/icons";
+import { getEndpoints } from "@/services/endpoints.service";
+import { IEndpoint } from "@/types/database";
+import { cookies } from "next/headers";
+import Link from "next/link";
 
-export default function page() {
+async function loadEndpoints() {
+    const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
+    const projectToken = cookies().get(PROJECT_TOKEN_COOKIE)?.value;
+
+    const response = await getEndpoints({
+        headers: {
+            Authorization: `Bearer ${userToken}`,
+            Project: `Bearer ${projectToken}`,
+        },
+    });
+    return response.data;
+}
+
+export default async function page() {
+    const endpoints: IEndpoint[] = await loadEndpoints();
     return (
         <Container>
-            <Heading>Docs</Heading>
+            <ActionItemsContainer>
+                <Link href="api-docs/add-endpoint">
+                    <Button size="sm">
+                        <AddIcon />
+                        Add endpoint
+                    </Button>
+                </Link>
+            </ActionItemsContainer>
             <section className="space-y-4">
-                <Card className="flex">
-                    <div className="flex min-w-20 rounded-l-lg border-r bg-card-to px-3">
-                        <p className="my-auto">PATCH</p>
-                    </div>
-                    <div className="mx-4 my-2 flex flex-col gap-0">
-                        <p className="font-bold">Get users</p>
-                        <small className="text-secondary">api/v1/users</small>
-                    </div>
-                </Card>
-                <Card className="flex">
-                    <div className="flex min-w-20 rounded-l-lg border-r bg-card-to px-3">
-                        <p className="m-auto">GET</p>
-                    </div>
-                    <div className="mx-4 my-2 flex flex-col gap-0">
-                        <p className="font-bold">Get users</p>
-                        <small className="text-secondary">api/v1/users</small>
-                    </div>
-                </Card>
+                {endpoints.map((point) => (
+                    <Card className="flex">
+                        <div className="flex min-w-20 rounded-l-lg border-r bg-card-to px-3">
+                            <p className="my-auto">{point.method}</p>
+                        </div>
+                        <div className="mx-4 my-2 flex flex-col gap-0">
+                            <p className="font-bold">{point.name}</p>
+                            <small className="text-secondary">
+                                {point.route}
+                            </small>
+                        </div>
+                    </Card>
+                ))}
             </section>
         </Container>
     );

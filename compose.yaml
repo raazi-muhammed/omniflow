@@ -99,7 +99,7 @@ services:
               required: true
         environment:
             KAFKA_BROKER: redpanda:29092
-            DB_URL: mongodb://root:example@db-api-doc:27017
+            DB_URL: postgres://user:pass@db-api-doc:5432/db
         develop:
             watch:
                 - action: sync
@@ -145,15 +145,16 @@ services:
             MONGO_INITDB_ROOT_PASSWORD: example
     db-api-doc:
         build: ./db-api-doc
-        image: mongo
+        image: postgres
         restart: always
         ports:
-            - 27020:27017
+            - 5432:5432
         volumes:
-            - db_api_doc:/data/db
+            - db_api_doc:/var/lib/postgresql/data
         environment:
-            MONGO_INITDB_ROOT_USERNAME: root
-            MONGO_INITDB_ROOT_PASSWORD: example
+            POSTGRES_USER: user
+            POSTGRES_PASSWORD: pass
+            POSTGRES_DB: db
     redpanda:
         image: docker.redpanda.com/vectorized/redpanda:v22.2.2
         container_name: omniflow-redpanda

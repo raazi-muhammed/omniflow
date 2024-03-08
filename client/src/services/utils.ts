@@ -20,6 +20,10 @@ export class BuildUrl {
         const url = "localhost:4010/api/team";
         return this.baseUrl + url + endpoint;
     }
+    apiDoc(endpoint: string) {
+        const url = "localhost:4015/api/api-doc";
+        return this.baseUrl + url + endpoint;
+    }
 }
 
 export type IResponse = {
