@@ -22,13 +22,22 @@ import {
 } from "@/components/layout/SectinSplitter";
 import MemberActionDropDown from "./_components/MemberActionDropDown";
 import ErrorMessage from "@/components/custom/ErrorMessage";
+import { PROJECT_TOKEN_COOKIE, USER_TOKEN_COOKIE } from "@/constants/cookies";
 
 export async function getTeamsData(teamName: string) {
+    const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
+    const projectToken = cookies().get(PROJECT_TOKEN_COOKIE)?.value;
+
     const response = await getTeamMembers(
         {
             teamName,
         },
-        { headers: { Cookie: cookies().toString() } }
+        {
+            headers: {
+                Authorization: `Bearer ${userToken}`,
+                Project: `Bearer ${projectToken}`,
+            },
+        }
     );
     return response.data as ITeam;
 }

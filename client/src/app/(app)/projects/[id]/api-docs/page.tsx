@@ -36,31 +36,33 @@ export default async function page() {
                     </Button>
                 </Link>
             </ActionItemsContainer>
-            <section className="space-y-4">
-                {endpoints.map((point) => (
-                    <Card className="flex">
-                        <div className="flex min-w-20 rounded-l-lg border-r bg-card-to px-3">
-                            <p className="my-auto">{point.method}</p>
-                        </div>
-                        <div className="mx-4 my-2 flex flex-col gap-0">
-                            <p className="font-bold">{point.name}</p>
-                            <small className="text-secondary">
-                                {point.route}
-                            </small>
-                        </div>
-                        <Link
-                            className="my-auto me-6 ms-auto"
-                            href={`api-docs/${point.id}`}>
-                            <Button size="icon" variant="ghost">
-                                <ViewIcon
-                                    className="text-secondary"
-                                    size="1.2em"
-                                />
-                            </Button>
-                        </Link>
-                    </Card>
-                ))}
-            </section>
+            <main className="flex">
+                <section className="w-96 space-y-4">
+                    {endpoints.map((point) => (
+                        <Card className="flex">
+                            <div className="flex min-w-20 rounded-l-lg border-r bg-card-to px-3">
+                                <p className="my-auto">{point.method}</p>
+                            </div>
+                            <div className="mx-4 my-2 flex flex-col gap-0">
+                                <p className="font-bold">{point.name}</p>
+                                <small className="text-secondary">
+                                    {point.route}
+                                </small>
+                            </div>
+                            <Link
+                                className="my-auto me-6 ms-auto"
+                                href={`api-docs/${point.id}`}>
+                                <Button size="icon" variant="ghost">
+                                    <ViewIcon
+                                        className="text-secondary"
+                                        size="1.2em"
+                                    />
+                                </Button>
+                            </Link>
+                        </Card>
+                    ))}
+                </section>
+            </main>
         </Container>
     );
 }
