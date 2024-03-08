@@ -13,7 +13,6 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useDispatch } from "react-redux";
@@ -22,6 +21,13 @@ import { logUser } from "@/redux/features/authSlice";
 import { CardContent, CardDescription, CardFooter } from "@/components/ui/card";
 import { ResendCode } from "../_components/ResendCode";
 import { verifyUser } from "@/services/auth.service";
+import {
+    InputOTP,
+    InputOTPGroup,
+    InputOTPSeparator,
+    InputOTPSlot,
+} from "@/components/ui/input-otp";
+import React from "react";
 
 const formSchema = z.object({
     code: z
@@ -74,12 +80,34 @@ export default function VerifyForm() {
                             control={form.control}
                             name="code"
                             render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Code</FormLabel>
+                                <FormItem className="mx-4 mb-2 mt-6">
+                                    <FormLabel className="sr-only">
+                                        One-Time Password
+                                    </FormLabel>
                                     <FormControl>
-                                        <Input
-                                            type="number"
-                                            placeholder="code"
+                                        <InputOTP
+                                            className="flex justify-around"
+                                            maxLength={6}
+                                            render={({ slots }) => (
+                                                <InputOTPGroup className="gap-2">
+                                                    {slots.map(
+                                                        (slot, index) => (
+                                                            <React.Fragment
+                                                                key={index}>
+                                                                <InputOTPSlot
+                                                                    className="rounded-md border"
+                                                                    {...slot}
+                                                                />
+                                                                {index !==
+                                                                    slots.length -
+                                                                        1 && (
+                                                                    <InputOTPSeparator />
+                                                                )}
+                                                            </React.Fragment>
+                                                        )
+                                                    )}{" "}
+                                                </InputOTPGroup>
+                                            )}
                                             {...field}
                                         />
                                     </FormControl>
