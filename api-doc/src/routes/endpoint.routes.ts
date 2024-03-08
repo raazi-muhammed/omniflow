@@ -24,6 +24,12 @@ export default function buildEndpointRoutes({
         makeCallback(endpointController.addEndpoint)
     );
     router.get(
+        "/endpoints/:id",
+        verifyUser,
+        verifyProject,
+        makeCallback(endpointController.getEndpoint)
+    );
+    router.get(
         "/endpoints",
         verifyUser,
         verifyProject,

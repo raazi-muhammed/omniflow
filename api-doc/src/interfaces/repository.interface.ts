@@ -4,4 +4,8 @@ import { IEndpoint } from "./entity.interface.js";
 export type IEndpointsRepository = {
     addEndpoint: (data: IEndpoint) => Promise<IDBEndpoint>;
     getEndpoints: (data: { projectId: string }) => Promise<IDBEndpoint[]>;
+    getEndpoint: (data: {
+        projectId: string;
+        endpointId: string;
+    }) => Promise<IDBEndpoint>;
 };

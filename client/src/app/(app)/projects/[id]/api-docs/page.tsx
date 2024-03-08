@@ -9,6 +9,7 @@ import { getEndpoints } from "@/services/endpoints.service";
 import { IEndpoint } from "@/types/database";
 import { cookies } from "next/headers";
 import Link from "next/link";
+import { Eye as ViewIcon } from "lucide-react";
 
 async function loadEndpoints() {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -47,6 +48,16 @@ export default async function page() {
                                 {point.route}
                             </small>
                         </div>
+                        <Link
+                            className="my-auto me-6 ms-auto"
+                            href={`api-docs/${point.id}`}>
+                            <Button size="icon" variant="ghost">
+                                <ViewIcon
+                                    className="text-secondary"
+                                    size="1.2em"
+                                />
+                            </Button>
+                        </Link>
                     </Card>
                 ))}
             </section>

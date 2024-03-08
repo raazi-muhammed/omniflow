@@ -22,4 +22,16 @@ export class BuildEndpointRepository {
         });
         return endpoint as IDBEndpoint[];
     }
+    async getEndpoint({
+        projectId,
+        endpointId,
+    }: {
+        projectId: string;
+        endpointId: string;
+    }) {
+        const endpoint = await this.models.Endpoint.findOne({
+            where: { projectId, id: endpointId },
+        });
+        return endpoint as IDBEndpoint;
+    }
 }

@@ -40,3 +40,20 @@ export async function getEndpoints(
             });
     });
 }
+
+export async function getEndpoint(
+    { id }: { id: string },
+    config?: AxiosRequestConfig
+): Promise<IResponse> {
+    const url = new BuildUrl().apiDoc(`/endpoints/${id}`);
+    return new Promise((resolve, reject) => {
+        axios
+            .get(url, { ...config, withCredentials: true })
+            .then((response) => {
+                resolve(adaptSuccessResponse(response));
+            })
+            .catch((error) => {
+                reject(adaptErrorResponse(error));
+            });
+    });
+}

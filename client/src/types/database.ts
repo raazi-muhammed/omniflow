@@ -49,6 +49,7 @@ export type IAllMemberList = {
 };
 
 export type IEndpoint = {
+    id?: string;
     name: string;
     route: string;
     method: string;
