@@ -1,10 +1,13 @@
 import { IRequest, ResponseCreator, validateBody } from "@omniflow/common";
 import { IEndpointsRepository } from "../interfaces/repository.interface.js";
+import { ICreateEndpointUseCase } from "../interfaces/use-cases.interface.js";
 
 export default function buildAddEndpointController({
     endPointsRepository,
+    createEndpointUseCase,
 }: {
     endPointsRepository: IEndpointsRepository;
+    createEndpointUseCase: ICreateEndpointUseCase;
 }) {
     return async (req: IRequest) => {
         const endPointInput = req.body;
@@ -12,19 +15,19 @@ export default function buildAddEndpointController({
 
         validateBody(endPointInput, ["name", "method", "route"]);
 
-        const toData = {
+        const endpointData = createEndpointUseCase({
             name: endPointInput.name,
             method: endPointInput.method,
             summary: endPointInput.summary,
             route: endPointInput.route,
             projectId: currentProject._id,
-        };
+        });
 
-        const data = await endPointsRepository.addEndpoint(toData);
-
-        console.log({ data });
+        const endpointFromDb = await endPointsRepository.addEndpoint(
+            endpointData
+        );
 
         const response = new ResponseCreator();
-        return response.setData(data);
+        return response.setData(endpointFromDb).setMessage("Endpoint created");
     };
 }

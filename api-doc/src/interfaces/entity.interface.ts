@@ -5,3 +5,12 @@ export type IEndpoint = {
     summary: string;
     projectId: string;
 };
+
+export interface IEndpointEntity extends IEndpoint {
+    validate: () => void;
+    get: () => IEndpoint;
+}
+
+export interface IEndpointEntityConstructor {
+    new (data: IEndpoint): IEndpointEntity;
+}
