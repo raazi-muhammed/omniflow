@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 import { useForm } from "react-hook-form";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -19,26 +18,33 @@ import { useToast } from "@/components/ui/use-toast";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useRouter } from "next/navigation";
 import { AddIcon } from "@/lib/icons";
+import { useState } from "react";
+import { EDataTypes } from "@/types/database";
 
 const formSchema = z.object({
-    email: z.string().email(),
-    message: z.string(),
+    key: z.string().min(1, "Invalid"),
+    type: z.string().min(1, "Invalid"),
+    options: z.array(z.string()).optional().default([]),
 });
 
 export default function AddSchemaForm() {
     const { toast } = useToast();
     const router = useRouter();
+    const [value, setValue] = useState<string[]>([]);
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            email: "",
-            message: "",
+            key: "",
+            type: "",
+            options: [],
         },
         mode: "onTouched",
     });
 
-    function onSubmit(values: z.infer<typeof formSchema>) {}
+    function onSubmit(values: z.infer<typeof formSchema>) {
+        console.log(values);
+    }
 
     return (
         <Form {...form}>
@@ -48,7 +54,7 @@ export default function AddSchemaForm() {
                 <div className="flex w-full gap-4">
                     <FormField
                         control={form.control}
-                        name="email"
+                        name="key"
                         render={({ field }) => (
                             <FormItem className="flex-grow">
                                 <FormLabel>Key</FormLabel>
@@ -61,7 +67,7 @@ export default function AddSchemaForm() {
                     />
                     <FormField
                         control={form.control}
-                        name="message"
+                        name="type"
                         render={({ field }) => (
                             <FormItem className="flex-grow">
                                 <FormLabel>Type</FormLabel>
@@ -73,19 +79,29 @@ export default function AddSchemaForm() {
                         )}
                     />
                     <ToggleGroup
+                        value={value}
+                        onValueChange={(v) => {
+                            if (v) {
+                                form.setValue("options", v);
+                                setValue(v);
+                            }
+                        }}
                         type="multiple"
                         variant="outline"
                         className="mb-auto mt-[1.65rem] gap-4">
-                        <ToggleGroupItem className="h-12 w-12" value="optional">
+                        <ToggleGroupItem
+                            className="h-12 w-12"
+                            value={EDataTypes.OPTIONAL}>
                             ?
                         </ToggleGroupItem>
-                        <ToggleGroupItem className="h-12 w-12" value="required">
-                            *
-                        </ToggleGroupItem>
-                        <ToggleGroupItem className="h-12 w-12" value="unique">
+                        <ToggleGroupItem
+                            className="h-12 w-12"
+                            value={EDataTypes.UNIQUE}>
                             U
                         </ToggleGroupItem>
-                        <ToggleGroupItem className="h-12 w-12" value="key">
+                        <ToggleGroupItem
+                            className="h-12 w-12"
+                            value={EDataTypes.KEY}>
                             K
                         </ToggleGroupItem>
                     </ToggleGroup>

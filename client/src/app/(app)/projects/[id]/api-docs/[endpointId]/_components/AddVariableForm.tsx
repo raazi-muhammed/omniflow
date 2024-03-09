@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 import { useForm } from "react-hook-form";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -15,18 +14,14 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { inviteMemberToTeam } from "@/services/team.service";
 import { useToast } from "@/components/ui/use-toast";
-import { Textarea } from "@/components/ui/textarea";
-import { useAppSelector } from "@/redux/store";
-import { getPublicUser } from "@/services/user.service";
-import { IUser } from "@/types/database";
 import { useRouter } from "next/navigation";
 import { AddIcon } from "@/lib/icons";
 
 const formSchema = z.object({
-    email: z.string().email(),
-    message: z.string().min(5),
+    name: z.string().min(1, "Invalid"),
+    type: z.string().min(1, "Invalid"),
+    description: z.string().min(1, "Invalid"),
 });
 
 export default function AddVariableForm() {
@@ -36,51 +31,15 @@ export default function AddVariableForm() {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            email: "",
-            message: "",
+            name: "",
+            type: "",
+            description: "",
         },
         mode: "onTouched",
     });
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        /* getPublicUser({ email: values.email })
-            .then((response) => {
-                const userDetails: IUser = response.data;
-
-                if (!userDetails.email || !userDetails.name) {
-                    form.setError("email", { message: "Invalid user" });
-                    return;
-                }
-                inviteMemberToTeam({
-                    email: userDetails.email,
-                    username: userDetails.username,
-                    avatar: userDetails.avatar,
-                    name: userDetails.name,
-                    message: values.message,
-                })
-                    .then((response) => {
-                        toast({
-                            description: response?.message || "Success",
-                        });
-                        router.back();
-                        router.refresh();
-                    })
-                    .catch((error) => {
-                        toast({
-                            description: error || "Error",
-                        });
-                    });
-            })
-            .catch((error) => {
-                const sanitizedError: string = error.toLowerCase();
-                if (sanitizedError.includes("user")) {
-                    form.setError("email", { message: error });
-                } else {
-                    toast({
-                        description: error || "Error",
-                    });
-                }
-            }); */
+        console.log(values);
     }
 
     return (
@@ -91,7 +50,7 @@ export default function AddVariableForm() {
                 <div className="grid w-full grid-cols-3 gap-4">
                     <FormField
                         control={form.control}
-                        name="email"
+                        name="name"
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Name</FormLabel>
@@ -104,7 +63,7 @@ export default function AddVariableForm() {
                     />
                     <FormField
                         control={form.control}
-                        name="message"
+                        name="type"
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Type</FormLabel>
@@ -117,7 +76,7 @@ export default function AddVariableForm() {
                     />
                     <FormField
                         control={form.control}
-                        name="message"
+                        name="description"
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Description</FormLabel>

@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 import { useForm } from "react-hook-form";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -15,18 +14,14 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { inviteMemberToTeam } from "@/services/team.service";
 import { useToast } from "@/components/ui/use-toast";
-import { Textarea } from "@/components/ui/textarea";
-import { useAppSelector } from "@/redux/store";
-import { getPublicUser } from "@/services/user.service";
-import { IUser } from "@/types/database";
 import { useRouter } from "next/navigation";
 import { AddIcon } from "@/lib/icons";
 
 const formSchema = z.object({
-    email: z.string().email(),
-    message: z.string().min(5),
+    key: z.string().min(1, "Invalid"),
+    value: z.string().min(1, "Invalid"),
+    description: z.string().min(1, "Invalid"),
 });
 
 export default function AddHeadersForm() {
@@ -36,13 +31,16 @@ export default function AddHeadersForm() {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            email: "",
-            message: "",
+            key: "",
+            value: "",
+            description: "",
         },
         mode: "onTouched",
     });
 
-    function onSubmit(values: z.infer<typeof formSchema>) {}
+    function onSubmit(values: z.infer<typeof formSchema>) {
+        console.log(values);
+    }
 
     return (
         <Form {...form}>
@@ -52,7 +50,7 @@ export default function AddHeadersForm() {
                 <div className="grid w-full grid-cols-3 gap-4">
                     <FormField
                         control={form.control}
-                        name="email"
+                        name="key"
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Key</FormLabel>
@@ -65,7 +63,7 @@ export default function AddHeadersForm() {
                     />
                     <FormField
                         control={form.control}
-                        name="message"
+                        name="value"
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Value</FormLabel>
@@ -78,7 +76,7 @@ export default function AddHeadersForm() {
                     />
                     <FormField
                         control={form.control}
-                        name="message"
+                        name="description"
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Description</FormLabel>

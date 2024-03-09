@@ -56,3 +56,9 @@ export type IEndpoint = {
     summary?: string;
     projectId: string;
 };
+
+export enum EDataTypes {
+    OPTIONAL = "OPTIONAL",
+    UNIQUE = "UNIQUE",
+    KEY = "KEY",
+}
