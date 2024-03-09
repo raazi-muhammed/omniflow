@@ -27,7 +27,7 @@ export default function buildMoveMemberToTeamController({
         if (!user) throw new UserNotFoundError();
 
         await teamRepository.addMemberToTeam({
-            projectId: currentProject._id,
+            projectId: currentProject.id,
             teamName: inputData.toTeam,
             member: {
                 inviteStatus: InviteStatus.ACCEPTED,
@@ -36,9 +36,9 @@ export default function buildMoveMemberToTeamController({
             },
         });
         await teamRepository.removeMemberFromTeam({
-            projectId: currentProject._id,
+            projectId: currentProject.id,
             teamName: inputData.fromTeam,
-            memberId: String(user._id),
+            memberId: user.id,
         });
 
         const response = new ResponseCreator();

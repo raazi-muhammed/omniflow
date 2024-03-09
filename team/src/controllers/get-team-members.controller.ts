@@ -20,7 +20,7 @@ export default function buildGetMembersFromTeamController({
         }
 
         const data = await teamRepository.getTeam({
-            projectId: currentProject._id,
+            projectId: currentProject.id,
             teamName: team,
         });
 

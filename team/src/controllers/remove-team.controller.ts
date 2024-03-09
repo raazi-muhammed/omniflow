@@ -15,7 +15,7 @@ export default function buildRemoveTeamController({
         validateBody(inputData, ["name"]);
 
         await teamRepository.removeTeam({
-            projectId: currentProject._id,
+            projectId: currentProject.id,
             teamName: inputData.name,
         });
 

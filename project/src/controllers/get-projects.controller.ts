@@ -13,10 +13,9 @@ export default function buildGetAllProjectsController({
 }) {
     return async (req: IRequest) => {
         const currentUser = req.currentUser;
-        console.log({ currentUser });
 
         const user = await memberRepository.upsert(currentUser);
-        const data = await projectRepository.getAll(user?._id);
+        const data = await projectRepository.getAll(user?.id);
 
         const response = new ResponseCreator();
         return response.setData(data);

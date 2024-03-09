@@ -23,7 +23,7 @@ export default function buildEditProjectController({
         const project = createProject(projectData);
 
         const updateProject = await projectRepository.edit({
-            _id: currentProject._id,
+            id: currentProject.id,
             ...project,
         });
 

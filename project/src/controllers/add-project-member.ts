@@ -24,7 +24,7 @@ export default function buildAddMemberToProject({
             member: {
                 role: Role.DEFAULT,
                 inviteStatus: InviteStatus.ACCEPTED,
-                info: userFound._id,
+                info: userFound.id,
             },
         });
     };

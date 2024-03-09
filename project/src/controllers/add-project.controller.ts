@@ -49,7 +49,9 @@ export default function buildAddProjectController({
             role: Role.TEAM_LEAD,
         } as IMember);
 
-        const project = await createProject({
+        console.log({ projectLead });
+
+        const project = createProject({
             ...addProjectData,
             lead: projectLead._id,
             members: [

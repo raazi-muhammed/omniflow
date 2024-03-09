@@ -26,7 +26,7 @@ export default function buildVerifyUserController({
         if (!user) throw new UserNotFoundError();
 
         const verificationCode = await verificationCodeRepository.find({
-            user: user._id,
+            userId: user.id,
         });
         if (!verificationCode) {
             throw new NotFoundError("Verification code not found");

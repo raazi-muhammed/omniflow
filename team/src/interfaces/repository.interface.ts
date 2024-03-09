@@ -1,15 +1,10 @@
 import { IDBMember } from "../repository/members.model.js";
-import {
-    IDType,
-    IMember,
-    IMemberInProject,
-    ITeam,
-} from "./entity.interface.js";
+import { IMember, IMemberInProject, ITeam } from "./entity.interface.js";
 import { IDBTeam } from "../repository/team.model.js";
 
 export type ITeamRepository = {
     addMember: (data: {
-        teamId: IDType;
+        teamId: string;
         member: IMemberInProject;
     }) => Promise<IDBTeam | null>;
     addMemberToTeam: (data: {

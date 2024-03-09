@@ -26,9 +26,9 @@ export default function buildChangeTeamLeadController({
         if (!userFound) throw new UserNotFoundError();
 
         const teamLeadChanged = await teamRepository.changeTeamLead({
-            projectId: currentProject._id,
+            projectId: currentProject.id,
             teamName: inputBody.teamName,
-            userId: String(userFound._id),
+            userId: userFound.id,
         });
 
         if (!teamLeadChanged) {

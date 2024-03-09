@@ -41,7 +41,7 @@ export default function buildEditProfileController({
         }
 
         const updatedUser = await userRepository.editUser({
-            userId: user._id,
+            userId: user.id,
             name: userInput.name,
             avatar,
         });

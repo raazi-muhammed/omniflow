@@ -1,4 +1,3 @@
-import { Types } from "mongoose";
 import { IDBUser } from "../repository/user.model.js";
 import { IUser } from "./entity.interface.js";
 import { IDBVerificationCode } from "../repository/verification-code.model.js";
@@ -8,7 +7,7 @@ export type IUserRepository = {
     findByEmail: (email: string) => Promise<IDBUser | null>;
     findByUsername: (username: string) => Promise<IDBUser | null>;
     editUser: ({}: {
-        userId: Types.ObjectId;
+        userId: string;
         name: string;
         avatar: string;
     }) => Promise<IDBUser | null>;
@@ -22,9 +21,7 @@ export type IUserRepository = {
 export type IVerificationCodeRepository = {
     upsert: (data: {
         code: number;
-        user: Types.ObjectId;
+        userId: string;
     }) => Promise<IDBVerificationCode | null>;
-    find: (data: {
-        user: Types.ObjectId;
-    }) => Promise<IDBVerificationCode | null>;
+    find: (data: { userId: string }) => Promise<IDBVerificationCode | null>;
 };

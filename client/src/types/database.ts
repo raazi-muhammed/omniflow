@@ -1,5 +1,5 @@
 export interface IUser {
-    _id?: string;
+    id?: string;
     name: string;
     username: string;
     email: string;
@@ -8,7 +8,7 @@ export interface IUser {
 }
 
 export interface IProject {
-    _id?: string;
+    id?: string;
     title: string;
     description: string;
     priority: number;

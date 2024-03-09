@@ -55,6 +55,12 @@ const projectSchema = new mongoose.Schema<IProject>(
     },
     {
         timestamps: true,
+        toJSON: {
+            transform(doc, ret) {
+                ret.id = ret._id;
+                delete ret._id;
+            },
+        },
     }
 );
 

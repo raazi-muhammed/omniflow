@@ -48,7 +48,7 @@ export default function buildChangeInvitationStatusController({
         if (invitationAccepted) {
             const isUpdated = await teamRepository.invitationAccepted({
                 projectId: tokenData.projectId,
-                memberId: String(memberDetails._id),
+                memberId: memberDetails.id,
             });
 
             if (!isUpdated) throw new AnErrorOccurredError();
@@ -60,7 +60,7 @@ export default function buildChangeInvitationStatusController({
         } else {
             const isUpdated = await teamRepository.invitationRejected({
                 projectId: tokenData.projectId,
-                memberId: String(memberDetails._id),
+                memberId: memberDetails.id,
             });
             if (!isUpdated) throw new AnErrorOccurredError();
         }

@@ -45,7 +45,7 @@ export default async function page() {
             )}
             <ResponsiveGridContainer>
                 {projects.map((project) => (
-                    <Link href={`/projects/${project._id}`}>
+                    <Link href={`/projects/${project.id}`}>
                         <Card>
                             <CardHeader className="text-secondary">
                                 <p className="text-xl font-semibold text-foreground">

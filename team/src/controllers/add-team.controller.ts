@@ -30,27 +30,27 @@ export default function buildAddTeamController({
         const user = await memberRepository.getByEmail(teamInput.lead);
 
         const foundTeam = await teamRepository.getTeam({
-            projectId: currentProject._id,
+            projectId: currentProject.id,
             teamName: teamInput.name,
         });
         if (foundTeam) throw new ConflictError("Team name taken");
 
         const team = addTeamUseCase({
             name: teamInput.name,
-            project: currentProject._id,
-            lead: user._id,
+            project: currentProject.id,
+            lead: user.id,
             members: [
                 {
                     role: Role.TEAM_LEAD,
                     inviteStatus: InviteStatus.ACCEPTED,
-                    info: user._id,
+                    info: user.id,
                 },
             ],
         });
 
         await teamRepository.removeMemberFromTeam({
             teamName: "Default",
-            projectId: currentProject._id,
+            projectId: currentProject.id,
             memberId: String(user._id),
         });
 

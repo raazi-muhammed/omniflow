@@ -9,7 +9,7 @@ export default function buildGetEndpointsController({
     return async (req: IRequest) => {
         const { currentProject } = req;
         const endpoints = await endPointsRepository.getEndpoints({
-            projectId: currentProject._id,
+            projectId: currentProject.id,
         });
 
         const response = new ResponseCreator();

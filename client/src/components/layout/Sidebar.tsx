@@ -34,19 +34,19 @@ export default function Sidebar() {
         },
         {
             title: "Overview",
-            url: `/projects/${projectInfo?._id}`,
+            url: `/projects/${projectInfo?.id}`,
             identifier: "overview",
             icon: <KanbanSquare className="me-2" size="1.3em" />,
         },
         {
             title: "Teams",
-            url: `/projects/${projectInfo?._id}/teams`,
+            url: `/projects/${projectInfo?.id}/teams`,
             identifier: "teams",
             icon: <Users className="me-2" size="1.3em" />,
         },
         {
             title: "API Docs",
-            url: `/projects/${projectInfo?._id}/api-docs`,
+            url: `/projects/${projectInfo?.id}/api-docs`,
             identifier: "api-docs",
             icon: <Users className="me-2" size="1.3em" />,
         },

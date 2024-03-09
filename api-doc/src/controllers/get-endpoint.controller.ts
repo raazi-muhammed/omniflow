@@ -11,7 +11,7 @@ export default function getEndpointController({
         const currentProject = req.currentProject;
 
         const endpointData = await endPointsRepository.getEndpoint({
-            projectId: currentProject._id,
+            projectId: currentProject.id,
             endpointId,
         });
 

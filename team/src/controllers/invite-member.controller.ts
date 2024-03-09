@@ -56,23 +56,23 @@ export default function buildInviteMemberController({
         }
 
         const team = await teamRepository.getDefaultTeam({
-            projectId: currentProject._id,
+            projectId: currentProject.id,
         });
 
         const newTeam = await teamRepository.addMember({
-            teamId: team._id,
+            teamId: team.id,
             member: {
                 role: Role.DEFAULT,
                 inviteStatus: InviteStatus.PENDING,
-                info: userToInvite._id,
+                info: userToInvite.id,
             },
         });
 
         console.log({ newTeam });
 
         const tokenData: InvitationTokenData = {
-            projectId: currentProject._id,
-            memberId: String(userToInvite._id),
+            projectId: currentProject.id,
+            memberId: userToInvite.id,
             message: userInput.message,
         };
 

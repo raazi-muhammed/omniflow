@@ -42,7 +42,7 @@ export default function buildChangePasswordController({
         const newPassword = await passwordHash.hash(userInput.newPassword);
 
         const passwordChanged = await userRepository.changePassword({
-            userId: currentUser._id,
+            userId: currentUser.id,
             newPassword,
         });
         if (!passwordChanged) throw new AnErrorOccurredError();

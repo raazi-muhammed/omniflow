@@ -28,9 +28,9 @@ export default function buildRemoveMemberFromTeamController({
         if (!user) throw new UserNotFoundError();
 
         await teamRepository.removeMemberFromTeam({
-            projectId: currentProject._id,
+            projectId: currentProject.id,
             teamName: inputData.team,
-            memberId: String(user._id),
+            memberId: user.id,
         });
 
         const response = new ResponseCreator();

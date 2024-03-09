@@ -1,6 +1,5 @@
-import { Types, isValidObjectId } from "mongoose";
+import { Types } from "mongoose";
 import {
-    IDType,
     IMemberInProject,
     ITeam,
     InviteStatus,
@@ -23,7 +22,7 @@ export default function buildTeamRepository({
             teamId,
             member,
         }: {
-            teamId: IDType;
+            teamId: string;
             member: IMemberInProject;
         }) => {
             return (await database.findOneAndUpdate(

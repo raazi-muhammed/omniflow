@@ -10,7 +10,7 @@ export default function buildGetTeamsController({
         const { currentProject } = req;
 
         const teams = await teamRepository.getTeams({
-            projectId: currentProject._id,
+            projectId: currentProject.id,
         });
 
         const response = new ResponseCreator();

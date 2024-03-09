@@ -14,7 +14,7 @@ export default function buildProjectRepository({
         },
         edit: async (projectData: IProject) => {
             const result = await database.updateOne(
-                { _id: projectData._id },
+                { _id: projectData.id },
                 {
                     title: projectData.title,
                     description: projectData.description,
@@ -26,7 +26,7 @@ export default function buildProjectRepository({
 
             return result.modifiedCount > 0;
         },
-        getAll: async (userId: Types.ObjectId) => {
+        getAll: async (userId: string) => {
             return (await database
                 .find({ "members.info": userId, isDeleted: false })
                 .populate("lead")

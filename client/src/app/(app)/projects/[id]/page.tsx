@@ -31,7 +31,7 @@ export default function page({ params }: { params: { id: string } }) {
         <main className="w-full">
             <Container>
                 <ActionItemsContainer>
-                    <Link href={`${project?._id}/edit-project`}>
+                    <Link href={`${project?.id}/edit-project`}>
                         <Button size="sm" variant="secondary">
                             <EditIcon /> Edit Project
                         </Button>

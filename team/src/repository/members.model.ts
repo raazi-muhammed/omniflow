@@ -21,12 +21,18 @@ const membersSchema = new mongoose.Schema<IMember>(
     },
     {
         timestamps: true,
+        toJSON: {
+            transform(doc, ret) {
+                ret.id = ret._id;
+                delete ret._id;
+            },
+        },
     }
 );
 
 export type IDBMember = HydratedDocument<
     IMember,
-    { createdAt: Date; updatedAt: Date }
+    { id: string; createdAt: Date; updatedAt: Date }
 >;
 
 export type IMemberModel = Model<IMember>;

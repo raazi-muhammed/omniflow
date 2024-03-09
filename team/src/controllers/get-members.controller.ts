@@ -9,7 +9,7 @@ export default function buildGetMembersListController({
     return async (req: IRequest) => {
         const { currentProject } = req;
         const data = await teamRepository.getAllMembers({
-            projectId: currentProject._id,
+            projectId: currentProject.id,
         });
 
         const response = new ResponseCreator();

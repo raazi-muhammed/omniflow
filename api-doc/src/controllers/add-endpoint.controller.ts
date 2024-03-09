@@ -20,7 +20,7 @@ export default function buildAddEndpointController({
             method: endPointInput.method,
             summary: endPointInput.summary,
             route: endPointInput.route,
-            projectId: currentProject._id,
+            projectId: currentProject.id,
         });
 
         const endpointFromDb = await endPointsRepository.addEndpoint(

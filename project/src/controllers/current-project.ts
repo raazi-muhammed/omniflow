@@ -14,7 +14,7 @@ export default function buildGetCurrentProject({
     return async (req: IRequest) => {
         const currentProject = req.currentProject;
 
-        const projectData = await projectRepository.get(currentProject._id);
+        const projectData = await projectRepository.get(currentProject.id);
 
         const projectToken = token.sign(projectData);
 

@@ -13,21 +13,15 @@ export default function buildDeleteProjectController({
 }) {
     return async (req: IRequest) => {
         const { currentProject } = req;
-        console.log({ currentProject });
-
-        const toDelteProject = await projectRepository.get(currentProject._id);
-        console.log({ toDelteProject });
 
         const projectDeleted = await projectRepository.delete(
-            currentProject._id
+            currentProject.id
         );
-
-        console.log({ projectDeleted });
 
         if (!projectDeleted) throw new AnErrorOccurredError();
 
         const response = new ResponseCreator();
-        await projectRepository.delete(currentProject._id);
+        await projectRepository.delete(currentProject.id);
 
         return response.setMessage("Project deleted");
     };

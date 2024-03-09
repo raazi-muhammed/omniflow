@@ -62,7 +62,7 @@ export default function buildSignInController({
 
         const verificationCode = await verificationCodeRepository.upsert({
             code: generatedCode,
-            user: isUserCreated._id,
+            userId: isUserCreated.id,
         });
 
         if (!verificationCode) {
