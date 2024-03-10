@@ -14,3 +14,21 @@ export interface IEndpointEntity extends IEndpoint {
 export interface IEndpointEntityConstructor {
     new (data: IEndpoint): IEndpointEntity;
 }
+
+export type IVariable = {
+    name: string;
+    type: string;
+    endpointId: string;
+    description?: string;
+};
+export type IHeader = {
+    key: string;
+    value: string;
+    description?: string;
+};
+export type ISchemaItem = {
+    key: string;
+    type: string;
+    options: string[];
+    description?: string;
+};

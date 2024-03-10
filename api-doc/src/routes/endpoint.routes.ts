@@ -29,11 +29,19 @@ export default function buildEndpointRoutes({
         verifyProject,
         makeCallback(endpointController.getEndpoint)
     );
+
     router.get(
         "/endpoints",
         verifyUser,
         verifyProject,
         makeCallback(endpointController.getEndpoints)
+    );
+
+    router.post(
+        "/endpoints/:id/variables",
+        verifyUser,
+        verifyProject,
+        makeCallback(endpointController.addEndpointVariable)
     );
 
     return router;

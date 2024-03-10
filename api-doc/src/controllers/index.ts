@@ -4,6 +4,7 @@ import { endPointsRepository } from "../repository/index.js";
 import buildGetEndpointsController from "./get-endpoints.controller.js";
 import { createEndpointUseCase } from "../use-cases/index.js";
 import getEndpointController from "./get-endpoint.controller.js";
+import buildEndpointVariableController from "./add-endpoint-variable.controller.js";
 
 const addEndpoint = buildAddEndpointController({
     createEndpointUseCase,
@@ -17,8 +18,13 @@ const getEndpoint = getEndpointController({
     endPointsRepository,
 });
 
+const addEndpointVariable = buildEndpointVariableController({
+    endPointsRepository,
+});
+
 export const endpointController: IEndpointController = Object.freeze({
     addEndpoint,
     getEndpoints,
     getEndpoint,
+    addEndpointVariable,
 });

@@ -50,6 +50,30 @@ export async function getEndpoint(
         axios
             .get(url, { ...config, withCredentials: true })
             .then((response) => {
+                console.log(response);
+
+                resolve(adaptSuccessResponse(response));
+            })
+            .catch((error) => {
+                reject(adaptErrorResponse(error));
+            });
+    });
+}
+
+export async function addEndpointVariable(
+    { id }: { id: string },
+    values: {
+        name: string;
+        type: string;
+        description?: string;
+    },
+    config?: AxiosRequestConfig
+): Promise<IResponse> {
+    const url = new BuildUrl().apiDoc(`/endpoints/${id}/variables`);
+    return new Promise((resolve, reject) => {
+        axios
+            .post(url, values, { ...config, withCredentials: true })
+            .then((response) => {
                 resolve(adaptSuccessResponse(response));
             })
             .catch((error) => {

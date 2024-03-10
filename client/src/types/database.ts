@@ -48,6 +48,13 @@ export type IAllMemberList = {
     info: IUser;
 };
 
+export type IVariable = {
+    name: string;
+    type: string;
+    endpointId: string;
+    description?: string;
+};
+
 export type IEndpoint = {
     id?: string;
     name: string;
@@ -55,6 +62,7 @@ export type IEndpoint = {
     method: string;
     summary?: string;
     projectId: string;
+    variables: IVariable[];
 };
 
 export enum EDataTypes {

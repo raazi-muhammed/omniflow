@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { AddIcon } from "@/lib/icons";
+import { addEndpointVariable } from "@/services/endpoints.service";
 
 const formSchema = z.object({
     name: z.string().min(1, "Invalid"),
@@ -24,7 +25,11 @@ const formSchema = z.object({
     description: z.string().min(1, "Invalid"),
 });
 
-export default function AddVariableForm() {
+export default function AddVariableForm({
+    endpointId,
+}: {
+    endpointId: string;
+}) {
     const { toast } = useToast();
     const router = useRouter();
 
@@ -39,7 +44,10 @@ export default function AddVariableForm() {
     });
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values);
+        console.log({ values });
+        addEndpointVariable({ id: endpointId }, values)
+            .then((response) => console.log(response))
+            .catch((err) => console.log(err));
     }
 
     return (

@@ -43,9 +43,19 @@ export default function Endpoint({ endpointId }: { endpointId: string }) {
                         </div>
                     </section>
                     <Separator className="my-0" />
+
                     <div>
                         <Heading variant="sm">Variables</Heading>
-                        <AddVariableForm />
+                        <section>
+                            {endpoint.variables.map((variable) => (
+                                <div className="flex justify-between">
+                                    <p>{variable.name}</p>
+                                    <p>{variable.type}</p>
+                                    <p>{variable.description}</p>
+                                </div>
+                            ))}
+                        </section>
+                        <AddVariableForm endpointId={endpointId} />
                     </div>
                     <div>
                         <Heading variant="sm">Headers</Heading>

@@ -1,39 +1,36 @@
 import { DataTypes, ModelDefined, Sequelize } from "sequelize";
-import { IEndpoint } from "../interfaces/entity.interface.js";
+import { IVariable } from "../interfaces/entity.interface.js";
 
-export function endpointModel(sequelize: Sequelize) {
-    const EndpointModel: ModelDefined<IDBEndpoint, IEndpoint> =
-        sequelize.define("Endpoint", {
+export function variableModel(sequelize: Sequelize) {
+    const VariableModel: ModelDefined<IDBVariable, IVariable> =
+        sequelize.define("Variables", {
             id: {
                 type: DataTypes.UUID,
                 defaultValue: DataTypes.UUIDV4,
                 primaryKey: true,
             },
+            endpointId: {
+                type: DataTypes.UUID,
+                allowNull: false,
+            },
             name: {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
-            route: {
+            type: {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
-            method: {
-                type: DataTypes.STRING,
-                allowNull: false,
-            },
-            summary: {
-                type: DataTypes.STRING,
-            },
-            projectId: {
+            description: {
                 type: DataTypes.STRING,
             },
         });
 
     sequelize.sync({ alter: true });
-    return EndpointModel;
+    return VariableModel;
 }
 
-export type IDBEndpoint = IEndpoint & {
+export type IDBVariable = IVariable & {
     id: string;
     createdAt: Date;
     updatedAt: Date;
