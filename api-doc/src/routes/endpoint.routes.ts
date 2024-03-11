@@ -55,6 +55,12 @@ export default function buildEndpointRoutes({
         verifyProject,
         makeCallback(endpointController.addEndpointBody)
     );
+    router.post(
+        "/endpoints/:id/schema",
+        verifyUser,
+        verifyProject,
+        makeCallback(endpointController.addEndpointSchema)
+    );
 
     return router;
 }

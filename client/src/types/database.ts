@@ -62,6 +62,13 @@ export type IHeader = {
     description?: string;
 };
 
+export type ISchemaItem = {
+    key: string;
+    type: string;
+    endpointId: string;
+    options: string[];
+};
+
 export type IEndpoint = {
     id?: string;
     name: string;
@@ -71,6 +78,7 @@ export type IEndpoint = {
     body?: string;
     projectId: string;
     variables: IVariable[];
+    schema: ISchemaItem[];
     headers: IHeader[];
 };
 

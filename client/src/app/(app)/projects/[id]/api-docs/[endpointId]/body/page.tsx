@@ -48,6 +48,35 @@ export default async function page({
                 <SectionContent>
                     <Heading variant="spaced">Body</Heading>
                     <BodyComponent bodyData={endpointData.body} />
+                    <Heading variant="spaced">Schema</Heading>
+                    <section className="grid grid-cols-2 gap-4">
+                        {endpointData.schema.map((v) => (
+                            <Card className="h-fit p-4 px-6">
+                                <div className="mb-2 flex justify-between gap-2">
+                                    <div className="flex-1">
+                                        <small className="text-secondary">
+                                            Key
+                                        </small>
+                                        <p>{v.key}</p>
+                                    </div>
+                                    <div className="flex-1">
+                                        <small className="text-secondary">
+                                            Type
+                                        </small>
+                                        <p>{v.type}</p>
+                                    </div>
+                                </div>
+                                <small className="text-secondary">
+                                    Options
+                                </small>
+                                <div className="flex flex-wrap gap-4">
+                                    {v.options.map((op) => (
+                                        <p className="text-sm">{op}</p>
+                                    ))}
+                                </div>
+                            </Card>
+                        ))}
+                    </section>
                 </SectionContent>
                 <SectionAside>
                     <Accordion type="single" collapsible>

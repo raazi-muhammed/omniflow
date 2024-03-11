@@ -123,3 +123,24 @@ export async function addEndpointBody(
             });
     });
 }
+export async function addEndpointSchema(
+    { id }: { id: string },
+    values: {
+        key: string;
+        type: string;
+        options: string[];
+    },
+    config?: AxiosRequestConfig
+): Promise<IResponse> {
+    const url = new BuildUrl().apiDoc(`/endpoints/${id}/schema`);
+    return new Promise((resolve, reject) => {
+        axios
+            .post(url, values, { ...config, withCredentials: true })
+            .then((response) => {
+                resolve(adaptSuccessResponse(response));
+            })
+            .catch((error) => {
+                reject(adaptErrorResponse(error));
+            });
+    });
+}

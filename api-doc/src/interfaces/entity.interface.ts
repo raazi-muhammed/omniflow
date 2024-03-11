@@ -31,5 +31,6 @@ export type IHeader = {
 export type ISchemaItem = {
     key: string;
     type: string;
+    endpointId: string;
     options: string[];
 };

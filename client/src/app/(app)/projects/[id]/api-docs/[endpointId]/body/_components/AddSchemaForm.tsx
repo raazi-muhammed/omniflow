@@ -20,6 +20,7 @@ import { useRouter } from "next/navigation";
 import { AddIcon } from "@/lib/icons";
 import { useState } from "react";
 import { EDataTypes } from "@/types/database";
+import { addEndpointSchema } from "@/services/endpoints.service";
 
 const formSchema = z.object({
     key: z.string().min(1, "Invalid"),
@@ -44,6 +45,16 @@ export default function AddSchemaForm({ endpointId }: { endpointId: string }) {
 
     function onSubmit(values: z.infer<typeof formSchema>) {
         console.log(values);
+        addEndpointSchema({ id: endpointId }, values)
+            .then((response) => {
+                console.log(response);
+                router.refresh();
+                toast({ description: response.message });
+            })
+            .catch((err) => {
+                console.log(err);
+                toast({ description: err.message });
+            });
     }
 
     return (

@@ -8,7 +8,7 @@ import {
 } from "../interfaces/entity.interface.js";
 import { IDBVariable, variableModel } from "./endpoint-variable.model.js";
 import { IDBHeader, headerModel } from "./endpoint-header.mode.js";
-import { IDBSchemaItem, schemaModel } from "./endpoint-body.model.js";
+import { IDBSchemaItem, schemaModel } from "./endpoint-schema.model.js";
 
 export class BuildEndpointRepository {
     client: Sequelize;
@@ -16,14 +16,14 @@ export class BuildEndpointRepository {
         Endpoint: ModelDefined<IDBEndpoint, IEndpoint>;
         Variables: ModelDefined<IDBVariable, IVariable>;
         Headers: ModelDefined<IDBHeader, IHeader>;
-        SchemaModel: ModelDefined<IDBSchemaItem, ISchemaItem>;
+        Schema: ModelDefined<IDBSchemaItem, ISchemaItem>;
     };
 
     constructor(sequelize: Sequelize) {
         const EndpointModel = endpointModel(sequelize);
         const VariableModel = variableModel(sequelize);
         const HeaderModel = headerModel(sequelize);
-        const SchemaModel = schemaModel(sequelize);
+        const Schema = schemaModel(sequelize);
         EndpointModel.hasMany(VariableModel, {
             as: "variables",
             foreignKey: "endpointId",
@@ -38,14 +38,21 @@ export class BuildEndpointRepository {
         HeaderModel.belongsTo(EndpointModel, {
             foreignKey: "endpointId",
         });
-        EndpointModel.hasMany(SchemaModel, {
+        EndpointModel.hasMany(Schema, {
             as: "schema",
             foreignKey: "endpointId",
         });
-        SchemaModel.belongsTo(EndpointModel, {
+        Schema.belongsTo(EndpointModel, {
             foreignKey: "endpointId",
         });
-        sequelize.sync({ alter: true });
+        sequelize
+            .sync({ alter: true })
+            .then((res) => {
+                console.log("datasync successful");
+            })
+            .catch((err) => {
+                console.log(err, "data sync failed");
+            });
 
         this.client = sequelize;
         // @ts-ignore
@@ -74,6 +81,7 @@ export class BuildEndpointRepository {
             include: [
                 { model: this.models.Variables, as: "variables" },
                 { model: this.models.Headers, as: "headers" },
+                { model: this.models.Schema, as: "schema" },
             ],
         });
         return endpoint.dataValues as IDBEndpoint;
@@ -98,6 +106,10 @@ export class BuildEndpointRepository {
             { body },
             { where: { id: endpointId } }
         );
+        return true;
+    }
+    async addEndpointSchema(schemaData: ISchemaItem) {
+        const schema = await this.models.Schema.create(schemaData);
         return true;
     }
 }
