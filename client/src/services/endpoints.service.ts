@@ -6,10 +6,9 @@ import {
     adaptSuccessResponse,
 } from "./utils";
 import "./interceptor";
-import { IEndpoint } from "@/types/database";
 
 export async function addEndpoint(
-    values: Omit<IEndpoint, "projectId">,
+    values: { name: string; summary: string; route: string; method: string },
     config?: AxiosRequestConfig
 ): Promise<IResponse> {
     const url = new BuildUrl().apiDoc(`/endpoints`);

@@ -49,10 +49,9 @@
         --primary-foreground: 0 0% 100%;
 
         --secondary: 263 6% 65%;
-        /* --secondary: 261 73% 13%; */
         --secondary-foreground: 210 40% 98%;
 
-        --muted: 263 5% 16%;
+        --muted: 263 10% 16%;
         --muted-foreground: 215 20.2% 95%;
 
         --accent: 263 5% 16%;
@@ -64,7 +63,7 @@
 
         --border: 240 5% 16%;
         --input: 240 5% 16%;
-        --ring: 226 99% 67%;
+        --ring: 263 70% 60%;
 
         --gradient-primary-to: 263 70% 50%;
         --gradient-primary-from: 263 60% 33%;

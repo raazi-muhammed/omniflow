@@ -79,15 +79,19 @@ export default async function page() {
                                         <Label>{member.info.email}</Label>
                                         <p>{member.info.name}</p>
                                         {member.role !== Role.DEFAULT ? (
-                                            <Badge variant="secondary">
-                                                {member.role}
+                                            <Badge
+                                                variant="secondary"
+                                                className="capitalize">
+                                                {member.role.toLowerCase()}
                                             </Badge>
                                         ) : null}
 
                                         {member.inviteStatus !==
                                         InviteStatus.ACCEPTED ? (
-                                            <Badge variant="secondary">
-                                                {member.inviteStatus}
+                                            <Badge
+                                                variant="secondary"
+                                                className="capitalize">
+                                                {member.inviteStatus.toLowerCase()}
                                             </Badge>
                                         ) : null}
                                     </div>

@@ -17,7 +17,6 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { IUser } from "@/types/database";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { editUserProfile } from "@/services/user.service";
 
 const formSchema = z.object({

@@ -69,11 +69,15 @@ export default async function page({
                                             <p>{member.info.name}</p>
                                             <Label>{member.info.email}</Label>
                                             <div className="mt-2 flex gap-2">
-                                                <Badge variant="secondary">
-                                                    {member.inviteStatus}
+                                                <Badge
+                                                    variant="secondary"
+                                                    className="capitalize">
+                                                    {member.inviteStatus.toLowerCase()}
                                                 </Badge>
-                                                <Badge variant="secondary">
-                                                    {member.role}
+                                                <Badge
+                                                    variant="secondary"
+                                                    className="capitalize">
+                                                    {member.role.toLowerCase()}
                                                 </Badge>
                                             </div>
                                         </section>

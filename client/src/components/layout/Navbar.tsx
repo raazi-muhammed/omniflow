@@ -1,7 +1,6 @@
 "use client";
 
 import Avatar from "../custom/Avatar";
-import { Card } from "../ui/card";
 import Container from "./Container";
 import { AppDispatch, useAppSelector } from "@/redux/store";
 import { Button } from "../ui/button";
@@ -38,10 +37,12 @@ function Navbar() {
                     <div className="ms-auto flex gap-4">
                         {userData.userData ? (
                             <>
-                                <Avatar
-                                    name={userData.userData.name}
-                                    src={userData.userData.avatar || ""}
-                                />
+                                <div className="rounded-full border border-primary">
+                                    <Avatar
+                                        name={userData.userData.name}
+                                        src={userData.userData.avatar || ""}
+                                    />
+                                </div>
                                 <div>
                                     <p>{userData.userData?.name}</p>
                                     <small className="-mt-1 flex text-secondary">

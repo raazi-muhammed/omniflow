@@ -29,8 +29,7 @@ export default function BodyComponent({
                 style={{
                     backgroundColor: "#0F0B0B",
                     fontSize: "0.875rem",
-                    fontFamily:
-                        "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
+                    fontFamily: "monospace",
                 }}
             />
         </div>
