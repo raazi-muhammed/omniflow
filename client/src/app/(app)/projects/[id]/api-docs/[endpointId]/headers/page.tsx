@@ -16,7 +16,7 @@ import {
     AccordionTrigger,
 } from "@/components/ui/accordion";
 import { DeleteIcon } from "lucide-react";
-import AddHeadersForm from "./_components/AddHeadersForm";
+import AddHeadersForm from "./_forms/AddHeadersForm";
 
 async function getEndpointData(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;

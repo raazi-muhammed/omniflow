@@ -17,8 +17,8 @@ import {
 } from "@/components/ui/accordion";
 import { DeleteIcon } from "lucide-react";
 import BodyComponent from "../_components/BodyComponent";
-import AddBodyForm from "./_components/AddBodyForm";
-import AddSchemaForm from "./_components/AddSchemaForm";
+import AddBodyForm from "./_forms/AddBodyForm";
+import AddSchemaForm from "./_forms/AddSchemaForm";
 
 async function getEndpointData(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
