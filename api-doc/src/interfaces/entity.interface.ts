@@ -3,6 +3,7 @@ export type IEndpoint = {
     route?: string;
     method: string;
     summary: string;
+    body?: string;
     projectId: string;
 };
 
@@ -31,5 +32,4 @@ export type ISchemaItem = {
     key: string;
     type: string;
     options: string[];
-    description?: string;
 };

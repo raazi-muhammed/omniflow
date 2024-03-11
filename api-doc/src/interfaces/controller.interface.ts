@@ -6,4 +6,5 @@ export type IEndpointController = {
     getEndpoint: (req: IRequest) => Promise<ResponseCreator>;
     addEndpointVariable: (req: IRequest) => Promise<ResponseCreator>;
     addEndpointHeader: (req: IRequest) => Promise<ResponseCreator>;
+    addEndpointBody: (req: IRequest) => Promise<ResponseCreator>;
 };

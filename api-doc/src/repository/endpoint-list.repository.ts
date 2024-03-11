@@ -3,10 +3,12 @@ import { IDBEndpoint, endpointModel } from "./endpoint.model.js";
 import {
     IEndpoint,
     IHeader,
+    ISchemaItem,
     IVariable,
 } from "../interfaces/entity.interface.js";
 import { IDBVariable, variableModel } from "./endpoint-variable.model.js";
 import { IDBHeader, headerModel } from "./endpoint-header.mode.js";
+import { IDBSchemaItem, schemaModel } from "./endpoint-body.model.js";
 
 export class BuildEndpointRepository {
     client: Sequelize;
@@ -14,12 +16,14 @@ export class BuildEndpointRepository {
         Endpoint: ModelDefined<IDBEndpoint, IEndpoint>;
         Variables: ModelDefined<IDBVariable, IVariable>;
         Headers: ModelDefined<IDBHeader, IHeader>;
+        SchemaModel: ModelDefined<IDBSchemaItem, ISchemaItem>;
     };
 
     constructor(sequelize: Sequelize) {
         const EndpointModel = endpointModel(sequelize);
         const VariableModel = variableModel(sequelize);
         const HeaderModel = headerModel(sequelize);
+        const SchemaModel = schemaModel(sequelize);
         EndpointModel.hasMany(VariableModel, {
             as: "variables",
             foreignKey: "endpointId",
@@ -32,6 +36,13 @@ export class BuildEndpointRepository {
             foreignKey: "endpointId",
         });
         HeaderModel.belongsTo(EndpointModel, {
+            foreignKey: "endpointId",
+        });
+        EndpointModel.hasMany(SchemaModel, {
+            as: "schema",
+            foreignKey: "endpointId",
+        });
+        SchemaModel.belongsTo(EndpointModel, {
             foreignKey: "endpointId",
         });
         sequelize.sync({ alter: true });
@@ -74,6 +85,19 @@ export class BuildEndpointRepository {
     }
     async addEndpointHeader(header: IHeader) {
         const headerData = await this.models.Headers.create(header);
+        return true;
+    }
+    async addEndpointBody({
+        endpointId,
+        body,
+    }: {
+        endpointId: string;
+        body: string;
+    }) {
+        const updated = await this.models.Endpoint.update(
+            { body },
+            { where: { id: endpointId } }
+        );
         return true;
     }
 }

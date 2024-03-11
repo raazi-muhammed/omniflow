@@ -24,6 +24,9 @@ export function endpointModel(sequelize: Sequelize) {
             summary: {
                 type: DataTypes.STRING,
             },
+            body: {
+                type: DataTypes.STRING,
+            },
             projectId: {
                 type: DataTypes.STRING,
             },

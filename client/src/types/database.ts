@@ -68,6 +68,7 @@ export type IEndpoint = {
     route: string;
     method: string;
     summary?: string;
+    body?: string;
     projectId: string;
     variables: IVariable[];
     headers: IHeader[];

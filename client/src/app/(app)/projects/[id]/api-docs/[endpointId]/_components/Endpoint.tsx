@@ -105,7 +105,10 @@ export default async function Endpoint({ endpointId }: { endpointId: string }) {
                     </div>
                     <div>
                         <Heading variant="sm">Body</Heading>
-                        <BodyComponent />
+                        <BodyComponent
+                            endpointId={endpoint.id || ""}
+                            bodyData={endpoint.body}
+                        />
                     </div>
                     <section>
                         <Heading variant="sm">Schema</Heading>
