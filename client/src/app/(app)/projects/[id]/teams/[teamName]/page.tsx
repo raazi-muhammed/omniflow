@@ -23,6 +23,7 @@ import {
 import MemberActionDropDown from "./_components/MemberActionDropDown";
 import ErrorMessage from "@/components/custom/ErrorMessage";
 import { PROJECT_TOKEN_COOKIE, USER_TOKEN_COOKIE } from "@/constants/cookies";
+import { Label } from "@/components/ui/label";
 
 export async function getTeamsData(teamName: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -66,9 +67,7 @@ export default async function page({
                                         </div>
                                         <section>
                                             <p>{member.info.name}</p>
-                                            <small className="text-secondary">
-                                                {member.info.email}
-                                            </small>
+                                            <Label>{member.info.email}</Label>
                                             <div className="mt-2 flex gap-2">
                                                 <Badge variant="secondary">
                                                     {member.inviteStatus}

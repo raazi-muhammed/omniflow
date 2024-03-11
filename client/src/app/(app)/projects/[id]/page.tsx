@@ -15,6 +15,7 @@ import { AppDispatch } from "@/redux/store";
 import { useDispatch } from "react-redux";
 import { setProject as setProjectOnRedux } from "@/redux/features/projectSlice";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Label } from "@/components/ui/label";
 
 export default function page({ params }: { params: { id: string } }) {
     const [project, setProject] = useState<IProject | null>(null);
@@ -40,19 +41,19 @@ export default function page({ params }: { params: { id: string } }) {
 
                 {project ? (
                     <>
-                        <small className="text-secondary">Title</small>
+                        <Label>Title</Label>
                         <Heading>{project.title}</Heading>
                         <br />
-                        <small className="text-secondary">Description</small>
+                        <Label>Description</Label>
                         <p className="max-w-2xl">{project.description}</p>
                         <br />
-                        <small className="text-secondary">Start Date</small>
+                        <Label>Start Date</Label>
                         <p>{moment(project.startDate).format("LL")}</p>
                         <br />
-                        <small className="text-secondary">Due Date</small>
+                        <Label>Due Date</Label>
                         <p>{moment(project.dueDate).format("LL")}</p>
                         <br />
-                        <small className="text-secondary">Team Lead</small>
+                        <Label>Team Lead</Label>
                         <div className="flex gap-3">
                             <div className="my-auto">
                                 <Avatar
@@ -62,7 +63,7 @@ export default function page({ params }: { params: { id: string } }) {
                             </div>
                             <div>
                                 <p>{project.lead?.name}</p>
-                                <small>{project.lead?.email}</small>
+                                <Label>{project.lead?.email}</Label>
                             </div>
                         </div>
                     </>

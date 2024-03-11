@@ -21,6 +21,7 @@ import {
 import EditProfileForm from "./_forms/EditProfileForm";
 import ChangePasswordForm from "./_forms/ChangePasswordForm";
 import { USER_TOKEN_COOKIE } from "@/constants/cookies";
+import { Label } from "@/components/ui/label";
 
 export async function getUserData(username: string) {
     const token = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -50,13 +51,13 @@ export default async function page({
                         src={user.avatar || ""}
                     />
                     <br />
-                    <small className="text-secondary">Name</small>
+                    <Label>Name</Label>
                     <p>{user.name}</p>
                     <br />
-                    <small className="text-secondary">Username</small>
+                    <Label>Username</Label>
                     <p>{user.username}</p>
                     <br />
-                    <small className="text-secondary">Email</small>
+                    <Label>Email</Label>
                     <p>{user.email}</p>
                 </SectionContent>
                 <SectionAside>

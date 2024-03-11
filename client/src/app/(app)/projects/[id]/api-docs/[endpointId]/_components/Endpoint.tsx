@@ -18,6 +18,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import { Label } from "@/components/ui/label";
 
 async function getEndpointData(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -45,15 +46,15 @@ export default async function Endpoint({ endpointId }: { endpointId: string }) {
                     <Heading>{endpoint.name}</Heading>
                     <section className="grid grid-cols-3">
                         <div>
-                            <small className="text-secondary">Method</small>
+                            <Label>Method</Label>
                             <p>{endpoint.method}</p>
                         </div>
                         <div>
-                            <small className="text-secondary">URL</small>
+                            <Label>URL</Label>
                             <p>{endpoint.route}</p>
                         </div>
                         <div>
-                            <small className="text-secondary">Summary</small>
+                            <Label>Summary</Label>
                             <p>
                                 {endpoint.summary
                                     ? endpoint.summary

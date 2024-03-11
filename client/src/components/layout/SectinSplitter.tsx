@@ -27,7 +27,7 @@ export function SectionContent({
     className?: string;
 }) {
     return (
-        <div className={cn("mx-auto w-full max-w-2xl", className)}>
+        <div className={cn("mx-auto w-full max-w-4xl", className)}>
             {children}
         </div>
     );
@@ -43,7 +43,7 @@ export function SectionAside({
     return (
         <div
             className={cn(
-                "mx-auto mt-16 w-full max-w-2xl xl:max-w-sm",
+                "mx-auto mt-16 w-full max-w-4xl xl:max-w-sm",
                 className
             )}>
             {children}

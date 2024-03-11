@@ -14,6 +14,7 @@ import ActionItemsContainer from "@/components/layout/ActionItemsContainer";
 import ResponsiveGridContainer from "@/components/layout/ResponsiveGridContainer";
 import ErrorMessage from "@/components/custom/ErrorMessage";
 import { PROJECT_TOKEN_COOKIE, USER_TOKEN_COOKIE } from "@/constants/cookies";
+import { Label } from "@/components/ui/label";
 
 async function loadTeams() {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -75,9 +76,7 @@ export default async function page() {
                                         />
                                     </div>
                                     <div className="my-auto">
-                                        <small className="text-secondary">
-                                            {member.info.email}
-                                        </small>
+                                        <Label>{member.info.email}</Label>
                                         <p>{member.info.name}</p>
                                         {member.role !== Role.DEFAULT ? (
                                             <Badge variant="secondary">

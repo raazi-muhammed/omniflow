@@ -11,6 +11,7 @@ import { getProjects } from "@/services/project.service";
 import ResponsiveGridContainer from "@/components/layout/ResponsiveGridContainer";
 import ErrorMessage from "@/components/custom/ErrorMessage";
 import { USER_TOKEN_COOKIE } from "@/constants/cookies";
+import { Label } from "@/components/ui/label";
 
 export async function getProjectsData() {
     const token = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -51,9 +52,9 @@ export default async function page() {
                                 <p className="text-xl font-semibold text-foreground">
                                     {project.title}
                                 </p>
-                                <small className="line-clamp-3">
+                                <Label className="line-clamp-3">
                                     {project.description}
-                                </small>
+                                </Label>
                             </CardHeader>
                             <CardContent className="flex">
                                 <section className="ms-auto flex gap-2">

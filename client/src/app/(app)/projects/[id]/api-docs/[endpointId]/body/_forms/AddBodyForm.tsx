@@ -46,8 +46,9 @@ export default function AddBodyForm({
                 placeholder="Please enter your body code."
                 onChange={(evn) => setCode(evn.target.value)}
                 padding={15}
-                className="mt-2 rounded-lg border bg-gradient-to-br from-card-from to-card-to"
+                className="mt-2 rounded-lg border bg-card"
                 style={{
+                    backgroundColor: "#0F0B0B",
                     fontSize: "0.875rem",
                     fontFamily:
                         "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
