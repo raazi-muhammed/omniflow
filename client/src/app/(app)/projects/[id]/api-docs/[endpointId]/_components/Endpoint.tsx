@@ -59,7 +59,14 @@ export default function Endpoint({ endpointId }: { endpointId: string }) {
                     </div>
                     <div>
                         <Heading variant="sm">Headers</Heading>
-                        <AddHeadersForm />
+                        {endpoint.headers.map((header) => (
+                            <div className="flex justify-between">
+                                <p>{header.key}</p>
+                                <p>{header.value}</p>
+                                <p>{header.description}</p>
+                            </div>
+                        ))}
+                        <AddHeadersForm endpointId={endpointId} />
                     </div>
                     <div>
                         <Heading variant="sm">Body</Heading>

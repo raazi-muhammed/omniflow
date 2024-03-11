@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { AddIcon } from "@/lib/icons";
+import { addEndpointHeader } from "@/services/endpoints.service";
 
 const formSchema = z.object({
     key: z.string().min(1, "Invalid"),
@@ -24,7 +25,7 @@ const formSchema = z.object({
     description: z.string().min(1, "Invalid"),
 });
 
-export default function AddHeadersForm() {
+export default function AddHeadersForm({ endpointId }: { endpointId: string }) {
     const { toast } = useToast();
     const router = useRouter();
 
@@ -39,7 +40,10 @@ export default function AddHeadersForm() {
     });
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values);
+        console.log({ values });
+        addEndpointHeader({ id: endpointId }, values)
+            .then((response) => console.log(response))
+            .catch((err) => console.log(err));
     }
 
     return (

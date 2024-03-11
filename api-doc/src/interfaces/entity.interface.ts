@@ -24,6 +24,7 @@ export type IVariable = {
 export type IHeader = {
     key: string;
     value: string;
+    endpointId: string;
     description?: string;
 };
 export type ISchemaItem = {

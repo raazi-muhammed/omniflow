@@ -55,6 +55,13 @@ export type IVariable = {
     description?: string;
 };
 
+export type IHeader = {
+    key: string;
+    value: string;
+    endpointId: string;
+    description?: string;
+};
+
 export type IEndpoint = {
     id?: string;
     name: string;
@@ -63,6 +70,7 @@ export type IEndpoint = {
     summary?: string;
     projectId: string;
     variables: IVariable[];
+    headers: IHeader[];
 };
 
 export enum EDataTypes {

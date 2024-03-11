@@ -81,3 +81,25 @@ export async function addEndpointVariable(
             });
     });
 }
+
+export async function addEndpointHeader(
+    { id }: { id: string },
+    values: {
+        key: string;
+        value: string;
+        description?: string;
+    },
+    config?: AxiosRequestConfig
+): Promise<IResponse> {
+    const url = new BuildUrl().apiDoc(`/endpoints/${id}/headers`);
+    return new Promise((resolve, reject) => {
+        axios
+            .post(url, values, { ...config, withCredentials: true })
+            .then((response) => {
+                resolve(adaptSuccessResponse(response));
+            })
+            .catch((error) => {
+                reject(adaptErrorResponse(error));
+            });
+    });
+}
