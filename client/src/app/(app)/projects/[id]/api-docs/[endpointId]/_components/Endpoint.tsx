@@ -10,6 +10,15 @@ import { EditIcon } from "@/lib/icons";
 import Link from "next/link";
 import { PROJECT_TOKEN_COOKIE, USER_TOKEN_COOKIE } from "@/constants/cookies";
 import { cookies } from "next/headers";
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table";
 
 async function getEndpointData(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -73,20 +82,30 @@ export default async function Endpoint({ endpointId }: { endpointId: string }) {
                                     </Button>
                                 </Link>
                             </section>
-                            <section className="mt-4 space-y-2">
-                                <div className="grid grid-cols-3 justify-between gap-4 px-4 text-xs text-secondary">
-                                    <p>Name</p>
-                                    <p>Type</p>
-                                    <p>Description</p>
-                                </div>
-                                {endpoint.variables.map((variable) => (
-                                    <Card className="grid grid-cols-3 justify-between gap-4 px-4 py-2">
-                                        <p>{variable.name}</p>
-                                        <p>{variable.type}</p>
-                                        <p>{variable.description}</p>
-                                    </Card>
-                                ))}
-                            </section>
+                            <Table>
+                                <TableHeader>
+                                    <TableRow>
+                                        <TableHead>Name</TableHead>
+                                        <TableHead>Type</TableHead>
+                                        <TableHead>Description</TableHead>
+                                    </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                    {endpoint.variables.map((variable) => (
+                                        <TableRow>
+                                            <TableCell>
+                                                {variable.name}
+                                            </TableCell>
+                                            <TableCell>
+                                                {variable.type}
+                                            </TableCell>
+                                            <TableCell>
+                                                {variable.description}
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
                         </TabsContent>
                         <TabsContent value="headers">
                             <section className="flex justify-between align-bottom">
@@ -97,20 +116,30 @@ export default async function Endpoint({ endpointId }: { endpointId: string }) {
                                     </Button>
                                 </Link>
                             </section>
-                            <section className="mt-4 space-y-2">
-                                <div className="grid grid-cols-3 justify-between gap-4 px-4 text-xs text-secondary">
-                                    <p>Key</p>
-                                    <p>Value</p>
-                                    <p>Description</p>
-                                </div>
-                                {endpoint.headers.map((variable) => (
-                                    <Card className="grid grid-cols-3 justify-between gap-4 px-4 py-2">
-                                        <p>{variable.key}</p>
-                                        <p>{variable.value}</p>
-                                        <p>{variable.description}</p>
-                                    </Card>
-                                ))}
-                            </section>
+                            <Table>
+                                <TableHeader>
+                                    <TableRow>
+                                        <TableHead>Key</TableHead>
+                                        <TableHead>Value</TableHead>
+                                        <TableHead>Description</TableHead>
+                                    </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                    {endpoint.headers.map((variable) => (
+                                        <TableRow>
+                                            <TableCell>
+                                                {variable.key}
+                                            </TableCell>
+                                            <TableCell>
+                                                {variable.value}
+                                            </TableCell>
+                                            <TableCell>
+                                                {variable.description}
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
                         </TabsContent>
                         <TabsContent value="request-body">
                             <section className="flex justify-between align-bottom">
@@ -124,10 +153,6 @@ export default async function Endpoint({ endpointId }: { endpointId: string }) {
                             <BodyComponent bodyData={endpoint.body} />
                         </TabsContent>
                     </Tabs>
-
-                    <div></div>
-                    <div></div>
-                    <div></div>
                     <div>
                         <section className="flex justify-between align-bottom">
                             <Heading variant="sm">Responses</Heading>
