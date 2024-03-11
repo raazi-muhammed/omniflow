@@ -12,9 +12,9 @@ import Container from "@/components/layout/Container";
 
 export default function page() {
     return (
-        <main className="bg-main-pattern">
+        <main className="bg-gradient-to-tr from-[#100730] from-0% via-black via-30% to-[#100730] to-100%">
             <Container className="flex min-h-screen justify-around">
-                <section className="object-center hidden md:flex flex-col justify-between py-24">
+                <section className="hidden flex-col justify-between object-center py-24 md:flex">
                     <div className="flex gap-2">
                         <AppLogo />
                         <p className="text-semibold">Omniflow</p>
@@ -23,7 +23,7 @@ export default function page() {
                         Build your <br /> project faster
                     </h3>
                 </section>
-                <Card className="w-full max-w-md p-4 h-fit my-auto">
+                <Card className="my-auto h-fit w-full max-w-md p-4">
                     <CardHeader>
                         <CardTitle>Sign Up</CardTitle>
                     </CardHeader>
@@ -31,11 +31,11 @@ export default function page() {
                         <SignUpForm />
                     </CardContent>
                     <CardFooter>
-                        <small className="text-secondary text-center mx-auto">
+                        <small className="mx-auto text-center text-secondary">
                             Already have an account?
                             <Link
                                 href="login"
-                                className="font-bold text-primary underline ms-1">
+                                className="ms-1 font-bold text-primary underline">
                                 Login
                             </Link>
                         </small>

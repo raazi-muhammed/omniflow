@@ -12,10 +12,10 @@ import Container from "@/components/layout/Container";
 
 export default function Login() {
     return (
-        <main className="bg-main-pattern">
-            <Container className="grid place-items-center min-h-screen">
-                <Card className="w-full max-w-lg md:max-w-4xl grid grid-cols-1 min-h-[35rem] md:grid-cols-2">
-                    <section className="bg-hero-pattern object-center hidden md:flex flex-col justify-between p-8">
+        <main className="bg-gradient-to-tr from-[#100730] from-0% via-black via-30% to-[#100730] to-100%">
+            <Container className="grid min-h-screen place-items-center">
+                <Card className="grid min-h-[35rem] w-full max-w-lg grid-cols-1 md:max-w-4xl md:grid-cols-2">
+                    <section className="hidden flex-col justify-between bg-hero-pattern object-center p-8 md:flex">
                         <div className="flex gap-2">
                             <AppLogo />
                             <p className="text-semibold">Omniflow</p>
@@ -24,7 +24,7 @@ export default function Login() {
                             Build your project faster
                         </h3>
                     </section>
-                    <Card className="w-full p-4 border-none py-10 my-auto">
+                    <Card className="my-auto w-full border-none p-4 py-10">
                         <CardHeader>
                             <CardTitle>Login</CardTitle>
                         </CardHeader>
@@ -32,11 +32,11 @@ export default function Login() {
                             <LoginForm />
                         </CardContent>
                         <CardFooter>
-                            <small className="text-secondary text-center mx-auto">
+                            <small className="mx-auto text-center text-secondary">
                                 Don't have an account?
                                 <Link
                                     href="sign-up"
-                                    className="font-bold text-primary underline ms-1">
+                                    className="ms-1 font-bold text-primary underline">
                                     Sign up
                                 </Link>
                             </small>

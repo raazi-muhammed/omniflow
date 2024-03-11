@@ -35,7 +35,7 @@ export default async function page() {
             <Container>
                 <ActionItemsContainer>
                     <Link href="teams/invite-member">
-                        <Button size="sm" variant="secondary">
+                        <Button size="sm" variant="muted">
                             <AddIcon />
                             Invite an member
                         </Button>
@@ -55,7 +55,7 @@ export default async function page() {
                         <section className="flex justify-between">
                             <Heading className="text-xl">{team.name}</Heading>
                             <Link href={`teams/${team.name}`}>
-                                <Button size="sm" variant="secondary">
+                                <Button size="sm" variant="muted">
                                     <EditIcon /> Edit team
                                 </Button>
                             </Link>

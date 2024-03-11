@@ -32,7 +32,7 @@ function Navbar() {
             });
     }, []);
     return (
-        <Card className="sticky top-0 flex min-h-20 rounded-none">
+        <section className="sticky top-0 flex min-h-20 rounded-none border bg-black/50">
             <Container className="my-auto h-fit">
                 <nav className="my-auto ms-auto flex w-fit gap-8">
                     <div className="ms-auto flex gap-4">
@@ -60,7 +60,7 @@ function Navbar() {
                     </div>
                 </nav>
             </Container>
-        </Card>
+        </section>
     );
 }
 

@@ -56,7 +56,7 @@ export default function Sidebar() {
     urls.push("overview");
 
     return (
-        <aside className="ab sticky top-0 -mt-20 h-screen min-w-64 border border-t-0 bg-gradient-to-br from-card-from to-card-to p-2 py-8">
+        <aside className="sticky top-0 -mt-20 h-screen min-w-64 border border-t-0 bg-black/50 p-2 py-8">
             <div className="m-1 my-4 flex gap-2 align-middle text-primary">
                 <AppLogo />
                 <p className="text-xl font-semibold">Ominflow</p>
@@ -76,7 +76,7 @@ export default function Sidebar() {
                         ) : (
                             <Link href={opt.url}>
                                 <Button
-                                    variant="secondary"
+                                    variant="ghost"
                                     className="flex w-full justify-start shadow-sm">
                                     {opt.icon}
                                     <span className="text-start">

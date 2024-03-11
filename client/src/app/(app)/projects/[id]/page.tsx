@@ -32,7 +32,7 @@ export default function page({ params }: { params: { id: string } }) {
             <Container>
                 <ActionItemsContainer>
                     <Link href={`${project?.id}/edit-project`}>
-                        <Button size="sm" variant="secondary">
+                        <Button size="sm" variant="muted">
                             <EditIcon /> Edit Project
                         </Button>
                     </Link>

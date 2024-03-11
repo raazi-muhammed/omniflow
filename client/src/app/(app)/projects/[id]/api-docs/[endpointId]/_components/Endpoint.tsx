@@ -68,7 +68,7 @@ export default async function Endpoint({ endpointId }: { endpointId: string }) {
                             <section className="flex justify-between align-bottom">
                                 <Heading variant="sm">Variables</Heading>
                                 <Link href={`${endpointId}/variables`}>
-                                    <Button size="sm" variant="secondary">
+                                    <Button size="sm" variant="muted">
                                         <EditIcon /> Edit variables
                                     </Button>
                                 </Link>
@@ -92,7 +92,7 @@ export default async function Endpoint({ endpointId }: { endpointId: string }) {
                             <section className="flex justify-between align-bottom">
                                 <Heading variant="sm">Headers</Heading>
                                 <Link href={`${endpointId}/headers`}>
-                                    <Button size="sm" variant="secondary">
+                                    <Button size="sm" variant="muted">
                                         <EditIcon /> Edit headers
                                     </Button>
                                 </Link>
@@ -116,7 +116,7 @@ export default async function Endpoint({ endpointId }: { endpointId: string }) {
                             <section className="flex justify-between align-bottom">
                                 <Heading variant="sm">Body</Heading>
                                 <Link href={`${endpointId}/body`}>
-                                    <Button size="sm" variant="secondary">
+                                    <Button size="sm" variant="muted">
                                         <EditIcon /> Edit body
                                     </Button>
                                 </Link>
@@ -132,7 +132,7 @@ export default async function Endpoint({ endpointId }: { endpointId: string }) {
                         <section className="flex justify-between align-bottom">
                             <Heading variant="sm">Responses</Heading>
                             <Link href={`${endpointId}/responses`}>
-                                <Button size="sm" variant="secondary">
+                                <Button size="sm" variant="muted">
                                     <EditIcon /> Edit responses
                                 </Button>
                             </Link>
