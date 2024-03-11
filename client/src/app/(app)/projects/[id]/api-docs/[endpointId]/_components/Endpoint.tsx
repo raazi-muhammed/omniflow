@@ -4,7 +4,7 @@ import { getEndpoint } from "@/services/endpoints.service";
 import { IEndpoint } from "@/types/database";
 import BodyComponent from "./BodyComponent";
 import { Separator } from "@/components/ui/separator";
-import AddSchemaForm from "../body/_components/AddSchemaForm";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
 import { EditIcon } from "@/lib/icons";
 import Link from "next/link";
@@ -54,65 +54,89 @@ export default async function Endpoint({ endpointId }: { endpointId: string }) {
                         </div>
                     </section>
                     <Separator className="my-0" />
+                    <Tabs defaultValue="variables" className="w-full">
+                        <TabsList className="mx-auto flex w-fit">
+                            <TabsTrigger value="variables">
+                                Variables
+                            </TabsTrigger>
+                            <TabsTrigger value="headers">Headers</TabsTrigger>
+                            <TabsTrigger value="request-body">
+                                Request Body
+                            </TabsTrigger>
+                        </TabsList>
+                        <TabsContent value="variables">
+                            <section className="flex justify-between align-bottom">
+                                <Heading variant="sm">Variables</Heading>
+                                <Link href={`${endpointId}/variables`}>
+                                    <Button size="sm" variant="secondary">
+                                        <EditIcon /> Edit variables
+                                    </Button>
+                                </Link>
+                            </section>
+                            <section className="mt-4 space-y-2">
+                                <div className="grid grid-cols-3 justify-between gap-4 px-4 text-xs text-secondary">
+                                    <p>Name</p>
+                                    <p>Type</p>
+                                    <p>Description</p>
+                                </div>
+                                {endpoint.variables.map((variable) => (
+                                    <Card className="grid grid-cols-3 justify-between gap-4 px-4 py-2">
+                                        <p>{variable.name}</p>
+                                        <p>{variable.type}</p>
+                                        <p>{variable.description}</p>
+                                    </Card>
+                                ))}
+                            </section>
+                        </TabsContent>
+                        <TabsContent value="headers">
+                            <section className="flex justify-between align-bottom">
+                                <Heading variant="sm">Headers</Heading>
+                                <Link href={`${endpointId}/headers`}>
+                                    <Button size="sm" variant="secondary">
+                                        <EditIcon /> Edit headers
+                                    </Button>
+                                </Link>
+                            </section>
+                            <section className="mt-4 space-y-2">
+                                <div className="grid grid-cols-3 justify-between gap-4 px-4 text-xs text-secondary">
+                                    <p>Key</p>
+                                    <p>Value</p>
+                                    <p>Description</p>
+                                </div>
+                                {endpoint.headers.map((variable) => (
+                                    <Card className="grid grid-cols-3 justify-between gap-4 px-4 py-2">
+                                        <p>{variable.key}</p>
+                                        <p>{variable.value}</p>
+                                        <p>{variable.description}</p>
+                                    </Card>
+                                ))}
+                            </section>
+                        </TabsContent>
+                        <TabsContent value="request-body">
+                            <section className="flex justify-between align-bottom">
+                                <Heading variant="sm">Body</Heading>
+                                <Link href={`${endpointId}/body`}>
+                                    <Button size="sm" variant="secondary">
+                                        <EditIcon /> Edit body
+                                    </Button>
+                                </Link>
+                            </section>
+                            <BodyComponent bodyData={endpoint.body} />
+                        </TabsContent>
+                    </Tabs>
 
+                    <div></div>
+                    <div></div>
+                    <div></div>
                     <div>
                         <section className="flex justify-between align-bottom">
-                            <Heading variant="sm">Variables</Heading>
-                            <Link href={`${endpointId}/variables`}>
+                            <Heading variant="sm">Responses</Heading>
+                            <Link href={`${endpointId}/responses`}>
                                 <Button size="sm" variant="secondary">
-                                    <EditIcon /> Edit variables
+                                    <EditIcon /> Edit responses
                                 </Button>
                             </Link>
                         </section>
-                        <section className="mt-4 space-y-2">
-                            <div className="grid grid-cols-3 justify-between gap-4 px-4 text-xs text-secondary">
-                                <p>Name</p>
-                                <p>Type</p>
-                                <p>Description</p>
-                            </div>
-                            {endpoint.variables.map((variable) => (
-                                <Card className="grid grid-cols-3 justify-between gap-4 px-4 py-2">
-                                    <p>{variable.name}</p>
-                                    <p>{variable.type}</p>
-                                    <p>{variable.description}</p>
-                                </Card>
-                            ))}
-                        </section>
-                    </div>
-                    <div>
-                        <section className="flex justify-between align-bottom">
-                            <Heading variant="sm">Headers</Heading>
-                            <Link href={`${endpointId}/headers`}>
-                                <Button size="sm" variant="secondary">
-                                    <EditIcon /> Edit headers
-                                </Button>
-                            </Link>
-                        </section>
-                        <section className="mt-4 space-y-2">
-                            <div className="grid grid-cols-3 justify-between gap-4 px-4 text-xs text-secondary">
-                                <p>Key</p>
-                                <p>Value</p>
-                                <p>Description</p>
-                            </div>
-                            {endpoint.headers.map((variable) => (
-                                <Card className="grid grid-cols-3 justify-between gap-4 px-4 py-2">
-                                    <p>{variable.key}</p>
-                                    <p>{variable.value}</p>
-                                    <p>{variable.description}</p>
-                                </Card>
-                            ))}
-                        </section>
-                    </div>
-                    <div>
-                        <section className="flex justify-between align-bottom">
-                            <Heading variant="sm">Body</Heading>
-                            <Link href={`${endpointId}/body`}>
-                                <Button size="sm" variant="secondary">
-                                    <EditIcon /> Edit body
-                                </Button>
-                            </Link>
-                        </section>
-                        <BodyComponent bodyData={endpoint.body} />
                     </div>
                 </>
             ) : (
