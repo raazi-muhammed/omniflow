@@ -10,6 +10,7 @@ import {
 import { IUserRepository } from "../interfaces/repository.interface.js";
 import { IUploadImage } from "../interfaces/lib.interface.js";
 import _ from "lodash";
+
 export default function buildEditProfileController({
     userRepository,
     imageUpload,

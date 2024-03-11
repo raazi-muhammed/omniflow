@@ -5,11 +5,18 @@ import crypto from "crypto";
 const randomImageName = (bytes = 32) =>
     crypto.randomBytes(bytes).toString("hex");
 
-const { BUCKET_NAME, BUCKET_REGION, AWS_SECRET_KEY, AWS_ACCESS_KEY } = loadEnv([
+const {
+    BUCKET_NAME,
+    BUCKET_REGION,
+    AWS_SECRET_KEY,
+    AWS_ACCESS_KEY,
+    RESIZED_IMAGE_BUCKET_NAME,
+} = loadEnv([
     "BUCKET_NAME",
     "BUCKET_REGION",
     "AWS_SECRET_KEY",
     "AWS_ACCESS_KEY",
+    "RESIZED_IMAGE_BUCKET_NAME",
 ]);
 
 const s3 = new S3Client({
@@ -37,6 +44,6 @@ export async function uploadImageToS3({
     });
 
     await s3.send(command);
-    const url = `https://${BUCKET_NAME}.s3.${BUCKET_REGION}.amazonaws.com/${imageName}`;
+    const url = `https://${RESIZED_IMAGE_BUCKET_NAME}.s3.${BUCKET_REGION}.amazonaws.com/${imageName}`;
     return url;
 }
