@@ -27,7 +27,7 @@ const formSchema = z.object({
     options: z.array(z.string()).optional().default([]),
 });
 
-export default function AddSchemaForm() {
+export default function AddSchemaForm({ endpointId }: { endpointId: string }) {
     const { toast } = useToast();
     const router = useRouter();
     const [value, setValue] = useState<string[]>([]);
@@ -50,34 +50,35 @@ export default function AddSchemaForm() {
         <Form {...form}>
             <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="flex w-full gap-4">
-                <div className="flex w-full gap-4">
-                    <FormField
-                        control={form.control}
-                        name="key"
-                        render={({ field }) => (
-                            <FormItem className="flex-grow">
-                                <FormLabel>Key</FormLabel>
-                                <FormControl>
-                                    <Input placeholder="key" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="type"
-                        render={({ field }) => (
-                            <FormItem className="flex-grow">
-                                <FormLabel>Type</FormLabel>
-                                <FormControl>
-                                    <Input placeholder="type" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
+                className="space-y-4 p-2">
+                <FormField
+                    control={form.control}
+                    name="key"
+                    render={({ field }) => (
+                        <FormItem className="flex-grow">
+                            <FormLabel>Key</FormLabel>
+                            <FormControl>
+                                <Input placeholder="key" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="type"
+                    render={({ field }) => (
+                        <FormItem className="flex-grow">
+                            <FormLabel>Type</FormLabel>
+                            <FormControl>
+                                <Input placeholder="type" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <div>
+                    <FormLabel>Options</FormLabel>
                     <ToggleGroup
                         value={value}
                         onValueChange={(v) => {
@@ -88,27 +89,27 @@ export default function AddSchemaForm() {
                         }}
                         type="multiple"
                         variant="outline"
-                        className="mb-auto mt-[1.65rem] gap-4">
+                        className="mt-1 grid grid-cols-3 gap-4">
                         <ToggleGroupItem
-                            className="h-12 w-12"
+                            className="h-12"
                             value={EDataTypes.OPTIONAL}>
-                            ?
+                            Optional
                         </ToggleGroupItem>
                         <ToggleGroupItem
-                            className="h-12 w-12"
+                            className="h-12"
                             value={EDataTypes.UNIQUE}>
-                            U
+                            Unique
                         </ToggleGroupItem>
                         <ToggleGroupItem
-                            className="h-12 w-12"
+                            className="h-12"
                             value={EDataTypes.KEY}>
-                            K
+                            Key
                         </ToggleGroupItem>
                     </ToggleGroup>
                 </div>
                 <Button
                     disabled={!form.formState.isValid}
-                    className="mt-8 w-24"
+                    className="mt-8 w-full"
                     type="submit">
                     <AddIcon />
                     Add

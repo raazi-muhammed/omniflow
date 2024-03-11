@@ -4,10 +4,15 @@ import React, { useState } from "react";
 import CodeEditor from "@uiw/react-textarea-code-editor";
 import { Button } from "@/components/ui/button";
 import { AddIcon } from "@/lib/icons";
+import { addEndpointBody } from "@/services/endpoints.service";
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 
-export default function BodyComponent({
+export default function AddBodyForm({
+    endpointId,
     bodyData,
 }: {
+    endpointId: string;
     bodyData: string | undefined;
 }) {
     const [code, setCode] = useState(
@@ -16,6 +21,22 @@ export default function BodyComponent({
     "key": "value"
 }`
     );
+    const { toast } = useToast();
+    const router = useRouter();
+
+    function handleAddBody() {
+        console.log({ body: code });
+        addEndpointBody({ id: endpointId }, { body: code })
+            .then((response) => {
+                console.log(response);
+                router.refresh();
+                toast({ description: response.message });
+            })
+            .catch((err) => {
+                console.log(err);
+                toast({ description: err.message });
+            });
+    }
 
     return (
         <div>
@@ -32,6 +53,10 @@ export default function BodyComponent({
                         "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
                 }}
             />
+            <Button className="mt-4 w-full" onClick={handleAddBody}>
+                <AddIcon />
+                Add
+            </Button>
         </div>
     );
 }

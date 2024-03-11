@@ -4,7 +4,7 @@ import { getEndpoint } from "@/services/endpoints.service";
 import { IEndpoint } from "@/types/database";
 import BodyComponent from "./BodyComponent";
 import { Separator } from "@/components/ui/separator";
-import AddSchemaForm from "./AddSchemaForm";
+import AddSchemaForm from "../body/_components/AddSchemaForm";
 import { Card } from "@/components/ui/card";
 import { EditIcon } from "@/lib/icons";
 import Link from "next/link";
@@ -31,7 +31,7 @@ export default async function Endpoint({ endpointId }: { endpointId: string }) {
     const endpoint: IEndpoint = await getEndpointData(endpointId);
 
     return (
-        <main className="w-full space-y-6">
+        <main className="mb-12 w-full space-y-6">
             {endpoint ? (
                 <>
                     <Heading>{endpoint.name}</Heading>
@@ -104,16 +104,16 @@ export default async function Endpoint({ endpointId }: { endpointId: string }) {
                         </section>
                     </div>
                     <div>
-                        <Heading variant="sm">Body</Heading>
-                        <BodyComponent
-                            endpointId={endpoint.id || ""}
-                            bodyData={endpoint.body}
-                        />
+                        <section className="flex justify-between align-bottom">
+                            <Heading variant="sm">Body</Heading>
+                            <Link href={`${endpointId}/body`}>
+                                <Button size="sm" variant="secondary">
+                                    <EditIcon /> Edit body
+                                </Button>
+                            </Link>
+                        </section>
+                        <BodyComponent bodyData={endpoint.body} />
                     </div>
-                    <section>
-                        <Heading variant="sm">Schema</Heading>
-                        <AddSchemaForm />
-                    </section>
                 </>
             ) : (
                 <p>Hoooi</p>
