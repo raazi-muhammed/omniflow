@@ -19,6 +19,14 @@ import { DeleteIcon } from "lucide-react";
 import BodyComponent from "../_components/BodyComponent";
 import AddBodyForm from "./_forms/AddBodyForm";
 import AddSchemaForm from "./_forms/AddSchemaForm";
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table";
 
 async function getEndpointData(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -49,34 +57,28 @@ export default async function page({
                     <Heading variant="spaced">Body</Heading>
                     <BodyComponent bodyData={endpointData.body} />
                     <Heading variant="spaced">Schema</Heading>
-                    <section className="grid grid-cols-2 gap-4">
-                        {endpointData.schema.map((v) => (
-                            <Card className="h-fit p-4 px-6">
-                                <div className="mb-2 flex justify-between gap-2">
-                                    <div className="flex-1">
-                                        <small className="text-secondary">
-                                            Key
-                                        </small>
-                                        <p>{v.key}</p>
-                                    </div>
-                                    <div className="flex-1">
-                                        <small className="text-secondary">
-                                            Type
-                                        </small>
-                                        <p>{v.type}</p>
-                                    </div>
-                                </div>
-                                <small className="text-secondary">
-                                    Options
-                                </small>
-                                <div className="flex flex-wrap gap-4">
-                                    {v.options.map((op) => (
-                                        <p className="text-sm">{op}</p>
-                                    ))}
-                                </div>
-                            </Card>
-                        ))}
-                    </section>
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Key</TableHead>
+                                <TableHead>Type</TableHead>
+                                <TableHead>Options</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {endpointData.schema.map((sch) => (
+                                <TableRow>
+                                    <TableCell>{sch.key}</TableCell>
+                                    <TableCell>{sch.type}</TableCell>
+                                    <TableCell className="flex gap-3">
+                                        {sch.options.map((o) => (
+                                            <p>{o}</p>
+                                        ))}
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
                 </SectionContent>
                 <SectionAside>
                     <Accordion type="single" collapsible>

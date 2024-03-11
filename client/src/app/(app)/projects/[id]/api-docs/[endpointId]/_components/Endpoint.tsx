@@ -13,7 +13,6 @@ import { cookies } from "next/headers";
 import {
     Table,
     TableBody,
-    TableCaption,
     TableCell,
     TableHead,
     TableHeader,
@@ -125,16 +124,14 @@ export default async function Endpoint({ endpointId }: { endpointId: string }) {
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                    {endpoint.headers.map((variable) => (
+                                    {endpoint.headers.map((header) => (
                                         <TableRow>
+                                            <TableCell>{header.key}</TableCell>
                                             <TableCell>
-                                                {variable.key}
+                                                {header.value}
                                             </TableCell>
                                             <TableCell>
-                                                {variable.value}
-                                            </TableCell>
-                                            <TableCell>
-                                                {variable.description}
+                                                {header.description}
                                             </TableCell>
                                         </TableRow>
                                     ))}

@@ -17,6 +17,14 @@ import {
 } from "@/components/ui/accordion";
 import { DeleteIcon } from "lucide-react";
 import AddHeadersForm from "./_forms/AddHeadersForm";
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table";
 
 async function getEndpointData(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -45,30 +53,24 @@ export default async function page({
             <SectionSplitter>
                 <SectionContent>
                     <Heading variant="spaced">Headers</Heading>
-                    <section className="grid grid-cols-2 gap-4">
-                        {endpointData.headers.map((v) => (
-                            <Card className="h-fit p-4 px-6">
-                                <div className="mb-2 flex justify-between gap-2">
-                                    <div className="flex-1">
-                                        <small className="text-secondary">
-                                            Key
-                                        </small>
-                                        <p>{v.key}</p>
-                                    </div>
-                                    <div className="flex-1">
-                                        <small className="text-secondary">
-                                            Value
-                                        </small>
-                                        <p>{v.value}</p>
-                                    </div>
-                                </div>
-                                <small className="text-secondary">
-                                    Description
-                                </small>
-                                <p>{v.description}</p>
-                            </Card>
-                        ))}
-                    </section>
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Key</TableHead>
+                                <TableHead>Value</TableHead>
+                                <TableHead>Description</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {endpointData.headers.map((header) => (
+                                <TableRow>
+                                    <TableCell>{header.key}</TableCell>
+                                    <TableCell>{header.value}</TableCell>
+                                    <TableCell>{header.description}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
                 </SectionContent>
                 <SectionAside>
                     <Accordion type="single" collapsible>

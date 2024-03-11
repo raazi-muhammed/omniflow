@@ -40,7 +40,7 @@ export default async function page() {
                 <section className="space-y-4">
                     {endpoints.map((point) => (
                         <Card className="flex">
-                            <div className="flex min-w-20 rounded-l-lg border-r bg-card-to px-3">
+                            <div className="flex min-w-20 rounded-l-lg border-r bg-muted px-3">
                                 <p className="my-auto">{point.method}</p>
                             </div>
                             <div className="mx-4 my-2 flex flex-col gap-0">

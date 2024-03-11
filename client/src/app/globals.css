@@ -42,7 +42,7 @@
         --card: 0 12% 5%;
         --card-foreground: 210 40% 98%;
 
-        --popover: 222.2 84% 4.9%;
+        --popover: 0 12% 5%;
         --popover-foreground: 210 40% 98%;
 
         --primary: 263 70% 60%;
@@ -55,7 +55,7 @@
         --muted: 240 5% 16%;
         --muted-foreground: 215 20.2% 95%;
 
-        --accent: 217.2 32.6% 17.5%;
+        --accent: 240 5% 16%;
         --accent-foreground: 210 40% 98%;
 
         --destructive: 0 75% 50%;
