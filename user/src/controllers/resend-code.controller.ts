@@ -34,7 +34,7 @@ export default function buildResendCodeUpController({
 
         const verificationCode = await verificationCodeRepository.upsert({
             code: generatedCode,
-            user: user._id,
+            userId: user.id,
         });
 
         if (!verificationCode) throw new AnErrorOccurredError();

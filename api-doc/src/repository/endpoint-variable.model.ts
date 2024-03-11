@@ -26,7 +26,7 @@ export function variableModel(sequelize: Sequelize) {
             },
         });
 
-    sequelize.sync({ alter: true });
+    // sequelize.sync({ alter: true });
     return VariableModel;
 }
 

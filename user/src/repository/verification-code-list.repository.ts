@@ -10,11 +10,11 @@ export default function makeVerificationCodeRepository({
     database: IVerificationCodeModel;
 }): IVerificationCodeRepository {
     return Object.freeze({
-        upsert: async ({ code, user }) => {
+        upsert: async ({ code, userId }) => {
             const data = await database.findOneAndUpdate(
-                { user: user },
+                { user: userId },
                 {
-                    user,
+                    user: userId,
                     code,
                 },
                 { upsert: true, new: true }
@@ -23,8 +23,10 @@ export default function makeVerificationCodeRepository({
 
             return data as IDBVerificationCode;
         },
-        find: async ({ user }) => {
-            return (await database.findOne({ user })) as IDBVerificationCode;
+        find: async ({ userId }) => {
+            return (await database.findOne({
+                user: userId,
+            })) as IDBVerificationCode;
         },
     });
 }

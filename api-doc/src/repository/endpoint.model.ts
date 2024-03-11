@@ -29,7 +29,7 @@ export function endpointModel(sequelize: Sequelize) {
             },
         });
 
-    sequelize.sync({ alter: true });
+    //sequelize.sync({ alter: true });
     return EndpointModel;
 }
 

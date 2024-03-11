@@ -56,6 +56,7 @@ export default function LoginForm() {
                 });
                 dispatch(logUser(response.data));
                 router.push("/projects");
+                router.refresh();
             })
             .catch((error) => {
                 const sanitizedError: string = error.toLowerCase();
