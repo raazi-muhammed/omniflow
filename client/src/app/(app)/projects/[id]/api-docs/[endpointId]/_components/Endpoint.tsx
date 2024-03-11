@@ -1,27 +1,35 @@
-"use client";
-
 import Heading from "@/components/custom/Heading";
 import { Button } from "@/components/ui/button";
 import { getEndpoint } from "@/services/endpoints.service";
 import { IEndpoint } from "@/types/database";
-import { useEffect, useState } from "react";
-import AddVariableForm from "../variables/_components/AddVariableForm";
-import AddHeadersForm from "../headers/_components/AddHeadersForm";
 import BodyComponent from "./BodyComponent";
 import { Separator } from "@/components/ui/separator";
 import AddSchemaForm from "./AddSchemaForm";
 import { Card } from "@/components/ui/card";
 import { EditIcon } from "@/lib/icons";
 import Link from "next/link";
+import { PROJECT_TOKEN_COOKIE, USER_TOKEN_COOKIE } from "@/constants/cookies";
+import { cookies } from "next/headers";
 
-export default function Endpoint({ endpointId }: { endpointId: string }) {
-    const [endpoint, setEndpoint] = useState<IEndpoint | null>(null);
+async function getEndpointData(id: string) {
+    const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
+    const projectToken = cookies().get(PROJECT_TOKEN_COOKIE)?.value;
 
-    useEffect(() => {
-        getEndpoint({ id: endpointId }).then((res) => {
-            setEndpoint(res.data);
-        });
-    }, []);
+    const response = await getEndpoint(
+        { id },
+        {
+            headers: {
+                Authorization: `Bearer ${userToken}`,
+                Project: `Bearer ${projectToken}`,
+            },
+        }
+    );
+    return response.data;
+}
+
+export default async function Endpoint({ endpointId }: { endpointId: string }) {
+    const endpoint: IEndpoint = await getEndpointData(endpointId);
+
     return (
         <main className="w-full space-y-6">
             {endpoint ? (

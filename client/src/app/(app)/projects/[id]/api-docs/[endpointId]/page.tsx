@@ -40,8 +40,8 @@ export default async function page({
                     </Button>
                 </Link>
             </ActionItemsContainer>
-            <main className="flex">
-                <section className="w-96 space-y-4">
+            <main className="grid w-full grid-cols-3">
+                <section className="space-y-4">
                     {endpoints.map((point) => (
                         <Card className="flex">
                             <div className="flex min-w-20 rounded-l-lg border-r bg-card-to px-3">
@@ -66,7 +66,7 @@ export default async function page({
                         </Card>
                     ))}
                 </section>
-                <section className="w-full px-8">
+                <section className="col-span-2 w-full overflow-auto px-8">
                     <Endpoint endpointId={params.endpointId} />
                 </section>
             </main>
