@@ -48,7 +48,7 @@ export default function buildTeamRoutes({
         verifyProject,
         makeCallback(controllers.inviteMember)
     );
-    router.put(
+    router.patch(
         "/teams/members/invite/status",
         verifyUser,
         makeCallback(controllers.changeMemberInvitationStatus)

@@ -5,11 +5,14 @@ import { Button } from "@/components/ui/button";
 import { getEndpoint } from "@/services/endpoints.service";
 import { IEndpoint } from "@/types/database";
 import { useEffect, useState } from "react";
-import AddVariableForm from "./AddVariableForm";
-import AddHeadersForm from "./AddHeadersForm";
+import AddVariableForm from "../variables/_components/AddVariableForm";
+import AddHeadersForm from "../headers/_components/AddHeadersForm";
 import BodyComponent from "./BodyComponent";
 import { Separator } from "@/components/ui/separator";
 import AddSchemaForm from "./AddSchemaForm";
+import { Card } from "@/components/ui/card";
+import { EditIcon } from "@/lib/icons";
+import Link from "next/link";
 
 export default function Endpoint({ endpointId }: { endpointId: string }) {
     const [endpoint, setEndpoint] = useState<IEndpoint | null>(null);
@@ -45,28 +48,52 @@ export default function Endpoint({ endpointId }: { endpointId: string }) {
                     <Separator className="my-0" />
 
                     <div>
-                        <Heading variant="sm">Variables</Heading>
-                        <section>
+                        <section className="flex justify-between align-bottom">
+                            <Heading variant="sm">Variables</Heading>
+                            <Link href={`${endpointId}/variables`}>
+                                <Button size="sm" variant="secondary">
+                                    <EditIcon /> Edit variables
+                                </Button>
+                            </Link>
+                        </section>
+                        <section className="mt-4 space-y-2">
+                            <div className="grid grid-cols-3 justify-between gap-4 px-4 text-xs text-secondary">
+                                <p>Name</p>
+                                <p>Type</p>
+                                <p>Description</p>
+                            </div>
                             {endpoint.variables.map((variable) => (
-                                <div className="flex justify-between">
+                                <Card className="grid grid-cols-3 justify-between gap-4 px-4 py-2">
                                     <p>{variable.name}</p>
                                     <p>{variable.type}</p>
                                     <p>{variable.description}</p>
-                                </div>
+                                </Card>
                             ))}
                         </section>
-                        <AddVariableForm endpointId={endpointId} />
                     </div>
                     <div>
-                        <Heading variant="sm">Headers</Heading>
-                        {endpoint.headers.map((header) => (
-                            <div className="flex justify-between">
-                                <p>{header.key}</p>
-                                <p>{header.value}</p>
-                                <p>{header.description}</p>
+                        <section className="flex justify-between align-bottom">
+                            <Heading variant="sm">Headers</Heading>
+                            <Link href={`${endpointId}/headers`}>
+                                <Button size="sm" variant="secondary">
+                                    <EditIcon /> Edit headers
+                                </Button>
+                            </Link>
+                        </section>
+                        <section className="mt-4 space-y-2">
+                            <div className="grid grid-cols-3 justify-between gap-4 px-4 text-xs text-secondary">
+                                <p>Key</p>
+                                <p>Value</p>
+                                <p>Description</p>
                             </div>
-                        ))}
-                        <AddHeadersForm endpointId={endpointId} />
+                            {endpoint.headers.map((variable) => (
+                                <Card className="grid grid-cols-3 justify-between gap-4 px-4 py-2">
+                                    <p>{variable.key}</p>
+                                    <p>{variable.value}</p>
+                                    <p>{variable.description}</p>
+                                </Card>
+                            ))}
+                        </section>
                     </div>
                     <div>
                         <Heading variant="sm">Body</Heading>

@@ -87,7 +87,7 @@ export async function changeInvitationStatus(
     const url = new BuildUrl().team(`/teams/members/invite/status`);
     return new Promise((resolve, reject) => {
         axios
-            .post(url, values, { ...config, withCredentials: true })
+            .patch(url, values, { ...config, withCredentials: true })
             .then((response) => {
                 resolve(adaptSuccessResponse(response));
             })
