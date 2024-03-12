@@ -25,7 +25,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import JsonView from "../../../../../../../components/custom/JsonView";
+import JsonView from "../../../../../../../../components/custom/JsonView";
 import ErrorMessage from "@/components/custom/ErrorMessage";
 
 async function getEndpointData(id: string) {

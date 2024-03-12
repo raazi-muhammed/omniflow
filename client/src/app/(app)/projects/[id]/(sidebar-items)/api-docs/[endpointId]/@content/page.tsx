@@ -2,10 +2,8 @@ import Heading from "@/components/custom/Heading";
 import { Button } from "@/components/ui/button";
 import { getEndpoint } from "@/services/endpoints.service";
 import { IEndpoint } from "@/types/database";
-import BodyComponent from "./BodyComponent";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card } from "@/components/ui/card";
 import { EditIcon } from "@/lib/icons";
 import Link from "next/link";
 import { PROJECT_TOKEN_COOKIE, USER_TOKEN_COOKIE } from "@/constants/cookies";
@@ -42,10 +40,10 @@ export default async function Endpoint({ endpointId }: { endpointId: string }) {
     const endpoint: IEndpoint = await getEndpointData(endpointId);
 
     return (
-        <main className="mb-12 w-full space-y-6">
+        <main className="mb-12 w-full space-y-6 border-l ps-8">
             {endpoint ? (
                 <>
-                    <Heading>{endpoint.name}</Heading>
+                    <Heading variant="spaced">{endpoint.name}</Heading>
                     <section className="grid grid-cols-3">
                         <div>
                             <Label>Method</Label>

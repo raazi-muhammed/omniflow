@@ -9,7 +9,7 @@ import { IEndpoint } from "@/types/database";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import { Eye as ViewIcon } from "lucide-react";
-import Endpoint from "./_components/Endpoint";
+//import Endpoint from "./@content/page";
 import { Label } from "@/components/ui/label";
 
 async function loadEndpoints() {
@@ -33,16 +33,16 @@ export default async function page({
     const endpoints: IEndpoint[] = await loadEndpoints();
     return (
         <Container>
-            <ActionItemsContainer>
-                <Link href="add-endpoint">
-                    <Button size="sm">
-                        <AddIcon />
-                        Add endpoint
-                    </Button>
-                </Link>
-            </ActionItemsContainer>
             <main className="grid w-full grid-cols-3">
                 <section className="space-y-4">
+                    <ActionItemsContainer>
+                        <Link href="add-endpoint">
+                            <Button size="sm">
+                                <AddIcon />
+                                Add endpoint
+                            </Button>
+                        </Link>
+                    </ActionItemsContainer>
                     {endpoints.map((point) => (
                         <Card className="flex">
                             <div className="flex min-w-20 rounded-l-lg border-r bg-muted px-3">
@@ -66,7 +66,7 @@ export default async function page({
                     ))}
                 </section>
                 <section className="col-span-2 w-full overflow-auto px-8">
-                    <Endpoint endpointId={params.endpointId} />
+                    {/* <Endpoint endpointId={params.endpointId} /> */}
                 </section>
             </main>
         </Container>
