@@ -29,5 +29,5 @@ export type IEndpointsRepository = {
     addEndpointSchema: (data: ISchemaItem) => Promise<IDBSchemaItem>;
     removeEndpointSchema: (schemaId: string) => Promise<boolean>;
     addEndpointRequest: (data: IEndpointRequest) => Promise<IDBEndpointRequest>;
-    removeEndpointRequest: (requestId: string) => Promise<boolean>;
+    removeEndpointResponse: (requestId: string) => Promise<boolean>;
 };

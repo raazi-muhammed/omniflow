@@ -150,7 +150,7 @@ export class BuildEndpointRepository {
         const request = await this.models.EndpointRequest.create(data);
         return request.dataValues;
     }
-    async removeEndpointRequest(requestId: string) {
+    async removeEndpointResponse(requestId: string) {
         const deleted = await this.models.EndpointRequest.destroy({
             where: { id: requestId },
         });

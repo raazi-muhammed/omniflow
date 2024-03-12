@@ -81,10 +81,16 @@ export default function buildEndpointRoutes({
         makeCallback(endpointController.removeEndpointSchema)
     );
     router.post(
-        "/endpoints/:id/response",
+        "/endpoints/:id/responses",
         verifyUser,
         verifyProject,
         makeCallback(endpointController.addEndpointResponse)
+    );
+    router.delete(
+        "/endpoints/:id/responses/:responseId",
+        verifyUser,
+        verifyProject,
+        makeCallback(endpointController.removeEndpointResponse)
     );
 
     return router;

@@ -74,11 +74,13 @@ export default async function page({
                                         <TableCell>
                                             {variable.description}
                                         </TableCell>
-                                        <TableCell className="flex justify-end">
-                                            <RemoveVariable
-                                                variableId={variable.id}
-                                                endpointId={endpointData.id}
-                                            />
+                                        <TableCell>
+                                            <div className="flex justify-end">
+                                                <RemoveVariable
+                                                    variableId={variable.id}
+                                                    endpointId={endpointData.id}
+                                                />
+                                            </div>
                                         </TableCell>
                                     </TableRow>
                                 ))}

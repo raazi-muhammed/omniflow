@@ -57,6 +57,7 @@ export default function AddSchemaForm({ endpointId }: { endpointId: string }) {
             .then((response) => {
                 console.log(response);
                 router.refresh();
+                form.reset();
                 toast({ description: response.message });
             })
             .catch((err) => {
@@ -90,6 +91,7 @@ export default function AddSchemaForm({ endpointId }: { endpointId: string }) {
                         <FormItem className="flex-grow">
                             <FormLabel>Type</FormLabel>
                             <Select
+                                {...field}
                                 onValueChange={field.onChange}
                                 defaultValue={field.value}>
                                 <FormControl>

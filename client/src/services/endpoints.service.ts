@@ -209,10 +209,32 @@ export async function addEndpointResponse(
     },
     config?: AxiosRequestConfig
 ): Promise<IResponse> {
-    const url = new BuildUrl().apiDoc(`/endpoints/${id}/response`);
+    const url = new BuildUrl().apiDoc(`/endpoints/${id}/responses`);
     return new Promise((resolve, reject) => {
         axios
             .post(url, values, { ...config, withCredentials: true })
+            .then((response) => {
+                resolve(adaptSuccessResponse(response));
+            })
+            .catch((error) => {
+                reject(adaptErrorResponse(error));
+            });
+    });
+}
+
+export async function removeEndpointResponse(
+    {
+        endpointId,
+        responseId: responseId,
+    }: { endpointId: string; responseId: string },
+    config?: AxiosRequestConfig
+): Promise<IResponse> {
+    const url = new BuildUrl().apiDoc(
+        `/endpoints/${endpointId}/responses/${responseId}`
+    );
+    return new Promise((resolve, reject) => {
+        axios
+            .delete(url, { ...config, withCredentials: true })
             .then((response) => {
                 resolve(adaptSuccessResponse(response));
             })

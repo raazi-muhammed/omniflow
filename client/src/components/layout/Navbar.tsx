@@ -32,7 +32,7 @@ function Navbar() {
     }, []);
     return (
         <section
-            className={`sticky top-0 flex min-h-20 rounded-none border bg-black/50`}>
+            className={`sticky top-0 z-40 flex min-h-20 rounded-none border bg-black/50 backdrop-blur-lg`}>
             <Container className="my-auto h-fit">
                 <nav className="my-auto ms-auto flex w-fit gap-8">
                     <div className="ms-auto flex gap-4">

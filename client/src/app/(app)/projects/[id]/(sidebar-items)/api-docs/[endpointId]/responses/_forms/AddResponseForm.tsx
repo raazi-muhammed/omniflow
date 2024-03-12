@@ -56,6 +56,7 @@ export default function AddResponseForm({
             {
                 statusCode: Number(values.statusCode),
                 description: values.description,
+                body: code,
             }
         )
             .then((response) => {

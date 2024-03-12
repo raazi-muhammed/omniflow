@@ -81,12 +81,14 @@ export default async function page({
                                     <TableRow>
                                         <TableCell>{sch.key}</TableCell>
                                         <TableCell>{sch.type}</TableCell>
-                                        <TableCell className="flex gap-3">
-                                            {sch.options.map((o) => (
-                                                <p className="capitalize">
-                                                    {o.toLowerCase()}
-                                                </p>
-                                            ))}
+                                        <TableCell>
+                                            <div className="flex gap-3">
+                                                {sch.options.map((o) => (
+                                                    <p className="capitalize">
+                                                        {o.toLowerCase()}
+                                                    </p>
+                                                ))}
+                                            </div>
                                         </TableCell>
                                         <TableCell>
                                             <RemoveSchema

@@ -12,4 +12,5 @@ export type IEndpointController = {
     removeEndpointSchema: (req: IRequest) => Promise<ResponseCreator>;
     addEndpointResponse: (req: IRequest) => Promise<ResponseCreator>;
     removeEndpointHeader: (req: IRequest) => Promise<ResponseCreator>;
+    removeEndpointResponse: (req: IRequest) => Promise<ResponseCreator>;
 };

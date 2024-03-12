@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/table";
 import JsonView from "../../../../../../../../components/custom/JsonView";
 import ErrorMessage from "@/components/custom/ErrorMessage";
+import RemoveResponse from "./_components/RemoveResponse";
 
 async function getEndpointData(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -64,20 +65,32 @@ export default async function page({
                                     <TableHead>Status code</TableHead>
                                     <TableHead>Description</TableHead>
                                     <TableHead>Body</TableHead>
+                                    <TableHead className="w-20">
+                                        Actions
+                                    </TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {endpointData.requests.map((variable) => (
+                                {endpointData.requests.map((response) => (
                                     <TableRow>
                                         <TableCell>
-                                            {variable.statusCode}
+                                            {response.statusCode}
                                         </TableCell>
                                         <TableCell>
-                                            {variable.description}
+                                            {response.description}
                                         </TableCell>
-                                        <TableCell className="max-w-lg">
-                                            <JsonView
-                                                data={variable?.body || ""}
+                                        <TableCell>
+                                            {!!response?.body && (
+                                                <JsonView
+                                                    className="m-0 my-0"
+                                                    data={response?.body}
+                                                />
+                                            )}
+                                        </TableCell>
+                                        <TableCell>
+                                            <RemoveResponse
+                                                endpointId={endpointData.id}
+                                                responseId={response.id}
                                             />
                                         </TableCell>
                                     </TableRow>

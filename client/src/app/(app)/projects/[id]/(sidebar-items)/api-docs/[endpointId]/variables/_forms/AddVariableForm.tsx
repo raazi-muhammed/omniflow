@@ -95,6 +95,7 @@ export default function AddVariableForm({
                         <FormItem>
                             <FormLabel>Type</FormLabel>
                             <Select
+                                {...field}
                                 onValueChange={field.onChange}
                                 defaultValue={field.value}>
                                 <FormControl>
