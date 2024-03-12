@@ -15,11 +15,6 @@ export default function getEndpointController({
             endpointId,
         });
 
-        console.log(
-            "----------------------------------------------------------------",
-            { endpointData }
-        );
-
         if (!endpointData) throw new NotFoundError("Endpoint not found");
 
         const response = new ResponseCreator();

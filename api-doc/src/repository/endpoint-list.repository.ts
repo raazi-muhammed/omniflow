@@ -105,17 +105,17 @@ export class BuildEndpointRepository {
 
     async addEndpointVariable(variable: IVariable) {
         const variableData = await this.models.Variables.create(variable);
-        return true;
+        return variableData.dataValues;
     }
     async removeEndpointVariable(variableId: string) {
-        const variableData = await this.models.Variables.destroy({
+        const deleted = await this.models.Variables.destroy({
             where: { id: variableId },
         });
-        return true;
+        return deleted > 0;
     }
     async addEndpointHeader(header: IHeader) {
         const headerData = await this.models.Headers.create(header);
-        return true;
+        return headerData.dataValues;
     }
     async addEndpointBody({
         endpointId,
@@ -128,14 +128,14 @@ export class BuildEndpointRepository {
             { body },
             { where: { id: endpointId } }
         );
-        return true;
+        return updated[0] > 0;
     }
     async addEndpointSchema(schemaData: ISchemaItem) {
         const schema = await this.models.Schema.create(schemaData);
-        return true;
+        return schema.dataValues;
     }
     async addEndpointRequest(data: IEndpointRequest) {
         const request = await this.models.EndpointRequest.create(data);
-        return true;
+        return request.dataValues;
     }
 }
