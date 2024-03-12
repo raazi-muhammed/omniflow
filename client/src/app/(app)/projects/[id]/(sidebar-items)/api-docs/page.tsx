@@ -30,16 +30,16 @@ export default async function page() {
     const endpoints: IEndpoint[] = await loadEndpoints();
     return (
         <Container>
-            <ActionItemsContainer>
-                <Link href="api-docs/add-endpoint">
-                    <Button size="sm">
-                        <AddIcon />
-                        Add endpoint
-                    </Button>
-                </Link>
-            </ActionItemsContainer>
             <main className="grid grid-cols-3">
                 <section className="space-y-4">
+                    <ActionItemsContainer>
+                        <Link href="api-docs/add-endpoint">
+                            <Button size="sm">
+                                <AddIcon />
+                                Add endpoint
+                            </Button>
+                        </Link>
+                    </ActionItemsContainer>
                     {endpoints.map((point) => (
                         <Card className="flex">
                             <div className="flex min-w-20 rounded-l-lg border-r bg-muted px-3">
@@ -64,6 +64,12 @@ export default async function page() {
                     {endpoints.length === 0 && (
                         <ErrorMessage message="Not endpoints yet" type="info" />
                     )}
+                </section>
+                <section className="h-screen-without-navbar mx-8 flex align-middle">
+                    <ErrorMessage
+                        type="info"
+                        message="Please select an endpoint to see the preview"
+                    />
                 </section>
             </main>
         </Container>

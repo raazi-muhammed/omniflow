@@ -9,8 +9,8 @@ import { IEndpoint } from "@/types/database";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import { Eye as ViewIcon } from "lucide-react";
-//import Endpoint from "./@content/page";
 import { Label } from "@/components/ui/label";
+import { ReactNode } from "react";
 
 async function loadEndpoints() {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -27,8 +27,10 @@ async function loadEndpoints() {
 
 export default async function page({
     params,
+    children,
 }: {
     params: { endpointId: string };
+    children: ReactNode;
 }) {
     const endpoints: IEndpoint[] = await loadEndpoints();
     return (
@@ -66,7 +68,7 @@ export default async function page({
                     ))}
                 </section>
                 <section className="col-span-2 w-full overflow-auto px-8">
-                    {/* <Endpoint endpointId={params.endpointId} /> */}
+                    {children}
                 </section>
             </main>
         </Container>

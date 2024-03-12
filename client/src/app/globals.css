@@ -145,3 +145,7 @@ tr:first-child td {
 tr td:first-child {
     border-left-style: solid;
 }
+
+.h-screen-without-navbar {
+    height: calc(100vh - 5rem);
+}
