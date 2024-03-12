@@ -21,10 +21,13 @@ export type IEndpointsRepository = {
     addEndpointVariable: (data: IVariable) => Promise<IDBVariable>;
     removeEndpointVariable: (variableId: string) => Promise<boolean>;
     addEndpointHeader: (data: IHeader) => Promise<IDBHeader>;
+    removeEndpointHeader: (headerId: string) => Promise<boolean>;
     addEndpointBody: (data: {
         endpointId: string;
         body: string;
     }) => Promise<boolean>;
     addEndpointSchema: (data: ISchemaItem) => Promise<IDBSchemaItem>;
+    removeEndpointSchema: (schemaId: string) => Promise<boolean>;
     addEndpointRequest: (data: IEndpointRequest) => Promise<IDBEndpointRequest>;
+    removeEndpointRequest: (requestId: string) => Promise<boolean>;
 };

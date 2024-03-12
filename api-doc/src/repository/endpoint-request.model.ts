@@ -5,27 +5,34 @@ export function endpointRequestModel(sequelize: Sequelize) {
     const EndpointRequestModel: ModelDefined<
         IDBEndpointRequest,
         IEndpointRequest
-    > = sequelize.define("EndpointRequest", {
-        id: {
-            type: DataTypes.UUID,
-            defaultValue: DataTypes.UUIDV4,
-            primaryKey: true,
+    > = sequelize.define(
+        "EndpointRequest",
+        {
+            id: {
+                type: DataTypes.UUID,
+                defaultValue: DataTypes.UUIDV4,
+                primaryKey: true,
+            },
+            endpointId: {
+                type: DataTypes.UUID,
+                allowNull: false,
+            },
+            statusCode: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+            },
+            description: {
+                type: DataTypes.STRING,
+            },
+            body: {
+                type: DataTypes.TEXT,
+            },
         },
-        endpointId: {
-            type: DataTypes.UUID,
-            allowNull: false,
-        },
-        statusCode: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-        },
-        description: {
-            type: DataTypes.STRING,
-        },
-        body: {
-            type: DataTypes.TEXT,
-        },
-    });
+        {
+            timestamps: true,
+            paranoid: true,
+        }
+    );
 
     return EndpointRequestModel;
 }

@@ -49,11 +49,18 @@ export default function buildEndpointRoutes({
         verifyProject,
         makeCallback(endpointController.removeEndpointVariable)
     );
+
     router.post(
         "/endpoints/:id/headers",
         verifyUser,
         verifyProject,
         makeCallback(endpointController.addEndpointHeader)
+    );
+    router.delete(
+        "/endpoints/:id/headers/:headerId",
+        verifyUser,
+        verifyProject,
+        makeCallback(endpointController.removeEndpointHeader)
     );
     router.post(
         "/endpoints/:id/body",
@@ -66,6 +73,12 @@ export default function buildEndpointRoutes({
         verifyUser,
         verifyProject,
         makeCallback(endpointController.addEndpointSchema)
+    );
+    router.delete(
+        "/endpoints/:id/schema/:schemaId",
+        verifyUser,
+        verifyProject,
+        makeCallback(endpointController.removeEndpointSchema)
     );
     router.post(
         "/endpoints/:id/response",

@@ -10,6 +10,8 @@ import buildAddEndpointBodyController from "./add-endpoint-body.controller.js";
 import buildAddEndpointSchemaController from "./add-endpoint-schema.controller.js";
 import buildAddEndpointResponse from "./add-endpoint-response.controller.js";
 import buildRemoveEndpointVariableController from "./remove-endpoint-variable.controller.js";
+import buildRemoveEndpointHeaderController from "./remove-endpoint-header.controller.js";
+import buildRemoveEndpointSchemaController from "./remove-endpoint-schema.controller.js";
 
 const addEndpoint = buildAddEndpointController({
     createEndpointUseCase,
@@ -44,6 +46,13 @@ const removeEndpointVariable = buildRemoveEndpointVariableController({
     endPointsRepository,
 });
 
+const removeEndpointHeader = buildRemoveEndpointHeaderController({
+    endPointsRepository,
+});
+const removeEndpointSchema = buildRemoveEndpointSchemaController({
+    endPointsRepository,
+});
+
 export const endpointController: IEndpointController = Object.freeze({
     addEndpoint,
     getEndpoints,
@@ -54,4 +63,6 @@ export const endpointController: IEndpointController = Object.freeze({
     addEndpointBody,
     addEndpointSchema,
     addEndpointResponse,
+    removeEndpointHeader,
+    removeEndpointSchema,
 });

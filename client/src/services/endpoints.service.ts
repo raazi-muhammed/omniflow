@@ -121,6 +121,25 @@ export async function addEndpointHeader(
     });
 }
 
+export async function removeEndpointHeader(
+    { endpointId, headerId }: { endpointId: string; headerId: string },
+    config?: AxiosRequestConfig
+): Promise<IResponse> {
+    const url = new BuildUrl().apiDoc(
+        `/endpoints/${endpointId}/headers/${headerId}`
+    );
+    return new Promise((resolve, reject) => {
+        axios
+            .delete(url, { ...config, withCredentials: true })
+            .then((response) => {
+                resolve(adaptSuccessResponse(response));
+            })
+            .catch((error) => {
+                reject(adaptErrorResponse(error));
+            });
+    });
+}
+
 export async function addEndpointBody(
     { id }: { id: string },
     values: {
@@ -161,6 +180,26 @@ export async function addEndpointSchema(
             });
     });
 }
+
+export async function removeEndpointSchema(
+    { endpointId, schemaId }: { endpointId: string; schemaId: string },
+    config?: AxiosRequestConfig
+): Promise<IResponse> {
+    const url = new BuildUrl().apiDoc(
+        `/endpoints/${endpointId}/schema/${schemaId}`
+    );
+    return new Promise((resolve, reject) => {
+        axios
+            .delete(url, { ...config, withCredentials: true })
+            .then((response) => {
+                resolve(adaptSuccessResponse(response));
+            })
+            .catch((error) => {
+                reject(adaptErrorResponse(error));
+            });
+    });
+}
+
 export async function addEndpointResponse(
     { id }: { id: string },
     values: {

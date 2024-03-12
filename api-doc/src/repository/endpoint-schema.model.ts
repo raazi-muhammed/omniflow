@@ -27,7 +27,10 @@ export function schemaModel(sequelize: Sequelize) {
                     type: DataTypes.ARRAY(DataTypes.STRING),
                 },
             },
-            { timestamps: false }
+            {
+                timestamps: true,
+                paranoid: true,
+            }
         );
 
     // sequelize.sync({ alter: true });

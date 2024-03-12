@@ -26,7 +26,10 @@ export function headerModel(sequelize: Sequelize) {
                 type: DataTypes.STRING,
             },
         },
-        { timestamps: false }
+        {
+            timestamps: true,
+            paranoid: true,
+        }
     );
 
     // sequelize.sync({ alter: true });

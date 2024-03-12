@@ -63,10 +63,10 @@ export class BuildEndpointRepository {
         sequelize
             .sync({ alter: true })
             .then((res) => {
-                console.log("datasync successful");
+                console.log("Database sync status\t: Successful");
             })
             .catch((err) => {
-                console.log(err, "data sync failed");
+                console.log(err, "Database sync status\t: Failed");
             });
 
         this.client = sequelize;
@@ -117,6 +117,12 @@ export class BuildEndpointRepository {
         const headerData = await this.models.Headers.create(header);
         return headerData.dataValues;
     }
+    async removeEndpointHeader(headerId: string) {
+        const deleted = await this.models.Headers.destroy({
+            where: { id: headerId },
+        });
+        return deleted > 0;
+    }
     async addEndpointBody({
         endpointId,
         body,
@@ -134,8 +140,20 @@ export class BuildEndpointRepository {
         const schema = await this.models.Schema.create(schemaData);
         return schema.dataValues;
     }
+    async removeEndpointSchema(schemaId: string) {
+        const deleted = await this.models.Schema.destroy({
+            where: { id: schemaId },
+        });
+        return deleted > 0;
+    }
     async addEndpointRequest(data: IEndpointRequest) {
         const request = await this.models.EndpointRequest.create(data);
         return request.dataValues;
+    }
+    async removeEndpointRequest(requestId: string) {
+        const deleted = await this.models.EndpointRequest.destroy({
+            where: { id: requestId },
+        });
+        return deleted > 0;
     }
 }

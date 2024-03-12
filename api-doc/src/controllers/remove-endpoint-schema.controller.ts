@@ -6,17 +6,17 @@ import {
 } from "@omniflow/common";
 import { IEndpointsRepository } from "../interfaces/repository.interface.js";
 
-export default function buildRemoveEndpointVariableController({
+export default function buildRemoveEndpointSchemaController({
     endPointsRepository,
 }: {
     endPointsRepository: IEndpointsRepository;
 }) {
     return async (req: IRequest) => {
-        const variableId = req.params.variableId;
-        if (!variableId) throw new BadRequestError();
+        const schemaId = req.params.schemaId;
+        if (!schemaId) throw new BadRequestError();
 
-        const isUpdated = await endPointsRepository.removeEndpointVariable(
-            variableId
+        const isUpdated = await endPointsRepository.removeEndpointSchema(
+            schemaId
         );
         if (!isUpdated) throw new AnErrorOccurredError();
 

@@ -25,6 +25,8 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import RemoveHeader from "./_components/RemoveHeader";
+import ErrorMessage from "@/components/custom/ErrorMessage";
 
 async function getEndpointData(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -53,24 +55,43 @@ export default async function page({
             <SectionSplitter>
                 <SectionContent>
                     <Heading variant="spaced">Headers</Heading>
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Key</TableHead>
-                                <TableHead>Value</TableHead>
-                                <TableHead>Description</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {endpointData.headers.map((header) => (
+                    {endpointData.headers.length > 0 ? (
+                        <Table>
+                            <TableHeader>
                                 <TableRow>
-                                    <TableCell>{header.key}</TableCell>
-                                    <TableCell>{header.value}</TableCell>
-                                    <TableCell>{header.description}</TableCell>
+                                    <TableHead>Key</TableHead>
+                                    <TableHead>Value</TableHead>
+                                    <TableHead>Description</TableHead>
+                                    <TableHead className="w-20">
+                                        Actions
+                                    </TableHead>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
+                            </TableHeader>
+                            <TableBody>
+                                {endpointData.headers.map((header) => (
+                                    <TableRow>
+                                        <TableCell>{header.key}</TableCell>
+                                        <TableCell>{header.value}</TableCell>
+                                        <TableCell>
+                                            {header.description}
+                                        </TableCell>
+                                        <TableCell className="flex justify-end">
+                                            <RemoveHeader
+                                                endpointId={endpointData.id}
+                                                headerId={header.id}
+                                            />
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    ) : (
+                        <ErrorMessage
+                            className="-ms-2"
+                            type="info"
+                            message="No headers"
+                        />
+                    )}
                 </SectionContent>
                 <SectionAside>
                     <Accordion
@@ -88,9 +109,7 @@ export default async function page({
                                 </div>
                             </AccordionTrigger>
                             <AccordionContent>
-                                <AddHeadersForm
-                                    endpointId={endpointData.id || ""}
-                                />
+                                <AddHeadersForm endpointId={endpointData.id} />
                             </AccordionContent>
                         </AccordionItem>
                     </Accordion>

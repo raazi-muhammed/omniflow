@@ -28,6 +28,8 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import JsonView from "@/components/custom/JsonView";
+import RemoveSchema from "./_components/RemoveSchema";
+import ErrorMessage from "@/components/custom/ErrorMessage";
 
 async function getEndpointData(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -56,30 +58,53 @@ export default async function page({
             <SectionSplitter>
                 <SectionContent>
                     <Heading variant="spaced">Body</Heading>
-                    <JsonView className="border" data={endpointData.body} />
+                    {endpointData.body ? (
+                        <JsonView className="border" data={endpointData.body} />
+                    ) : (
+                        <ErrorMessage type="info" message="No body" />
+                    )}
                     <Heading variant="spaced">Schema</Heading>
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Key</TableHead>
-                                <TableHead>Type</TableHead>
-                                <TableHead>Options</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {endpointData.schema.map((sch) => (
+                    {endpointData.schema.length > 0 ? (
+                        <Table>
+                            <TableHeader>
                                 <TableRow>
-                                    <TableCell>{sch.key}</TableCell>
-                                    <TableCell>{sch.type}</TableCell>
-                                    <TableCell className="flex gap-3">
-                                        {sch.options.map((o) => (
-                                            <p>{o}</p>
-                                        ))}
-                                    </TableCell>
+                                    <TableHead>Key</TableHead>
+                                    <TableHead>Type</TableHead>
+                                    <TableHead>Options</TableHead>
+                                    <TableHead className="w-20">
+                                        Actions
+                                    </TableHead>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
+                            </TableHeader>
+                            <TableBody>
+                                {endpointData.schema.map((sch) => (
+                                    <TableRow>
+                                        <TableCell>{sch.key}</TableCell>
+                                        <TableCell>{sch.type}</TableCell>
+                                        <TableCell className="flex gap-3">
+                                            {sch.options.map((o) => (
+                                                <p className="capitalize">
+                                                    {o.toLowerCase()}
+                                                </p>
+                                            ))}
+                                        </TableCell>
+                                        <TableCell>
+                                            <RemoveSchema
+                                                endpointId={endpointData.id}
+                                                schemaId={sch.id}
+                                            />
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    ) : (
+                        <ErrorMessage
+                            className="-ms-2"
+                            type="info"
+                            message="No schema"
+                        />
+                    )}
                 </SectionContent>
                 <SectionAside>
                     <Accordion
@@ -99,7 +124,7 @@ export default async function page({
                             <AccordionContent>
                                 <AddBodyForm
                                     bodyData={endpointData.body}
-                                    endpointId={endpointData.id || ""}
+                                    endpointId={endpointData.id}
                                 />
                             </AccordionContent>
                         </AccordionItem>
