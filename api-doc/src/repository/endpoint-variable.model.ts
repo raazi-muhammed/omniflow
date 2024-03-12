@@ -27,10 +27,9 @@ export function variableModel(sequelize: Sequelize) {
                     type: DataTypes.STRING,
                 },
             },
-            { timestamps: false }
+            { timestamps: true, paranoid: true }
         );
 
-    // sequelize.sync({ alter: true });
     return VariableModel;
 }
 

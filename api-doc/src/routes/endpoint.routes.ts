@@ -43,6 +43,12 @@ export default function buildEndpointRoutes({
         verifyProject,
         makeCallback(endpointController.addEndpointVariable)
     );
+    router.delete(
+        "/endpoints/:id/variables/:variableId",
+        verifyUser,
+        verifyProject,
+        makeCallback(endpointController.removeEndpointVariable)
+    );
     router.post(
         "/endpoints/:id/headers",
         verifyUser,

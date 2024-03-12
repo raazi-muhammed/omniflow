@@ -107,6 +107,12 @@ export class BuildEndpointRepository {
         const variableData = await this.models.Variables.create(variable);
         return true;
     }
+    async removeEndpointVariable(variableId: string) {
+        const variableData = await this.models.Variables.destroy({
+            where: { id: variableId },
+        });
+        return true;
+    }
     async addEndpointHeader(header: IHeader) {
         const headerData = await this.models.Headers.create(header);
         return true;

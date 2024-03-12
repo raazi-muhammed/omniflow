@@ -15,6 +15,7 @@ export type IEndpointsRepository = {
         endpointId: string;
     }) => Promise<IDBEndpoint>;
     addEndpointVariable: (data: IVariable) => Promise<boolean>;
+    removeEndpointVariable: (variableId: string) => Promise<boolean>;
     addEndpointHeader: (data: IHeader) => Promise<boolean>;
     addEndpointBody: (data: {
         endpointId: string;

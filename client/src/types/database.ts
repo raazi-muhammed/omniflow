@@ -49,6 +49,7 @@ export type IAllMemberList = {
 };
 
 export type IVariable = {
+    id: string;
     name: string;
     type: string;
     endpointId: string;
@@ -56,6 +57,7 @@ export type IVariable = {
 };
 
 export type IHeader = {
+    id: string;
     key: string;
     value: string;
     endpointId: string;
@@ -63,6 +65,7 @@ export type IHeader = {
 };
 
 export type ISchemaItem = {
+    id: string;
     key: string;
     type: string;
     endpointId: string;
@@ -70,6 +73,7 @@ export type ISchemaItem = {
 };
 
 export type IEndpointRequest = {
+    id: string;
     endpointId: string;
     statusCode: number;
     description?: string;
@@ -92,7 +96,7 @@ export const dataValueTypes = [
 ];
 
 export type IEndpoint = {
-    id?: string;
+    id: string;
     name: string;
     route: string;
     method: string;

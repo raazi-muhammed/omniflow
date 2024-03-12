@@ -12,7 +12,9 @@ const buttonVariants = cva(
                 default:
                     "bg-gradient-to-br from-primary-from to-primary-to border border-primary-border text-primary-foreground",
                 destructive:
-                    "bg-gradient-to-br from-destructive-from to-destructive-to border border-destructive-border text-destructive-foreground hover:bg-destructive/90",
+                    "bg-gradient-to-br from-destructive-from to-destructive-to border border-destructive-border text-white hover:bg-destructive/90",
+                destructiveFlat:
+                    "text-destructive bg-destructive-foreground hover:bg-destructive border-destructive-border hover:text-destructive-foreground",
                 outline:
                     "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
                 secondary:
@@ -26,6 +28,7 @@ const buttonVariants = cva(
                 sm: "h-9 rounded-full px-4",
                 lg: "h-11 rounded-md px-8",
                 icon: "h-10 w-10",
+                actionIcon: "h-7 w-7 p-0 m-0",
             },
         },
         defaultVariants: {

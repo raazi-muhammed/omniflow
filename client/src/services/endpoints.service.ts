@@ -80,6 +80,24 @@ export async function addEndpointVariable(
             });
     });
 }
+export async function removeEndpointVariable(
+    { endpointId, variableId }: { endpointId: string; variableId: string },
+    config?: AxiosRequestConfig
+): Promise<IResponse> {
+    const url = new BuildUrl().apiDoc(
+        `/endpoints/${endpointId}/variables/${variableId}`
+    );
+    return new Promise((resolve, reject) => {
+        axios
+            .delete(url, { ...config, withCredentials: true })
+            .then((response) => {
+                resolve(adaptSuccessResponse(response));
+            })
+            .catch((error) => {
+                reject(adaptErrorResponse(error));
+            });
+    });
+}
 
 export async function addEndpointHeader(
     { id }: { id: string },

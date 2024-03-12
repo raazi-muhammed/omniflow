@@ -61,6 +61,7 @@ export default function AddVariableForm({
             .then((response) => {
                 console.log(response);
                 router.refresh();
+                form.reset();
                 toast({ description: response.message });
             })
             .catch((err) => {

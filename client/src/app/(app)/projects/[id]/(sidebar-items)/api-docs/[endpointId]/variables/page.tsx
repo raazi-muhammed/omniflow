@@ -4,7 +4,6 @@ import {
     SectionContent,
     SectionSplitter,
 } from "@/components/layout/SectinSplitter";
-import { Card } from "@/components/ui/card";
 import { PROJECT_TOKEN_COOKIE, USER_TOKEN_COOKIE } from "@/constants/cookies";
 import { getEndpoint } from "@/services/endpoints.service";
 import { IEndpoint } from "@/types/database";
@@ -25,6 +24,8 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import RemoveVariable from "./_components/RemoveVariable";
+import ErrorMessage from "@/components/custom/ErrorMessage";
 
 async function getEndpointData(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -53,26 +54,43 @@ export default async function page({
             <SectionSplitter>
                 <SectionContent>
                     <Heading variant="spaced">Variables</Heading>
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Name</TableHead>
-                                <TableHead>Type</TableHead>
-                                <TableHead>Description</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {endpointData.variables.map((variable) => (
+                    {endpointData.variables.length > 0 ? (
+                        <Table>
+                            <TableHeader>
                                 <TableRow>
-                                    <TableCell>{variable.name}</TableCell>
-                                    <TableCell>{variable.type}</TableCell>
-                                    <TableCell>
-                                        {variable.description}
-                                    </TableCell>
+                                    <TableHead>Name</TableHead>
+                                    <TableHead>Type</TableHead>
+                                    <TableHead>Description</TableHead>
+                                    <TableHead className="w-20">
+                                        Actions
+                                    </TableHead>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
+                            </TableHeader>
+                            <TableBody>
+                                {endpointData.variables.map((variable) => (
+                                    <TableRow>
+                                        <TableCell>{variable.name}</TableCell>
+                                        <TableCell>{variable.type}</TableCell>
+                                        <TableCell>
+                                            {variable.description}
+                                        </TableCell>
+                                        <TableCell className="flex justify-end">
+                                            <RemoveVariable
+                                                variableId={variable.id}
+                                                endpointId={endpointData.id}
+                                            />
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    ) : (
+                        <ErrorMessage
+                            className="-ms-2"
+                            type="info"
+                            message="No variables"
+                        />
+                    )}
                 </SectionContent>
                 <SectionAside>
                     <Accordion
@@ -90,9 +108,7 @@ export default async function page({
                                 </div>
                             </AccordionTrigger>
                             <AccordionContent>
-                                <AddVariableForm
-                                    endpointId={endpointData.id || ""}
-                                />
+                                <AddVariableForm endpointId={endpointData.id} />
                             </AccordionContent>
                         </AccordionItem>
                     </Accordion>
