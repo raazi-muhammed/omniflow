@@ -18,10 +18,22 @@ import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { AddIcon } from "@/lib/icons";
 import { addEndpointVariable } from "@/services/endpoints.service";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import { dataValueTypes } from "@/types/database";
 
 const formSchema = z.object({
     name: z.string().min(1, "Invalid"),
-    type: z.string().min(1, "Invalid"),
+    type: z
+        .string({
+            required_error: "Please select a language.",
+        })
+        .min(1, "Invalid"),
     description: z.string().min(1, "Invalid"),
 });
 
@@ -81,9 +93,22 @@ export default function AddVariableForm({
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Type</FormLabel>
-                            <FormControl>
-                                <Input placeholder="value" {...field} />
-                            </FormControl>
+                            <Select
+                                onValueChange={field.onChange}
+                                defaultValue={field.value}>
+                                <FormControl>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="type" />
+                                    </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                    {dataValueTypes.map((type) => (
+                                        <SelectItem value={type.value}>
+                                            {type.label}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
                             <FormMessage />
                         </FormItem>
                     )}
@@ -97,6 +122,17 @@ export default function AddVariableForm({
                             <FormControl>
                                 <Input placeholder="description" {...field} />
                             </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="type"
+                    render={({ field }) => (
+                        <FormItem className="flex flex-col">
+                            <FormLabel>Language</FormLabel>
+
                             <FormMessage />
                         </FormItem>
                     )}

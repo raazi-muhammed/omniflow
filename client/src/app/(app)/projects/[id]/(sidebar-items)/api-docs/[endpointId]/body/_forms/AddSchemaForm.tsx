@@ -19,8 +19,16 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useRouter } from "next/navigation";
 import { AddIcon } from "@/lib/icons";
 import { useState } from "react";
-import { EDataTypes } from "@/types/database";
+import { EDataTypes, dataValueTypes } from "@/types/database";
 import { addEndpointSchema } from "@/services/endpoints.service";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import { HelpCircle, Key, Sparkles } from "lucide-react";
 
 const formSchema = z.object({
     key: z.string().min(1, "Invalid"),
@@ -81,9 +89,22 @@ export default function AddSchemaForm({ endpointId }: { endpointId: string }) {
                     render={({ field }) => (
                         <FormItem className="flex-grow">
                             <FormLabel>Type</FormLabel>
-                            <FormControl>
-                                <Input placeholder="type" {...field} />
-                            </FormControl>
+                            <Select
+                                onValueChange={field.onChange}
+                                defaultValue={field.value}>
+                                <FormControl>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="type" />
+                                    </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                    {dataValueTypes.map((type) => (
+                                        <SelectItem value={type.value}>
+                                            {type.label}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
                             <FormMessage />
                         </FormItem>
                     )}
@@ -102,18 +123,27 @@ export default function AddSchemaForm({ endpointId }: { endpointId: string }) {
                         variant="outline"
                         className="mt-1 grid grid-cols-3 gap-4">
                         <ToggleGroupItem
-                            className="h-12"
+                            className="h-11"
                             value={EDataTypes.OPTIONAL}>
+                            <HelpCircle
+                                size="1em"
+                                className="me-2 text-secondary"
+                            />
                             Optional
                         </ToggleGroupItem>
                         <ToggleGroupItem
-                            className="h-12"
+                            className="h-11"
                             value={EDataTypes.UNIQUE}>
+                            <Sparkles
+                                size="1em"
+                                className="me-2 text-secondary"
+                            />
                             Unique
                         </ToggleGroupItem>
                         <ToggleGroupItem
-                            className="h-12"
+                            className="h-11"
                             value={EDataTypes.KEY}>
+                            <Key size="1em" className="me-2 text-secondary" />
                             Key
                         </ToggleGroupItem>
                     </ToggleGroup>

@@ -76,6 +76,21 @@ export type IEndpointRequest = {
     body?: string;
 };
 
+export const dataValueTypes = [
+    { value: "Array", label: "Array" },
+    { value: "Binary", label: "Binary" },
+    { value: "Boolean", label: "Boolean" },
+    { value: "Date", label: "Date" },
+    { value: "Decimal", label: "Decimal" },
+    { value: "Double", label: "Double" },
+    { value: "Int", label: "Int" },
+    { value: "Long", label: "Long" },
+    { value: "Objectid", label: "Objectid" },
+    { value: "Object", label: "Object" },
+    { value: "String", label: "String" },
+    { value: "Timestamp", label: "Timestamp" },
+];
+
 export type IEndpoint = {
     id?: string;
     name: string;

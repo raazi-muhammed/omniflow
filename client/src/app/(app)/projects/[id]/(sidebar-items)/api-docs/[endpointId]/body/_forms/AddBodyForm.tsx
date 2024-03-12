@@ -39,7 +39,7 @@ export default function AddBodyForm({
     }
 
     return (
-        <div>
+        <div className="mx-2">
             <CodeEditor
                 value={code}
                 language="json"
