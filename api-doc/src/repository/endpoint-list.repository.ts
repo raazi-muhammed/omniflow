@@ -2,6 +2,7 @@ import { ModelDefined, Sequelize } from "sequelize";
 import { IDBEndpoint, endpointModel } from "./endpoint.model.js";
 import {
     IEndpoint,
+    IEndpointRequest,
     IHeader,
     ISchemaItem,
     IVariable,
@@ -9,6 +10,10 @@ import {
 import { IDBVariable, variableModel } from "./endpoint-variable.model.js";
 import { IDBHeader, headerModel } from "./endpoint-header.mode.js";
 import { IDBSchemaItem, schemaModel } from "./endpoint-schema.model.js";
+import {
+    IDBEndpointRequest,
+    endpointRequestModel,
+} from "./endpoint-request.model.js";
 
 export class BuildEndpointRepository {
     client: Sequelize;
@@ -17,6 +22,7 @@ export class BuildEndpointRepository {
         Variables: ModelDefined<IDBVariable, IVariable>;
         Headers: ModelDefined<IDBHeader, IHeader>;
         Schema: ModelDefined<IDBSchemaItem, ISchemaItem>;
+        EndpointRequest: ModelDefined<IDBEndpointRequest, IEndpointRequest>;
     };
 
     constructor(sequelize: Sequelize) {
@@ -24,6 +30,7 @@ export class BuildEndpointRepository {
         const VariableModel = variableModel(sequelize);
         const HeaderModel = headerModel(sequelize);
         const Schema = schemaModel(sequelize);
+        const EndpointRequest = endpointRequestModel(sequelize);
         EndpointModel.hasMany(VariableModel, {
             as: "variables",
             foreignKey: "endpointId",
@@ -45,6 +52,14 @@ export class BuildEndpointRepository {
         Schema.belongsTo(EndpointModel, {
             foreignKey: "endpointId",
         });
+        EndpointModel.hasMany(EndpointRequest, {
+            as: "requests",
+            foreignKey: "endpointId",
+        });
+        EndpointRequest.belongsTo(EndpointModel, {
+            foreignKey: "endpointId",
+        });
+
         sequelize
             .sync({ alter: true })
             .then((res) => {
@@ -82,6 +97,7 @@ export class BuildEndpointRepository {
                 { model: this.models.Variables, as: "variables" },
                 { model: this.models.Headers, as: "headers" },
                 { model: this.models.Schema, as: "schema" },
+                { model: this.models.EndpointRequest, as: "requests" },
             ],
         });
         return endpoint.dataValues as IDBEndpoint;
@@ -110,6 +126,10 @@ export class BuildEndpointRepository {
     }
     async addEndpointSchema(schemaData: ISchemaItem) {
         const schema = await this.models.Schema.create(schemaData);
+        return true;
+    }
+    async addEndpointRequest(data: IEndpointRequest) {
+        const request = await this.models.EndpointRequest.create(data);
         return true;
     }
 }

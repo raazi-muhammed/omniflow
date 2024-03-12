@@ -69,6 +69,13 @@ export type ISchemaItem = {
     options: string[];
 };
 
+export type IEndpointRequest = {
+    endpointId: string;
+    statusCode: number;
+    description?: string;
+    body?: string;
+};
+
 export type IEndpoint = {
     id?: string;
     name: string;
@@ -80,6 +87,7 @@ export type IEndpoint = {
     variables: IVariable[];
     schema: ISchemaItem[];
     headers: IHeader[];
+    requests: IEndpointRequest[];
 };
 
 export enum EDataTypes {

@@ -20,12 +20,15 @@ import { useRouter } from "next/navigation";
 import { AddIcon } from "@/lib/icons";
 import { useState } from "react";
 import { EDataTypes } from "@/types/database";
-import { addEndpointSchema } from "@/services/endpoints.service";
+import {
+    addEndpointResponse,
+    addEndpointSchema,
+} from "@/services/endpoints.service";
+import CodeEditor from "@uiw/react-textarea-code-editor";
 
 const formSchema = z.object({
-    key: z.string().min(1, "Invalid"),
-    type: z.string().min(1, "Invalid"),
-    options: z.array(z.string()).optional().default([]),
+    statusCode: z.string().min(1, "Invalid"),
+    description: z.string().min(1, "Invalid"),
 });
 
 export default function AddResponseForm({
@@ -35,21 +38,26 @@ export default function AddResponseForm({
 }) {
     const { toast } = useToast();
     const router = useRouter();
-    const [value, setValue] = useState<string[]>([]);
+    const [code, setCode] = useState("");
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            key: "",
-            type: "",
-            options: [],
+            statusCode: "",
+            description: "",
         },
         mode: "onTouched",
     });
 
     function onSubmit(values: z.infer<typeof formSchema>) {
         console.log(values);
-        addEndpointSchema({ id: endpointId }, values)
+        addEndpointResponse(
+            { id: endpointId },
+            {
+                statusCode: Number(values.statusCode),
+                description: values.description,
+            }
+        )
             .then((response) => {
                 console.log(response);
                 router.refresh();
@@ -68,12 +76,12 @@ export default function AddResponseForm({
                 className="space-y-4 p-2">
                 <FormField
                     control={form.control}
-                    name="key"
+                    name="statusCode"
                     render={({ field }) => (
                         <FormItem className="flex-grow">
                             <FormLabel>Status Code</FormLabel>
                             <FormControl>
-                                <Input placeholder="key" {...field} />
+                                <Input placeholder="status code" {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -81,47 +89,31 @@ export default function AddResponseForm({
                 />
                 <FormField
                     control={form.control}
-                    name="type"
+                    name="description"
                     render={({ field }) => (
                         <FormItem className="flex-grow">
-                            <FormLabel>Type</FormLabel>
+                            <FormLabel>Description</FormLabel>
                             <FormControl>
-                                <Input placeholder="type" {...field} />
+                                <Input placeholder="description" {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
                     )}
                 />
-                <div>
-                    <FormLabel>Options</FormLabel>
-                    <ToggleGroup
-                        value={value}
-                        onValueChange={(v) => {
-                            if (v) {
-                                form.setValue("options", v);
-                                setValue(v);
-                            }
-                        }}
-                        type="multiple"
-                        variant="outline"
-                        className="mt-1 grid grid-cols-3 gap-4">
-                        <ToggleGroupItem
-                            className="h-12"
-                            value={EDataTypes.OPTIONAL}>
-                            Optional
-                        </ToggleGroupItem>
-                        <ToggleGroupItem
-                            className="h-12"
-                            value={EDataTypes.UNIQUE}>
-                            Unique
-                        </ToggleGroupItem>
-                        <ToggleGroupItem
-                            className="h-12"
-                            value={EDataTypes.KEY}>
-                            Key
-                        </ToggleGroupItem>
-                    </ToggleGroup>
-                </div>
+                <CodeEditor
+                    value={code}
+                    language="json"
+                    placeholder="Please enter your body code."
+                    onChange={(evn) => setCode(evn.target.value)}
+                    padding={15}
+                    className="mt-2 rounded-lg border bg-card"
+                    style={{
+                        backgroundColor: "#0F0B0B",
+                        fontSize: "0.875rem",
+                        fontFamily:
+                            "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
+                    }}
+                />
                 <Button
                     disabled={!form.formState.isValid}
                     className="mt-8 w-full"

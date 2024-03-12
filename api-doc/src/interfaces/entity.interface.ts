@@ -34,3 +34,9 @@ export type ISchemaItem = {
     endpointId: string;
     options: string[];
 };
+export type IEndpointRequest = {
+    endpointId: string;
+    statusCode: number;
+    description?: string;
+    body?: string;
+};

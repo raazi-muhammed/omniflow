@@ -17,6 +17,15 @@ import {
 } from "@/components/ui/accordion";
 import { DeleteIcon } from "lucide-react";
 import AddResponseForm from "./_forms/AddResponseForm";
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table";
+import JsonView from "./_components/JsonView";
 
 async function getEndpointData(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -31,6 +40,8 @@ async function getEndpointData(id: string) {
             },
         }
     );
+    console.log(response.data);
+
     return response.data;
 }
 
@@ -45,6 +56,27 @@ export default async function page({
             <SectionSplitter>
                 <SectionContent>
                     <Heading variant="spaced">Responses</Heading>
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Status code</TableHead>
+                                <TableHead>Description</TableHead>
+                                <TableHead>Body</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {endpointData.requests.map((variable) => (
+                                <TableRow>
+                                    <TableCell>{variable.statusCode}</TableCell>
+                                    <TableCell>
+                                        {variable.description}
+                                    </TableCell>
+                                    <JsonView data={variable?.body || ""} />
+                                    <TableCell>{variable.body}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
                 </SectionContent>
                 <SectionAside>
                     <Accordion type="single" collapsible>

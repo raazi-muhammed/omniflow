@@ -1,6 +1,7 @@
 import { IDBEndpoint } from "../repository/endpoint.model.js";
 import {
     IEndpoint,
+    IEndpointRequest,
     IHeader,
     ISchemaItem,
     IVariable,
@@ -20,4 +21,5 @@ export type IEndpointsRepository = {
         body: string;
     }) => Promise<boolean>;
     addEndpointSchema: (data: ISchemaItem) => Promise<boolean>;
+    addEndpointRequest: (data: IEndpointRequest) => Promise<boolean>;
 };
