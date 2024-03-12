@@ -25,7 +25,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import JsonView from "./_components/JsonView";
+import JsonView from "../../../../../../../components/custom/JsonView";
 
 async function getEndpointData(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -71,8 +71,9 @@ export default async function page({
                                     <TableCell>
                                         {variable.description}
                                     </TableCell>
-                                    <JsonView data={variable?.body || ""} />
-                                    <TableCell>{variable.body}</TableCell>
+                                    <TableCell className="max-w-lg">
+                                        <JsonView data={variable?.body || ""} />
+                                    </TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

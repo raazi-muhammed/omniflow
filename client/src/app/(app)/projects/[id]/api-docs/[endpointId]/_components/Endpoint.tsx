@@ -19,6 +19,7 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { Label } from "@/components/ui/label";
+import JsonView from "@/components/custom/JsonView";
 
 async function getEndpointData(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -148,7 +149,7 @@ export default async function Endpoint({ endpointId }: { endpointId: string }) {
                                     </Button>
                                 </Link>
                             </section>
-                            <BodyComponent bodyData={endpoint.body} />
+                            <JsonView className="border" data={endpoint.body} />
                         </TabsContent>
                     </Tabs>
                     <div>
@@ -160,6 +161,26 @@ export default async function Endpoint({ endpointId }: { endpointId: string }) {
                                 </Button>
                             </Link>
                         </section>
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>Status code</TableHead>
+                                    <TableHead>Description</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {endpoint.requests.map((header) => (
+                                    <TableRow>
+                                        <TableCell>
+                                            {header.statusCode}
+                                        </TableCell>
+                                        <TableCell>
+                                            {header.description}
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
                     </div>
                 </>
             ) : (

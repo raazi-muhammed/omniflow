@@ -27,6 +27,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import JsonView from "@/components/custom/JsonView";
 
 async function getEndpointData(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -55,7 +56,7 @@ export default async function page({
             <SectionSplitter>
                 <SectionContent>
                     <Heading variant="spaced">Body</Heading>
-                    <BodyComponent bodyData={endpointData.body} />
+                    <JsonView className="border" data={endpointData.body} />
                     <Heading variant="spaced">Schema</Heading>
                     <Table>
                         <TableHeader>
