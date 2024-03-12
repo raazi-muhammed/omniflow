@@ -54,7 +54,7 @@ export default async function page() {
                 {teams.map((team) => (
                     <>
                         <section className="flex justify-between">
-                            <Heading className="text-xl">{team.name}</Heading>
+                            <Heading variant="sm">{team.name}</Heading>
                             <Link href={`teams/${team.name}`}>
                                 <Button size="sm" variant="muted">
                                     <EditIcon /> Edit team

@@ -10,7 +10,7 @@ import { getCurrentProject } from "@/services/project.service";
 import { useDispatch } from "react-redux";
 import { setProject } from "@/redux/features/projectSlice";
 import { IProject } from "@/types/database";
-import { GanttChartSquare, KanbanSquare, Users } from "lucide-react";
+import { FileCode2, GanttChartSquare, KanbanSquare, Users } from "lucide-react";
 
 export default function Sidebar() {
     const dispatch = useDispatch<AppDispatch>();
@@ -48,7 +48,7 @@ export default function Sidebar() {
             title: "API Docs",
             url: `/projects/${projectInfo?.id}/api-docs`,
             identifier: "api-docs",
-            icon: <Users className="me-2" size="1.3em" />,
+            icon: <FileCode2 className="me-2" size="1.3em" />,
         },
     ];
 

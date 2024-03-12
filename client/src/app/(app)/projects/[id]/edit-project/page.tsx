@@ -27,7 +27,10 @@ export default function page() {
                     <EditProjectForm />
                 </SectionContent>
                 <SectionAside>
-                    <Accordion type="single" collapsible>
+                    <Accordion
+                        type="single"
+                        collapsible
+                        className="rounded-xl border bg-card p-1">
                         <AccordionItem value="delete-project">
                             <AccordionTrigger>
                                 <div className="flex gap-2">
@@ -38,7 +41,7 @@ export default function page() {
                                     Delete Project
                                 </div>
                             </AccordionTrigger>
-                            <AccordionContent>
+                            <AccordionContent className="px-4">
                                 <p className="mb-4">
                                     Deleting this project will remove it from
                                     your workspace. Make sure you won't need it

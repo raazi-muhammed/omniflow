@@ -6,6 +6,7 @@ import { RotateCw } from "lucide-react";
 import React, { useEffect } from "react";
 import { AddIcon } from "@/lib/icons";
 import Link from "next/link";
+import ErrorMessage from "@/components/custom/ErrorMessage";
 
 export default function error({
     error,
@@ -30,13 +31,13 @@ export default function error({
                         </Button>
                     </Link>
                 </section>
-                <h2 className="mt-14 text-center">
-                    {error?.message ? error?.message : "Somethings went wrong"}
-                </h2>
+                <div className="mx-auto mt-14 w-fit">
+                    <ErrorMessage message={error?.message} />
+                </div>
                 <Button
                     size="icon"
                     variant="ghost"
-                    className="mx-auto my-8 flex"
+                    className="mx-auto my-8 flex text-secondary"
                     onClick={
                         // Attempt to recover by trying to re-render the segment
                         () => reset()

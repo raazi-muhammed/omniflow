@@ -90,14 +90,18 @@ export default async function page({
                             </Card>
                         ))}
                         {team.members.length <= 0 && (
-                            <ErrorMessage>
-                                There are no members on {team.name}
-                            </ErrorMessage>
+                            <ErrorMessage
+                                type="info"
+                                message={`There are no members on ${team.name}`}
+                            />
                         )}
                     </section>
                 </SectionContent>
                 <SectionAside>
-                    <Accordion type="single" collapsible>
+                    <Accordion
+                        type="single"
+                        collapsible
+                        className="rounded-xl border bg-card p-1">
                         <AccordionItem value="delete-team">
                             <AccordionTrigger>
                                 <div className="flex gap-2">
@@ -108,7 +112,7 @@ export default async function page({
                                     Remove Team
                                 </div>
                             </AccordionTrigger>
-                            <AccordionContent>
+                            <AccordionContent className="px-4">
                                 <p className="mb-4">
                                     Deleting this project will remove it from
                                     your workspace. Make sure you won't need it

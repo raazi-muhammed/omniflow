@@ -37,7 +37,7 @@ export default function Heading({
             return (
                 <h3
                     className={cn(
-                        "text-primary text-xl font-semibold",
+                        "text-muted-foreground text-xl font-semibold",
                         className
                     )}>
                     {children}

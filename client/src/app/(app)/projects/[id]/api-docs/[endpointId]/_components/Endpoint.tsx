@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/table";
 import { Label } from "@/components/ui/label";
 import JsonView from "@/components/custom/JsonView";
+import ErrorMessage from "@/components/custom/ErrorMessage";
 
 async function getEndpointData(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -83,30 +84,38 @@ export default async function Endpoint({ endpointId }: { endpointId: string }) {
                                     </Button>
                                 </Link>
                             </section>
-                            <Table>
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead>Name</TableHead>
-                                        <TableHead>Type</TableHead>
-                                        <TableHead>Description</TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {endpoint.variables.map((variable) => (
+                            {endpoint.variables.length > 0 ? (
+                                <Table>
+                                    <TableHeader>
                                         <TableRow>
-                                            <TableCell>
-                                                {variable.name}
-                                            </TableCell>
-                                            <TableCell>
-                                                {variable.type}
-                                            </TableCell>
-                                            <TableCell>
-                                                {variable.description}
-                                            </TableCell>
+                                            <TableHead>Name</TableHead>
+                                            <TableHead>Type</TableHead>
+                                            <TableHead>Description</TableHead>
                                         </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {endpoint.variables.map((variable) => (
+                                            <TableRow>
+                                                <TableCell>
+                                                    {variable.name}
+                                                </TableCell>
+                                                <TableCell>
+                                                    {variable.type}
+                                                </TableCell>
+                                                <TableCell>
+                                                    {variable.description}
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            ) : (
+                                <ErrorMessage
+                                    className="-ms-2"
+                                    type="info"
+                                    message="No variables"
+                                />
+                            )}
                         </TabsContent>
                         <TabsContent value="headers">
                             <section className="flex justify-between align-bottom">
@@ -117,28 +126,38 @@ export default async function Endpoint({ endpointId }: { endpointId: string }) {
                                     </Button>
                                 </Link>
                             </section>
-                            <Table>
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead>Key</TableHead>
-                                        <TableHead>Value</TableHead>
-                                        <TableHead>Description</TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {endpoint.headers.map((header) => (
+                            {endpoint.headers.length > 0 ? (
+                                <Table>
+                                    <TableHeader>
                                         <TableRow>
-                                            <TableCell>{header.key}</TableCell>
-                                            <TableCell>
-                                                {header.value}
-                                            </TableCell>
-                                            <TableCell>
-                                                {header.description}
-                                            </TableCell>
+                                            <TableHead>Key</TableHead>
+                                            <TableHead>Value</TableHead>
+                                            <TableHead>Description</TableHead>
                                         </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {endpoint.headers.map((header) => (
+                                            <TableRow>
+                                                <TableCell>
+                                                    {header.key}
+                                                </TableCell>
+                                                <TableCell>
+                                                    {header.value}
+                                                </TableCell>
+                                                <TableCell>
+                                                    {header.description}
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            ) : (
+                                <ErrorMessage
+                                    className="-ms-2"
+                                    type="info"
+                                    message="No headers"
+                                />
+                            )}
                         </TabsContent>
                         <TabsContent value="request-body">
                             <section className="flex justify-between align-bottom">
@@ -149,7 +168,18 @@ export default async function Endpoint({ endpointId }: { endpointId: string }) {
                                     </Button>
                                 </Link>
                             </section>
-                            <JsonView className="border" data={endpoint.body} />
+                            {endpoint.body ? (
+                                <JsonView
+                                    className="border"
+                                    data={endpoint.body}
+                                />
+                            ) : (
+                                <ErrorMessage
+                                    className="-ms-2"
+                                    type="info"
+                                    message="No body"
+                                />
+                            )}
                         </TabsContent>
                     </Tabs>
                     <div>
@@ -161,26 +191,34 @@ export default async function Endpoint({ endpointId }: { endpointId: string }) {
                                 </Button>
                             </Link>
                         </section>
-                        <Table>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHead>Status code</TableHead>
-                                    <TableHead>Description</TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {endpoint.requests.map((header) => (
+                        {endpoint.requests.length > 0 ? (
+                            <Table>
+                                <TableHeader>
                                     <TableRow>
-                                        <TableCell>
-                                            {header.statusCode}
-                                        </TableCell>
-                                        <TableCell>
-                                            {header.description}
-                                        </TableCell>
+                                        <TableHead>Status code</TableHead>
+                                        <TableHead>Description</TableHead>
                                     </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
+                                </TableHeader>
+                                <TableBody>
+                                    {endpoint.requests.map((header) => (
+                                        <TableRow>
+                                            <TableCell>
+                                                {header.statusCode}
+                                            </TableCell>
+                                            <TableCell>
+                                                {header.description}
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        ) : (
+                            <ErrorMessage
+                                className="-ms-2"
+                                type="info"
+                                message="No responses"
+                            />
+                        )}
                     </div>
                 </>
             ) : (

@@ -108,7 +108,7 @@ export default function AddResponseForm({
                     padding={15}
                     className="mt-2 rounded-lg border bg-card"
                     style={{
-                        backgroundColor: "#0F0B0B",
+                        backgroundColor: "#000",
                         fontSize: "0.875rem",
                         fontFamily:
                             "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",

@@ -26,6 +26,7 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import JsonView from "../../../../../../../components/custom/JsonView";
+import ErrorMessage from "@/components/custom/ErrorMessage";
 
 async function getEndpointData(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -56,31 +57,46 @@ export default async function page({
             <SectionSplitter>
                 <SectionContent>
                     <Heading variant="spaced">Responses</Heading>
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Status code</TableHead>
-                                <TableHead>Description</TableHead>
-                                <TableHead>Body</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {endpointData.requests.map((variable) => (
+                    {endpointData.requests.length > 0 ? (
+                        <Table>
+                            <TableHeader>
                                 <TableRow>
-                                    <TableCell>{variable.statusCode}</TableCell>
-                                    <TableCell>
-                                        {variable.description}
-                                    </TableCell>
-                                    <TableCell className="max-w-lg">
-                                        <JsonView data={variable?.body || ""} />
-                                    </TableCell>
+                                    <TableHead>Status code</TableHead>
+                                    <TableHead>Description</TableHead>
+                                    <TableHead>Body</TableHead>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
+                            </TableHeader>
+                            <TableBody>
+                                {endpointData.requests.map((variable) => (
+                                    <TableRow>
+                                        <TableCell>
+                                            {variable.statusCode}
+                                        </TableCell>
+                                        <TableCell>
+                                            {variable.description}
+                                        </TableCell>
+                                        <TableCell className="max-w-lg">
+                                            <JsonView
+                                                data={variable?.body || ""}
+                                            />
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    ) : (
+                        <ErrorMessage
+                            className="-ms-2"
+                            type="info"
+                            message="No responses"
+                        />
+                    )}
                 </SectionContent>
                 <SectionAside>
-                    <Accordion type="single" collapsible>
+                    <Accordion
+                        type="single"
+                        collapsible
+                        className="rounded-xl border bg-card p-1">
                         <AccordionItem value="delete-team">
                             <AccordionTrigger>
                                 <div className="flex gap-2">

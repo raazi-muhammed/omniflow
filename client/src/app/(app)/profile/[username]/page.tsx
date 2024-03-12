@@ -61,7 +61,10 @@ export default async function page({
                     <p>{user.email}</p>
                 </SectionContent>
                 <SectionAside>
-                    <Accordion type="single" collapsible>
+                    <Accordion
+                        type="single"
+                        collapsible
+                        className="rounded-xl border bg-card p-1">
                         <AccordionItem value="edit-profile">
                             <AccordionTrigger>
                                 <div className="flex gap-2">
