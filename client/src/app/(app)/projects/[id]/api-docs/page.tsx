@@ -11,6 +11,7 @@ import { cookies } from "next/headers";
 import Link from "next/link";
 import { Eye as ViewIcon } from "lucide-react";
 import { Label } from "@/components/ui/label";
+import ErrorMessage from "@/components/custom/ErrorMessage";
 
 async function loadEndpoints() {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -60,6 +61,9 @@ export default async function page() {
                             </Link>
                         </Card>
                     ))}
+                    {endpoints.length === 0 && (
+                        <ErrorMessage message="Not endpoints yet" type="info" />
+                    )}
                 </section>
             </main>
         </Container>

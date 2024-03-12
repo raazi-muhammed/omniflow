@@ -49,7 +49,7 @@ export default async function page() {
                     </Link>
                 </ActionItemsContainer>
                 {teams.length <= 0 && (
-                    <ErrorMessage>Not teams yet</ErrorMessage>
+                    <ErrorMessage message="Not teams yet" type="info" />
                 )}
                 {teams.map((team) => (
                     <>
@@ -63,9 +63,10 @@ export default async function page() {
                         </section>
                         <ResponsiveGridContainer>
                             {team.members.length <= 0 && (
-                                <ErrorMessage>
-                                    No Members on this team
-                                </ErrorMessage>
+                                <ErrorMessage
+                                    message="No Members on this team"
+                                    type="info"
+                                />
                             )}
                             {team.members.map((member) => (
                                 <Card className="flex gap-4 p-4 align-middle">
