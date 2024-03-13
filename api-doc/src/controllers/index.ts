@@ -1,25 +1,25 @@
 import { IEndpointController } from "../interfaces/controller.interface.js";
-import buildAddEndpointController from "./add-endpoint.controller.js";
+import buildAddEndpointController from "./endpoint/add-endpoint.controller.js";
 import { endPointsRepository } from "../repository/index.js";
-import buildGetEndpointsController from "./get-endpoints.controller.js";
+import buildGetEndpointsController from "./endpoint/get-endpoints.controller.js";
 import {
     createEndpointUseCase,
     createHeaderUseCase,
     createSchemaItemUseCase,
     createVariableUseCase,
 } from "../use-cases/index.js";
-import getEndpointController from "./get-endpoint.controller.js";
-import buildEndpointVariableController from "./add-endpoint-variable.controller.js";
-import buildEndpointHeaderController from "./add-endpoint-header.controller.js";
-import buildAddEndpointBodyController from "./add-endpoint-body.controller.js";
-import buildAddEndpointSchemaController from "./add-endpoint-schema.controller.js";
-import buildAddEndpointResponse from "./add-endpoint-response.controller.js";
-import buildRemoveEndpointVariableController from "./remove-endpoint-variable.controller.js";
-import buildRemoveEndpointHeaderController from "./remove-endpoint-header.controller.js";
-import buildRemoveEndpointSchemaController from "./remove-endpoint-schema.controller.js";
-import buildRemoveEndpointResponseController from "./remove-endpoint-response.controller.js";
-import buildEditEndpointController from "./edit-endpoint.controller.js";
-import buildRemoveEndpointController from "./remove-endpoint.controller.js";
+import getEndpointController from "./endpoint/get-endpoint.controller.js";
+import buildEndpointVariableController from "./variable/add-endpoint-variable.controller.js";
+import buildEndpointHeaderController from "./header/add-endpoint-header.controller.js";
+import buildAddEndpointBodyController from "./body/add-endpoint-body.controller.js";
+import buildAddEndpointSchemaController from "./body/add-endpoint-schema.controller.js";
+import buildAddEndpointResponse from "./response/add-endpoint-response.controller.js";
+import buildRemoveEndpointVariableController from "./variable/remove-endpoint-variable.controller.js";
+import buildRemoveEndpointHeaderController from "./header/remove-endpoint-header.controller.js";
+import buildRemoveEndpointSchemaController from "./body/remove-endpoint-schema.controller.js";
+import buildRemoveEndpointResponseController from "./response/remove-endpoint-response.controller.js";
+import buildEditEndpointController from "./endpoint/edit-endpoint.controller.js";
+import buildRemoveEndpointController from "./endpoint/remove-endpoint.controller.js";
 
 const addEndpoint = buildAddEndpointController({
     createEndpointUseCase,

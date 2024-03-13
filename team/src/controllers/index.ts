@@ -1,20 +1,20 @@
 import { ITeamController } from "../interfaces/controller.interface.js";
-import buildInviteMemberController from "./invite-member.controller.js";
+import buildInviteMemberController from "./member/invite-member.controller.js";
 import { teamRepository, memberRepository } from "../repository/index.js";
 import teamUseCases from "../use-cases/index.js";
-import buildGetTeamsController from "./get-teams.controller.js";
-import buildAddTeamController from "./add-team.controller.js";
+import buildGetTeamsController from "./team/get-teams.controller.js";
+import buildAddTeamController from "./team/add-team.controller.js";
 import { createNameFromEmail } from "../lib/utils.js";
 import { token } from "@omniflow/common";
-import buildChangeInvitationStatusController from "./change-invitation-status.controller.js";
+import buildChangeInvitationStatusController from "./member/change-invitation-status.controller.js";
 import { mailService } from "../lib/send-invitation-mail.js";
-import buildGetMembersListController from "./get-members.controller.js";
+import buildGetMembersListController from "./member/get-members.controller.js";
 import producer from "../events/producer.js";
-import buildGetMembersFromTeamController from "./get-team-members.controller.js";
-import buildChangeTeamLeadController from "./change-team-lead.controller.js";
-import buildMoveMemberToTeamController from "./move-team-member.controller.js";
-import buildRemoveMemberFromTeamController from "./remove-team-member.controller.js";
-import buildRemoveTeamController from "./remove-team.controller.js";
+import buildGetMembersFromTeamController from "./team/get-team-members.controller.js";
+import buildChangeTeamLeadController from "./team/change-team-lead.controller.js";
+import buildMoveMemberToTeamController from "./member/move-team-member.controller.js";
+import buildRemoveMemberFromTeamController from "./member/remove-team-member.controller.js";
+import buildRemoveTeamController from "./team/remove-team.controller.js";
 
 const addTeam = buildAddTeamController({
     addTeamUseCase: teamUseCases.addTeam,

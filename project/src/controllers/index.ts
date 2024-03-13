@@ -1,16 +1,16 @@
 import { projectRepository, memberRepository } from "../repository/index.js";
-import buildAddProjectController from "./add-project.controller.js";
+import buildAddProjectController from "./project/add-project.controller.js";
 import projectUseCases from "../use-cases/index.js";
 import { IProjectController } from "../interfaces/controller.interface.js";
-import buildGetAllProjectsController from "./get-projects.controller.js";
-import buildGetProjectController from "./get-project.controller.js";
+import buildGetAllProjectsController from "./project/get-projects.controller.js";
+import buildGetProjectController from "./project/get-project.controller.js";
 import { token } from "@omniflow/common";
-import buildGetCurrentProject from "./current-project.js";
-import buildEditProjectController from "./edit-project.controller.js";
-import buildDeleteProjectController from "./delete-project.controller.js";
-import buildAddMemberToProject from "./add-project-member.js";
+import buildGetCurrentProject from "./project/current-project.js";
+import buildEditProjectController from "./project/edit-project.controller.js";
+import buildDeleteProjectController from "./project/delete-project.controller.js";
+import buildAddMemberToProject from "./member/add-project-member.js";
 import useCases from "../use-cases/index.js";
-import buildChangeProjectLeadController from "./change-project-lead.controller.js";
+import buildChangeProjectLeadController from "./member/change-project-lead.controller.js";
 
 const addProject = buildAddProjectController({
     memberRepository,

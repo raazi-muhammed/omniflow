@@ -1,24 +1,24 @@
-import buildSignInController from "./sign-up.controller.js";
+import buildSignInController from "./auth/sign-up.controller.js";
 import authUseCase from "../use-cases/index.js";
 import {
     verificationCodeRepository,
     userRepository,
 } from "../repository/index.js";
 import passwordHash from "../lib/password-hash.js";
-import buildLoginController from "./login.controller.js";
+import buildLoginController from "./auth/login.controller.js";
 import { token } from "@omniflow/common";
-import buildCurrentUserController from "./current-user.controller.js";
+import buildCurrentUserController from "./user/current-user.controller.js";
 import { IAuthController } from "../interfaces/controller.interface.js";
-import buildVerifyUserController from "./verify-user.controller.js";
+import buildVerifyUserController from "./auth/verify-user.controller.js";
 import { generateVerificationCode } from "../lib/code-generator.js";
-import buildResendCodeUpController from "./resend-code.controller.js";
-import buildLogOutUserController from "./logout-user.controller.js";
-import buildGetProfileController from "./get-user.controller.js";
-import buildEditProfileController from "./edit-user.controller.js";
+import buildResendCodeUpController from "./auth/resend-code.controller.js";
+import buildLogOutUserController from "./auth/logout-user.controller.js";
+import buildGetProfileController from "./user/get-user.controller.js";
+import buildEditProfileController from "./user/edit-user.controller.js";
 import { uploadImageToS3 } from "../lib/file-bucket.js";
 import { mailService } from "../lib/send-verification-mail.js";
-import buildGetPublicUserController from "./get-public-user.controller.js";
-import buildChangePasswordController from "./change-password.controller.js";
+import buildGetPublicUserController from "./user/get-public-user.controller.js";
+import buildChangePasswordController from "./user/change-password.controller.js";
 
 const signIn = buildSignInController({
     signInUseCase: authUseCase.signIn,
