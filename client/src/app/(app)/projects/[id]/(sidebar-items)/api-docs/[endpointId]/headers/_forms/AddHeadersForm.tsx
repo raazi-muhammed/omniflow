@@ -49,7 +49,7 @@ export default function AddHeadersForm({ endpointId }: { endpointId: string }) {
             })
             .catch((err) => {
                 console.log(err);
-                toast({ description: err.message });
+                toast({ description: err });
             });
     }
 

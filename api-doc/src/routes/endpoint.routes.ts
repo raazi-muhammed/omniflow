@@ -49,59 +49,10 @@ export default function buildEndpointRoutes({
     );
 
     router.post(
-        "/endpoints/:id/variables",
-        verifyUser,
-        verifyProject,
-        makeCallback(endpointController.addEndpointVariable)
-    );
-    router.delete(
-        "/endpoints/:id/variables/:variableId",
-        verifyUser,
-        verifyProject,
-        makeCallback(endpointController.removeEndpointVariable)
-    );
-
-    router.post(
-        "/endpoints/:id/headers",
-        verifyUser,
-        verifyProject,
-        makeCallback(endpointController.addEndpointHeader)
-    );
-    router.delete(
-        "/endpoints/:id/headers/:headerId",
-        verifyUser,
-        verifyProject,
-        makeCallback(endpointController.removeEndpointHeader)
-    );
-    router.post(
         "/endpoints/:id/body",
         verifyUser,
         verifyProject,
         makeCallback(endpointController.addEndpointBody)
-    );
-    router.post(
-        "/endpoints/:id/schema",
-        verifyUser,
-        verifyProject,
-        makeCallback(endpointController.addEndpointSchema)
-    );
-    router.delete(
-        "/endpoints/:id/schema/:schemaId",
-        verifyUser,
-        verifyProject,
-        makeCallback(endpointController.removeEndpointSchema)
-    );
-    router.post(
-        "/endpoints/:id/responses",
-        verifyUser,
-        verifyProject,
-        makeCallback(endpointController.addEndpointResponse)
-    );
-    router.delete(
-        "/endpoints/:id/responses/:responseId",
-        verifyUser,
-        verifyProject,
-        makeCallback(endpointController.removeEndpointResponse)
     );
 
     return router;

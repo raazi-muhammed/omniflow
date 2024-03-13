@@ -34,7 +34,7 @@ export default function AddBodyForm({
             })
             .catch((err) => {
                 console.log(err);
-                toast({ description: err.message });
+                toast({ description: err });
             });
     }
 

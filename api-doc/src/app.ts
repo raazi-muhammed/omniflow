@@ -4,7 +4,14 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import morgan from "morgan";
 import { ErrorHandlingMiddleware, loadEnv } from "@omniflow/common";
-import { endpointRoutes } from "./routes/index.js";
+import {
+    endpointRoutes,
+    headerRoutes,
+    responseRoutes,
+    schemaRoutes,
+    variableRoutes,
+} from "./routes/index.js";
+import swaggerDocs from "./lib/swagger.js";
 
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 
@@ -33,6 +40,12 @@ if (NODE_ENV === "production") {
 }
 
 app.use("/api/api-doc", endpointRoutes);
+app.use("/api/api-doc", variableRoutes);
+app.use("/api/api-doc", schemaRoutes);
+app.use("/api/api-doc", headerRoutes);
+app.use("/api/api-doc", responseRoutes);
+
+swaggerDocs(app, Number(PORT));
 
 app.all("*", (req, res) => {
     console.log(`@${SERVER_NAME}`, req.method, req.originalUrl);

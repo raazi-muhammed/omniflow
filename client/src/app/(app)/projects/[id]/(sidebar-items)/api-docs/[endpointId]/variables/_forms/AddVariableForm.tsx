@@ -66,7 +66,7 @@ export default function AddVariableForm({
             })
             .catch((err) => {
                 console.log(err);
-                toast({ description: err.message });
+                toast({ description: err });
             });
     }
 
