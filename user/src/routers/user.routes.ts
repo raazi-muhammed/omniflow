@@ -18,6 +18,8 @@ export default function buildUserRoutes({
      * /users/public/{email}:
      *   get:
      *     summary: Get public details of users
+     *     security:
+     *       - userAuth: []
      *     parameters:
      *       - name: email
      *         in: path
@@ -57,6 +59,8 @@ export default function buildUserRoutes({
      * /users/current:
      *   get:
      *     summary: Get public details of users
+     *     security:
+     *       - userAuth: []
      *     responses:
      *       '200':
      *         description: A JSON of user details
@@ -78,6 +82,8 @@ export default function buildUserRoutes({
      * /users/{username}:
      *   get:
      *     summary: Get user details
+     *     security:
+     *       - userAuth: []
      *     parameters:
      *       - name: username
      *         in: path
@@ -106,6 +112,8 @@ export default function buildUserRoutes({
      * /users/{username}:
      *   put:
      *     summary: Edit user details
+     *     security:
+     *       - userAuth: []
      *     parameters:
      *       - name: username
      *         in: path
@@ -144,6 +152,8 @@ export default function buildUserRoutes({
      * /users/{username}/change-password:
      *   patch:
      *     summary: Get public user details
+     *     security:
+     *       - userAuth: []
      *     parameters:
      *       - name: username
      *         in: path

@@ -42,7 +42,25 @@ const options: Options = {
                     },
                 },
             },
+            securitySchemes: {
+                userAuth: {
+                    type: "http",
+                    scheme: "bearer",
+                    bearerFormat: "JWT",
+                },
+                projectAuth: {
+                    type: "http",
+                    scheme: "bearer",
+                    bearerFormat: "JWT",
+                },
+            },
         },
+        security: [
+            {
+                userAuth: [],
+                projectAuth: [],
+            },
+        ],
     },
     apis: ["./src/routes/*.ts"],
 };
