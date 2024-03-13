@@ -4,6 +4,8 @@ import { endPointsRepository } from "../repository/index.js";
 import buildGetEndpointsController from "./get-endpoints.controller.js";
 import {
     createEndpointUseCase,
+    createHeaderUseCase,
+    createSchemaItemUseCase,
     createVariableUseCase,
 } from "../use-cases/index.js";
 import getEndpointController from "./get-endpoint.controller.js";
@@ -44,6 +46,7 @@ const addEndpointVariable = buildEndpointVariableController({
 });
 
 const addEndpointHeader = buildEndpointHeaderController({
+    createHeader: createHeaderUseCase,
     endPointsRepository,
 });
 
@@ -51,6 +54,7 @@ const addEndpointBody = buildAddEndpointBodyController({
     endPointsRepository,
 });
 const addEndpointSchema = buildAddEndpointSchemaController({
+    createSchemaItem: createSchemaItemUseCase,
     endPointsRepository,
 });
 const addEndpointResponse = buildAddEndpointResponse({

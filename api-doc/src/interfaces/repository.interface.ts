@@ -1,11 +1,11 @@
 import { IDBHeader } from "../repository/endpoint-header.mode.js";
-import { IDBEndpointRequest } from "../repository/endpoint-request.model.js";
+import { IDBEndpointResponse } from "../repository/endpoint-response.model.js";
 import { IDBSchemaItem } from "../repository/endpoint-schema.model.js";
 import { IDBVariable } from "../repository/endpoint-variable.model.js";
 import { IDBEndpoint } from "../repository/endpoint.model.js";
 import {
     IEndpoint,
-    IEndpointRequest,
+    IEndpointResponse,
     IHeader,
     ISchemaItem,
     IVariable,
@@ -33,6 +33,8 @@ export type IEndpointsRepository = {
     }) => Promise<boolean>;
     addEndpointSchema: (data: ISchemaItem) => Promise<IDBSchemaItem>;
     removeEndpointSchema: (schemaId: string) => Promise<boolean>;
-    addEndpointRequest: (data: IEndpointRequest) => Promise<IDBEndpointRequest>;
+    addEndpointResponse: (
+        data: IEndpointResponse
+    ) => Promise<IDBEndpointResponse>;
     removeEndpointResponse: (requestId: string) => Promise<boolean>;
 };

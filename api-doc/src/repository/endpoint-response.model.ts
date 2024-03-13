@@ -1,12 +1,12 @@
 import { DataTypes, ModelDefined, Sequelize } from "sequelize";
-import { IEndpointRequest } from "../interfaces/entity.interface.js";
+import { IEndpointResponse } from "../interfaces/entity.interface.js";
 
-export function endpointRequestModel(sequelize: Sequelize) {
+export function endpointResponseModel(sequelize: Sequelize) {
     const EndpointRequestModel: ModelDefined<
-        IDBEndpointRequest,
-        IEndpointRequest
+        IDBEndpointResponse,
+        IEndpointResponse
     > = sequelize.define(
-        "EndpointRequest",
+        "EndpointResponse",
         {
             id: {
                 type: DataTypes.UUID,
@@ -37,7 +37,7 @@ export function endpointRequestModel(sequelize: Sequelize) {
     return EndpointRequestModel;
 }
 
-export type IDBEndpointRequest = IEndpointRequest & {
+export type IDBEndpointResponse = IEndpointResponse & {
     id: string;
     createdAt: Date;
     updatedAt: Date;

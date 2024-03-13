@@ -1,5 +1,5 @@
 import { IRequest, ResponseCreator, validateBody } from "@omniflow/common";
-import { IEndpointRequest } from "../interfaces/entity.interface.js";
+import { IEndpointResponse } from "../interfaces/entity.interface.js";
 import { IEndpointsRepository } from "../interfaces/repository.interface.js";
 
 export default function buildAddEndpointResponse({
@@ -12,14 +12,14 @@ export default function buildAddEndpointResponse({
         const inputData = req.body;
         validateBody(inputData, ["statusCode"]);
 
-        const requestToAdd: IEndpointRequest = {
+        const requestToAdd: IEndpointResponse = {
             endpointId,
             statusCode: Number(inputData.statusCode),
             description: inputData?.description,
             body: inputData?.body,
         };
 
-        await endPointsRepository.addEndpointRequest(requestToAdd);
+        await endPointsRepository.addEndpointResponse(requestToAdd);
 
         const response = new ResponseCreator();
         return response;

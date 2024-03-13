@@ -2,7 +2,7 @@ import { ModelDefined, Sequelize } from "sequelize";
 import { IDBEndpoint, endpointModel } from "./endpoint.model.js";
 import {
     IEndpoint,
-    IEndpointRequest,
+    IEndpointResponse,
     IHeader,
     ISchemaItem,
     IVariable,
@@ -11,9 +11,9 @@ import { IDBVariable, variableModel } from "./endpoint-variable.model.js";
 import { IDBHeader, headerModel } from "./endpoint-header.mode.js";
 import { IDBSchemaItem, schemaModel } from "./endpoint-schema.model.js";
 import {
-    IDBEndpointRequest,
-    endpointRequestModel,
-} from "./endpoint-request.model.js";
+    IDBEndpointResponse,
+    endpointResponseModel,
+} from "./endpoint-response.model.js";
 
 export class BuildEndpointRepository {
     client: Sequelize;
@@ -22,7 +22,7 @@ export class BuildEndpointRepository {
         Variables: ModelDefined<IDBVariable, IVariable>;
         Headers: ModelDefined<IDBHeader, IHeader>;
         Schema: ModelDefined<IDBSchemaItem, ISchemaItem>;
-        EndpointRequest: ModelDefined<IDBEndpointRequest, IEndpointRequest>;
+        EndpointResponse: ModelDefined<IDBEndpointResponse, IEndpointResponse>;
     };
 
     constructor(sequelize: Sequelize) {
@@ -30,7 +30,8 @@ export class BuildEndpointRepository {
         const VariableModel = variableModel(sequelize);
         const HeaderModel = headerModel(sequelize);
         const Schema = schemaModel(sequelize);
-        const EndpointRequest = endpointRequestModel(sequelize);
+        const EndpointResponse = endpointResponseModel(sequelize);
+
         EndpointModel.hasMany(VariableModel, {
             as: "variables",
             foreignKey: "endpointId",
@@ -52,11 +53,11 @@ export class BuildEndpointRepository {
         Schema.belongsTo(EndpointModel, {
             foreignKey: "endpointId",
         });
-        EndpointModel.hasMany(EndpointRequest, {
+        EndpointModel.hasMany(EndpointResponse, {
             as: "requests",
             foreignKey: "endpointId",
         });
-        EndpointRequest.belongsTo(EndpointModel, {
+        EndpointResponse.belongsTo(EndpointModel, {
             foreignKey: "endpointId",
         });
 
@@ -109,7 +110,7 @@ export class BuildEndpointRepository {
                 { model: this.models.Variables, as: "variables" },
                 { model: this.models.Headers, as: "headers" },
                 { model: this.models.Schema, as: "schema" },
-                { model: this.models.EndpointRequest, as: "requests" },
+                { model: this.models.EndpointResponse, as: "requests" },
             ],
         });
         return endpoint.dataValues as IDBEndpoint;
@@ -158,12 +159,12 @@ export class BuildEndpointRepository {
         });
         return deleted > 0;
     }
-    async addEndpointRequest(data: IEndpointRequest) {
-        const request = await this.models.EndpointRequest.create(data);
-        return request.dataValues;
+    async addEndpointResponse(data: IEndpointResponse) {
+        const response = await this.models.EndpointResponse.create(data);
+        return response.dataValues;
     }
     async removeEndpointResponse(requestId: string) {
-        const deleted = await this.models.EndpointRequest.destroy({
+        const deleted = await this.models.EndpointResponse.destroy({
             where: { id: requestId },
         });
         return deleted > 0;
