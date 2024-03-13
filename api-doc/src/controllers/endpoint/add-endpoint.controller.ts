@@ -28,6 +28,9 @@ export default function buildAddEndpointController({
         );
 
         const response = new ResponseCreator();
-        return response.setData(endpointFromDb).setMessage("Endpoint created");
+        return response
+            .setData(endpointFromDb)
+            .setMessage("Endpoint created")
+            .setStatusCode(201);
     };
 }

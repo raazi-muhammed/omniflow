@@ -39,7 +39,7 @@ if (NODE_ENV === "production") {
     app.use(morgan("dev"));
 }
 
-app.use("/api/api-doc", endpointRoutes);
+app.use("/api/api-doc/endpoints", endpointRoutes);
 app.use("/api/api-doc", variableRoutes);
 app.use("/api/api-doc", schemaRoutes);
 app.use("/api/api-doc", headerRoutes);

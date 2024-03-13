@@ -11,31 +11,40 @@ const options: Options = {
         },
         components: {
             schemas: {
-                user: {
+                endpoint: {
                     properties: {
-                        _id: {
-                            type: "string",
-                            require: true,
-                        },
-                        username: {
+                        id: {
                             type: "string",
                             require: true,
                         },
                         name: {
                             type: "string",
+                            require: true,
                         },
-                        email: {
+                        route: {
+                            type: "string",
+                            required: true,
+                        },
+                        method: {
+                            type: "string",
+                            required: true,
+                        },
+                        summary: {
                             type: "string",
                         },
-                        avatar: {
+                        body: {
                             type: "string",
+                        },
+                        projectId: {
+                            type: "string",
+                            required: true,
                         },
                     },
                 },
             },
         },
     },
-    apis: ["./src/routers/endpoint.routes.ts"],
+    apis: ["./src/routes/endpoint.routes.ts"],
 };
 
 const swaggerSpec = swaggerJsdoc(options);

@@ -13,7 +13,7 @@ const options: Options = {
             schemas: {
                 user: {
                     properties: {
-                        _id: {
+                        id: {
                             type: "string",
                             require: true,
                         },
