@@ -19,6 +19,7 @@ import {
 import { Label } from "@/components/ui/label";
 import JsonView from "@/components/custom/JsonView";
 import ErrorMessage from "@/components/custom/ErrorMessage";
+import EditEndpoint from "../_components/EditEndpoint";
 
 async function getEndpointData(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -42,199 +43,172 @@ export default async function Endpoint({
     params: { endpointId: string };
 }) {
     const endpoint: IEndpoint = await getEndpointData(params.endpointId);
-
     return (
         <main className="mb-12 w-full space-y-6 border-l ps-8">
-            {endpoint ? (
-                <>
-                    <Heading variant="spaced">{endpoint.name}</Heading>
-                    <section className="grid grid-cols-3">
-                        <div>
-                            <Label>Method</Label>
-                            <p>{endpoint.method}</p>
-                        </div>
-                        <div>
-                            <Label>URL</Label>
-                            <p>{endpoint.route}</p>
-                        </div>
-                        <div>
-                            <Label>Summary</Label>
-                            <p>
-                                {endpoint.summary
-                                    ? endpoint.summary
-                                    : "No summary"}
-                            </p>
-                        </div>
+            <div className="mt-8 flex justify-between">
+                <Heading>{endpoint.name}</Heading>
+                <EditEndpoint endpoint={endpoint} />
+            </div>
+            <section className="grid grid-cols-3">
+                <div>
+                    <Label>Method</Label>
+                    <p>{endpoint.method}</p>
+                </div>
+                <div>
+                    <Label>URL</Label>
+                    <p>{endpoint.route}</p>
+                </div>
+                <div>
+                    <Label>Summary</Label>
+                    <p>{endpoint.summary ? endpoint.summary : "No summary"}</p>
+                </div>
+            </section>
+            <Separator className="my-0" />
+            <Tabs defaultValue="variables" className="w-full">
+                <TabsList className="mx-auto flex w-fit">
+                    <TabsTrigger value="variables">Variables</TabsTrigger>
+                    <TabsTrigger value="headers">Headers</TabsTrigger>
+                    <TabsTrigger value="request-body">Request Body</TabsTrigger>
+                </TabsList>
+                <TabsContent value="variables">
+                    <section className="mb-3 flex justify-between align-bottom">
+                        <Heading className="mt-auto" variant="sm">
+                            Variables
+                        </Heading>
+                        <Link href={`${params.endpointId}/variables`}>
+                            <Button size="sm" variant="muted">
+                                <EditIcon /> Edit variables
+                            </Button>
+                        </Link>
                     </section>
-                    <Separator className="my-0" />
-                    <Tabs defaultValue="variables" className="w-full">
-                        <TabsList className="mx-auto flex w-fit">
-                            <TabsTrigger value="variables">
-                                Variables
-                            </TabsTrigger>
-                            <TabsTrigger value="headers">Headers</TabsTrigger>
-                            <TabsTrigger value="request-body">
-                                Request Body
-                            </TabsTrigger>
-                        </TabsList>
-                        <TabsContent value="variables">
-                            <section className="mb-3 flex justify-between align-bottom">
-                                <Heading className="mt-auto" variant="sm">
-                                    Variables
-                                </Heading>
-                                <Link href={`${params.endpointId}/variables`}>
-                                    <Button size="sm" variant="muted">
-                                        <EditIcon /> Edit variables
-                                    </Button>
-                                </Link>
-                            </section>
-                            {endpoint.variables.length > 0 ? (
-                                <Table>
-                                    <TableHeader>
-                                        <TableRow>
-                                            <TableHead>Name</TableHead>
-                                            <TableHead>Type</TableHead>
-                                            <TableHead>Description</TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        {endpoint.variables.map((variable) => (
-                                            <TableRow>
-                                                <TableCell>
-                                                    {variable.name}
-                                                </TableCell>
-                                                <TableCell>
-                                                    {variable.type}
-                                                </TableCell>
-                                                <TableCell>
-                                                    {variable.description}
-                                                </TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            ) : (
-                                <ErrorMessage
-                                    className="-ms-2"
-                                    type="info"
-                                    message="No variables"
-                                />
-                            )}
-                        </TabsContent>
-                        <TabsContent value="headers">
-                            <section className="mb-3 flex justify-between align-bottom">
-                                <Heading className="mt-auto" variant="sm">
-                                    Headers
-                                </Heading>
-                                <Link href={`${params.endpointId}/headers`}>
-                                    <Button size="sm" variant="muted">
-                                        <EditIcon /> Edit headers
-                                    </Button>
-                                </Link>
-                            </section>
-                            {endpoint.headers.length > 0 ? (
-                                <Table>
-                                    <TableHeader>
-                                        <TableRow>
-                                            <TableHead>Key</TableHead>
-                                            <TableHead>Value</TableHead>
-                                            <TableHead>Description</TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        {endpoint.headers.map((header) => (
-                                            <TableRow>
-                                                <TableCell>
-                                                    {header.key}
-                                                </TableCell>
-                                                <TableCell>
-                                                    {header.value}
-                                                </TableCell>
-                                                <TableCell>
-                                                    {header.description}
-                                                </TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            ) : (
-                                <ErrorMessage
-                                    className="-ms-2"
-                                    type="info"
-                                    message="No headers"
-                                />
-                            )}
-                        </TabsContent>
-                        <TabsContent value="request-body">
-                            <section className="mb-3 flex justify-between align-bottom">
-                                <Heading className="mt-auto" variant="sm">
-                                    Body
-                                </Heading>
-                                <Link href={`${params.endpointId}/body`}>
-                                    <Button size="sm" variant="muted">
-                                        <EditIcon /> Edit body
-                                    </Button>
-                                </Link>
-                            </section>
-                            {endpoint.body ? (
-                                <JsonView
-                                    className="m-0 border"
-                                    data={endpoint.body}
-                                />
-                            ) : (
-                                <ErrorMessage
-                                    className="-ms-2"
-                                    type="info"
-                                    message="No body"
-                                />
-                            )}
-                        </TabsContent>
-                    </Tabs>
-                    <Separator />
-                    <div>
-                        <section className="mb-3 flex justify-between align-bottom">
-                            <Heading className="mt-auto" variant="sm">
-                                Responses
-                            </Heading>
-                            <Link href={`${params.endpointId}/responses`}>
-                                <Button size="sm" variant="muted">
-                                    <EditIcon /> Edit responses
-                                </Button>
-                            </Link>
-                        </section>
-                        {endpoint.requests.length > 0 ? (
-                            <Table>
-                                <TableHeader>
+                    {endpoint.variables.length > 0 ? (
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>Name</TableHead>
+                                    <TableHead>Type</TableHead>
+                                    <TableHead>Description</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {endpoint.variables.map((variable) => (
                                     <TableRow>
-                                        <TableHead>Status code</TableHead>
-                                        <TableHead>Description</TableHead>
+                                        <TableCell>{variable.name}</TableCell>
+                                        <TableCell>{variable.type}</TableCell>
+                                        <TableCell>
+                                            {variable.description}
+                                        </TableCell>
                                     </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {endpoint.requests.map((header) => (
-                                        <TableRow>
-                                            <TableCell>
-                                                {header.statusCode}
-                                            </TableCell>
-                                            <TableCell>
-                                                {header.description}
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        ) : (
-                            <ErrorMessage
-                                className="-ms-2"
-                                type="info"
-                                message="No responses"
-                            />
-                        )}
-                    </div>
-                </>
-            ) : (
-                <p>Hoooi</p>
-            )}
+                                ))}
+                            </TableBody>
+                        </Table>
+                    ) : (
+                        <ErrorMessage
+                            className="-ms-2"
+                            type="info"
+                            message="No variables"
+                        />
+                    )}
+                </TabsContent>
+                <TabsContent value="headers">
+                    <section className="mb-3 flex justify-between align-bottom">
+                        <Heading className="mt-auto" variant="sm">
+                            Headers
+                        </Heading>
+                        <Link href={`${params.endpointId}/headers`}>
+                            <Button size="sm" variant="muted">
+                                <EditIcon /> Edit headers
+                            </Button>
+                        </Link>
+                    </section>
+                    {endpoint.headers.length > 0 ? (
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>Key</TableHead>
+                                    <TableHead>Value</TableHead>
+                                    <TableHead>Description</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {endpoint.headers.map((header) => (
+                                    <TableRow>
+                                        <TableCell>{header.key}</TableCell>
+                                        <TableCell>{header.value}</TableCell>
+                                        <TableCell>
+                                            {header.description}
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    ) : (
+                        <ErrorMessage
+                            className="-ms-2"
+                            type="info"
+                            message="No headers"
+                        />
+                    )}
+                </TabsContent>
+                <TabsContent value="request-body">
+                    <section className="mb-3 flex justify-between align-bottom">
+                        <Heading className="mt-auto" variant="sm">
+                            Body
+                        </Heading>
+                        <Link href={`${params.endpointId}/body`}>
+                            <Button size="sm" variant="muted">
+                                <EditIcon /> Edit body
+                            </Button>
+                        </Link>
+                    </section>
+                    {endpoint.body ? (
+                        <JsonView className="m-0 border" data={endpoint.body} />
+                    ) : (
+                        <ErrorMessage
+                            className="-ms-2"
+                            type="info"
+                            message="No body"
+                        />
+                    )}
+                </TabsContent>
+            </Tabs>
+            <Separator />
+            <div>
+                <section className="mb-3 flex justify-between align-bottom">
+                    <Heading className="mt-auto" variant="sm">
+                        Responses
+                    </Heading>
+                    <Link href={`${params.endpointId}/responses`}>
+                        <Button size="sm" variant="muted">
+                            <EditIcon /> Edit responses
+                        </Button>
+                    </Link>
+                </section>
+                {endpoint.requests.length > 0 ? (
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Status code</TableHead>
+                                <TableHead>Description</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {endpoint.requests.map((header) => (
+                                <TableRow>
+                                    <TableCell>{header.statusCode}</TableCell>
+                                    <TableCell>{header.description}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                ) : (
+                    <ErrorMessage
+                        className="-ms-2"
+                        type="info"
+                        message="No responses"
+                    />
+                )}
+            </div>
         </main>
     );
 }

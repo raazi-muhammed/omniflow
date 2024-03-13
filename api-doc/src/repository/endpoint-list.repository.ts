@@ -78,6 +78,18 @@ export class BuildEndpointRepository {
         const endpoint = await this.models.Endpoint.create(endPointData);
         return endpoint.dataValues as IDBEndpoint;
     }
+    async updateEndpoint({ newData, id }: { newData: IEndpoint; id: string }) {
+        const updated = await this.models.Endpoint.update(newData, {
+            where: { id },
+        });
+        return updated[0] > 0;
+    }
+    async removeEndpoint(endpointId: string) {
+        const deleted = await this.models.Endpoint.destroy({
+            where: { id: endpointId },
+        });
+        return deleted > 0;
+    }
     async getEndpoints({ projectId }: { projectId: string }) {
         const endpoint = await this.models.Endpoint.findAll({
             where: { projectId },

@@ -14,7 +14,6 @@ import { Button } from "@/components/ui/button";
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -24,8 +23,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
-import { addEndpoint } from "@/services/endpoints.service";
-import { AddIcon } from "@/lib/icons";
+import { addEndpoint, editEndpoint } from "@/services/endpoints.service";
+import { IEndpoint } from "@/types/database";
+import { Dispatch, SetStateAction } from "react";
 
 const formSchema = z.object({
     name: z.string().min(3, "Invalid"),
@@ -34,7 +34,15 @@ const formSchema = z.object({
     method: z.string(),
 });
 
-export default function AddEndpointForm() {
+export default function EditEndpointForm({
+    endpoint,
+    setOpen,
+    handleDelete,
+}: {
+    handleDelete: () => void;
+    setOpen: Dispatch<SetStateAction<boolean>>;
+    endpoint: IEndpoint;
+}) {
     const { toast } = useToast();
     const router = useRouter();
     const currentDate = new Date();
@@ -43,22 +51,22 @@ export default function AddEndpointForm() {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            name: "",
-            summary: "",
-            route: "",
-            method: "GET",
+            name: endpoint.name,
+            summary: endpoint?.summary || "",
+            route: endpoint.route,
+            method: endpoint.method,
         },
         mode: "onTouched",
     });
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         console.log(values);
-        addEndpoint(values)
+        editEndpoint({ id: endpoint.id }, values)
             .then((response) => {
                 toast({
                     description: response.message,
                 });
-                router.back();
+                setOpen(false);
                 router.refresh();
             })
             .catch((error) => {
@@ -93,9 +101,6 @@ export default function AddEndpointForm() {
                             <FormControl>
                                 <Input placeholder="route" {...field} />
                             </FormControl>
-                            <FormDescription>
-                                use {`{}`} to assign a variables
-                            </FormDescription>
                             <FormMessage />
                         </FormItem>
                     )}
@@ -165,18 +170,21 @@ export default function AddEndpointForm() {
                     )}
                 />
 
-                <div className="ms-auto flex w-fit gap-4">
+                <div className="flex gap-4">
                     <Button
+                        onClick={handleDelete}
                         type="button"
-                        variant="outline"
-                        onClick={() => router.back()}>
+                        variant="destructiveFlat"
+                        className="me-auto">
+                        Delete
+                    </Button>
+                    <Button
+                        onClick={() => setOpen(false)}
+                        type="button"
+                        variant="outline">
                         Cancel
                     </Button>
-
-                    <Button type="submit">
-                        <AddIcon />
-                        Add
-                    </Button>
+                    <Button type="submit">Add</Button>
                 </div>
             </form>
         </Form>

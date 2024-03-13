@@ -29,7 +29,18 @@ export default function buildEndpointRoutes({
         verifyProject,
         makeCallback(endpointController.getEndpoint)
     );
-
+    router.put(
+        "/endpoints/:id",
+        verifyUser,
+        verifyProject,
+        makeCallback(endpointController.editEndpoint)
+    );
+    router.delete(
+        "/endpoints/:id",
+        verifyUser,
+        verifyProject,
+        makeCallback(endpointController.removeEndpoint)
+    );
     router.get(
         "/endpoints",
         verifyUser,

@@ -59,6 +59,44 @@ export async function getEndpoint(
     });
 }
 
+export async function editEndpoint(
+    { id }: { id: string },
+    values: { name: string; summary: string; route: string; method: string },
+    config?: AxiosRequestConfig
+): Promise<IResponse> {
+    const url = new BuildUrl().apiDoc(`/endpoints/${id}`);
+    return new Promise((resolve, reject) => {
+        axios
+            .put(url, values, { ...config, withCredentials: true })
+            .then((response) => {
+                console.log(response);
+
+                resolve(adaptSuccessResponse(response));
+            })
+            .catch((error) => {
+                reject(adaptErrorResponse(error));
+            });
+    });
+}
+export async function removeEndpoint(
+    { id }: { id: string },
+    config?: AxiosRequestConfig
+): Promise<IResponse> {
+    const url = new BuildUrl().apiDoc(`/endpoints/${id}`);
+    return new Promise((resolve, reject) => {
+        axios
+            .delete(url, { ...config, withCredentials: true })
+            .then((response) => {
+                console.log(response);
+
+                resolve(adaptSuccessResponse(response));
+            })
+            .catch((error) => {
+                reject(adaptErrorResponse(error));
+            });
+    });
+}
+
 export async function addEndpointVariable(
     { id }: { id: string },
     values: {

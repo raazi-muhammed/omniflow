@@ -13,9 +13,18 @@ import buildRemoveEndpointVariableController from "./remove-endpoint-variable.co
 import buildRemoveEndpointHeaderController from "./remove-endpoint-header.controller.js";
 import buildRemoveEndpointSchemaController from "./remove-endpoint-schema.controller.js";
 import buildRemoveEndpointResponseController from "./remove-endpoint-response.controller.js";
+import buildEditEndpointController from "./edit-endpoint.controller.js";
+import buildRemoveEndpointController from "./remove-endpoint.controller.js";
 
 const addEndpoint = buildAddEndpointController({
     createEndpointUseCase,
+    endPointsRepository,
+});
+const editEndpoint = buildEditEndpointController({
+    createEndpointUseCase,
+    endPointsRepository,
+});
+const removeEndpoint = buildRemoveEndpointController({
     endPointsRepository,
 });
 const getEndpoints = buildGetEndpointsController({
@@ -61,6 +70,8 @@ export const endpointController: IEndpointController = Object.freeze({
     addEndpoint,
     getEndpoints,
     getEndpoint,
+    editEndpoint,
+    removeEndpoint,
     addEndpointVariable,
     removeEndpointVariable,
     addEndpointHeader,

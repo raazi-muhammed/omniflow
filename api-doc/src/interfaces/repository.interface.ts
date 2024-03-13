@@ -13,6 +13,11 @@ import {
 
 export type IEndpointsRepository = {
     addEndpoint: (data: IEndpoint) => Promise<IDBEndpoint>;
+    updateEndpoint: (data: {
+        newData: IEndpoint;
+        id: string;
+    }) => Promise<boolean>;
+    removeEndpoint: (endpointId: string) => Promise<boolean>;
     getEndpoints: (data: { projectId: string }) => Promise<IDBEndpoint[]>;
     getEndpoint: (data: {
         projectId: string;
