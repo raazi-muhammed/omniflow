@@ -20,6 +20,7 @@ import { Label } from "@/components/ui/label";
 import JsonView from "@/components/custom/JsonView";
 import ErrorMessage from "@/components/custom/ErrorMessage";
 import EditEndpoint from "../_components/EditEndpoint";
+import { formatConstants } from "@/lib/formaters";
 
 async function getEndpointData(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -94,7 +95,9 @@ export default async function Endpoint({
                                 {endpoint.variables.map((variable) => (
                                     <TableRow>
                                         <TableCell>{variable.name}</TableCell>
-                                        <TableCell>{variable.type}</TableCell>
+                                        <TableCell>
+                                            {formatConstants(variable.type)}
+                                        </TableCell>
                                         <TableCell>
                                             {variable.description}
                                         </TableCell>
@@ -170,6 +173,50 @@ export default async function Endpoint({
                             message="No body"
                         />
                     )}
+                    {endpoint.schema.length > 0 ? (
+                        <Table className="mt-4">
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>Key</TableHead>
+                                    <TableHead>Type</TableHead>
+                                    <TableHead>Options</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {endpoint.schema.map((sch) => (
+                                    <TableRow>
+                                        <TableCell>{sch.key}</TableCell>
+                                        <TableCell>
+                                            {formatConstants(sch.type)}
+                                        </TableCell>
+                                        <TableCell>
+                                            <div className="flex gap-2">
+                                                {sch.options.map(
+                                                    (option, index) => (
+                                                        <p>
+                                                            {formatConstants(
+                                                                option
+                                                            )}
+                                                            {index !==
+                                                                sch.options
+                                                                    .length -
+                                                                    1 && ","}
+                                                        </p>
+                                                    )
+                                                )}
+                                            </div>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    ) : (
+                        <ErrorMessage
+                            className="-ms-2"
+                            type="info"
+                            message="No schema"
+                        />
+                    )}
                 </TabsContent>
             </Tabs>
             <Separator />
@@ -189,14 +236,20 @@ export default async function Endpoint({
                         <TableHeader>
                             <TableRow>
                                 <TableHead>Status code</TableHead>
+                                <TableHead>Content Type</TableHead>
                                 <TableHead>Description</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {endpoint.requests.map((header) => (
+                            {endpoint.requests.map((response) => (
                                 <TableRow>
-                                    <TableCell>{header.statusCode}</TableCell>
-                                    <TableCell>{header.description}</TableCell>
+                                    <TableCell>{response.statusCode}</TableCell>
+                                    <TableCell>
+                                        {response.type.toLowerCase()}
+                                    </TableCell>
+                                    <TableCell>
+                                        {response.description}
+                                    </TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

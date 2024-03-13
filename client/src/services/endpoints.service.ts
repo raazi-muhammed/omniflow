@@ -243,6 +243,7 @@ export async function addEndpointResponse(
     values: {
         statusCode: number;
         body?: string;
+        type: string;
         description?: string;
     },
     config?: AxiosRequestConfig

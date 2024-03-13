@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/table";
 import RemoveVariable from "./_components/RemoveVariable";
 import ErrorMessage from "@/components/custom/ErrorMessage";
+import { formatConstants } from "@/lib/formaters";
 
 async function getEndpointData(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -70,7 +71,9 @@ export default async function page({
                                 {endpointData.variables.map((variable) => (
                                     <TableRow>
                                         <TableCell>{variable.name}</TableCell>
-                                        <TableCell>{variable.type}</TableCell>
+                                        <TableCell>
+                                            {formatConstants(variable.type)}
+                                        </TableCell>
                                         <TableCell>
                                             {variable.description}
                                         </TableCell>

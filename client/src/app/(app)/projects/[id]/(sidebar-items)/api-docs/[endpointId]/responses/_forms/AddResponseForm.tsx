@@ -15,20 +15,24 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useRouter } from "next/navigation";
 import { AddIcon } from "@/lib/icons";
 import { useState } from "react";
-import { EDataTypes } from "@/types/database";
-import {
-    addEndpointResponse,
-    addEndpointSchema,
-} from "@/services/endpoints.service";
+import { addEndpointResponse } from "@/services/endpoints.service";
 import CodeEditor from "@uiw/react-textarea-code-editor";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import { contentTypes } from "@/types/database";
 
 const formSchema = z.object({
     statusCode: z.string().min(1, "Invalid"),
     description: z.string().min(1, "Invalid"),
+    type: z.string().min(1, "Invalid"),
 });
 
 export default function AddResponseForm({
@@ -45,6 +49,7 @@ export default function AddResponseForm({
         defaultValues: {
             statusCode: "",
             description: "",
+            type: "APPLICATION/JSON",
         },
         mode: "onTouched",
     });
@@ -56,6 +61,7 @@ export default function AddResponseForm({
             {
                 statusCode: Number(values.statusCode),
                 description: values.description,
+                type: values.type,
                 body: code,
             }
         )
@@ -66,7 +72,7 @@ export default function AddResponseForm({
             })
             .catch((err) => {
                 console.log(err);
-                toast({ description: err.message });
+                toast({ description: err });
             });
     }
 
@@ -97,6 +103,33 @@ export default function AddResponseForm({
                             <FormControl>
                                 <Input placeholder="description" {...field} />
                             </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="type"
+                    render={({ field }) => (
+                        <FormItem className="flex-grow">
+                            <FormLabel>Content Type</FormLabel>
+                            <Select
+                                {...field}
+                                onValueChange={field.onChange}
+                                defaultValue={field.value}>
+                                <FormControl>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="type" />
+                                    </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                    {contentTypes.map((type) => (
+                                        <SelectItem value={type.value}>
+                                            {type.label}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
                             <FormMessage />
                         </FormItem>
                     )}

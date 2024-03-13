@@ -40,10 +40,13 @@ export default function buildResponseRoutes({
      *                 type: number
      *               body:
      *                 type: string
+     *               type:
+     *                 type: string
      *               description:
      *                 type: string
      *             required:
      *               - statusCode
+     *               - type
      *     responses:
      *       '201':
      *         description: Response added to endpoint

@@ -21,6 +21,10 @@ export function endpointResponseModel(sequelize: Sequelize) {
                 type: DataTypes.INTEGER,
                 allowNull: false,
             },
+            type: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
             description: {
                 type: DataTypes.STRING,
             },

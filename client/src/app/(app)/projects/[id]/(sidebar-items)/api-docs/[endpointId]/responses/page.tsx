@@ -28,6 +28,7 @@ import {
 import JsonView from "../../../../../../../../components/custom/JsonView";
 import ErrorMessage from "@/components/custom/ErrorMessage";
 import RemoveResponse from "./_components/RemoveResponse";
+import { formatConstants } from "@/lib/formaters";
 
 async function getEndpointData(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -63,6 +64,7 @@ export default async function page({
                             <TableHeader>
                                 <TableRow>
                                     <TableHead>Status code</TableHead>
+                                    <TableHead>Content Type</TableHead>
                                     <TableHead>Description</TableHead>
                                     <TableHead>Body</TableHead>
                                     <TableHead className="w-20">
@@ -75,6 +77,9 @@ export default async function page({
                                     <TableRow>
                                         <TableCell>
                                             {response.statusCode}
+                                        </TableCell>
+                                        <TableCell>
+                                            {response.type.toLowerCase()}
                                         </TableCell>
                                         <TableCell>
                                             {response.description}

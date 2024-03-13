@@ -16,7 +16,6 @@ import {
     AccordionTrigger,
 } from "@/components/ui/accordion";
 import { DeleteIcon } from "lucide-react";
-import BodyComponent from "../_components/BodyComponent";
 import AddBodyForm from "./_forms/AddBodyForm";
 import AddSchemaForm from "./_forms/AddSchemaForm";
 import {
@@ -30,6 +29,7 @@ import {
 import JsonView from "@/components/custom/JsonView";
 import RemoveSchema from "./_components/RemoveSchema";
 import ErrorMessage from "@/components/custom/ErrorMessage";
+import { formatConstants } from "@/lib/formaters";
 
 async function getEndpointData(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -80,14 +80,24 @@ export default async function page({
                                 {endpointData.schema.map((sch) => (
                                     <TableRow>
                                         <TableCell>{sch.key}</TableCell>
-                                        <TableCell>{sch.type}</TableCell>
                                         <TableCell>
-                                            <div className="flex gap-3">
-                                                {sch.options.map((o) => (
-                                                    <p className="capitalize">
-                                                        {o.toLowerCase()}
-                                                    </p>
-                                                ))}
+                                            {formatConstants(sch.type)}
+                                        </TableCell>
+                                        <TableCell>
+                                            <div className="flex gap-2">
+                                                {sch.options.map(
+                                                    (option, index) => (
+                                                        <p>
+                                                            {formatConstants(
+                                                                option
+                                                            )}
+                                                            {index !==
+                                                                sch.options
+                                                                    .length -
+                                                                    1 && ","}
+                                                        </p>
+                                                    )
+                                                )}
                                             </div>
                                         </TableCell>
                                         <TableCell>

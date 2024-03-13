@@ -72,27 +72,39 @@ export type ISchemaItem = {
     options: string[];
 };
 
+export const contentTypes = [
+    { label: "application/json", value: "APPLICATION/JSON" },
+    { label: "application/xml", value: "APPLICATION/XML" },
+    {
+        label: "application/x-www-form-urlencoded",
+        value: "APPLICATION/X-WWW-FORM-URLENCODED",
+    },
+    { label: "multipart/form-data", value: "MULTIPART/FORM-DATA" },
+    { label: "text/plain", value: "TEXT/PLAIN" },
+];
+
 export type IEndpointRequest = {
     id: string;
     endpointId: string;
     statusCode: number;
+    type: string;
     description?: string;
     body?: string;
 };
 
 export const dataValueTypes = [
-    { value: "Array", label: "Array" },
-    { value: "Binary", label: "Binary" },
-    { value: "Boolean", label: "Boolean" },
-    { value: "Date", label: "Date" },
-    { value: "Decimal", label: "Decimal" },
-    { value: "Double", label: "Double" },
-    { value: "Int", label: "Int" },
-    { value: "Long", label: "Long" },
-    { value: "Objectid", label: "Objectid" },
-    { value: "Object", label: "Object" },
-    { value: "String", label: "String" },
-    { value: "Timestamp", label: "Timestamp" },
+    { label: "Array", value: "ARRAY" },
+    { label: "Binary", value: "BINARY" },
+    { label: "Boolean", value: "BOOLEAN" },
+    { label: "Date", value: "DATE" },
+    { label: "Decimal", value: "DECIMAL" },
+    { label: "Double", value: "DOUBLE" },
+    { label: "Int", value: "INT" },
+    { label: "Long", value: "LONG" },
+    { label: "Objectid", value: "OBJECTID" },
+    { label: "Object", value: "OBJECT" },
+    { label: "String", value: "STRING" },
+    { label: "Timestamp", value: "TIMESTAMP" },
 ];
 
 export type IEndpoint = {

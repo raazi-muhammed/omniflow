@@ -10,11 +10,12 @@ export default function buildAddEndpointResponse({
     return async (req: IRequest) => {
         const endpointId = req.params.id;
         const inputData = req.body;
-        validateBody(inputData, ["statusCode"]);
+        validateBody(inputData, ["statusCode", "type"]);
 
         const requestToAdd: IEndpointResponse = {
             endpointId,
             statusCode: Number(inputData.statusCode),
+            type: inputData.type,
             description: inputData?.description,
             body: inputData?.body,
         };

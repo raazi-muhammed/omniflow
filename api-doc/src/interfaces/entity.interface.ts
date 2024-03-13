@@ -70,6 +70,7 @@ export interface ISchemaItemEntityConstructor {
 export type IEndpointResponse = {
     endpointId: string;
     statusCode: number;
+    type: string;
     description?: string;
     body?: string;
 };
