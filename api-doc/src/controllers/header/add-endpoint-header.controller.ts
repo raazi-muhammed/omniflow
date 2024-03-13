@@ -24,6 +24,8 @@ export default function buildEndpointHeaderController({
         const data = await endPointsRepository.addEndpointHeader(headerToAdd);
 
         const response = new ResponseCreator();
-        return response.setData(req.body);
+        return response
+            .setMessage("Header added to endpoint")
+            .setStatusCode(201);
     };
 }

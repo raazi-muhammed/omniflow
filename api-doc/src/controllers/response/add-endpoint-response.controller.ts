@@ -22,6 +22,8 @@ export default function buildAddEndpointResponse({
         await endPointsRepository.addEndpointResponse(requestToAdd);
 
         const response = new ResponseCreator();
-        return response;
+        return response
+            .setMessage("Response added to endpoint")
+            .setStatusCode(201);
     };
 }

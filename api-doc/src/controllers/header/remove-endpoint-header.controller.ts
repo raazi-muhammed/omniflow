@@ -21,6 +21,6 @@ export default function buildRemoveEndpointHeaderController({
         if (!isUpdated) throw new AnErrorOccurredError();
 
         const response = new ResponseCreator();
-        return response.setData(req.body);
+        return response.setMessage("Header remove from endpoint");
     };
 }

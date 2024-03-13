@@ -34,7 +34,7 @@ export default function buildEndpointRoutes({
      *         description: An error occurred
      */
     router.get(
-        "/",
+        "/endpoints",
         verifyUser,
         verifyProject,
         makeCallback(endpointController.getEndpoints)
@@ -71,7 +71,7 @@ export default function buildEndpointRoutes({
      *         description: An error occurred
      */
     router.post(
-        "/",
+        "/endpoints",
         verifyUser,
         verifyProject,
         makeCallback(endpointController.addEndpoint)
@@ -100,7 +100,7 @@ export default function buildEndpointRoutes({
      *         description: An error occurred
      */
     router.get(
-        "/:id",
+        "/endpoints/:id",
         verifyUser,
         verifyProject,
         makeCallback(endpointController.getEndpoint)
@@ -137,7 +137,7 @@ export default function buildEndpointRoutes({
      *         description: An error occurred
      */
     router.put(
-        "/:id",
+        "/endpoints/:id",
         verifyUser,
         verifyProject,
         makeCallback(endpointController.editEndpoint)
@@ -162,7 +162,7 @@ export default function buildEndpointRoutes({
      *         description: An error occurred
      */
     router.delete(
-        "/:id",
+        "/endpoints/:id",
         verifyUser,
         verifyProject,
         makeCallback(endpointController.removeEndpoint)
@@ -198,7 +198,7 @@ export default function buildEndpointRoutes({
      *         description: An error occurred
      */
     router.post(
-        "/:id/body",
+        "/endpoints/:id/body",
         verifyUser,
         verifyProject,
         makeCallback(endpointController.addEndpointBody)

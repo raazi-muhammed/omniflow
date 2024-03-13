@@ -25,6 +25,6 @@ export default function buildAddEndpointSchemaController({
         await endPointsRepository.addEndpointSchema(schemaItemToAdd);
 
         const response = new ResponseCreator();
-        return response;
+        return response.setMessage("Item added to schema").setStatusCode(201);
     };
 }

@@ -44,7 +44,7 @@ const options: Options = {
             },
         },
     },
-    apis: ["./src/routes/endpoint.routes.ts"],
+    apis: ["./src/routes/*.ts"],
 };
 
 const swaggerSpec = swaggerJsdoc(options);
