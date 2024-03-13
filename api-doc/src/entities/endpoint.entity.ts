@@ -1,4 +1,4 @@
-import { BadRequestError, ErrorHandler } from "@omniflow/common";
+import { BadRequestError } from "@omniflow/common";
 import { IEndpoint, IEndpointEntity } from "../interfaces/entity.interface.js";
 
 export default class Endpoint implements IEndpointEntity {

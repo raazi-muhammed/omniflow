@@ -16,6 +16,15 @@ export interface IEndpointEntityConstructor {
     new (data: IEndpoint): IEndpointEntity;
 }
 
+export interface IVariableEntity extends IVariable {
+    validate: () => void;
+    get: () => IVariable;
+}
+
+export interface IVariableEntityConstructor {
+    new (data: IVariable): IVariableEntity;
+}
+
 export type IVariable = {
     name: string;
     type: string;
