@@ -30,7 +30,8 @@ import {
 import { contentTypes } from "@/types/database";
 
 const formSchema = z.object({
-    statusCode: z.string().min(1, "Invalid"),
+    statusCode: z.number().min(100, "Invalid").max(599, "Invalid"),
+
     description: z.string().min(1, "Invalid"),
     type: z.string().min(1, "Invalid"),
 });
@@ -47,7 +48,6 @@ export default function AddResponseForm({
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            statusCode: "",
             description: "",
             type: "APPLICATION/JSON",
         },
@@ -59,7 +59,7 @@ export default function AddResponseForm({
         addEndpointResponse(
             { id: endpointId },
             {
-                statusCode: Number(values.statusCode),
+                statusCode: values.statusCode,
                 description: values.description,
                 type: values.type,
                 body: code,
@@ -88,7 +88,13 @@ export default function AddResponseForm({
                         <FormItem className="flex-grow">
                             <FormLabel>Status Code</FormLabel>
                             <FormControl>
-                                <Input placeholder="status code" {...field} />
+                                <Input
+                                    placeholder="status code"
+                                    {...field}
+                                    onChange={(e) =>
+                                        field.onChange(Number(e.target.value))
+                                    }
+                                />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -134,20 +140,23 @@ export default function AddResponseForm({
                         </FormItem>
                     )}
                 />
-                <CodeEditor
-                    value={code}
-                    language="json"
-                    placeholder="Please enter your body code."
-                    onChange={(evn) => setCode(evn.target.value)}
-                    padding={15}
-                    className="mt-2 rounded-lg border bg-card"
-                    style={{
-                        backgroundColor: "#000",
-                        fontSize: "0.875rem",
-                        fontFamily:
-                            "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
-                    }}
-                />
+                <div>
+                    <FormLabel>Body</FormLabel>
+                    <CodeEditor
+                        value={code}
+                        language="json"
+                        placeholder="body"
+                        onChange={(evn) => setCode(evn.target.value)}
+                        padding={15}
+                        className="mt-2 rounded-lg border bg-card"
+                        style={{
+                            backgroundColor: "#000",
+                            fontSize: "0.875rem",
+                            fontFamily:
+                                "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
+                        }}
+                    />
+                </div>
                 <Button
                     disabled={!form.formState.isValid}
                     className="mt-8 w-full"

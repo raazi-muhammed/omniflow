@@ -212,7 +212,7 @@ export default async function Endpoint({
                         </Table>
                     ) : (
                         <ErrorMessage
-                            className="-ms-2"
+                            className="-ms-2 mt-4"
                             type="info"
                             message="No schema"
                         />
