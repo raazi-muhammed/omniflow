@@ -1,9 +1,60 @@
 import buildCreateProject from "./create-project.use-case.js";
 import projectEntities from "../entities/index.js";
 import buildCreateMemberUseCases from "./create-member.use-case.js";
+import buildAddMemberToProjectUseCase from "./member/add-project-member.use-case.js";
+import { projectRepository, memberRepository } from "../repository/index.js";
+import Member from "../entities/member.entity.js";
+import {
+    IMemberUseCase,
+    IProjectUseCase,
+} from "../interfaces/use-case.interface.js";
+import buildChangeProjectLeadUseCase from "./project/change-project-lead.use-case.js";
+import buildAddProjectUseCase from "./project/add-project.use-case.js";
+import buildGetAllProjectsUseCase from "./project/get-projects.use-case.js";
+import buildGetProjectUseCase from "./project/get-project.use-case.js";
+import { token } from "@omniflow/common";
+import buildDeleteProjectUseCase from "./project/delete-project.use-case.js";
+import buildEditProjectUseCase from "./project/edit-project.use-case.js";
 
 const createProject = buildCreateProject(projectEntities.Project);
 const createMember = buildCreateMemberUseCases(projectEntities.Member);
+
+const addMemberToProject = buildAddMemberToProjectUseCase({
+    projectRepository,
+    memberRepository,
+    MemberCreator: Member,
+});
+const changeProjectLead = buildChangeProjectLeadUseCase({
+    memberRepository,
+    projectRepository,
+});
+
+const addProject = buildAddProjectUseCase({
+    projectRepository,
+    memberRepository,
+    ProjectCreator: projectEntities.Project,
+});
+const getAllProjects = buildGetAllProjectsUseCase({
+    projectRepository,
+    memberRepository,
+});
+
+const getProject = buildGetProjectUseCase({ projectRepository, token });
+
+const deleteProject = buildDeleteProjectUseCase({ projectRepository });
+const editProject = buildEditProjectUseCase({ projectRepository });
+
+export const memberUseCases: IMemberUseCase = Object.freeze({
+    addMemberToProject,
+});
+export const projectUseCases: IProjectUseCase = Object.freeze({
+    changeProjectLead,
+    addProject,
+    deleteProject,
+    getAllProjects,
+    getProject,
+    editProject,
+});
 
 export default Object.freeze({
     createProject,

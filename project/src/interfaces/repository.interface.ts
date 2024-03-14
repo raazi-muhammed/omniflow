@@ -4,7 +4,14 @@ import { IMember, IMemberInProject, IProject } from "./entity.interface.js";
 
 export type IProjectRepository = {
     add: (data: IProject) => Promise<IDBProject | null>;
-    edit: (data: IProject) => Promise<boolean | null>;
+    edit: (data: {
+        id: string;
+        title: string;
+        description: string;
+        startDate: Date;
+        dueDate: Date;
+        priority: number;
+    }) => Promise<boolean | null>;
     getAll: (userId: string) => Promise<IDBProject[] | null>;
     get: (id: string) => Promise<IDBProject | null>;
     delete: (id: string) => Promise<boolean | null>;

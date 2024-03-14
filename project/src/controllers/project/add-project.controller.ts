@@ -1,15 +1,6 @@
 import { IRequest, ResponseCreator, validateBody } from "@omniflow/common";
-import {
-    IMemberRepository,
-    IProjectRepository,
-} from "../../interfaces/repository.interface.js";
-import { IAddProjectUseCase } from "../../interfaces/use-case.interface.js";
-import {
-    IMember,
-    IProject,
-    InviteStatus,
-    Role,
-} from "../../interfaces/entity.interface.js";
+import { IProjectUseCase } from "../../interfaces/use-case.interface.js";
+import { IProject } from "../../interfaces/entity.interface.js";
 
 function sanitizeProjectData(projectData: any): IProject {
     projectData.startDate = new Date(projectData.startDate);
@@ -19,13 +10,9 @@ function sanitizeProjectData(projectData: any): IProject {
 }
 
 export default function buildAddProjectController({
-    projectRepository,
-    memberRepository,
-    createProject,
+    projectUseCases,
 }: {
-    projectRepository: IProjectRepository;
-    memberRepository: IMemberRepository;
-    createProject: IAddProjectUseCase;
+    projectUseCases: IProjectUseCase;
 }) {
     return async (req: IRequest) => {
         const projectData = req.body;
@@ -41,31 +28,10 @@ export default function buildAddProjectController({
 
         const addProjectData = sanitizeProjectData(projectData);
 
-        const projectLead = await memberRepository.upsert({
-            email: currentUser.email,
-            avatar: currentUser.avatar,
-            name: currentUser.name,
-            username: currentUser.username,
-            role: Role.TEAM_LEAD,
-        } as IMember);
-
-        console.log({ projectLead });
-
-        const project = createProject({
-            ...addProjectData,
-            lead: projectLead._id,
-            members: [
-                {
-                    role: Role.DEFAULT,
-                    inviteStatus: InviteStatus.ACCEPTED,
-                    info: projectLead._id,
-                },
-            ],
+        const project = await projectUseCases.addProject({
+            member: currentUser,
+            projectData: addProjectData,
         });
-
-        const projectAdded = await projectRepository.add(project);
-
-        if (!projectAdded) throw new Error("Cannot add project to db");
 
         const response = new ResponseCreator();
         return response

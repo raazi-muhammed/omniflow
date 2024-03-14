@@ -12,7 +12,14 @@ export default function buildProjectRepository({
         add: async (projectData: IProject) => {
             return (await database.create(projectData)) as IDBProject;
         },
-        edit: async (projectData: IProject) => {
+        edit: async (projectData: {
+            id: string;
+            title: string;
+            description: string;
+            startDate: Date;
+            dueDate: Date;
+            priority: number;
+        }) => {
             const result = await database.updateOne(
                 { _id: projectData.id },
                 {
@@ -20,6 +27,7 @@ export default function buildProjectRepository({
                     description: projectData.description,
                     startDate: projectData.startDate,
                     dueDate: projectData.dueDate,
+                    priority: projectData.priority,
                 }
             );
             console.log("Updated");

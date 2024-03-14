@@ -1,5 +1,6 @@
 import {
     IMember,
+    IMemberEntityConstructor,
     InviteStatus,
     Role,
 } from "../../interfaces/entity.interface.js";
@@ -7,24 +8,30 @@ import {
     IMemberRepository,
     IProjectRepository,
 } from "../../interfaces/repository.interface.js";
-import { ICreateUserUseCase } from "../../interfaces/use-case.interface.js";
 
-export default function buildAddMemberToProject({
+export default function buildAddMemberToProjectUseCase({
     projectRepository,
     memberRepository,
-    createMember,
+    MemberCreator,
 }: {
     projectRepository: IProjectRepository;
     memberRepository: IMemberRepository;
-    createMember: ICreateUserUseCase;
+    MemberCreator: IMemberEntityConstructor;
 }) {
-    return async (data: { userData: IMember; projectId: string }) => {
-        const user = createMember(data.userData);
+    return async ({
+        userData,
+        projectId,
+    }: {
+        userData: IMember;
+        projectId: string;
+    }) => {
+        const member = new MemberCreator(userData);
+        const user = member.get();
 
         const userFound = await memberRepository.upsert(user);
 
         await projectRepository.addMember({
-            projectId: data.projectId,
+            projectId,
             member: {
                 role: Role.DEFAULT,
                 inviteStatus: InviteStatus.ACCEPTED,

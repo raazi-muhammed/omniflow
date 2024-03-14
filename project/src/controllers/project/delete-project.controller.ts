@@ -1,28 +1,16 @@
-import {
-    AnErrorOccurredError,
-    IRequest,
-    NotFoundError,
-    ResponseCreator,
-} from "@omniflow/common";
-import { IProjectRepository } from "../../interfaces/repository.interface.js";
+import { IRequest, ResponseCreator } from "@omniflow/common";
+import { IProjectUseCase } from "../../interfaces/use-case.interface.js";
 
 export default function buildDeleteProjectController({
-    projectRepository,
+    projectUseCases,
 }: {
-    projectRepository: IProjectRepository;
+    projectUseCases: IProjectUseCase;
 }) {
     return async (req: IRequest) => {
         const { currentProject } = req;
-
-        const projectDeleted = await projectRepository.delete(
-            currentProject.id
-        );
-
-        if (!projectDeleted) throw new AnErrorOccurredError();
+        await projectUseCases.deleteProject({ projectId: currentProject.id });
 
         const response = new ResponseCreator();
-        await projectRepository.delete(currentProject.id);
-
         return response.setMessage("Project deleted");
     };
 }

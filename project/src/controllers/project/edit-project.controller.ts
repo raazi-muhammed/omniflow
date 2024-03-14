@@ -1,13 +1,10 @@
 import { IRequest, ResponseCreator, validateBody } from "@omniflow/common";
-import { IProjectRepository } from "../../interfaces/repository.interface.js";
-import { IAddProjectUseCase } from "../../interfaces/use-case.interface.js";
+import { IProjectUseCase } from "../../interfaces/use-case.interface.js";
 
 export default function buildEditProjectController({
-    projectRepository,
-    createProject,
+    projectUseCases,
 }: {
-    projectRepository: IProjectRepository;
-    createProject: IAddProjectUseCase;
+    projectUseCases: IProjectUseCase;
 }) {
     return async (req: IRequest) => {
         const { currentProject } = req;
@@ -20,17 +17,16 @@ export default function buildEditProjectController({
             "description",
         ]);
 
-        const project = createProject(projectData);
-
-        const updateProject = await projectRepository.edit({
-            id: currentProject.id,
-            ...project,
+        await projectUseCases.editProject({
+            projectId: currentProject.id,
+            title: projectData.title,
+            description: projectData.description,
+            dueDate: projectData.dueDate,
+            startDate: projectData.startDate,
+            priority: projectData.priority,
         });
 
-        console.log({ updateProject, project, currentProject, projectData });
-
         const response = new ResponseCreator();
-
-        return response.setData(updateProject).setMessage("Project edited");
+        return response.setMessage("Project edited");
     };
 }
