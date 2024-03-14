@@ -3,15 +3,13 @@ import {
     IRequest,
     ResponseCreator,
     UnauthorizedError,
-    UserNotFoundError,
-    UserUnauthorizedError,
 } from "@omniflow/common";
-import { IUserRepository } from "../../interfaces/repository.interface.js";
+import { IUserUseCase } from "../../interfaces/use-case.interface.js";
 
 export default function buildGetProfileController({
-    userRepository,
+    userUseCases,
 }: {
-    userRepository: IUserRepository;
+    userUseCases: IUserUseCase;
 }) {
     return async (req: IRequest) => {
         const currentUser = req.currentUser;
@@ -19,8 +17,9 @@ export default function buildGetProfileController({
         if (!username) throw new BadRequestError();
         if (currentUser.username !== username) throw new UnauthorizedError();
 
-        const userData = await userRepository.findByUsername(username);
-        if (!userData) throw new UserNotFoundError();
+        const userData = userUseCases.getProfile({
+            username: currentUser.username,
+        });
 
         const response = new ResponseCreator();
         return response.setData(userData).setStatusCode(200);

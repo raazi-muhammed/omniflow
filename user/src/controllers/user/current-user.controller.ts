@@ -1,21 +1,18 @@
-import { IUserRepository } from "../../interfaces/repository.interface.js";
-import {
-    IRequest,
-    UserNotFoundError,
-    UserUnauthorizedError,
-} from "@omniflow/common";
+import { IRequest } from "@omniflow/common";
 import { ResponseCreator } from "@omniflow/common";
+import { IUserUseCase } from "../../interfaces/use-case.interface.js";
 
 export default function buildCurrentUserController({
-    userRepository,
+    userUseCases,
 }: {
-    userRepository: IUserRepository;
+    userUseCases: IUserUseCase;
 }) {
     return async (req: IRequest) => {
         const currentUser = req.currentUser;
 
-        const user = await userRepository.findByUsername(currentUser.username);
-        if (!user) throw new UserNotFoundError();
+        const user = await userUseCases.currentUser({
+            username: currentUser.username,
+        });
 
         const response = new ResponseCreator();
         return response

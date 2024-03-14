@@ -1,15 +1,10 @@
-import {
-    BadRequestError,
-    IRequest,
-    ResponseCreator,
-    UserNotFoundError,
-} from "@omniflow/common";
-import { IUserRepository } from "../../interfaces/repository.interface.js";
+import { BadRequestError, IRequest, ResponseCreator } from "@omniflow/common";
+import { IUserUseCase } from "../../interfaces/use-case.interface.js";
 
 export default function buildGetPublicUserController({
-    userRepository,
+    userUseCases,
 }: {
-    userRepository: IUserRepository;
+    userUseCases: IUserUseCase;
 }) {
     return async (req: IRequest) => {
         const userEmail = req.params.email;
@@ -17,17 +12,11 @@ export default function buildGetPublicUserController({
             throw new BadRequestError("Invalid email");
         }
 
-        const userDetails = await userRepository.findByEmail(userEmail);
-        if (!userDetails) throw new UserNotFoundError();
-
-        const detailsToShow = {
-            email: userDetails.email,
-            username: userDetails.username,
-            avatar: userDetails.avatar,
-            name: userDetails.name,
-        };
+        const userDetails = await userUseCases.getPublicUser({
+            email: userEmail,
+        });
 
         const response = new ResponseCreator();
-        return response.setData(detailsToShow);
+        return response.setData(userDetails);
     };
 }
