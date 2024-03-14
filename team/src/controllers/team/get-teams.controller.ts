@@ -1,15 +1,16 @@
 import { IRequest, ResponseCreator } from "@omniflow/common";
 import { ITeamRepository } from "../../interfaces/repository.interface.js";
+import { ITeamUseCases } from "../../interfaces/use-case.interface.js";
 
 export default function buildGetTeamsController({
-    teamRepository,
+    teamUseCases,
 }: {
-    teamRepository: ITeamRepository;
+    teamUseCases: ITeamUseCases;
 }) {
     return async (req: IRequest) => {
         const { currentProject } = req;
 
-        const teams = await teamRepository.getTeams({
+        const teams = await teamUseCases.getTeams({
             projectId: currentProject.id,
         });
 

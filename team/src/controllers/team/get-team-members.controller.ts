@@ -1,15 +1,10 @@
-import {
-    AnErrorOccurredError,
-    BadRequestError,
-    IRequest,
-    ResponseCreator,
-} from "@omniflow/common";
-import { ITeamRepository } from "../../interfaces/repository.interface.js";
+import { BadRequestError, IRequest, ResponseCreator } from "@omniflow/common";
+import { ITeamUseCases } from "../../interfaces/use-case.interface.js";
 
 export default function buildGetMembersFromTeamController({
-    teamRepository,
+    teamUseCases,
 }: {
-    teamRepository: ITeamRepository;
+    teamUseCases: ITeamUseCases;
 }) {
     return async (req: IRequest) => {
         const { currentProject } = req;
@@ -19,15 +14,12 @@ export default function buildGetMembersFromTeamController({
             throw new BadRequestError("Invalid team data");
         }
 
-        const data = await teamRepository.getTeam({
+        const data = await teamUseCases.getTeamMembers({
             projectId: currentProject.id,
             teamName: team,
         });
 
-        if (!data) throw new AnErrorOccurredError();
-
         const response = new ResponseCreator();
-
         return response.setData(data);
     };
 }

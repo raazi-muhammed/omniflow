@@ -1,10 +1,11 @@
 import { IRequest, ResponseCreator, validateBody } from "@omniflow/common";
 import { ITeamRepository } from "../../interfaces/repository.interface.js";
+import { ITeamUseCases } from "../../interfaces/use-case.interface.js";
 
 export default function buildRemoveTeamController({
-    teamRepository,
+    teamUseCases,
 }: {
-    teamRepository: ITeamRepository;
+    teamUseCases: ITeamUseCases;
 }) {
     return async (req: IRequest) => {
         const { currentProject } = req;
@@ -14,7 +15,7 @@ export default function buildRemoveTeamController({
 
         validateBody(inputData, ["name"]);
 
-        await teamRepository.removeTeam({
+        await teamUseCases.removeTeam({
             projectId: currentProject.id,
             teamName: inputData.name,
         });

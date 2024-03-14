@@ -1,18 +1,18 @@
 import { IRequest, ResponseCreator } from "@omniflow/common";
-import { ITeamRepository } from "../../interfaces/repository.interface.js";
+import { IMemberUseCases } from "../../interfaces/use-case.interface.js";
 
 export default function buildGetMembersListController({
-    teamRepository,
+    memberUseCases,
 }: {
-    teamRepository: ITeamRepository;
+    memberUseCases: IMemberUseCases;
 }) {
     return async (req: IRequest) => {
         const { currentProject } = req;
-        const data = await teamRepository.getAllMembers({
+        const members = memberUseCases.getMembersList({
             projectId: currentProject.id,
         });
 
         const response = new ResponseCreator();
-        return response.setData(data);
+        return response.setData(members);
     };
 }

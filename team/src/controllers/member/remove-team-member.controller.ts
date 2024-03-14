@@ -4,17 +4,12 @@ import {
     UserNotFoundError,
     validateBody,
 } from "@omniflow/common";
-import {
-    IMemberRepository,
-    ITeamRepository,
-} from "../../interfaces/repository.interface.js";
+import { IMemberUseCases } from "../../interfaces/use-case.interface.js";
 
 export default function buildRemoveMemberFromTeamController({
-    teamRepository,
-    memberRepository,
+    memberUseCases,
 }: {
-    teamRepository: ITeamRepository;
-    memberRepository: IMemberRepository;
+    memberUseCases: IMemberUseCases;
 }) {
     return async (req: IRequest) => {
         const { currentProject } = req;
@@ -22,15 +17,10 @@ export default function buildRemoveMemberFromTeamController({
 
         validateBody(inputData, ["name", "email"]);
 
-        console.log({ inputData });
-
-        const user = await memberRepository.getByEmail(inputData.email);
-        if (!user) throw new UserNotFoundError();
-
-        await teamRepository.removeMemberFromTeam({
+        await memberUseCases.removeMemberFromTeam({
             projectId: currentProject.id,
-            teamName: inputData.team,
-            memberId: user.id,
+            memberEmail: inputData.email,
+            teamName: inputData.name,
         });
 
         const response = new ResponseCreator();

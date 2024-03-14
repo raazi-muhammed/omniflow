@@ -1,39 +1,21 @@
-import {
-    AnErrorOccurredError,
-    IRequest,
-    ResponseCreator,
-    UserNotFoundError,
-    validateBody,
-} from "@omniflow/common";
-import {
-    IMemberRepository,
-    ITeamRepository,
-} from "../../interfaces/repository.interface.js";
+import { IRequest, ResponseCreator, validateBody } from "@omniflow/common";
+import { ITeamUseCases } from "../../interfaces/use-case.interface.js";
 
 export default function buildChangeTeamLeadController({
-    memberRepository,
-    teamRepository,
+    teamUseCases,
 }: {
-    memberRepository: IMemberRepository;
-    teamRepository: ITeamRepository;
+    teamUseCases: ITeamUseCases;
 }) {
     return async (req: IRequest) => {
         const { currentProject } = req;
         const inputBody = req.body;
         validateBody(inputBody, ["lead", "teamName"]);
 
-        const userFound = await memberRepository.getByEmail(inputBody.lead);
-        if (!userFound) throw new UserNotFoundError();
-
-        const teamLeadChanged = await teamRepository.changeTeamLead({
-            projectId: currentProject.id,
+        await teamUseCases.changeTeamLead({
+            leadEmail: inputBody.lead,
             teamName: inputBody.teamName,
-            userId: userFound.id,
+            projectId: currentProject.id,
         });
-
-        if (!teamLeadChanged) {
-            throw new AnErrorOccurredError("Changing team lead failed");
-        }
 
         const response = new ResponseCreator();
         return response.setMessage("Team lead changed");

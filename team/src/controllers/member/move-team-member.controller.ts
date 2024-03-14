@@ -1,21 +1,10 @@
-import {
-    IRequest,
-    ResponseCreator,
-    UserNotFoundError,
-    validateBody,
-} from "@omniflow/common";
-import {
-    IMemberRepository,
-    ITeamRepository,
-} from "../../interfaces/repository.interface.js";
-import { InviteStatus, Role } from "../../interfaces/entity.interface.js";
+import { IRequest, ResponseCreator, validateBody } from "@omniflow/common";
+import { IMemberUseCases } from "../../interfaces/use-case.interface.js";
 
 export default function buildMoveMemberToTeamController({
-    teamRepository,
-    memberRepository,
+    memberUseCases,
 }: {
-    teamRepository: ITeamRepository;
-    memberRepository: IMemberRepository;
+    memberUseCases: IMemberUseCases;
 }) {
     return async (req: IRequest) => {
         const { currentProject } = req;
@@ -23,22 +12,11 @@ export default function buildMoveMemberToTeamController({
 
         validateBody(inputData, ["toTeam", "fromTeam", "email"]);
 
-        const user = await memberRepository.getByEmail(inputData.email);
-        if (!user) throw new UserNotFoundError();
-
-        await teamRepository.addMemberToTeam({
+        await memberUseCases.moveMemberToTeam({
+            toTeamName: inputData.toTeam,
+            formTeamName: inputData.fromTeam,
+            memberEmail: inputData.email,
             projectId: currentProject.id,
-            teamName: inputData.toTeam,
-            member: {
-                inviteStatus: InviteStatus.ACCEPTED,
-                role: Role.DEFAULT,
-                info: user._id,
-            },
-        });
-        await teamRepository.removeMemberFromTeam({
-            projectId: currentProject.id,
-            teamName: inputData.fromTeam,
-            memberId: user.id,
         });
 
         const response = new ResponseCreator();
