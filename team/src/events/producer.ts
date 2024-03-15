@@ -1,17 +1,19 @@
 import { Kafka } from "kafkajs";
 import { buildAddMemberProducer } from "./add-member.producer.js";
 import { IAddMemberProducer } from "../interfaces/events.interface.js";
+import { loadEnv } from "@omniflow/common";
 
-const KAFKA_BROKER_ADDRESS = process.env.KAFKA_BROKER;
-if (!KAFKA_BROKER_ADDRESS) {
-    throw new Error("Kafka borker adres not found on env");
-}
+const { KAFKA_BROKER, KAFKA_CLIENT_ID } = loadEnv([
+    "KAFKA_BROKER",
+    "KAFKA_CLIENT_ID",
+]);
 const kafka = new Kafka({
-    clientId: "my-app",
-    brokers: [KAFKA_BROKER_ADDRESS],
+    clientId: KAFKA_CLIENT_ID,
+    logLevel: 0,
+    brokers: [KAFKA_BROKER],
 });
 
-const producer = kafka.producer();
+export const producer = kafka.producer();
 await producer.connect();
 console.log("producer connected");
 

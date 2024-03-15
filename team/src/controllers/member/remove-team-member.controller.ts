@@ -1,9 +1,4 @@
-import {
-    IRequest,
-    ResponseCreator,
-    UserNotFoundError,
-    validateBody,
-} from "@omniflow/common";
+import { IRequest, ResponseCreator, validateBody } from "@omniflow/common";
 import { IMemberUseCases } from "../../interfaces/use-case.interface.js";
 
 export default function buildRemoveMemberFromTeamController({

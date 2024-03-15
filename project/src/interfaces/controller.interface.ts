@@ -13,4 +13,8 @@ export type IProjectController = {
         userData: IMember;
         projectId: string;
     }) => Promise<void>;
+    removeProjectMember: (data: {
+        userEmail: string;
+        projectId: string;
+    }) => Promise<void>;
 };

@@ -3,6 +3,7 @@ import {
     IMemberRepository,
     ITeamRepository,
 } from "../../interfaces/repository.interface.js";
+import { memberProducers } from "../../events/index.js";
 
 export default function buildRemoveMemberFromTeamUseCase({
     teamRepository,
@@ -27,6 +28,11 @@ export default function buildRemoveMemberFromTeamUseCase({
             projectId,
             teamName,
             memberId: user.id,
+        });
+
+        await memberProducers.removeMember({
+            userEmail: memberEmail,
+            projectId: projectId,
         });
     };
 }

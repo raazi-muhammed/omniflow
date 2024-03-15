@@ -51,6 +51,7 @@ services:
               required: true
         environment:
             KAFKA_BROKER: redpanda:29092
+            KAFKA_CLIENT_ID: my-app
             DB_URL: mongodb://root:example@db-project:27017
         develop:
             watch:
@@ -75,6 +76,7 @@ services:
               required: true
         environment:
             KAFKA_BROKER: redpanda:29092
+            KAFKA_CLIENT_ID: my-app
             DB_URL: mongodb://root:example@db-team:27017
         develop:
             watch:

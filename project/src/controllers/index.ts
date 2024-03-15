@@ -9,6 +9,7 @@ import buildDeleteProjectController from "./project/delete-project.controller.js
 import buildAddMemberToProject from "./member/add-project-member.controller.js";
 import { memberUseCases } from "../use-cases/index.js";
 import buildChangeProjectLeadController from "./member/change-project-lead.controller.js";
+import buildRemoveMemberFromProject from "./member/remove-project-member.controller.js";
 
 const addProject = buildAddProjectController({
     projectUseCases,
@@ -36,6 +37,8 @@ const changeProjectLead = buildChangeProjectLeadController({
     projectUseCases,
 });
 
+const removeProjectMember = buildRemoveMemberFromProject({ memberUseCases });
+
 const projectController: IProjectController = Object.freeze({
     addProject,
     editProject,
@@ -44,6 +47,7 @@ const projectController: IProjectController = Object.freeze({
     getProject,
     currentProject,
     addProjectMember,
+    removeProjectMember,
     changeProjectLead,
 });
 

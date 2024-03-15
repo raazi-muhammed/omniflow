@@ -9,6 +9,10 @@ export type IMemberUseCase = {
         userData: IMember;
         projectId: string;
     }) => Promise<void>;
+    removeMemberFromProject: (data: {
+        userEmail: string;
+        projectId: string;
+    }) => Promise<void>;
 };
 export type IProjectUseCase = {
     changeProjectLead: (data: {

@@ -19,6 +19,10 @@ export type IProjectRepository = {
         projectId: string;
         member: IMemberInProject;
     }) => Promise<boolean | null>;
+    removeMember: (data: {
+        projectId: string;
+        memberId: string;
+    }) => Promise<boolean | null>;
     changeTeamLead: (data: {
         projectId: string;
         userId: string;

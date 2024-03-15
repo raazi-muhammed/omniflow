@@ -72,7 +72,26 @@ export default function buildProjectRepository({
                     $addToSet: { members: member },
                 }
             );
-            return response.acknowledged;
+            return response.modifiedCount > 0;
+        },
+        removeMember: async ({
+            projectId,
+            memberId,
+        }: {
+            projectId: string;
+            memberId: string;
+        }) => {
+            const response = await database.updateOne(
+                { _id: projectId },
+                {
+                    $pull: {
+                        members: {
+                            info: memberId,
+                        },
+                    },
+                }
+            );
+            return response.modifiedCount > 0;
         },
         changeTeamLead: async ({
             userId,
