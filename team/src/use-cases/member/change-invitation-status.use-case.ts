@@ -7,16 +7,16 @@ import {
     IMemberRepository,
     ITeamRepository,
 } from "../../interfaces/repository.interface.js";
-import { IAddMemberProducer } from "../../interfaces/events.interface.js";
+import { IMemberProducers } from "../../interfaces/broker.interface.js";
 
 export default function buildChangeInvitationStatusUseCase({
     memberRepository,
     teamRepository,
-    productAddMember,
+    memberProducers,
 }: {
     memberRepository: IMemberRepository;
     teamRepository: ITeamRepository;
-    productAddMember: IAddMemberProducer;
+    memberProducers: IMemberProducers;
 }) {
     return async ({
         memberId,
@@ -44,7 +44,7 @@ export default function buildChangeInvitationStatusUseCase({
 
             if (!isUpdated) throw new AnErrorOccurredError();
 
-            productAddMember({
+            memberProducers.addMemberToProject({
                 userData: memberDetails,
                 projectId,
             });

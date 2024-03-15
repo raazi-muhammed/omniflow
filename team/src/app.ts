@@ -5,7 +5,7 @@ import cors from "cors";
 import morgan from "morgan";
 import { ErrorHandlingMiddleware, loadEnv } from "@omniflow/common";
 import teamRoutes from "./routers/index.js";
-import "./events/producer.js";
+import "./events/index.js";
 
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 

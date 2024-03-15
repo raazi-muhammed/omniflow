@@ -3,13 +3,15 @@ import {
     IMemberRepository,
     ITeamRepository,
 } from "../../interfaces/repository.interface.js";
-import { memberProducers } from "../../events/index.js";
+import { IMemberProducers } from "../../interfaces/broker.interface.js";
 
 export default function buildRemoveMemberFromTeamUseCase({
     teamRepository,
     memberRepository,
+    memberProducers,
 }: {
     teamRepository: ITeamRepository;
+    memberProducers: IMemberProducers;
     memberRepository: IMemberRepository;
 }) {
     return async ({
@@ -30,7 +32,7 @@ export default function buildRemoveMemberFromTeamUseCase({
             memberId: user.id,
         });
 
-        await memberProducers.removeMember({
+        await memberProducers.removeMemberToProject({
             userEmail: memberEmail,
             projectId: projectId,
         });
