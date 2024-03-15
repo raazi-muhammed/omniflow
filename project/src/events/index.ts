@@ -1,6 +1,6 @@
 import { Kafka } from "kafkajs";
 import projectController from "../controllers/index.js";
-import { loadEnv } from "@omniflow/common";
+import { loadEnv, logger } from "@omniflow/common";
 import { removeMemberFromProjectConsumer } from "./consumers/remove-member.consumer.js";
 import { addMemberToProjectConsumer } from "./consumers/add-member.consumer.js";
 
@@ -16,4 +16,4 @@ const kafka = new Kafka({
 });
 removeMemberFromProjectConsumer({ kafka, projectController });
 addMemberToProjectConsumer({ kafka, projectController });
-console.log(`Kafka status \t\t\t: Listening`);
+logger.info(`Kafka status \t\t: Listening`);

@@ -1,6 +1,6 @@
 import { Kafka } from "kafkajs";
 import { IProjectController } from "../../interfaces/controller.interface.js";
-import { validateBody } from "@omniflow/common";
+import { logger, validateBody } from "@omniflow/common";
 
 export async function addMemberToProjectConsumer({
     kafka,
@@ -24,7 +24,7 @@ export async function addMemberToProjectConsumer({
                 validateBody(data, ["userData", "projectId"]);
                 projectController.addProjectMember(data);
             } catch (error) {
-                console.log(error);
+                logger.error(error);
             }
         },
     });

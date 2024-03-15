@@ -2,7 +2,10 @@ import buildCreateProject from "./create-project.use-case.js";
 import projectEntities from "../entities/index.js";
 import buildCreateMemberUseCases from "./create-member.use-case.js";
 import buildAddMemberToProjectUseCase from "./member/add-project-member.use-case.js";
-import { projectRepository, memberRepository } from "../repository/index.js";
+import {
+    projectRepository,
+    memberRepository,
+} from "../repository/mongo/index.js";
 import Member from "../entities/member.entity.js";
 import {
     IMemberUseCase,

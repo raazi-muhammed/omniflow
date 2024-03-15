@@ -3,7 +3,7 @@ import authEntities from "../entities/index.js";
 import {
     userRepository,
     verificationCodeRepository,
-} from "../repository/index.js";
+} from "../repository/mongo/index.js";
 import buildLoginUseCase from "./auth/login.use-case.js";
 import passwordHash from "../lib/password-hash.js";
 import { token } from "@omniflow/common";

@@ -11,13 +11,11 @@ import {
     schemaRoutes,
     variableRoutes,
 } from "./routes/index.js";
-import swaggerDocs from "./lib/swagger.js";
-
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 
 const app = express();
 
-const { SERVER_NAME, CORS_ORIGINS, NODE_ENV, PORT } = loadEnv([
+const { CORS_ORIGINS, PORT } = loadEnv([
     "PORT",
     "SERVER_NAME",
     "CORS_ORIGINS",
@@ -44,8 +42,6 @@ app.use("/api/api-doc", headerRoutes);
 app.use("/api/api-doc", variableRoutes);
 app.use("/api/api-doc", schemaRoutes);
 app.use("/api/api-doc", responseRoutes);
-
-swaggerDocs(app, Number(PORT));
 
 app.use(ErrorHandlingMiddleware);
 

@@ -1,5 +1,5 @@
 import { IFile } from "@omniflow/common";
-import { IDBUser } from "../repository/user.model.js";
+import { IDBUser } from "../repository/mongo/user.model.js";
 import { IUser } from "./entity.interface.js";
 
 export type IAuthUseCase = {

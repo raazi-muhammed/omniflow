@@ -1,6 +1,6 @@
-import { IDBMember } from "../repository/members.model.js";
+import { IDBMember } from "../repository/mongo/members.model.js";
 import { IMember, IMemberInProject, ITeam } from "./entity.interface.js";
-import { IDBTeam } from "../repository/team.model.js";
+import { IDBTeam } from "../repository/mongo/team.model.js";
 
 export type ITeamRepository = {
     addMember: (data: {

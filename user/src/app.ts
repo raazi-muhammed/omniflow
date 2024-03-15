@@ -5,13 +5,11 @@ import cors from "cors";
 import morgan from "morgan";
 import { ErrorHandlingMiddleware, loadEnv, logger } from "@omniflow/common";
 import { authRoutes, userRoutes } from "./routers/index.js";
-import swaggerDocs from "./lib/swagger.js";
 
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
-
 const app = express();
 
-const { SERVER_NAME, CORS_ORIGINS, NODE_ENV, PORT } = loadEnv([
+const { CORS_ORIGINS } = loadEnv([
     "PORT",
     "SERVER_NAME",
     "CORS_ORIGINS",
@@ -40,8 +38,6 @@ app.use(morgan("dev", { stream }));
 
 app.use("/api/user", authRoutes);
 app.use("/api/user", userRoutes);
-
-swaggerDocs(app, Number(PORT));
 
 app.use(ErrorHandlingMiddleware);
 

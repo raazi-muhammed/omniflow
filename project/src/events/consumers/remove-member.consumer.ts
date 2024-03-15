@@ -1,6 +1,6 @@
 import { Kafka } from "kafkajs";
 import { IProjectController } from "../../interfaces/controller.interface.js";
-import { validateBody } from "@omniflow/common";
+import { logger, validateBody } from "@omniflow/common";
 
 export async function removeMemberFromProjectConsumer({
     kafka,
@@ -24,7 +24,7 @@ export async function removeMemberFromProjectConsumer({
                 validateBody(data, ["userEmail", "projectId"]);
                 projectController.removeProjectMember(data);
             } catch (error) {
-                console.log(error);
+                logger.error(error);
             }
         },
     });

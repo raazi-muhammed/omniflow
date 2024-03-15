@@ -1,6 +1,6 @@
 import { IEndpointController } from "../interfaces/controller.interface.js";
 import buildAddEndpointController from "./endpoint/add-endpoint.controller.js";
-import { endPointsRepository } from "../repository/index.js";
+import { endPointsRepository } from "../repository/sql/index.js";
 import buildGetEndpointsController from "./endpoint/get-endpoints.controller.js";
 import {
     createEndpointUseCase,

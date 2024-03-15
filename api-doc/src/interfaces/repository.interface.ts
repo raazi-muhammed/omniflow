@@ -1,8 +1,8 @@
-import { IDBHeader } from "../repository/endpoint-header.mode.js";
-import { IDBEndpointResponse } from "../repository/endpoint-response.model.js";
-import { IDBSchemaItem } from "../repository/endpoint-schema.model.js";
-import { IDBVariable } from "../repository/endpoint-variable.model.js";
-import { IDBEndpoint } from "../repository/endpoint.model.js";
+import { IDBHeader } from "../repository/sql/endpoint-header.mode.js";
+import { IDBEndpointResponse } from "../repository/sql/endpoint-response.model.js";
+import { IDBSchemaItem } from "../repository/sql/endpoint-schema.model.js";
+import { IDBVariable } from "../repository/sql/endpoint-variable.model.js";
+import { IDBEndpoint } from "../repository/sql/endpoint.model.js";
 import {
     IEndpoint,
     IEndpointResponse,

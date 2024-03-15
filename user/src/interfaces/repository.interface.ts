@@ -1,6 +1,6 @@
-import { IDBUser } from "../repository/user.model.js";
+import { IDBUser } from "../repository/mongo/user.model.js";
 import { IUser } from "./entity.interface.js";
-import { IDBVerificationCode } from "../repository/verification-code.model.js";
+import { IDBVerificationCode } from "../repository/mongo/verification-code.model.js";
 
 export type IUserRepository = {
     add: (data: IUser) => Promise<IDBUser | null>;

@@ -1,5 +1,5 @@
 import { Kafka } from "kafkajs";
-import { loadEnv } from "@omniflow/common";
+import { loadEnv, logger } from "@omniflow/common";
 
 const { KAFKA_BROKER, KAFKA_CLIENT_ID } = loadEnv([
     "KAFKA_BROKER",
@@ -12,5 +12,11 @@ const kafka = new Kafka({
 });
 
 export const producer = kafka.producer();
-await producer.connect();
-console.log("producer connected");
+producer
+    .connect()
+    .then(() => {
+        logger.info("Producer status\t: Connected");
+    })
+    .catch((err) => {
+        logger.error("Producer status\t: Not connected", err);
+    });

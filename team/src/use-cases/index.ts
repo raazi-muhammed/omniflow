@@ -5,7 +5,7 @@ import {
     IMemberUseCases,
     ITeamUseCases,
 } from "../interfaces/use-case.interface.js";
-import { teamRepository, memberRepository } from "../repository/index.js";
+import { teamRepository, memberRepository } from "../repository/mongo/index.js";
 import buildInviteMemberUseCase from "./member/invite-member.use-case.js";
 import { mailService } from "../lib/send-invitation-mail.js";
 import { token } from "@omniflow/common";

@@ -1,4 +1,4 @@
-import { IDBTeam } from "../repository/team.model.js";
+import { IDBTeam } from "../repository/mongo/team.model.js";
 import { IAllMemberList } from "./repository.interface.js";
 
 export type ITeamUseCases = {
