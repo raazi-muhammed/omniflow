@@ -16,7 +16,7 @@ export default function error({
     reset: () => void;
 }) {
     return (
-        <div>
+        <div className="w-screen">
             <Container>
                 <section className="my-8 ms-auto flex w-fit gap-2">
                     <Link href="/projects/add-project">
