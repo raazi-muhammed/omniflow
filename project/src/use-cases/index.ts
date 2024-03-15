@@ -19,6 +19,7 @@ import { token } from "@omniflow/common";
 import buildDeleteProjectUseCase from "./project/delete-project.use-case.js";
 import buildEditProjectUseCase from "./project/edit-project.use-case.js";
 import buildRemoveMemberFromProjectUseCase from "./member/remove-project-member.use-case.js";
+import { teamProducers } from "../events/producer/index.js";
 
 const createProject = buildCreateProject(projectEntities.Project);
 const createMember = buildCreateMemberUseCases(projectEntities.Member);
@@ -34,6 +35,7 @@ const changeProjectLead = buildChangeProjectLeadUseCase({
 });
 
 const addProject = buildAddProjectUseCase({
+    teamProducers,
     projectRepository,
     memberRepository,
     ProjectCreator: projectEntities.Project,

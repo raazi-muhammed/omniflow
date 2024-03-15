@@ -14,6 +14,18 @@ const kafka = new Kafka({
     logLevel: 0,
     brokers: [KAFKA_BROKER],
 });
-removeMemberFromProjectConsumer({ kafka, projectController });
-addMemberToProjectConsumer({ kafka, projectController });
+
+export const producer = kafka.producer();
+producer
+    .connect()
+    .then(() => {
+        logger.info("Producer status\t: Connected");
+
+        removeMemberFromProjectConsumer({ kafka, projectController });
+        addMemberToProjectConsumer({ kafka, projectController });
+    })
+    .catch((err) => {
+        logger.error("Producer status\t: Not connected", err);
+    });
+
 logger.info(`Kafka status \t\t: Listening`);

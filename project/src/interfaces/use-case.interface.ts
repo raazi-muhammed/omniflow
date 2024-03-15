@@ -6,7 +6,7 @@ export type ICreateUserUseCase = (userData: IMember) => IMember;
 
 export type IMemberUseCase = {
     addMemberToProject: (data: {
-        userData: IMember;
+        userData: { avatar?: string; username: string; email: string };
         projectId: string;
     }) => Promise<void>;
     removeMemberFromProject: (data: {

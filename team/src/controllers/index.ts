@@ -11,6 +11,7 @@ import buildChangeTeamLeadController from "./team/change-team-lead.controller.js
 import buildMoveMemberToTeamController from "./member/move-team-member.controller.js";
 import buildRemoveMemberFromTeamController from "./member/remove-team-member.controller.js";
 import buildRemoveTeamController from "./team/remove-team.controller.js";
+import buildAddMemberToTeamController from "./member/add-member-to-team.controller.js";
 
 const addTeam = buildAddTeamController({
     teamUseCases,
@@ -46,6 +47,9 @@ const removeTeamMember = buildRemoveMemberFromTeamController({
 });
 
 const removeTeam = buildRemoveTeamController({ teamUseCases });
+
+const addMemberToTeam = buildAddMemberToTeamController({ memberUseCases });
+
 const teamController: ITeamController = Object.freeze({
     addTeam,
     inviteMember,
@@ -57,6 +61,7 @@ const teamController: ITeamController = Object.freeze({
     moveTeamMember,
     removeTeamMember,
     removeTeam,
+    addMemberToTeam,
 });
 
 export default teamController;

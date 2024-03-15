@@ -8,15 +8,18 @@ import {
     InviteStatus,
     Role,
 } from "../../interfaces/entity.interface.js";
+import { ITeamProducers } from "../../interfaces/broker.interface.js";
 
 export default function buildAddProjectUseCase({
     projectRepository,
     memberRepository,
     ProjectCreator,
+    teamProducers,
 }: {
     projectRepository: IProjectRepository;
     memberRepository: IMemberRepository;
     ProjectCreator: IProjectEntityConstructor;
+    teamProducers: ITeamProducers;
 }) {
     return async ({
         member,
@@ -56,6 +59,15 @@ export default function buildAddProjectUseCase({
 
         const projectAdded = await projectRepository.add(project);
         if (!projectAdded) throw new Error("Cannot add project to db");
+
+        await teamProducers.addMemberToTeam({
+            userData: {
+                email: projectLead.email,
+                username: projectLead.username,
+                avatar: projectLead.avatar,
+            },
+            projectId: projectAdded.id,
+        });
 
         return projectAdded;
     };

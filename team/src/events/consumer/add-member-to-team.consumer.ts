@@ -1,19 +1,19 @@
 import { Kafka } from "kafkajs";
-import { IProjectController } from "../../interfaces/controller.interface.js";
 import { logger, validateBody } from "@omniflow/common";
+import { ITeamController } from "../../interfaces/controller.interface.js";
 
-export async function removeMemberFromProjectConsumer({
+export async function addMemberToTeamConsumer({
     kafka,
-    projectController,
+    teamController,
 }: {
     kafka: Kafka;
-    projectController: IProjectController;
+    teamController: ITeamController;
 }) {
-    const consumer = kafka.consumer({ groupId: "remove-member-from-project" });
+    const consumer = kafka.consumer({ groupId: "add-member-to-team" });
 
     await consumer.connect();
     await consumer.subscribe({
-        topic: "remove-member-from-project",
+        topic: "add-member-to-team",
         fromBeginning: true,
     });
 
@@ -21,8 +21,8 @@ export async function removeMemberFromProjectConsumer({
         eachMessage: async ({ message }) => {
             try {
                 const data = JSON.parse(message.value.toString());
-                validateBody(data, ["userEmail", "projectId"]);
-                projectController.removeProjectMember(data);
+                validateBody(data, ["userData", "projectId"]);
+                teamController.addMemberToTeam(data);
             } catch (error) {
                 logger.error(error);
             }

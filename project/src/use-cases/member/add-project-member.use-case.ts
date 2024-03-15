@@ -22,7 +22,12 @@ export default function buildAddMemberToProjectUseCase({
         userData,
         projectId,
     }: {
-        userData: IMember;
+        userData: {
+            username: string;
+            avatar?: string;
+            email: string;
+            name: string;
+        };
         projectId: string;
     }) => {
         const member = new MemberCreator(userData);

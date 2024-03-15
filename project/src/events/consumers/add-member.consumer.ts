@@ -9,11 +9,11 @@ export async function addMemberToProjectConsumer({
     kafka: Kafka;
     projectController: IProjectController;
 }) {
-    const consumer = kafka.consumer({ groupId: "add-member-to-team" });
+    const consumer = kafka.consumer({ groupId: "add-member-to-project" });
 
     await consumer.connect();
     await consumer.subscribe({
-        topic: "add-member-to-team",
+        topic: "add-member-to-project",
         fromBeginning: true,
     });
 

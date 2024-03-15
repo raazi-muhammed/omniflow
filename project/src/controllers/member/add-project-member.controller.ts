@@ -6,7 +6,10 @@ export default function buildAddMemberToProject({
 }: {
     memberUseCases: IMemberUseCase;
 }) {
-    return async (data: { userData: IMember; projectId: string }) => {
+    return async (data: {
+        userData: { username: string; avatar?: string; email: string };
+        projectId: string;
+    }) => {
         await memberUseCases.addMemberToProject(data);
     };
 }
