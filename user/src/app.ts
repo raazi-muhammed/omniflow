@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import morgan from "morgan";
-import { ErrorHandlingMiddleware, loadEnv } from "@omniflow/common";
+import { ErrorHandlingMiddleware, loadEnv, logger } from "@omniflow/common";
 import { authRoutes, userRoutes } from "./routers/index.js";
 import swaggerDocs from "./lib/swagger.js";
 
@@ -33,21 +33,15 @@ app.use(
     })
 );
 
-if (NODE_ENV === "production") {
-    app.use(morgan("dev"));
-}
+const stream = {
+    write: (message: string) => logger.http(message.trim()),
+};
+app.use(morgan("dev", { stream }));
 
 app.use("/api/user", authRoutes);
 app.use("/api/user", userRoutes);
 
 swaggerDocs(app, Number(PORT));
-
-app.all("*", (req, res) => {
-    console.log(`@${SERVER_NAME}`, req.method, req.originalUrl);
-    res.status(404).json({
-        message: `Reached ${SERVER_NAME} service`,
-    });
-});
 
 app.use(ErrorHandlingMiddleware);
 
