@@ -36,6 +36,8 @@ import { useRouter } from "next/navigation";
 import { addModule, getModules } from "@/services/module.service";
 import { useEffect, useState } from "react";
 import { IModule } from "@/types/database";
+import { logger } from "@/lib/logger";
+import { makeApiCall } from "@/lib/apicaller";
 
 const formSchema = z.object({
     name: z.string().min(3, "Invalid"),
@@ -69,16 +71,23 @@ export default function AddModuleForm() {
 
     useEffect(() => {
         getModules().then((response) => {
-            console.log(response.data);
+            logger.debug(response.data);
             setModules(response.data);
         });
     }, []);
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         let val = { ...values, dependencies: [values?.dependencies] };
-        console.log(val);
+        logger.debug(val);
 
-        addModule(val)
+        makeApiCall(() => addModule(val), {
+            toast,
+            afterSuccess: () => {
+                router.back();
+                router.refresh();
+            },
+        });
+        /*  addModule(val)
             .then((response) => {
                 toast({
                     description: response.message,
@@ -90,7 +99,7 @@ export default function AddModuleForm() {
                 toast({
                     description: error,
                 });
-            });
+            }); */
     }
 
     return (
