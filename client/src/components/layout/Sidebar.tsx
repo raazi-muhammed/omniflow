@@ -50,13 +50,19 @@ export default function Sidebar() {
             identifier: "api-docs",
             icon: <FileCode2 className="me-2" size="1.3em" />,
         },
+        {
+            title: "Modules",
+            url: `/projects/${projectInfo?.id}/modules`,
+            identifier: "modules",
+            icon: <FileCode2 className="me-2" size="1.3em" />,
+        },
     ];
 
     const urls = pathname.split("/").slice(3);
     urls.push("overview");
 
     return (
-        <aside className="sticky top-0 -mt-20 h-screen min-w-64 border border-t-0 bg-black/50 p-2 py-8 backdrop-blur-lg z-50">
+        <aside className="sticky top-0 z-50 -mt-20 h-screen min-w-64 border border-t-0 bg-black/50 p-2 py-8 backdrop-blur-lg">
             <div className="m-1 my-4 flex gap-2 align-middle text-primary">
                 <AppLogo />
                 <p className="text-xl font-semibold">Ominflow</p>
@@ -65,7 +71,7 @@ export default function Sidebar() {
                 {options.map((opt, i) => (
                     <>
                         {urls[0] === opt.identifier ? (
-                            <Link href={opt.url}>
+                            <Link href={opt.url} legacyBehavior>
                                 <Button className="flex w-full justify-start shadow-sm">
                                     {opt.icon}
                                     <span className="text-start">
@@ -74,7 +80,7 @@ export default function Sidebar() {
                                 </Button>
                             </Link>
                         ) : (
-                            <Link href={opt.url}>
+                            <Link href={opt.url} legacyBehavior>
                                 <Button
                                     variant="ghost"
                                     className="flex w-full justify-start shadow-sm">

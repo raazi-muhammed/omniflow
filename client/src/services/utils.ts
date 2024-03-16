@@ -24,6 +24,10 @@ export class BuildUrl {
         const url = "localhost:4015/api/api-doc";
         return this.baseUrl + url + endpoint;
     }
+    module(endpoint: string) {
+        const url = "localhost:4020/api/module";
+        return this.baseUrl + url + endpoint;
+    }
 }
 
 export type IResponse = {

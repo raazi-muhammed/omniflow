@@ -35,30 +35,29 @@ import { useToast } from "@/components/ui/use-toast";
 import { addProject } from "@/services/project.service";
 import { useAppSelector } from "@/redux/store";
 import { useRouter } from "next/navigation";
+import { addModule } from "@/services/module.service";
 
 const formSchema = z.object({
-    title: z.string().min(3, "Invalid"),
+    name: z.string().min(3, "Invalid"),
     priority: z.number(),
     startDate: z.date(),
     dueDate: z.date(),
-    projectLead: z.string().min(3, "Invalid"),
     description: z.string().min(3, "Invalid"),
 });
 
-export default function AddProjectForm() {
+export default function AddModuleForm() {
     const { toast } = useToast();
     const router = useRouter();
     const currentDate = new Date();
     currentDate.setMonth(currentDate.getMonth() + 1);
-    const user = useAppSelector((state) => state.authReducer.userData?.name);
+    const user = useAppSelector((state) => state.authReducer.userData?.email);
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            title: "",
+            name: "",
             description: "",
             priority: 0,
-            projectLead: user || "You",
             startDate: new Date(),
             dueDate: currentDate,
         },
@@ -67,12 +66,12 @@ export default function AddProjectForm() {
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         console.log(values);
-        addProject(values)
+        addModule(values)
             .then((response) => {
                 toast({
                     description: response.message,
                 });
-                router.push("/projects");
+                //router.push("/projects");
                 router.refresh();
             })
             .catch((error) => {
@@ -87,12 +86,12 @@ export default function AddProjectForm() {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                 <FormField
                     control={form.control}
-                    name="title"
+                    name="name"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Title</FormLabel>
+                            <FormLabel>Name</FormLabel>
                             <FormControl>
-                                <Input placeholder="title" {...field} />
+                                <Input placeholder="name" {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -181,23 +180,6 @@ export default function AddProjectForm() {
                     />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
-                    <FormField
-                        control={form.control}
-                        name="projectLead"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Project lead</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        disabled={true}
-                                        placeholder="username"
-                                        {...field}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
                     <FormField
                         control={form.control}
                         name="priority"

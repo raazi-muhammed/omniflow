@@ -112,6 +112,30 @@ services:
                       - dist/
                 - action: rebuild
                   path: ./api-doc/package.json
+    module:
+        build: ./module
+        container_name: omniflow-module
+        depends_on:
+            - db-module
+            - redpanda
+        ports:
+            - 4020:4020
+        env_file:
+            - path: ./module/.env.development
+              required: true
+        environment:
+            KAFKA_BROKER: redpanda:29092
+            DB_URL: mongodb://root:example@db-module:27017
+        develop:
+            watch:
+                - action: sync
+                  path: ./module
+                  target: /module
+                  ignore:
+                      - node_modules/
+                      - dist/
+                - action: rebuild
+                  path: ./module/package.json
     db-user:
         build: ./db-user
         image: mongo
@@ -142,6 +166,17 @@ services:
             - 27019:27017
         volumes:
             - db_team:/data/db
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: example
+    db-module:
+        build: ./db-module
+        image: mongo
+        restart: always
+        ports:
+            - 27020:27017
+        volumes:
+            - db_module:/data/db
         environment:
             MONGO_INITDB_ROOT_USERNAME: root
             MONGO_INITDB_ROOT_PASSWORD: example
@@ -176,3 +211,5 @@ volumes:
         name: omni_db_team_data
     db_api_doc:
         name: omni_db_api_doc_data
+    db_module:
+        name: omni_db_module_data
