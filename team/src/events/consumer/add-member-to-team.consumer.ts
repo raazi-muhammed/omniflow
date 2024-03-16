@@ -18,7 +18,8 @@ export async function addMemberToTeamConsumer({
     });
 
     consumer.run({
-        eachMessage: async ({ message }) => {
+        eachMessage: async ({ topic, message }) => {
+            logger.debug(`consumer: ${topic}`);
             try {
                 const data = JSON.parse(message.value.toString());
                 validateBody(data, ["userData", "projectId"]);

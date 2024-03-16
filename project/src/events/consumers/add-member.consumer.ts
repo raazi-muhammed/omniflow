@@ -18,8 +18,9 @@ export async function addMemberToProjectConsumer({
     });
 
     consumer.run({
-        eachMessage: async ({ message }) => {
+        eachMessage: async ({ topic, message }) => {
             try {
+                logger.debug(`consumer: ${topic}`);
                 const data = JSON.parse(message.value.toString());
                 validateBody(data, ["userData", "projectId"]);
                 projectController.addProjectMember(data);
