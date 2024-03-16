@@ -12,7 +12,9 @@ export default function buildModuleRepository({
             return (await database.create(moduleData)) as IDBModule;
         },
         getAll: async ({ projectId }: { projectId: string }) => {
-            return (await database.find({ projectId })) as IDBModule[];
+            return (await database
+                .find({ projectId })
+                .populate("dependencies")) as IDBModule[];
         },
     });
 }

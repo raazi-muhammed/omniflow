@@ -22,7 +22,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import Link from "next/link";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
@@ -32,10 +31,11 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 import { useToast } from "@/components/ui/use-toast";
-import { addProject } from "@/services/project.service";
 import { useAppSelector } from "@/redux/store";
 import { useRouter } from "next/navigation";
-import { addModule } from "@/services/module.service";
+import { addModule, getModules } from "@/services/module.service";
+import { useEffect, useState } from "react";
+import { IModule } from "@/types/database";
 
 const formSchema = z.object({
     name: z.string().min(3, "Invalid"),
@@ -43,11 +43,14 @@ const formSchema = z.object({
     startDate: z.date(),
     dueDate: z.date(),
     description: z.string().min(3, "Invalid"),
+    dependencies: z.string().optional(),
 });
 
 export default function AddModuleForm() {
     const { toast } = useToast();
     const router = useRouter();
+    const [modules, setModules] = useState<IModule[]>([]);
+
     const currentDate = new Date();
     currentDate.setMonth(currentDate.getMonth() + 1);
     const user = useAppSelector((state) => state.authReducer.userData?.email);
@@ -64,9 +67,18 @@ export default function AddModuleForm() {
         mode: "onTouched",
     });
 
+    useEffect(() => {
+        getModules().then((response) => {
+            console.log(response.data);
+            setModules(response.data);
+        });
+    }, []);
+
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values);
-        addModule(values)
+        let val = { ...values, dependencies: [values?.dependencies] };
+        console.log(val);
+
+        addModule(val)
             .then((response) => {
                 toast({
                     description: response.message,
@@ -203,6 +215,32 @@ export default function AddModuleForm() {
                                             Medium
                                         </SelectItem>
                                         <SelectItem value="3">High</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="dependencies"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Dependencies</FormLabel>
+                                <Select
+                                    onValueChange={field.onChange}
+                                    defaultValue={field.value}>
+                                    <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="No dependencies" />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        {modules.map((module) => (
+                                            <SelectItem value={module.id}>
+                                                {module.name}
+                                            </SelectItem>
+                                        ))}
                                     </SelectContent>
                                 </Select>
                                 <FormMessage />

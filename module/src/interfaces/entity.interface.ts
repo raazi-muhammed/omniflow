@@ -5,5 +5,6 @@ export interface IModule {
     priority: number;
     startDate: Date;
     dueDate: Date;
+    dependencies: [string];
     deletedAt: Date | null;
 }

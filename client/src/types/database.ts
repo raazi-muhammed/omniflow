@@ -128,10 +128,12 @@ export enum EDataTypes {
 }
 
 export interface IModule {
+    id: string;
     name: string;
     description: string;
     priority: number;
     startDate: Date;
     dueDate: Date;
     deletedAt: Date | null;
+    dependencies: IModule[];
 }

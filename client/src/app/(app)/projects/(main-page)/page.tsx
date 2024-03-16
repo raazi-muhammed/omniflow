@@ -42,7 +42,7 @@ export default async function page() {
             </section>
             <Heading>Projects</Heading>
             {projects.length <= 0 && (
-                <ErrorMessage>No projected found</ErrorMessage>
+                <ErrorMessage type="info" message="No projected found" />
             )}
             <ResponsiveGridContainer>
                 {projects.map((project) => (

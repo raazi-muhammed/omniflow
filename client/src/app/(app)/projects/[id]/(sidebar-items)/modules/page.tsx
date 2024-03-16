@@ -1,3 +1,4 @@
+import ErrorMessage from "@/components/custom/ErrorMessage";
 import Heading from "@/components/custom/Heading";
 import ActionItemsContainer from "@/components/layout/ActionItemsContainer";
 import Container from "@/components/layout/Container";
@@ -38,14 +39,27 @@ export default async function page() {
                     </Button>
                 </Link>
             </ActionItemsContainer>
-            <Heading>Modules</Heading>
             <section className="grid gap-4">
                 {modules.map((module) => (
                     <Card className="p-4">
                         <p>{module.name}</p>
-                        <Label>{module.description}</Label>
+                        <div className="flex gap-2">
+                            {module.dependencies.length > 0 ? (
+                                <>
+                                    <Label>Dependencies:</Label>
+                                    {module.dependencies.map((dep) => (
+                                        <Label>{dep.name}</Label>
+                                    ))}
+                                </>
+                            ) : (
+                                <Label>No dependencies</Label>
+                            )}
+                        </div>
                     </Card>
                 ))}
+                {modules.length === 0 && (
+                    <ErrorMessage message="Not modules yet" type="info" />
+                )}
             </section>
         </Container>
     );
