@@ -71,7 +71,7 @@ export default function AddModuleForm() {
                 toast({
                     description: response.message,
                 });
-                //router.push("/projects");
+                router.back();
                 router.refresh();
             })
             .catch((error) => {
@@ -228,11 +228,13 @@ export default function AddModuleForm() {
                 />
 
                 <div className="ms-auto flex w-fit gap-4">
-                    <Link href="/projects" legacyBehavior>
-                        <Button type="button" variant="outline">
-                            Cancel
-                        </Button>
-                    </Link>
+                    <Button
+                        onClick={() => router.back()}
+                        type="button"
+                        variant="outline">
+                        Cancel
+                    </Button>
+
                     <Button type="submit">Add</Button>
                 </div>
             </form>

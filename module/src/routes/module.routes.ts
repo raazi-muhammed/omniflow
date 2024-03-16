@@ -17,6 +17,13 @@ export default function buildModuleRoutes({
     verifyProject: IVerifyProjectMiddleware;
     moduleController: IModuleController;
 }) {
+    router.get(
+        "/modules",
+        verifyUser,
+        verifyProject,
+        makeCallback(moduleController.getModules)
+    );
+
     router.post(
         "/modules",
         verifyUser,

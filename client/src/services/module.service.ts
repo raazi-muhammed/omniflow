@@ -28,3 +28,19 @@ export async function addModule(
             });
     });
 }
+
+export async function getModules(
+    config?: AxiosRequestConfig
+): Promise<IResponse> {
+    const url = new BuildUrl().module(`/modules`);
+    return new Promise((resolve, reject) => {
+        axios
+            .get(url, { ...config, withCredentials: true })
+            .then((response) => {
+                resolve(adaptSuccessResponse(response));
+            })
+            .catch((error) => {
+                reject(adaptErrorResponse(error));
+            });
+    });
+}

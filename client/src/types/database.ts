@@ -126,3 +126,12 @@ export enum EDataTypes {
     UNIQUE = "UNIQUE",
     KEY = "KEY",
 }
+
+export interface IModule {
+    name: string;
+    description: string;
+    priority: number;
+    startDate: Date;
+    dueDate: Date;
+    deletedAt: Date | null;
+}

@@ -1,15 +1,16 @@
 import { IRequest, ResponseCreator, logger } from "@omniflow/common";
 import { moduleRepository } from "../../repository/mongo/index.js";
 
-export default function buildAddModuleController() {
+export default function buildGetModulesController() {
     return async (req: IRequest) => {
-        const { currentProject } = req;
         logger.debug(JSON.stringify(req.body));
-        const data = req.body;
+        const { currentProject } = req;
 
-        await moduleRepository.add({ ...data, projectId: currentProject.id });
+        const modules = await moduleRepository.getAll({
+            projectId: currentProject.id,
+        });
 
         const response = new ResponseCreator();
-        return response.setMessage("Module created");
+        return response.setData(modules);
     };
 }
