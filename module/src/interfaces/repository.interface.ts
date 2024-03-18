@@ -3,5 +3,8 @@ import { IModule } from "./entity.interface.js";
 
 export type IModuleRepository = {
     add: (data: IModule) => Promise<IDBModule>;
-    getAll: (data: { projectId: string }) => Promise<IDBModule[]>;
+    getAll: (data: {
+        projectId: string;
+        parentModule?: string;
+    }) => Promise<IDBModule[]>;
 };

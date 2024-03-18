@@ -31,8 +31,7 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 import { useToast } from "@/components/ui/use-toast";
-import { useAppSelector } from "@/redux/store";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { addModule, getModules } from "@/services/module.service";
 import { useEffect, useState } from "react";
 import { IModule } from "@/types/database";
@@ -52,10 +51,11 @@ export default function AddModuleForm() {
     const { toast } = useToast();
     const router = useRouter();
     const [modules, setModules] = useState<IModule[]>([]);
+    const params = useSearchParams();
+    const parentModule = params.get("parentModule");
 
     const currentDate = new Date();
     currentDate.setMonth(currentDate.getMonth() + 1);
-    const user = useAppSelector((state) => state.authReducer.userData?.email);
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -70,14 +70,18 @@ export default function AddModuleForm() {
     });
 
     useEffect(() => {
-        getModules().then((response) => {
+        getModules({}).then((response) => {
             logger.debug(response.data);
             setModules(response.data);
         });
     }, []);
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        let val = { ...values, dependencies: [values?.dependencies] };
+        let val = {
+            ...values,
+            dependencies: [values?.dependencies],
+            parentModule: parentModule ? parentModule : undefined,
+        };
         logger.debug(val);
 
         makeApiCall(() => addModule(val), {

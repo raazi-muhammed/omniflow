@@ -5,7 +5,13 @@ export default function buildGetModulesUseCase({
 }: {
     moduleRepository: IModuleRepository;
 }) {
-    return async ({ projectId }: { projectId: string }) => {
-        return await moduleRepository.getAll({ projectId });
+    return async ({
+        projectId,
+        parentModule,
+    }: {
+        projectId: string;
+        parentModule?: string;
+    }) => {
+        return await moduleRepository.getAll({ projectId, parentModule });
     };
 }

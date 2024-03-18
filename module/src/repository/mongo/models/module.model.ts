@@ -31,6 +31,10 @@ const moduleSchema = new mongoose.Schema<IModule>(
             type: String,
             required: true,
         },
+        parentModule: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Module",
+        },
         dependencies: [
             {
                 type: mongoose.Schema.Types.ObjectId,

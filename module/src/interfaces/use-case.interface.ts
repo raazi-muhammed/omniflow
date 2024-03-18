@@ -3,5 +3,8 @@ import { IModule } from "./entity.interface.js";
 
 export type IModuleUseCases = {
     addModule: (data: IModule) => Promise<IDBModule>;
-    getModules: (data: { projectId: string }) => Promise<IDBModule[]>;
+    getModules: (data: {
+        projectId: string;
+        parentModule?: string;
+    }) => Promise<IDBModule[]>;
 };

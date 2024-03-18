@@ -1,7 +1,15 @@
 import { Pencil, Plus } from "lucide-react";
 
-export function AddIcon() {
-    return <Plus size="1.2em" className="-ms-1 me-2" />;
+export function AddIcon({ type }: { type?: "default" | "icon" }) {
+    switch (type) {
+        case "icon":
+            return <Plus size="1.2em" className="" />;
+        case "default":
+            return <Plus size="1.2em" className="-ms-1 me-2" />;
+
+        default:
+            return <Plus size="1.2em" className="-ms-1 me-2" />;
+    }
 }
 export function EditIcon() {
     return <Pencil size="1.1em" className="-ms-1 me-2" />;

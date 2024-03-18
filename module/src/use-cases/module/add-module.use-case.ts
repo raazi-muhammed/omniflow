@@ -17,6 +17,7 @@ export default function buildAddModuleUseCase({
         const data = entity.get();
 
         const module = await moduleRepository.add(data);
+
         return module;
     };
 }

@@ -1,5 +1,6 @@
 import { BadRequestError } from "@omniflow/common";
 import { IModule, IModuleEntity } from "../interfaces/entity.interface.js";
+import { Types } from "mongoose";
 
 export default class Module implements IModuleEntity {
     name: string;
@@ -9,6 +10,7 @@ export default class Module implements IModuleEntity {
     startDate: Date;
     dueDate: Date;
     dependencies: [string];
+    parentModule?: Types.ObjectId;
     deletedAt: Date | null;
 
     constructor(data: IModule) {
@@ -20,6 +22,7 @@ export default class Module implements IModuleEntity {
         this.dueDate = data.dueDate;
         this.dependencies = data.dependencies;
         this.deletedAt = data.deletedAt;
+        this.parentModule = data.parentModule;
     }
 
     validate() {
@@ -37,6 +40,7 @@ export default class Module implements IModuleEntity {
             startDate: this.startDate,
             dependencies: this.dependencies,
             deletedAt: this.deletedAt,
+            parentModule: this.parentModule,
         });
     }
 }

@@ -1,3 +1,5 @@
+import { Types } from "mongoose";
+
 export interface IModule {
     name: string;
     description: string;
@@ -6,6 +8,7 @@ export interface IModule {
     startDate: Date;
     dueDate: Date;
     dependencies: [string];
+    parentModule?: Types.ObjectId;
     deletedAt: Date | null;
 }
 

@@ -136,4 +136,5 @@ export interface IModule {
     dueDate: Date;
     deletedAt: Date | null;
     dependencies: IModule[];
+    parentModule: string;
 }

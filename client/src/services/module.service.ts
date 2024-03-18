@@ -13,6 +13,7 @@ export async function addModule(
         startDate: Date;
         dueDate: Date;
         description: string;
+        parentModule?: string;
     },
     config?: AxiosRequestConfig
 ): Promise<IResponse> {
@@ -30,9 +31,10 @@ export async function addModule(
 }
 
 export async function getModules(
+    { parentModule }: { parentModule?: string },
     config?: AxiosRequestConfig
 ): Promise<IResponse> {
-    const url = new BuildUrl().module(`/modules`);
+    const url = new BuildUrl().module(`/modules?parentModule=${parentModule}`);
     return new Promise((resolve, reject) => {
         axios
             .get(url, { ...config, withCredentials: true })
