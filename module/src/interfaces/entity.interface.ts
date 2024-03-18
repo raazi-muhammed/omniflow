@@ -8,3 +8,12 @@ export interface IModule {
     dependencies: [string];
     deletedAt: Date | null;
 }
+
+export interface IModuleEntity extends IModule {
+    validate: () => void;
+    get: () => IModule;
+}
+
+export interface IModuleEntityConstructor {
+    new (data: IModule): IModuleEntity;
+}

@@ -1,12 +1,15 @@
-import { IRequest, ResponseCreator, logger } from "@omniflow/common";
-import { moduleRepository } from "../../repository/mongo/index.js";
+import { IRequest, ResponseCreator } from "@omniflow/common";
+import { IModuleUseCases } from "../../interfaces/use-case.interface.js";
 
-export default function buildGetModulesController() {
+export default function buildGetModulesController({
+    moduleUseCases,
+}: {
+    moduleUseCases: IModuleUseCases;
+}) {
     return async (req: IRequest) => {
-        logger.debug(JSON.stringify(req.body));
         const { currentProject } = req;
 
-        const modules = await moduleRepository.getAll({
+        const modules = await moduleUseCases.getModules({
             projectId: currentProject.id,
         });
 
