@@ -7,4 +7,5 @@ export type IModuleRepository = {
         projectId: string;
         parentModule?: string;
     }) => Promise<IDBModule[]>;
+    getModuleList: (data: { projectId: string }) => Promise<IDBModule[]>;
 };

@@ -24,6 +24,13 @@ export default function buildModuleRoutes({
         makeCallback(moduleController.getModules)
     );
 
+    router.get(
+        "/modules/list",
+        verifyUser,
+        verifyProject,
+        makeCallback(moduleController.getModuleList)
+    );
+
     router.post(
         "/modules",
         verifyUser,

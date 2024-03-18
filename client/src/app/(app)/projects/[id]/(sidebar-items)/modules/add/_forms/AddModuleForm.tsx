@@ -32,7 +32,11 @@ import {
 } from "@/components/ui/popover";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter, useSearchParams } from "next/navigation";
-import { addModule, getModules } from "@/services/module.service";
+import {
+    addModule,
+    getModuleList,
+    getModules,
+} from "@/services/module.service";
 import { useEffect, useState } from "react";
 import { IModule } from "@/types/database";
 import { logger } from "@/lib/logger";
@@ -70,7 +74,7 @@ export default function AddModuleForm() {
     });
 
     useEffect(() => {
-        getModules({}).then((response) => {
+        getModuleList().then((response) => {
             logger.debug(response.data);
             setModules(response.data);
         });

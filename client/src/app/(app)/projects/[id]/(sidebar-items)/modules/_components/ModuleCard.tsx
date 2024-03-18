@@ -65,7 +65,7 @@ export default function ModuleCard({ module }: { module: IModule }) {
                         </Button>
                     </Link>
                 </Card>
-                <AccordionContent className="my-4 ms-4">
+                <AccordionContent className="my-4 ms-4 py-0">
                     <section className="grid w-full gap-4">
                         <>
                             {subModules?.map((module) => (

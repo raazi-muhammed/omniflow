@@ -46,3 +46,19 @@ export async function getModules(
             });
     });
 }
+
+export async function getModuleList(
+    config?: AxiosRequestConfig
+): Promise<IResponse> {
+    const url = new BuildUrl().module(`/modules/list`);
+    return new Promise((resolve, reject) => {
+        axios
+            .get(url, { ...config, withCredentials: true })
+            .then((response) => {
+                resolve(adaptSuccessResponse(response));
+            })
+            .catch((error) => {
+                reject(adaptErrorResponse(error));
+            });
+    });
+}

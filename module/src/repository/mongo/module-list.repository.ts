@@ -22,5 +22,10 @@ export default function buildModuleRepository({
                 .find({ projectId, parentModule })
                 .populate("dependencies")) as IDBModule[];
         },
+        getModuleList: async ({ projectId }: { projectId: string }) => {
+            return (await database
+                .find({ projectId })
+                .populate("dependencies")) as IDBModule[];
+        },
     });
 }
