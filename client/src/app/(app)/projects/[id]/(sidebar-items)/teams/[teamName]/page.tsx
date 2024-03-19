@@ -24,6 +24,7 @@ import MemberActionDropDown from "./_components/MemberActionDropDown";
 import ErrorMessage from "@/components/custom/ErrorMessage";
 import { PROJECT_TOKEN_COOKIE, USER_TOKEN_COOKIE } from "@/constants/cookies";
 import { Label } from "@/components/ui/label";
+import Container from "@/components/layout/Container";
 
 export async function getTeamsData(teamName: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -51,96 +52,104 @@ export default async function page({
     const team = await getTeamsData(params.teamName);
     return (
         <main className="w-full">
-            <SectionSplitter>
-                <SectionContent>
-                    <Heading variant="spaced">{team.name}</Heading>
-                    <section className="grid grid-cols-2 gap-4">
-                        {team.members.map((member) => (
-                            <Card>
-                                <CardContent className="mt-4 flex justify-between gap-4 pe-2">
-                                    <div className="flex w-full gap-2">
-                                        <div className="my-auto">
-                                            <Avatar
-                                                name={member.info.name}
-                                                src={member.info.avatar || ""}
-                                            />
-                                        </div>
-                                        <section>
-                                            <p>{member.info.name}</p>
-                                            <Label>{member.info.email}</Label>
-                                            <div className="mt-2 flex gap-2">
-                                                <Badge
-                                                    variant="secondary"
-                                                    className="capitalize">
-                                                    {member.inviteStatus.toLowerCase()}
-                                                </Badge>
-                                                <Badge
-                                                    variant="secondary"
-                                                    className="capitalize">
-                                                    {member.role.toLowerCase()}
-                                                </Badge>
+            <Container>
+                <SectionSplitter>
+                    <SectionContent>
+                        <Heading variant="spaced">{team.name}</Heading>
+                        <section className="grid grid-cols-2 gap-4">
+                            {team.members.map((member) => (
+                                <Card>
+                                    <CardContent className="mt-4 flex justify-between gap-4 pe-2">
+                                        <div className="flex w-full gap-2">
+                                            <div className="my-auto">
+                                                <Avatar
+                                                    name={member.info.name}
+                                                    src={
+                                                        member.info.avatar || ""
+                                                    }
+                                                />
                                             </div>
-                                        </section>
-                                    </div>
-                                    <MemberActionDropDown
-                                        teamName={team.name}
-                                        memberEmail={member.info.email}
-                                    />
-                                </CardContent>
-                            </Card>
-                        ))}
-                        {team.members.length <= 0 && (
-                            <ErrorMessage
-                                type="info"
-                                message={`There are no members on ${team.name}`}
-                            />
-                        )}
-                    </section>
-                </SectionContent>
-                <SectionAside>
-                    <Accordion
-                        type="single"
-                        collapsible
-                        className="rounded-xl border bg-card p-1">
-                        <AccordionItem value="delete-team">
-                            <AccordionTrigger>
-                                <div className="flex gap-2">
-                                    <DeleteIcon
-                                        size="1.2em"
-                                        className="my-auto"
-                                    />
-                                    Remove Team
-                                </div>
-                            </AccordionTrigger>
-                            <AccordionContent className="px-4">
-                                <p className="mb-4">
-                                    Deleting this project will remove it from
-                                    your workspace. Make sure you won't need it
-                                    anymore
-                                </p>
-                                <RemoveTeam team={team.name} />
-                            </AccordionContent>
-                        </AccordionItem>
-                        <AccordionItem value="change-team-lead">
-                            <AccordionTrigger>
-                                <div className="flex gap-2">
-                                    <ChangeIcon
-                                        size="1.2em"
-                                        className="my-auto"
-                                    />
-                                    Change Team Lead
-                                </div>
-                            </AccordionTrigger>
-                            <AccordionContent className="p-2 pb-4">
-                                <ChangeTeamLeadForm
-                                    teamName={team.name}
-                                    membersList={team.members as ITeamMember[]}
+                                            <section>
+                                                <p>{member.info.name}</p>
+                                                <Label>
+                                                    {member.info.email}
+                                                </Label>
+                                                <div className="mt-2 flex gap-2">
+                                                    <Badge
+                                                        variant="secondary"
+                                                        className="capitalize">
+                                                        {member.inviteStatus.toLowerCase()}
+                                                    </Badge>
+                                                    <Badge
+                                                        variant="secondary"
+                                                        className="capitalize">
+                                                        {member.role.toLowerCase()}
+                                                    </Badge>
+                                                </div>
+                                            </section>
+                                        </div>
+                                        <MemberActionDropDown
+                                            teamName={team.name}
+                                            memberEmail={member.info.email}
+                                        />
+                                    </CardContent>
+                                </Card>
+                            ))}
+                            {team.members.length <= 0 && (
+                                <ErrorMessage
+                                    type="info"
+                                    message={`There are no members on ${team.name}`}
                                 />
-                            </AccordionContent>
-                        </AccordionItem>
-                    </Accordion>
-                </SectionAside>
-            </SectionSplitter>
+                            )}
+                        </section>
+                    </SectionContent>
+                    <SectionAside>
+                        <Accordion
+                            type="single"
+                            collapsible
+                            className="rounded-xl border bg-card p-1">
+                            <AccordionItem value="delete-team">
+                                <AccordionTrigger>
+                                    <div className="flex gap-2">
+                                        <DeleteIcon
+                                            size="1.2em"
+                                            className="my-auto"
+                                        />
+                                        Remove Team
+                                    </div>
+                                </AccordionTrigger>
+                                <AccordionContent className="px-4">
+                                    <p className="mb-4">
+                                        Deleting this project will remove it
+                                        from your workspace. Make sure you won't
+                                        need it anymore
+                                    </p>
+                                    <RemoveTeam team={team.name} />
+                                </AccordionContent>
+                            </AccordionItem>
+                            <AccordionItem value="change-team-lead">
+                                <AccordionTrigger>
+                                    <div className="flex gap-2">
+                                        <ChangeIcon
+                                            size="1.2em"
+                                            className="my-auto"
+                                        />
+                                        Change Team Lead
+                                    </div>
+                                </AccordionTrigger>
+                                <AccordionContent className="p-2 pb-4">
+                                    <ChangeTeamLeadForm
+                                        teamName={team.name}
+                                        membersList={
+                                            team.members as ITeamMember[]
+                                        }
+                                    />
+                                </AccordionContent>
+                            </AccordionItem>
+                        </Accordion>
+                    </SectionAside>
+                </SectionSplitter>
+            </Container>
         </main>
     );
 }

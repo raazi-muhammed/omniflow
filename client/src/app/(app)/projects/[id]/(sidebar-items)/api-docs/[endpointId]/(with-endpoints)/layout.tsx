@@ -11,6 +11,11 @@ import Link from "next/link";
 import { Eye as ViewIcon } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { ReactNode } from "react";
+import {
+    SectionAside,
+    SectionContent,
+    SectionSplitter,
+} from "@/components/layout/SectinSplitter";
 
 async function loadEndpoints() {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -35,8 +40,8 @@ export default async function page({
     const endpoints: IEndpoint[] = await loadEndpoints();
     return (
         <Container>
-            <main className="grid w-full grid-cols-3">
-                <section className="space-y-4">
+            <SectionSplitter>
+                <SectionAside className="mt-0 space-y-4">
                     <ActionItemsContainer>
                         <Link href="add-endpoint">
                             <Button size="sm">
@@ -66,11 +71,11 @@ export default async function page({
                             </Link>
                         </Card>
                     ))}
-                </section>
-                <section className="col-span-2 w-full overflow-auto px-8">
+                </SectionAside>
+                <SectionContent className="overflow-auto">
                     {children}
-                </section>
-            </main>
+                </SectionContent>
+            </SectionSplitter>
         </Container>
     );
 }

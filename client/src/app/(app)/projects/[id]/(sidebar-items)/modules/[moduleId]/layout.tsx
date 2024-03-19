@@ -8,13 +8,13 @@ import { getModules } from "@/services/module.service";
 import { IModule } from "@/types/database";
 import { cookies } from "next/headers";
 import Link from "next/link";
-import React from "react";
-import ModuleCard from "./_components/ModuleCard";
+import React, { ReactNode } from "react";
 import {
     SectionAside,
     SectionContent,
     SectionSplitter,
 } from "@/components/layout/SectinSplitter";
+import ModuleCard from "../_components/ModuleCard";
 
 async function loadModules() {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -32,7 +32,7 @@ async function loadModules() {
     return response.data;
 }
 
-export default async function page() {
+export default async function page({ children }: { children: ReactNode }) {
     const modules: IModule[] = await loadModules();
 
     return (
@@ -40,7 +40,7 @@ export default async function page() {
             <SectionSplitter>
                 <SectionAside className="mt-0">
                     <ActionItemsContainer>
-                        <Link href="modules/add" passHref legacyBehavior>
+                        <Link href="add" passHref legacyBehavior>
                             <Button size="sm">
                                 <AddIcon />
                                 Add module
@@ -49,7 +49,7 @@ export default async function page() {
                     </ActionItemsContainer>
                     <section className="grid gap-4">
                         {modules.map((module) => (
-                            <ModuleCard onHomeScreen={true} module={module} />
+                            <ModuleCard module={module} />
                         ))}
                         {modules.length === 0 && (
                             <ErrorMessage
@@ -59,13 +59,7 @@ export default async function page() {
                         )}
                     </section>
                 </SectionAside>
-
-                <SectionContent className="h-screen-without-navbar mx-8 flex align-middle">
-                    <ErrorMessage
-                        type="info"
-                        message="Please select an point"
-                    />
-                </SectionContent>
+                <SectionContent>{children}</SectionContent>
             </SectionSplitter>
         </Container>
     );

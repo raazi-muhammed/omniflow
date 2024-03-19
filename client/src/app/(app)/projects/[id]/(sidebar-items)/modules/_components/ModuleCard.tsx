@@ -17,7 +17,13 @@ import { Button } from "@/components/ui/button";
 import { AddIcon } from "@/lib/icons";
 import Link from "next/link";
 
-export default function ModuleCard({ module }: { module: IModule }) {
+export default function ModuleCard({
+    module,
+    onHomeScreen = false,
+}: {
+    module: IModule;
+    onHomeScreen?: boolean;
+}) {
     const [loading, setLoading] = useState(false);
     const [subModules, setSubModules] = useState<IModule[] | null>(null);
 
@@ -39,7 +45,10 @@ export default function ModuleCard({ module }: { module: IModule }) {
                 <Card className="flex p-4 align-middle">
                     <AccordionTrigger className="my-auto h-8 w-fit"></AccordionTrigger>
                     <section className="h-fit w-full">
-                        <Link href={`modules/${module.id}`}>
+                        <Link
+                            href={`${onHomeScreen ? "modules/" : ""}${
+                                module.id
+                            }`}>
                             <p className="hover:underline">{module.name}</p>
                         </Link>
                         <section>
@@ -48,7 +57,12 @@ export default function ModuleCard({ module }: { module: IModule }) {
                                     <Label className="mb-0">Dependencies</Label>
                                     <section className="-mt-1 flex h-fit flex-wrap gap-4">
                                         {module.dependencies.map((dep) => (
-                                            <Link href={`modules/${dep.id}`}>
+                                            <Link
+                                                href={`${
+                                                    onHomeScreen
+                                                        ? "modules/"
+                                                        : ""
+                                                }${dep.id}`}>
                                                 <Label className="hover:underline">
                                                     {dep.name}
                                                 </Label>
@@ -62,7 +76,9 @@ export default function ModuleCard({ module }: { module: IModule }) {
                         </section>
                     </section>
                     <Link
-                        href={`modules/add?parentModule=${module.id}`}
+                        href={`${
+                            onHomeScreen ? "modules/" : ""
+                        }add?parentModule=${module.id}`}
                         legacyBehavior>
                         <Button
                             size="sm"

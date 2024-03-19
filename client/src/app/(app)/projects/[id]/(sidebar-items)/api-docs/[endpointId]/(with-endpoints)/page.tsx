@@ -21,6 +21,7 @@ import JsonView from "@/components/custom/JsonView";
 import ErrorMessage from "@/components/custom/ErrorMessage";
 import EditEndpoint from "../_components/EditEndpoint";
 import { formatConstants } from "@/lib/formaters";
+import { SectionContent } from "@/components/layout/SectinSplitter";
 
 async function getEndpointData(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -45,7 +46,7 @@ export default async function Endpoint({
 }) {
     const endpoint: IEndpoint = await getEndpointData(params.endpointId);
     return (
-        <main className="mb-12 w-full space-y-6 border-l ps-8">
+        <SectionContent className="mb-12 w-full space-y-6 border-l ps-8">
             <div className="mt-8 flex justify-between">
                 <Heading>{endpoint.name}</Heading>
                 <EditEndpoint endpoint={endpoint} />
@@ -262,6 +263,6 @@ export default async function Endpoint({
                     />
                 )}
             </div>
-        </main>
+        </SectionContent>
     );
 }

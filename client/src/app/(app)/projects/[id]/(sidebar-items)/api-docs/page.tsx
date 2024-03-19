@@ -12,6 +12,11 @@ import Link from "next/link";
 import { Eye as ViewIcon } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import ErrorMessage from "@/components/custom/ErrorMessage";
+import {
+    SectionAside,
+    SectionContent,
+    SectionSplitter,
+} from "@/components/layout/SectinSplitter";
 
 async function loadEndpoints() {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -30,8 +35,8 @@ export default async function page() {
     const endpoints: IEndpoint[] = await loadEndpoints();
     return (
         <Container>
-            <main className="grid grid-cols-3">
-                <section className="space-y-4">
+            <SectionSplitter>
+                <SectionAside className="mt-0 space-y-4">
                     <ActionItemsContainer>
                         <Link href="api-docs/add-endpoint">
                             <Button size="sm">
@@ -64,14 +69,14 @@ export default async function page() {
                     {endpoints.length === 0 && (
                         <ErrorMessage message="Not endpoints yet" type="info" />
                     )}
-                </section>
-                <section className="h-screen-without-navbar mx-8 flex align-middle">
+                </SectionAside>
+                <SectionContent className="h-screen-without-navbar mx-8 flex align-middle">
                     <ErrorMessage
                         type="info"
                         message="Please select an endpoint to see the preview"
                     />
-                </section>
-            </main>
+                </SectionContent>
+            </SectionSplitter>
         </Container>
     );
 }

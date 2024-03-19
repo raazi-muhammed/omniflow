@@ -9,11 +9,7 @@ export function SectionSplitter({
     className?: string;
 }) {
     return (
-        <div
-            className={cn(
-                "container flex flex-col gap-8 xl:flex-row",
-                className
-            )}>
+        <div className={cn("grid lg:grid-cols-3 grid-cols-1 gap-4", className)}>
             {children}
         </div>
     );
@@ -26,11 +22,7 @@ export function SectionContent({
     children: React.ReactNode;
     className?: string;
 }) {
-    return (
-        <div className={cn("mx-auto w-full max-w-4xl", className)}>
-            {children}
-        </div>
-    );
+    return <div className={cn("col-span-2 w-full", className)}>{children}</div>;
 }
 
 export function SectionAside({
@@ -41,11 +33,7 @@ export function SectionAside({
     className?: string;
 }) {
     return (
-        <div
-            className={cn(
-                "mx-auto mt-16 w-full max-w-4xl xl:max-w-sm",
-                className
-            )}>
+        <div className={cn("mt-16 w-full max-w-4xl xl:max-w-sm", className)}>
             {children}
         </div>
     );

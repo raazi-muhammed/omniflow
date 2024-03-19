@@ -22,6 +22,7 @@ import EditProfileForm from "./_forms/EditProfileForm";
 import ChangePasswordForm from "./_forms/ChangePasswordForm";
 import { USER_TOKEN_COOKIE } from "@/constants/cookies";
 import { Label } from "@/components/ui/label";
+import Container from "@/components/layout/Container";
 
 export async function getUserData(username: string) {
     const token = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -42,60 +43,64 @@ export default async function page({
     const user: IUser = (await getUserData(params.username)) as IUser;
     return (
         <main>
-            <SectionSplitter>
-                <SectionContent>
-                    <Heading variant="spaced">Profile</Heading>
-                    <Avatar
-                        name={user.name}
-                        size="lg"
-                        src={user.avatar || ""}
-                    />
-                    <br />
-                    <Label>Name</Label>
-                    <p>{user.name}</p>
-                    <br />
-                    <Label>Username</Label>
-                    <p>{user.username}</p>
-                    <br />
-                    <Label>Email</Label>
-                    <p>{user.email}</p>
-                </SectionContent>
-                <SectionAside>
-                    <Accordion
-                        type="single"
-                        collapsible
-                        className="rounded-xl border bg-card p-1">
-                        <AccordionItem value="edit-profile">
-                            <AccordionTrigger>
-                                <div className="flex gap-2">
-                                    <ProfileIcon
-                                        size="1.2em"
-                                        className="my-auto"
+            <Container>
+                <SectionSplitter>
+                    <SectionContent>
+                        <Heading variant="spaced">Profile</Heading>
+                        <Avatar
+                            name={user.name}
+                            size="lg"
+                            src={user.avatar || ""}
+                        />
+                        <br />
+                        <Label>Name</Label>
+                        <p>{user.name}</p>
+                        <br />
+                        <Label>Username</Label>
+                        <p>{user.username}</p>
+                        <br />
+                        <Label>Email</Label>
+                        <p>{user.email}</p>
+                    </SectionContent>
+                    <SectionAside>
+                        <Accordion
+                            type="single"
+                            collapsible
+                            className="rounded-xl border bg-card p-1">
+                            <AccordionItem value="edit-profile">
+                                <AccordionTrigger>
+                                    <div className="flex gap-2">
+                                        <ProfileIcon
+                                            size="1.2em"
+                                            className="my-auto"
+                                        />
+                                        Edit profile
+                                    </div>
+                                </AccordionTrigger>
+                                <AccordionContent className="p-2 pb-4">
+                                    <EditProfileForm user={user} />
+                                </AccordionContent>
+                            </AccordionItem>
+                            <AccordionItem value="change-password">
+                                <AccordionTrigger>
+                                    <div className="flex gap-2">
+                                        <ChangePasswordIcon
+                                            size="1.2em"
+                                            className="my-auto"
+                                        />
+                                        Change password
+                                    </div>
+                                </AccordionTrigger>
+                                <AccordionContent className="p-2 pb-4">
+                                    <ChangePasswordForm
+                                        username={user.username}
                                     />
-                                    Edit profile
-                                </div>
-                            </AccordionTrigger>
-                            <AccordionContent className="p-2 pb-4">
-                                <EditProfileForm user={user} />
-                            </AccordionContent>
-                        </AccordionItem>
-                        <AccordionItem value="change-password">
-                            <AccordionTrigger>
-                                <div className="flex gap-2">
-                                    <ChangePasswordIcon
-                                        size="1.2em"
-                                        className="my-auto"
-                                    />
-                                    Change password
-                                </div>
-                            </AccordionTrigger>
-                            <AccordionContent className="p-2 pb-4">
-                                <ChangePasswordForm username={user.username} />
-                            </AccordionContent>
-                        </AccordionItem>
-                    </Accordion>
-                </SectionAside>
-            </SectionSplitter>
+                                </AccordionContent>
+                            </AccordionItem>
+                        </Accordion>
+                    </SectionAside>
+                </SectionSplitter>
+            </Container>
         </main>
     );
 }
