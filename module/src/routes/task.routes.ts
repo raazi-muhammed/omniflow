@@ -41,6 +41,12 @@ export default function buildTaskRoutes({
         verifyProject,
         makeCallback(taskController.editTask)
     );
+    router.delete(
+        "/tasks/:taskId",
+        verifyUser,
+        verifyProject,
+        makeCallback(taskController.deleteTask)
+    );
 
     return router;
 }

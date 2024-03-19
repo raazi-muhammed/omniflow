@@ -9,34 +9,35 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { EditIcon } from "@/lib/icons";
-import { IEndpoint, ITask } from "@/types/database";
+import { ITask } from "@/types/database";
 import { useState } from "react";
-import { removeEndpoint } from "@/services/endpoints.service";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import EditTaskForm from "../_forms/EditTaskFrom";
+import { DeleteTask } from "./DeleteTask";
+import { deleteTask } from "@/services/task.service";
 
 export default function EditTask({ task }: { task: ITask }) {
     const [open, setOpen] = useState(false);
     const { toast } = useToast();
     const router = useRouter();
 
-    /* function handleDelete() {
-        removeEndpoint({ id: endpoint.id })
+    function handleDelete() {
+        deleteTask({ id: task.id })
             .then((response) => {
                 toast({
                     description: response.message,
                 });
+                router.refresh();
                 setOpen(false);
                 router.back();
-                router.refresh();
             })
             .catch((error) => {
                 toast({
                     description: error,
                 });
             });
-    } */
+    }
 
     return (
         <Dialog open={open} onOpenChange={(e) => setOpen(e)}>
@@ -50,7 +51,11 @@ export default function EditTask({ task }: { task: ITask }) {
                 <DialogHeader>
                     <DialogTitle>Edit endpoint</DialogTitle>
                 </DialogHeader>
-                <EditTaskForm setOpen={setOpen} task={task} />
+                <EditTaskForm
+                    handleDelete={handleDelete}
+                    setOpen={setOpen}
+                    task={task}
+                />
             </DialogContent>
         </Dialog>
     );

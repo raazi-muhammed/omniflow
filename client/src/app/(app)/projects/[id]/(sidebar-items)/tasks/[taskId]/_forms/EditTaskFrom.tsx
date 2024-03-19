@@ -39,6 +39,7 @@ import { logger } from "@/lib/logger";
 import { makeApiCall } from "@/lib/apicaller";
 import Heading from "@/components/custom/Heading";
 import { editTask } from "@/services/task.service";
+import { DeleteTask } from "../_components/DeleteTask";
 
 function getLabelFromId(modules: IModule[], id: string): string {
     return modules.reduce((a, e) => {
@@ -60,7 +61,9 @@ const formSchema = z.object({
 export default function EditTaskForm({
     task,
     setOpen,
+    handleDelete,
 }: {
+    handleDelete: () => void;
     task: ITask;
     setOpen: Dispatch<SetStateAction<boolean>>;
 }) {
@@ -307,7 +310,8 @@ export default function EditTaskForm({
                         </FormItem>
                     )}
                 />
-                <div className="ms-auto flex w-fit gap-4">
+                <div className="ms-auto flex gap-4">
+                    <DeleteTask handleDelete={handleDelete} />
                     <Button
                         onClick={() => setOpen(false)}
                         type="button"

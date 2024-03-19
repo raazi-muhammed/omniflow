@@ -24,8 +24,18 @@ export default function buildTaskRepository({
             );
             return response.modifiedCount > 0;
         },
+        deleteById: async (taskId: string) => {
+            const response = await database.updateOne(
+                { _id: taskId },
+                { deletedAt: new Date() }
+            );
+            return response.modifiedCount > 0;
+        },
         getAll: async ({ projectId }: { projectId: string }) => {
-            return (await database.find({ projectId })) as IDBTask[];
+            return (await database.find({
+                projectId,
+                deletedAt: null,
+            })) as IDBTask[];
         },
         getById: async (id: string) => {
             return (await database.findOne({ _id: id })) as IDBTask;

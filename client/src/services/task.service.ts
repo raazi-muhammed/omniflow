@@ -29,6 +29,24 @@ export async function addTask(
             });
     });
 }
+
+export async function deleteTask(
+    { id }: { id: string },
+    config?: AxiosRequestConfig
+): Promise<IResponse> {
+    const url = new BuildUrl().module(`/tasks/${id}`);
+    return new Promise((resolve, reject) => {
+        axios
+            .delete(url, { ...config, withCredentials: true })
+            .then((response) => {
+                resolve(adaptSuccessResponse(response));
+            })
+            .catch((error) => {
+                reject(adaptErrorResponse(error));
+            });
+    });
+}
+
 export async function editTask(
     { id }: { id: string },
     values: {
