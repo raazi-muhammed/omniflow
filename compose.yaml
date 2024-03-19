@@ -136,6 +136,28 @@ services:
                       - dist/
                 - action: rebuild
                   path: ./module/package.json
+    comunication:
+        build: ./comunication
+        container_name: omniflow-comunication
+        depends_on:
+            - db-comunication
+        ports:
+            - 4025:4025
+        env_file:
+            - path: ./comunication/.env.development
+              required: true
+        environment:
+            DB_URL: mongodb://root:example@db-comunication:27017
+        develop:
+            watch:
+                - action: sync
+                  path: ./comunication
+                  target: /comunication
+                  ignore:
+                      - node_modules/
+                      - dist/
+                - action: rebuild
+                  path: ./comunication/package.json
     db-user:
         build: ./db-user
         image: mongo
@@ -180,6 +202,17 @@ services:
         environment:
             MONGO_INITDB_ROOT_USERNAME: root
             MONGO_INITDB_ROOT_PASSWORD: example
+    db-comunication:
+        build: ./db-comunication
+        image: mongo
+        restart: always
+        ports:
+            - 27021:27017
+        volumes:
+            - db_comunication:/data/db
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: example
     db-api-doc:
         build: ./db-api-doc
         image: postgres
@@ -213,3 +246,5 @@ volumes:
         name: omni_db_api_doc_data
     db_module:
         name: omni_db_module_data
+    db_comunication:
+        name: omni_db_comunication_data
