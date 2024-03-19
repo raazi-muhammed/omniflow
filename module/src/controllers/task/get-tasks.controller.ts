@@ -9,7 +9,9 @@ export default function buildGetTasksController({
     return async (req: IRequest) => {
         const { currentProject } = req;
 
-        const tasks = await taskUseCases.getTasks();
+        const tasks = await taskUseCases.getTasks({
+            projectId: currentProject.id,
+        });
 
         const response = new ResponseCreator();
         return response.setData(tasks);

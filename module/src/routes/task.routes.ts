@@ -29,6 +29,12 @@ export default function buildTaskRoutes({
         verifyProject,
         makeCallback(taskController.addTask)
     );
+    router.get(
+        "/tasks/:taskId",
+        verifyUser,
+        verifyProject,
+        makeCallback(taskController.getTask)
+    );
 
     return router;
 }

@@ -13,5 +13,6 @@ export type IModuleUseCases = {
 };
 export type ITaskUseCases = {
     addTask: (data: ITask) => Promise<IDBTask>;
-    getTasks: () => Promise<IDBTask[]>;
+    getTasks: (data: { projectId: string }) => Promise<IDBTask[]>;
+    getTask: (data: { id: string }) => Promise<IDBTask>;
 };

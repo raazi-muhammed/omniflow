@@ -44,3 +44,19 @@ export async function getTasks(
             });
     });
 }
+export async function getTask(
+    { id }: { id: string },
+    config?: AxiosRequestConfig
+): Promise<IResponse> {
+    const url = new BuildUrl().module(`/tasks/${id}`);
+    return new Promise((resolve, reject) => {
+        axios
+            .get(url, { ...config, withCredentials: true })
+            .then((response) => {
+                resolve(adaptSuccessResponse(response));
+            })
+            .catch((error) => {
+                reject(adaptErrorResponse(error));
+            });
+    });
+}

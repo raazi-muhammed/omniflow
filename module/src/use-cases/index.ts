@@ -11,6 +11,7 @@ import buildGetModuleUseCase from "./module/get-module.use-case.js";
 import buildAddTaskUseCase from "./task/add-task.use-case.js";
 import Task from "../entities/task.entity.js";
 import buildGetTasksUseCase from "./task/get-tasks.use-case.js";
+import buildGetTaskUseCase from "./task/get-task.use-case.js";
 
 const addModule = buildAddModuleUseCase({
     moduleRepository,
@@ -22,6 +23,8 @@ const getModuleList = buildGetModuleListUseCase({ moduleRepository });
 const getModule = buildGetModuleUseCase({ moduleRepository });
 
 const addTask = buildAddTaskUseCase({ taskRepository, TaskCreator: Task });
+const getTasks = buildGetTasksUseCase({ taskRepository });
+const getTask = buildGetTaskUseCase({ taskRepository });
 
 export const moduleUseCases: IModuleUseCases = Object.freeze({
     addModule,
@@ -30,9 +33,8 @@ export const moduleUseCases: IModuleUseCases = Object.freeze({
     getModule,
 });
 
-const getTasks = buildGetTasksUseCase({ taskRepository });
-
 export const taskUseCases: ITaskUseCases = Object.freeze({
     addTask,
     getTasks,
+    getTask,
 });

@@ -5,8 +5,8 @@ export default function buildGetTasksUseCase({
 }: {
     taskRepository: ITaskRepository;
 }) {
-    return async () => {
-        const tasks = await taskRepository.getAll();
+    return async ({ projectId }: { projectId: string }) => {
+        const tasks = await taskRepository.getAll({ projectId });
 
         return tasks;
     };
