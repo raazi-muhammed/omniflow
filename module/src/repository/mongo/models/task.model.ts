@@ -1,5 +1,5 @@
 import mongoose, { HydratedDocument, Model } from "mongoose";
-import { ITask } from "../../../interfaces/entity.interface.js";
+import { ITask, TaskStatus } from "../../../interfaces/entity.interface.js";
 
 const taskSchema = new mongoose.Schema<ITask>(
     {
@@ -34,6 +34,11 @@ const taskSchema = new mongoose.Schema<ITask>(
         module: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Module",
+        },
+        status: {
+            type: String,
+            enum: TaskStatus,
+            default: TaskStatus.TO_DO,
         },
     },
     {

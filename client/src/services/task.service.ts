@@ -13,6 +13,7 @@ export async function addTask(
         startDate: Date;
         dueDate: Date;
         description: string;
+        status: string;
     },
     config?: AxiosRequestConfig
 ): Promise<IResponse> {

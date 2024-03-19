@@ -28,6 +28,7 @@ export interface ITask {
     description: string;
     projectId: string;
     priority: number;
+    status: TaskStatus;
     startDate: Date;
     dueDate: Date;
     module?: Types.ObjectId;
@@ -36,9 +37,15 @@ export interface ITask {
 
 export interface ITaskEntity extends ITask {
     validate: () => void;
-    get: () => IModule;
+    get: () => ITask;
 }
 
 export interface ITaskEntityConstructor {
     new (data: ITask): ITaskEntity;
+}
+
+export enum TaskStatus {
+    TO_DO = "TO_DO",
+    ON_PROGRESS = "ON_PROGRESS",
+    COMPLETED = "COMPLETED",
 }

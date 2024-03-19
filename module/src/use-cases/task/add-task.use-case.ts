@@ -1,5 +1,5 @@
 import {
-    IModule,
+    ITask,
     ITaskEntityConstructor,
 } from "../../interfaces/entity.interface.js";
 import { ITaskRepository } from "../../interfaces/repository.interface.js";
@@ -11,7 +11,7 @@ export default function buildAddTaskUseCase({
     TaskCreator: ITaskEntityConstructor;
     taskRepository: ITaskRepository;
 }) {
-    return async (moduleData: IModule) => {
+    return async (moduleData: ITask) => {
         const entity = new TaskCreator(moduleData);
         entity.validate();
         const data = entity.get();

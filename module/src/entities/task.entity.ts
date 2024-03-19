@@ -1,5 +1,9 @@
 import { BadRequestError } from "@omniflow/common";
-import { ITask, ITaskEntity } from "../interfaces/entity.interface.js";
+import {
+    ITask,
+    ITaskEntity,
+    TaskStatus,
+} from "../interfaces/entity.interface.js";
 import { Types } from "mongoose";
 
 export default class Task implements ITaskEntity {
@@ -12,6 +16,7 @@ export default class Task implements ITaskEntity {
     dependencies: [string];
     module?: Types.ObjectId;
     deletedAt: Date | null;
+    status: TaskStatus;
 
     constructor(data: ITask) {
         this.name = data.name;
@@ -22,6 +27,7 @@ export default class Task implements ITaskEntity {
         this.dueDate = data.dueDate;
         this.deletedAt = data.deletedAt;
         this.module = data.module;
+        this.status = data.status;
     }
 
     validate() {
@@ -40,6 +46,7 @@ export default class Task implements ITaskEntity {
             dependencies: this.dependencies,
             deletedAt: this.deletedAt,
             module: this.module,
+            status: this.status,
         });
     }
 }

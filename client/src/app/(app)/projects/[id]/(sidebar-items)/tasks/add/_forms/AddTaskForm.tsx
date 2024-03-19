@@ -55,6 +55,7 @@ const formSchema = z.object({
     dueDate: z.date(),
     description: z.string().min(3, "Invalid"),
     module: z.string().optional(),
+    status: z.string(),
 });
 
 export default function AddTaskForm() {
@@ -75,6 +76,7 @@ export default function AddTaskForm() {
             module: parentModule ? parentModule : undefined,
             startDate: new Date(),
             dueDate: currentDate,
+            status: "TO_DO",
         },
         mode: "onTouched",
     });
@@ -87,12 +89,9 @@ export default function AddTaskForm() {
     }, []);
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        let val = {
-            ...values,
-        };
-        logger.debug(val);
+        logger.debug(values);
 
-        makeApiCall(() => addTask(val), {
+        makeApiCall(() => addTask(values), {
             toast,
             afterSuccess: () => {
                 router.back();
@@ -134,7 +133,6 @@ export default function AddTaskForm() {
                         </FormItem>
                     )}
                 />
-
                 <Heading variant="form">Details</Heading>
                 <div className="grid grid-cols-2 gap-4">
                     <FormField
@@ -275,7 +273,36 @@ export default function AddTaskForm() {
                         )}
                     />
                 </div>
-
+                <FormField
+                    control={form.control}
+                    name="status"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Status</FormLabel>
+                            <Select
+                                onValueChange={field.onChange}
+                                defaultValue={field.value}>
+                                <FormControl>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Status" />
+                                    </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                    <SelectItem value={"TO_DO"}>
+                                        Todo
+                                    </SelectItem>
+                                    <SelectItem value={"ON_PROGRESS"}>
+                                        On progress
+                                    </SelectItem>
+                                    <SelectItem value={"COMPLETED"}>
+                                        Completed
+                                    </SelectItem>
+                                </SelectContent>
+                            </Select>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
                 <div className="ms-auto flex w-fit gap-4">
                     <Button
                         onClick={() => router.back()}
