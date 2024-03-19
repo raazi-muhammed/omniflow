@@ -9,6 +9,7 @@ import { cookies } from "next/headers";
 import Link from "next/link";
 import React from "react";
 import TaskCard from "./_components/TaskCard";
+import ErrorMessage from "@/components/custom/ErrorMessage";
 
 async function loadTasks() {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -25,6 +26,12 @@ async function loadTasks() {
 
 export default async function page() {
     const data: ITask[] = await loadTasks();
+    const tasks = {
+        onProgress: data.filter((d) => d.status == "ON_PROGRESS"),
+        completed: data.filter((d) => d.status == "COMPLETED"),
+        toDo: data.filter((d) => d.status == "TO_DO"),
+    };
+
     return (
         <section>
             <section className="mt-8">
@@ -42,33 +49,42 @@ export default async function page() {
                 <Container className="flex gap-4">
                     <section className="w-80 flex-shrink-0 space-y-4">
                         <Heading variant="sm">Todo</Heading>
-                        {data.map((task) => (
-                            <>
-                                {task.status == "TO_DO" && (
-                                    <TaskCard task={task} />
-                                )}
-                            </>
+                        {tasks.toDo.map((task) => (
+                            <TaskCard task={task} />
                         ))}
+                        {tasks.toDo.length < 1 && (
+                            <ErrorMessage
+                                type="info"
+                                className="-ms-2"
+                                message="No items on todo"
+                            />
+                        )}
                     </section>
                     <section className="w-80 flex-shrink-0 space-y-4">
                         <Heading variant="sm">On Progress</Heading>
-                        {data.map((task) => (
-                            <>
-                                {task.status == "ON_PROGRESS" && (
-                                    <TaskCard task={task} />
-                                )}
-                            </>
+                        {tasks.onProgress.map((task) => (
+                            <TaskCard task={task} />
                         ))}
+                        {tasks.onProgress.length < 1 && (
+                            <ErrorMessage
+                                type="info"
+                                className="-ms-2"
+                                message="No items on progress"
+                            />
+                        )}
                     </section>
                     <section className="w-80 flex-shrink-0 space-y-4">
                         <Heading variant="sm">Completed</Heading>
-                        {data.map((task) => (
-                            <>
-                                {task.status == "COMPLETED" && (
-                                    <TaskCard task={task} />
-                                )}
-                            </>
+                        {tasks.completed.map((task) => (
+                            <TaskCard task={task} />
                         ))}
+                        {tasks.completed.length < 1 && (
+                            <ErrorMessage
+                                type="info"
+                                className="-ms-2"
+                                message="No items are completed"
+                            />
+                        )}
                     </section>
                 </Container>
             </main>

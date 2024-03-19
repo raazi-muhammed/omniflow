@@ -5,10 +5,16 @@ import { ITask } from "@/types/database";
 import moment from "moment";
 import Link from "next/link";
 
-export default function TaskCard({ task }: { task: ITask }) {
+export default function TaskCard({
+    task,
+    onHomeScreen = true,
+}: {
+    task: ITask;
+    onHomeScreen?: boolean;
+}) {
     return (
         <Card className="p-4">
-            <Link href={`tasks/${task.id}`}>
+            <Link href={onHomeScreen ? `tasks/${task.id}` : `${task.id}`}>
                 <p className="hover:underline">{task.name}</p>
             </Link>
             <div className="flex justify-between">
