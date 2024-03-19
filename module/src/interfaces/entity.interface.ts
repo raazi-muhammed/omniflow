@@ -1,5 +1,6 @@
 import { Types } from "mongoose";
 
+/* Module */
 export interface IModule {
     name: string;
     description: string;
@@ -19,4 +20,25 @@ export interface IModuleEntity extends IModule {
 
 export interface IModuleEntityConstructor {
     new (data: IModule): IModuleEntity;
+}
+
+/* Task */
+export interface ITask {
+    name: string;
+    description: string;
+    projectId: string;
+    priority: number;
+    startDate: Date;
+    dueDate: Date;
+    module?: Types.ObjectId;
+    deletedAt: Date | null;
+}
+
+export interface ITaskEntity extends ITask {
+    validate: () => void;
+    get: () => IModule;
+}
+
+export interface ITaskEntityConstructor {
+    new (data: ITask): ITaskEntity;
 }

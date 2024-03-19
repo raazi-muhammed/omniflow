@@ -6,3 +6,8 @@ export type IModuleController = {
     getModule: (req: IRequest) => Promise<ResponseCreator>;
     getModuleList: (req: IRequest) => Promise<ResponseCreator>;
 };
+
+export type ITaskController = {
+    addTask: (req: IRequest) => Promise<ResponseCreator>;
+    getTasks: (req: IRequest) => Promise<ResponseCreator>;
+};

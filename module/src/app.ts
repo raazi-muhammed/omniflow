@@ -4,7 +4,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import morgan from "morgan";
 import { ErrorHandlingMiddleware, loadEnv, logger } from "@omniflow/common";
-import { moduleRoutes } from "./routes/index.js";
+import { moduleRoutes, taskRoutes } from "./routes/index.js";
 
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 const app = express();
@@ -33,6 +33,7 @@ const stream = {
 app.use(morgan("dev", { stream }));
 
 app.use("/api/module", moduleRoutes);
+app.use("/api/module", taskRoutes);
 
 app.use(ErrorHandlingMiddleware);
 

@@ -61,6 +61,12 @@ export default function Sidebar() {
             identifier: "modules",
             icon: <FileCode2 className="me-2" size="1.3em" />,
         },
+        {
+            title: "Tasks",
+            url: `/projects/${projectInfo?.id}/tasks`,
+            identifier: "tasks",
+            icon: <FileCode2 className="me-2" size="1.3em" />,
+        },
     ];
 
     const urls = pathname.split("/").slice(3);
