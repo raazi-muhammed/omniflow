@@ -149,3 +149,7 @@ tr td:first-child {
 .h-screen-without-navbar {
     height: calc(100vh - 5rem);
 }
+
+.w-screen-without-sidebar {
+    width: calc(100vw - 16rem);
+}

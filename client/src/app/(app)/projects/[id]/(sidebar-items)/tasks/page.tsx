@@ -26,47 +26,52 @@ async function loadTasks() {
 export default async function page() {
     const data: ITask[] = await loadTasks();
     return (
-        <Container>
-            <section className="mt-8 flex justify-between">
-                <Heading>Tasks</Heading>
-
-                <Link href="tasks/add" legacyBehavior>
-                    <Button size="sm">
-                        <AddIcon />
-                        Add task
-                    </Button>
-                </Link>
+        <section>
+            <section className="mt-8">
+                <Container className="flex justify-between">
+                    <Heading>Tasks</Heading>
+                    <Link href="tasks/add" legacyBehavior>
+                        <Button size="sm">
+                            <AddIcon />
+                            Add task
+                        </Button>
+                    </Link>
+                </Container>
             </section>
-            <main className="flex gap-4">
-                <section className="w-80 space-y-4">
-                    <Heading variant="sm">Todo</Heading>
-                    {data.map((task) => (
-                        <>
-                            {task.status == "TO_DO" && <TaskCard task={task} />}
-                        </>
-                    ))}
-                </section>
-                <section className="w-80 space-y-4">
-                    <Heading variant="sm">On Progress</Heading>
-                    {data.map((task) => (
-                        <>
-                            {task.status == "ON_PROGRESS" && (
-                                <TaskCard task={task} />
-                            )}
-                        </>
-                    ))}
-                </section>
-                <section className="w-80 space-y-4">
-                    <Heading variant="sm">Completed</Heading>
-                    {data.map((task) => (
-                        <>
-                            {task.status == "COMPLETED" && (
-                                <TaskCard task={task} />
-                            )}
-                        </>
-                    ))}
-                </section>
+            <main className="w-screen-without-sidebar min-h-screen overflow-auto">
+                <Container className="flex gap-4">
+                    <section className="w-80 flex-shrink-0 space-y-4">
+                        <Heading variant="sm">Todo</Heading>
+                        {data.map((task) => (
+                            <>
+                                {task.status == "TO_DO" && (
+                                    <TaskCard task={task} />
+                                )}
+                            </>
+                        ))}
+                    </section>
+                    <section className="w-80 flex-shrink-0 space-y-4">
+                        <Heading variant="sm">On Progress</Heading>
+                        {data.map((task) => (
+                            <>
+                                {task.status == "ON_PROGRESS" && (
+                                    <TaskCard task={task} />
+                                )}
+                            </>
+                        ))}
+                    </section>
+                    <section className="w-80 flex-shrink-0 space-y-4">
+                        <Heading variant="sm">Completed</Heading>
+                        {data.map((task) => (
+                            <>
+                                {task.status == "COMPLETED" && (
+                                    <TaskCard task={task} />
+                                )}
+                            </>
+                        ))}
+                    </section>
+                </Container>
             </main>
-        </Container>
+        </section>
     );
 }
