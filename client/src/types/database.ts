@@ -139,3 +139,21 @@ export interface IModule {
     dependencies: IModule[];
     parentModule: string;
 }
+
+export interface ITask {
+    name: string;
+    description: string;
+    projectId: string;
+    priority: number;
+    status: TaskStatus;
+    startDate: Date;
+    dueDate: Date;
+    module?: string;
+    deletedAt: Date | null;
+}
+
+export enum TaskStatus {
+    TO_DO = "TO_DO",
+    ON_PROGRESS = "ON_PROGRESS",
+    COMPLETED = "COMPLETED",
+}

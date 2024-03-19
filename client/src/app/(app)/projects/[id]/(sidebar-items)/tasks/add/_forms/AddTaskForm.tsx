@@ -38,7 +38,6 @@ import { IModule } from "@/types/database";
 import { logger } from "@/lib/logger";
 import { makeApiCall } from "@/lib/apicaller";
 import Heading from "@/components/custom/Heading";
-import { Card } from "@/components/ui/card";
 import { addTask } from "@/services/task.service";
 
 function getLabelFromId(modules: IModule[], id: string): string {
