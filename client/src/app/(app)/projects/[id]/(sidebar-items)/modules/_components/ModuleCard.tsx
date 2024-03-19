@@ -39,19 +39,27 @@ export default function ModuleCard({ module }: { module: IModule }) {
                 <Card className="flex p-4 align-middle">
                     <AccordionTrigger className="my-auto h-8 w-fit"></AccordionTrigger>
                     <section className="h-fit w-full">
-                        <p>{module.name}</p>
-                        <div className="flex gap-2">
+                        <Link href={`modules/${module.id}`}>
+                            <p className="hover:underline">{module.name}</p>
+                        </Link>
+                        <section>
                             {module.dependencies.length > 0 ? (
                                 <>
-                                    <Label>Dependencies:</Label>
-                                    {module.dependencies.map((dep) => (
-                                        <Label>{dep.name}</Label>
-                                    ))}
+                                    <Label className="mb-0">Dependencies</Label>
+                                    <section className="-mt-1 flex h-fit flex-wrap gap-4">
+                                        {module.dependencies.map((dep) => (
+                                            <Link href={`modules/${dep.id}`}>
+                                                <Label className="hover:underline">
+                                                    {dep.name}
+                                                </Label>
+                                            </Link>
+                                        ))}
+                                    </section>
                                 </>
                             ) : (
                                 <Label>No dependencies</Label>
                             )}
-                        </div>
+                        </section>
                     </section>
                     <Link
                         href={`modules/add?parentModule=${module.id}`}
@@ -59,7 +67,7 @@ export default function ModuleCard({ module }: { module: IModule }) {
                         <Button
                             size="sm"
                             variant="ghost"
-                            className="text-secondary">
+                            className="my-auto text-secondary">
                             <AddIcon />
                             Add module
                         </Button>

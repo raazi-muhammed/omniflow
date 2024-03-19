@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import { IModule } from "../../interfaces/entity.interface.js";
 import { IModuleRepository } from "../../interfaces/repository.interface.js";
 import { IDBModule, IModuleModel } from "./models/module.model.js";
@@ -21,6 +22,11 @@ export default function buildModuleRepository({
             return (await database
                 .find({ projectId, parentModule })
                 .populate("dependencies")) as IDBModule[];
+        },
+        getById: async (moduleId: string) => {
+            return (await database
+                .findById(new Types.ObjectId(moduleId))
+                .populate("dependencies")) as IDBModule;
         },
         getModuleList: async ({ projectId }: { projectId: string }) => {
             return (await database
