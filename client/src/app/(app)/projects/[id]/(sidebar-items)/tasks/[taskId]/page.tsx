@@ -8,6 +8,7 @@ import { ITask } from "@/types/database";
 import moment from "moment";
 import { cookies } from "next/headers";
 import React from "react";
+import EditTask from "./_components/EditTask";
 
 async function loadTask(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -29,8 +30,11 @@ export default async function Task({ params }: { params: { taskId: string } }) {
     const task: ITask = await loadTask(params.taskId);
 
     return (
-        <Container className="space-y-6">
-            <Heading variant="spaced">{task.name}</Heading>
+        <Container className="mt-8 space-y-6">
+            <section className="flex justify-between">
+                <Heading>{task.name}</Heading>
+                <EditTask task={task} />
+            </section>
             <section className="grid grid-cols-3">
                 <div>
                     <Label>Description</Label>

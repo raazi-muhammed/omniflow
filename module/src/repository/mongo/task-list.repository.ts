@@ -11,6 +11,19 @@ export default function buildTaskRepository({
         add: async (taskData: ITask) => {
             return (await database.create(taskData)) as IDBTask;
         },
+        edit: async ({
+            taskData,
+            taskId,
+        }: {
+            taskId: string;
+            taskData: ITask;
+        }) => {
+            const response = await database.updateOne(
+                { _id: taskId },
+                taskData
+            );
+            return response.modifiedCount > 0;
+        },
         getAll: async ({ projectId }: { projectId: string }) => {
             return (await database.find({ projectId })) as IDBTask[];
         },

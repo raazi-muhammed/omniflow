@@ -29,6 +29,31 @@ export async function addTask(
             });
     });
 }
+export async function editTask(
+    { id }: { id: string },
+    values: {
+        name: string;
+        priority: number;
+        startDate: Date;
+        dueDate: Date;
+        description: string;
+        status: string;
+    },
+    config?: AxiosRequestConfig
+): Promise<IResponse> {
+    const url = new BuildUrl().module(`/tasks/${id}`);
+    return new Promise((resolve, reject) => {
+        axios
+            .put(url, values, { ...config, withCredentials: true })
+            .then((response) => {
+                resolve(adaptSuccessResponse(response));
+            })
+            .catch((error) => {
+                reject(adaptErrorResponse(error));
+            });
+    });
+}
+
 export async function getTasks(
     config?: AxiosRequestConfig
 ): Promise<IResponse> {
