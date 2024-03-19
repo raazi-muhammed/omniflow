@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, X as XIcon } from "lucide-react";
 import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -32,15 +32,20 @@ import {
 } from "@/components/ui/popover";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter, useSearchParams } from "next/navigation";
-import {
-    addModule,
-    getModuleList,
-    getModules,
-} from "@/services/module.service";
+import { addModule, getModuleList } from "@/services/module.service";
 import { useEffect, useState } from "react";
 import { IModule } from "@/types/database";
 import { logger } from "@/lib/logger";
 import { makeApiCall } from "@/lib/apicaller";
+import Heading from "@/components/custom/Heading";
+import { Card } from "@/components/ui/card";
+
+function getLabelFromId(modules: IModule[], id: string): string {
+    return modules.reduce((a, e) => {
+        if (e.id === id) return e.name;
+        return a;
+    }, "No dpe");
+}
 
 const formSchema = z.object({
     name: z.string().min(3, "Invalid"),
@@ -48,7 +53,9 @@ const formSchema = z.object({
     startDate: z.date(),
     dueDate: z.date(),
     description: z.string().min(3, "Invalid"),
-    dependencies: z.string().optional(),
+    dependencies: z.array(z.string()).default([]),
+    dependenciesSelector: z.string().optional(),
+    parentModule: z.string().optional(),
 });
 
 export default function AddModuleForm() {
@@ -57,9 +64,11 @@ export default function AddModuleForm() {
     const [modules, setModules] = useState<IModule[]>([]);
     const params = useSearchParams();
     const parentModule = params.get("parentModule");
-
     const currentDate = new Date();
     currentDate.setMonth(currentDate.getMonth() + 1);
+    const [dependencies, setDependencies] = useState<
+        { label: string; id: string }[]
+    >([]);
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -67,6 +76,7 @@ export default function AddModuleForm() {
             name: "",
             description: "",
             priority: 0,
+            parentModule: parentModule ? parentModule : undefined,
             startDate: new Date(),
             dueDate: currentDate,
         },
@@ -83,8 +93,7 @@ export default function AddModuleForm() {
     async function onSubmit(values: z.infer<typeof formSchema>) {
         let val = {
             ...values,
-            dependencies: [values?.dependencies],
-            parentModule: parentModule ? parentModule : undefined,
+            dependencies: dependencies.map((e) => e.id),
         };
         logger.debug(val);
 
@@ -95,24 +104,12 @@ export default function AddModuleForm() {
                 router.refresh();
             },
         });
-        /*  addModule(val)
-            .then((response) => {
-                toast({
-                    description: response.message,
-                });
-                router.back();
-                router.refresh();
-            })
-            .catch((error) => {
-                toast({
-                    description: error,
-                });
-            }); */
     }
 
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <Heading variant="form">Info</Heading>
                 <FormField
                     control={form.control}
                     name="name"
@@ -126,6 +123,24 @@ export default function AddModuleForm() {
                         </FormItem>
                     )}
                 />
+                <FormField
+                    control={form.control}
+                    name="description"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Description</FormLabel>
+                            <FormControl>
+                                <Textarea
+                                    placeholder="description"
+                                    {...field}
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
+                <Heading variant="form">Details</Heading>
                 <div className="grid grid-cols-2 gap-4">
                     <FormField
                         control={form.control}
@@ -240,16 +255,16 @@ export default function AddModuleForm() {
                     />
                     <FormField
                         control={form.control}
-                        name="dependencies"
+                        name="parentModule"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Dependencies</FormLabel>
+                                <FormLabel>Parent Module</FormLabel>
                                 <Select
                                     onValueChange={field.onChange}
                                     defaultValue={field.value}>
                                     <FormControl>
                                         <SelectTrigger>
-                                            <SelectValue placeholder="No dependencies" />
+                                            <SelectValue placeholder="No parent module" />
                                         </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>
@@ -265,18 +280,62 @@ export default function AddModuleForm() {
                         )}
                     />
                 </div>
+                <Heading variant="form">Dependencies</Heading>
+
                 <FormField
                     control={form.control}
-                    name="description"
+                    name="dependenciesSelector"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Description</FormLabel>
-                            <FormControl>
-                                <Textarea
-                                    placeholder="description"
-                                    {...field}
-                                />
-                            </FormControl>
+                            <FormLabel>Dependencies</FormLabel>
+                            <section className="flex flex-wrap gap-2 pb-2">
+                                {dependencies.map((dep, i) => (
+                                    <Card className="flex w-fit gap-2 p-2 ps-3">
+                                        {dep.label}
+                                        <Button
+                                            onClick={() => {
+                                                const array = dependencies;
+                                                array.splice(i, 1);
+                                                setDependencies([...array]);
+                                            }}
+                                            type="button"
+                                            size="icon"
+                                            variant="destructiveFlat"
+                                            className="flex size-5 align-middle">
+                                            <XIcon size="1em" />
+                                        </Button>
+                                    </Card>
+                                ))}
+                            </section>
+                            <Select
+                                onValueChange={(val) => {
+                                    field.onChange();
+                                    setDependencies((d) => [
+                                        ...d,
+                                        {
+                                            label: getLabelFromId(modules, val),
+                                            id: val,
+                                        },
+                                    ]);
+                                }}
+                                defaultValue={field.value}>
+                                <FormControl>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Add dependencies" />
+                                    </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                    {modules.map((module) => (
+                                        <SelectItem
+                                            disabled={dependencies.some(
+                                                (dep) => dep.id === module.id
+                                            )}
+                                            value={module.id}>
+                                            {module.name}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
                             <FormMessage />
                         </FormItem>
                     )}

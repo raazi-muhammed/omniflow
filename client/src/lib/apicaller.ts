@@ -7,6 +7,7 @@ export function makeApiCall(
 ) {
     serverCall()
         .then((response: IResponse) => {
+            if (afterSuccess) afterSuccess();
             if (toast) {
                 toast({
                     description: response.message,
@@ -14,7 +15,6 @@ export function makeApiCall(
             } else {
                 logger.info(response);
             }
-            if (afterSuccess) afterSuccess();
         })
         .catch((error: any) => {
             if (toast) {
