@@ -26,6 +26,8 @@ async function loadTeams() {
             Project: `Bearer ${projectToken}`,
         },
     });
+    console.log(response.data);
+
     return response.data;
 }
 

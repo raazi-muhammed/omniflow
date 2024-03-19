@@ -3,7 +3,7 @@ import Heading from "@/components/custom/Heading";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { getTeamMembers } from "@/services/team.service";
-import { ITeam, ITeamMember } from "@/types/database";
+import { ITeam, ITeamMember, InviteStatus, Role } from "@/types/database";
 import { Trash2 as DeleteIcon, RefreshCw as ChangeIcon } from "lucide-react";
 import { cookies } from "next/headers";
 import {
@@ -88,10 +88,18 @@ export default async function page({
                                                 </div>
                                             </section>
                                         </div>
-                                        <MemberActionDropDown
-                                            teamName={team.name}
-                                            memberEmail={member.info.email}
-                                        />
+                                        {member.role !== Role.MAIN_TEAM_LEAD ? (
+                                            <MemberActionDropDown
+                                                disableMoveTo={
+                                                    member.inviteStatus !=
+                                                    InviteStatus.ACCEPTED
+                                                }
+                                                teamName={team.name}
+                                                memberEmail={member.info.email}
+                                            />
+                                        ) : (
+                                            <p>ho</p>
+                                        )}
                                     </CardContent>
                                 </Card>
                             ))}

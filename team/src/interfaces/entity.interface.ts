@@ -4,6 +4,8 @@ export type IDType = Types.ObjectId;
 
 export enum Role {
     TEAM_LEAD = "TEAM_LEAD",
+    PROJECT_LEAD = "PROJECT_LEAD",
+    MAIN_TEAM_LEAD = "MAIN_TEAM_LEAD",
     DEFAULT = "DEFAULT",
 }
 export enum InviteStatus {

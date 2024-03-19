@@ -51,9 +51,22 @@ export default function buildTeamRepository({
             return upsertTeam as IDBTeam;
         },
         getTeams: async ({ projectId }: { projectId: string }) => {
-            return (await database
+            const data = await database
                 .find({ project: projectId, isDeleted: false })
-                .populate("members.info")) as IDBTeam[];
+                .populate("members.info")
+                .populate("lead");
+
+            data.forEach((val) => {
+                if (val?.lead) {
+                    val.members.push({
+                        inviteStatus: InviteStatus.ACCEPTED,
+                        role: Role.MAIN_TEAM_LEAD,
+                        info: val.lead,
+                    });
+                }
+            });
+
+            return data as IDBTeam[];
         },
         getTeam: async ({
             projectId,
@@ -62,13 +75,27 @@ export default function buildTeamRepository({
             projectId: string;
             teamName: string;
         }) => {
-            return (await database
+            const data = await database
                 .findOne({
                     project: projectId,
                     name: teamName,
                     isDeleted: false,
                 })
-                .populate("members.info")) as IDBTeam;
+                .populate("members.info")
+                .populate("lead");
+
+            console.log({ lead: data?.lead, member: data?.members[0] });
+
+            // because in default team there is no lead
+            if (data?.lead) {
+                data.members.push({
+                    inviteStatus: InviteStatus.ACCEPTED,
+                    role: Role.MAIN_TEAM_LEAD,
+                    info: data.lead,
+                });
+            }
+
+            return data as IDBTeam;
         },
         removeTeam: async ({
             projectId,
@@ -97,19 +124,12 @@ export default function buildTeamRepository({
                 name: teamName,
                 isDeleted: false,
             });
-            response.lead = new Types.ObjectId(userId);
-            response.members = response.members.map((m) => {
-                if (m.info.toString() == userId) {
-                    return {
-                        ...m,
-                        role: Role.TEAM_LEAD,
-                    };
-                }
-                return {
-                    ...m,
-                    role: Role.DEFAULT,
-                };
+            response.members.unshift({
+                inviteStatus: InviteStatus.ACCEPTED,
+                role: Role.DEFAULT,
+                info: response.lead,
             });
+            response.lead = new Types.ObjectId(userId);
             response.save();
             return true;
         },

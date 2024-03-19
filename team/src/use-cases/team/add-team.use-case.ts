@@ -1,9 +1,9 @@
-import { AnErrorOccurredError, ConflictError } from "@omniflow/common";
 import {
-    ITeamEntityConstructor,
-    InviteStatus,
-    Role,
-} from "../../interfaces/entity.interface.js";
+    AnErrorOccurredError,
+    BadRequestError,
+    ConflictError,
+} from "@omniflow/common";
+import { ITeamEntityConstructor } from "../../interfaces/entity.interface.js";
 import {
     IMemberRepository,
     ITeamRepository,
@@ -28,24 +28,20 @@ export default function buildAddTeamUseCase({
         projectId: string;
     }) => {
         const leadUser = await memberRepository.getByEmail(leadEmail);
+        if (!leadUser) throw new BadRequestError("Lead not found");
 
         const foundTeam = await teamRepository.getTeam({
             projectId,
             teamName,
         });
+
         if (foundTeam) throw new ConflictError("Team name taken");
 
         const teamEntity = new TeamEntity({
             name: teamName,
             project: projectId,
             lead: leadUser.id,
-            members: [
-                {
-                    role: Role.TEAM_LEAD,
-                    inviteStatus: InviteStatus.ACCEPTED,
-                    info: leadUser.id,
-                },
-            ],
+            members: [],
         });
 
         await teamRepository.removeMemberFromTeam({

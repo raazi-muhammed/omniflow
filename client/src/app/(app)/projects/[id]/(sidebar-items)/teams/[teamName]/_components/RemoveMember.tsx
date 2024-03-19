@@ -20,9 +20,11 @@ import { useState } from "react";
 export default function RemoveMember({
     email,
     team,
+    disableRemove = false,
 }: {
     email: string;
     team: string;
+    disableRemove?: boolean;
 }) {
     const [open, setOpen] = useState(false);
     const { toast } = useToast();
@@ -46,6 +48,7 @@ export default function RemoveMember({
         <AlertDialog open={open} onOpenChange={(e) => setOpen(e)}>
             <AlertDialogTrigger asChild>
                 <DropdownMenuItem
+                    disabled={disableRemove}
                     onClick={(e) => {
                         e.preventDefault();
                         setOpen(true);

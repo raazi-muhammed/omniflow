@@ -12,7 +12,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { getTeams, moveMember } from "@/services/team.service";
 import { ITeam } from "@/types/database";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export default function MoveToTeamSelector({
     email,
@@ -25,7 +25,7 @@ export default function MoveToTeamSelector({
     const [teams, setTeams] = useState<ITeam[]>([]);
     const router = useRouter();
 
-    useEffect(() => {
+    useMemo(() => {
         getTeams().then((response) => {
             setTeams(response.data);
         });

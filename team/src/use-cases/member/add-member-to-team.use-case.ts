@@ -35,7 +35,7 @@ export default function buildAddMemberToTeamUseCase({
 
         await teamRepository.addMemberToTeam({
             member: {
-                role: Role.TEAM_LEAD,
+                role: Role.PROJECT_LEAD,
                 info: leadUser.id,
                 inviteStatus: InviteStatus.ACCEPTED,
             },

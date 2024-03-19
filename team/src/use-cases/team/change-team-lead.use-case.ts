@@ -1,4 +1,8 @@
-import { AnErrorOccurredError, UserNotFoundError } from "@omniflow/common";
+import {
+    AnErrorOccurredError,
+    BadRequestError,
+    UserNotFoundError,
+} from "@omniflow/common";
 import {
     IMemberRepository,
     ITeamRepository,
@@ -23,10 +27,23 @@ export default function buildChangeTeamLeadUseCase({
         const userFound = await memberRepository.getByEmail(leadEmail);
         if (!userFound) throw new UserNotFoundError();
 
+        const currentTeam = await teamRepository.getTeam({
+            projectId,
+            teamName,
+        });
+        if (currentTeam.lead.id === userFound.id)
+            throw new BadRequestError(`${userFound.name} is already team lead`);
+
         const teamLeadChanged = await teamRepository.changeTeamLead({
             projectId,
             teamName,
             userId: userFound.id,
+        });
+
+        await teamRepository.removeMemberFromTeam({
+            projectId,
+            teamName,
+            memberId: userFound.id,
         });
 
         if (!teamLeadChanged) {
