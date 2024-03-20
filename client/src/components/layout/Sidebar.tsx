@@ -10,7 +10,15 @@ import { getCurrentProject } from "@/services/project.service";
 import { useDispatch } from "react-redux";
 import { setProject } from "@/redux/features/projectSlice";
 import { IProject } from "@/types/database";
-import { FileCode2, GanttChartSquare, KanbanSquare, Users } from "lucide-react";
+import {
+    FileCode2,
+    GanttChartSquare,
+    KanbanSquare,
+    ListTodo,
+    Puzzle,
+    Users,
+    Video,
+} from "lucide-react";
 import { Separator } from "../ui/separator";
 
 export default function Sidebar() {
@@ -59,13 +67,23 @@ export default function Sidebar() {
             title: "Modules",
             url: `/projects/${projectInfo?.id}/modules`,
             identifier: "modules",
-            icon: <FileCode2 className="me-2" size="1.3em" />,
+            icon: <Puzzle className="me-2" size="1.3em" />,
         },
         {
             title: "Tasks",
             url: `/projects/${projectInfo?.id}/tasks`,
             identifier: "tasks",
-            icon: <FileCode2 className="me-2" size="1.3em" />,
+            icon: <ListTodo className="me-2" size="1.3em" />,
+        },
+        {
+            type: "separator",
+            url: "#",
+        },
+        {
+            title: "Meetings",
+            url: `/projects/${projectInfo?.id}/meetings`,
+            identifier: "meetings",
+            icon: <Video className="me-2" size="1.3em" />,
         },
     ];
 

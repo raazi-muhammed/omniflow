@@ -158,3 +158,15 @@ export enum TaskStatus {
     ON_PROGRESS = "ON_PROGRESS",
     COMPLETED = "COMPLETED",
 }
+
+export type IMeeting = {
+    id?: string;
+    name: string;
+    projectId: string;
+    agenda: string;
+    notes?: string;
+    startDate: Date;
+    endDate?: Date | null;
+    deletedAt?: Date | null;
+    meetingLink?: string;
+};
