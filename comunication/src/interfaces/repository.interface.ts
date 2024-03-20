@@ -3,6 +3,11 @@ import { IMeeting } from "./entity.interfaces.js";
 
 export type IMeetingRepository = {
     addMeeting: (data: IMeeting) => Promise<IDBMeeting>;
+    editMeeting: (data: {
+        meetingId: string;
+        meetingData: IMeeting;
+    }) => Promise<boolean>;
+    removeMeeting: (data: { meetingId: string }) => Promise<boolean>;
     getMeetings: (data: { projectId: string }) => Promise<IDBMeeting[]>;
     getMeeting: (data: { meetingId: string }) => Promise<IDBMeeting>;
     addMeetingNotes: (data: {

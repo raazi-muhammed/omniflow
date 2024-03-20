@@ -11,13 +11,11 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 
-export function DeleteTask({ handleDelete }: { handleDelete: () => void }) {
+export function DeleteAlert({ handleDelete }: { handleDelete: () => void }) {
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
-                <Button variant="destructiveFlat" className="me-auto ms-0">
-                    Delete
-                </Button>
+                <Button variant="destructiveFlat">Delete</Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
                 <AlertDialogHeader>

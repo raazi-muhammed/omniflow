@@ -13,11 +13,31 @@ export default function buildMeetingRepository({
         },
         getMeetings: async ({ projectId }: { projectId: string }) => {
             return (await database
-                .find({ projectId })
+                .find({ projectId, deletedAt: null })
                 .sort({ startDate: -1 })) as IDBMeeting[];
         },
         getMeeting: async ({ meetingId }: { meetingId: string }) => {
             return (await database.findOne({ _id: meetingId })) as IDBMeeting;
+        },
+        editMeeting: async ({
+            meetingId,
+            meetingData,
+        }: {
+            meetingId: string;
+            meetingData: IMeeting;
+        }) => {
+            const response = await database.updateOne(
+                { _id: meetingId },
+                meetingData
+            );
+            return response.modifiedCount > 0;
+        },
+        removeMeeting: async ({ meetingId }: { meetingId: string }) => {
+            const response = await database.updateOne(
+                { _id: meetingId },
+                { deletedAt: new Date() }
+            );
+            return response.modifiedCount > 0;
         },
         addMeetingNotes: async ({
             meetingId,

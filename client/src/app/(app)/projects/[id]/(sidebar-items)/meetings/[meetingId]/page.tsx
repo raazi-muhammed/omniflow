@@ -13,6 +13,7 @@ import { cookies } from "next/headers";
 import React from "react";
 import { AddNote } from "./_components/AddNote";
 import { EditNote } from "./_components/EditNote";
+import { EditMeeting } from "./_components/EditMeetings";
 
 async function loadMeeting(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -39,7 +40,10 @@ export default async function MeetingPage({
 
     return (
         <main className="space-y-6">
-            <Heading variant="spaced">{meeting.name}</Heading>
+            <section className="mt-8 flex justify-between">
+                <Heading>{meeting.name}</Heading>
+                <EditMeeting meeting={meeting} />
+            </section>
             <section className="grid grid-cols-3">
                 <div>
                     <Label>Agenda</Label>

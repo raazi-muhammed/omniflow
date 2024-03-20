@@ -4,13 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { cn } from "@/lib/utils";
 import { useForm } from "react-hook-form";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -22,7 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, X as XIcon } from "lucide-react";
 import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -32,69 +25,66 @@ import {
 } from "@/components/ui/popover";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter, useSearchParams } from "next/navigation";
-import { getModuleList } from "@/services/module.service";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { IModule, ITask } from "@/types/database";
+import { useEffect, useState } from "react";
+import { IMeeting, IModule } from "@/types/database";
 import { logger } from "@/lib/logger";
 import { makeApiCall } from "@/lib/apicaller";
 import Heading from "@/components/custom/Heading";
-import { editTask } from "@/services/task.service";
+import { addTask } from "@/services/task.service";
+import {
+    addMeeting,
+    editMeeting,
+    removeMeeting,
+} from "@/services/meeting.service";
 import { DeleteAlert } from "@/components/custom/DeleteAlert";
 
 const formSchema = z.object({
     name: z.string().min(3, "Invalid"),
-    priority: z.number(),
+    agenda: z.string().min(3, "Invalid"),
     startDate: z.date(),
-    dueDate: z.date(),
-    description: z.string().min(3, "Invalid"),
-    module: z.string().optional(),
-    status: z.string(),
+    dueDate: z.date().optional(),
 });
 
-export default function EditTaskForm({
-    task,
-    setOpen,
-    handleDelete,
+export default function EditMeetingForm({
+    meeting,
+    closeDialog,
 }: {
-    handleDelete: () => void;
-    task: ITask;
-    setOpen: Dispatch<SetStateAction<boolean>>;
+    meeting: IMeeting;
+    closeDialog: () => void;
 }) {
     const { toast } = useToast();
     const router = useRouter();
-    const [modules, setModules] = useState<IModule[]>([]);
     const currentDate = new Date();
     currentDate.setMonth(currentDate.getMonth() + 1);
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            name: task.name,
-            description: task.description,
-            priority: task.priority,
-            module: task.module,
-            startDate: new Date(task.startDate),
-            dueDate: new Date(task.dueDate),
-            status: task.status,
+            name: meeting.name,
+            agenda: meeting.agenda,
+            startDate: new Date(meeting.startDate),
         },
         mode: "onTouched",
     });
 
-    useEffect(() => {
-        getModuleList().then((response) => {
-            logger.debug(response.data);
-            setModules(response.data);
-        });
-    }, []);
-
     async function onSubmit(values: z.infer<typeof formSchema>) {
         logger.debug(values);
 
-        makeApiCall(() => editTask({ id: task.id }, values), {
+        makeApiCall(() => editMeeting({ id: meeting.id || "" }, values), {
             toast,
             afterSuccess: () => {
+                closeDialog();
                 router.refresh();
-                setOpen(false);
+            },
+        });
+    }
+
+    function handleDelete() {
+        makeApiCall(() => removeMeeting({ id: meeting.id || "" }), {
+            toast,
+            afterSuccess: () => {
+                closeDialog();
+                router.refresh();
             },
         });
     }
@@ -118,15 +108,12 @@ export default function EditTaskForm({
                 />
                 <FormField
                     control={form.control}
-                    name="description"
+                    name="agenda"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Description</FormLabel>
+                            <FormLabel>Agenda</FormLabel>
                             <FormControl>
-                                <Textarea
-                                    placeholder="description"
-                                    {...field}
-                                />
+                                <Textarea placeholder="agenda" {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -215,104 +202,19 @@ export default function EditTaskForm({
                         )}
                     />
                 </div>
-                <div className="grid grid-cols-2 gap-4">
-                    <FormField
-                        control={form.control}
-                        name="priority"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Priority</FormLabel>
-                                <Select
-                                    onValueChange={(value) =>
-                                        field.onChange(Number(value))
-                                    }
-                                    defaultValue={String(field.value)}>
-                                    <FormControl>
-                                        <SelectTrigger>
-                                            <SelectValue placeholder="priority" />
-                                        </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent>
-                                        <SelectItem value="0">None</SelectItem>
-                                        <SelectItem value="1">Low</SelectItem>
-                                        <SelectItem value="2">
-                                            Medium
-                                        </SelectItem>
-                                        <SelectItem value="3">High</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="module"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Module</FormLabel>
-                                <Select
-                                    onValueChange={field.onChange}
-                                    defaultValue={field.value}>
-                                    <FormControl>
-                                        <SelectTrigger>
-                                            <SelectValue placeholder="No module" />
-                                        </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent>
-                                        {modules.map((module) => (
-                                            <SelectItem value={module.id}>
-                                                {module.name}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                </div>
-                <FormField
-                    control={form.control}
-                    name="status"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Status</FormLabel>
-                            <Select
-                                onValueChange={field.onChange}
-                                defaultValue={field.value}>
-                                <FormControl>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Status" />
-                                    </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                    <SelectItem value={"TO_DO"}>
-                                        Todo
-                                    </SelectItem>
-                                    <SelectItem value={"ON_PROGRESS"}>
-                                        On progress
-                                    </SelectItem>
-                                    <SelectItem value={"COMPLETED"}>
-                                        Completed
-                                    </SelectItem>
-                                </SelectContent>
-                            </Select>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <div className="ms-auto flex gap-4">
-                    <DeleteAlert handleDelete={handleDelete} />
-                    <Button
-                        onClick={() => setOpen(false)}
-                        type="button"
-                        variant="outline">
-                        Cancel
-                    </Button>
 
-                    <Button type="submit">Add</Button>
-                </div>
+                <section className="flex justify-between">
+                    <DeleteAlert handleDelete={handleDelete} />
+                    <div className="ms-auto flex w-fit gap-4">
+                        <Button
+                            onClick={() => closeDialog()}
+                            type="button"
+                            variant="outline">
+                            Cancel
+                        </Button>
+                        <Button type="submit">Edit</Button>
+                    </div>
+                </section>
             </form>
         </Form>
     );

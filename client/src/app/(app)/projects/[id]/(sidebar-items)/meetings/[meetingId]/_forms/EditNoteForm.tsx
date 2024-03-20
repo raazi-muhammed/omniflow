@@ -21,7 +21,7 @@ import {
     editMeetingNotes,
 } from "@/services/meeting.service";
 import { useRouter } from "next/navigation";
-import { DeleteNote } from "../_components/DeleteNote";
+import { DeleteAlert } from "@/components/custom/DeleteAlert";
 
 const FormSchema = z.object({
     notes: z.string().min(10),
@@ -87,7 +87,7 @@ export default function EditNoteForm({
                     )}
                 />
                 <div className="flex justify-between">
-                    <DeleteNote handleDelete={handleDelete} />
+                    <DeleteAlert handleDelete={handleDelete} />
                     <Button type="submit">Save</Button>
                 </div>
             </form>

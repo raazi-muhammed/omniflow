@@ -11,7 +11,7 @@ export async function addMeeting(
         name: string;
         agenda: string;
         startDate: Date;
-        dueDate: Date;
+        dueDate?: Date;
     },
     config?: AxiosRequestConfig
 ): Promise<IResponse> {
@@ -19,6 +19,45 @@ export async function addMeeting(
     return new Promise((resolve, reject) => {
         axios
             .post(url, values, { ...config, withCredentials: true })
+            .then((response) => {
+                resolve(adaptSuccessResponse(response));
+            })
+            .catch((error) => {
+                reject(adaptErrorResponse(error));
+            });
+    });
+}
+export async function editMeeting(
+    { id }: { id: string },
+    values: {
+        name: string;
+        agenda: string;
+        startDate: Date;
+        dueDate?: Date;
+    },
+    config?: AxiosRequestConfig
+): Promise<IResponse> {
+    const url = new BuildUrl().communication(`/meetings/${id}`);
+    return new Promise((resolve, reject) => {
+        axios
+            .put(url, values, { ...config, withCredentials: true })
+            .then((response) => {
+                resolve(adaptSuccessResponse(response));
+            })
+            .catch((error) => {
+                reject(adaptErrorResponse(error));
+            });
+    });
+}
+export async function removeMeeting(
+    { id }: { id: string },
+
+    config?: AxiosRequestConfig
+): Promise<IResponse> {
+    const url = new BuildUrl().communication(`/meetings/${id}`);
+    return new Promise((resolve, reject) => {
+        axios
+            .delete(url, { ...config, withCredentials: true })
             .then((response) => {
                 resolve(adaptSuccessResponse(response));
             })
