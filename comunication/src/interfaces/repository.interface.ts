@@ -4,4 +4,5 @@ import { IMeeting } from "./entity.interfaces.js";
 export type IMeetingRepository = {
     addMeeting: (data: IMeeting) => Promise<IDBMeeting>;
     getMeetings: (data: { projectId: string }) => Promise<IDBMeeting[]>;
+    getMeeting: (data: { meetingId: string }) => Promise<IDBMeeting>;
 };

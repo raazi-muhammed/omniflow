@@ -4,4 +4,5 @@ import { IMeeting } from "./entity.interfaces.js";
 export type IMeetingUseCases = {
     addMeeting: (data: IMeeting) => Promise<IDBMeeting>;
     getMeetings: (projectId: string) => Promise<IDBMeeting[]>;
+    getMeeting: (meetingId: string) => Promise<IDBMeeting>;
 };

@@ -14,5 +14,8 @@ export default function buildMeetingRepository({
         getMeetings: async ({ projectId }: { projectId: string }) => {
             return (await database.find({ projectId })) as IDBMeeting[];
         },
+        getMeeting: async ({ meetingId }: { meetingId: string }) => {
+            return (await database.findOne({ _id: meetingId })) as IDBMeeting;
+        },
     });
 }

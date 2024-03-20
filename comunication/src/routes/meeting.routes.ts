@@ -29,6 +29,12 @@ export default function buildMeetingRoutes({
         verifyProject,
         makeCallback(controllers.getMeetings)
     );
+    router.get(
+        "/meetings/:meetingId",
+        verifyUser,
+        verifyProject,
+        makeCallback(controllers.getMeeting)
+    );
 
     return router;
 }

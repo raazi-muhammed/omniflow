@@ -40,7 +40,9 @@ export default async function page() {
             <section className="space-y-4">
                 {meetings.map((meeting) => (
                     <Card className="p-4">
-                        <p>{meeting.name}</p>
+                        <Link href={`meetings/${meeting.id}`}>
+                            <p className="hover:underline">{meeting.name}</p>
+                        </Link>
                         <Label>{meeting.agenda}</Label>
                         <br />
                         <Label>{moment(meeting.startDate).format("ll")}</Label>
