@@ -1,4 +1,3 @@
-import ErrorMessage from "@/components/custom/ErrorMessage";
 import Heading from "@/components/custom/Heading";
 import Container from "@/components/layout/Container";
 import {
@@ -16,7 +15,7 @@ import { IMeeting } from "@/types/database";
 import moment from "moment";
 import { cookies } from "next/headers";
 import Link from "next/link";
-import React from "react";
+import React, { ReactNode } from "react";
 
 async function loadMeetings() {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -31,7 +30,7 @@ async function loadMeetings() {
     return response.data as IMeeting[];
 }
 
-export default async function page() {
+export default async function page({ children }: { children: ReactNode }) {
     const meetings: IMeeting[] = await loadMeetings();
 
     const TODAY = new Date();
@@ -47,16 +46,15 @@ export default async function page() {
             <SectionSplitter>
                 <SectionAside className="mt-8">
                     <section className="space-y-4">
-                        <Link href="meetings/add" legacyBehavior>
+                        <Link href="add" legacyBehavior>
                             <Button size="sm" className="me-0 ms-auto flex">
                                 <AddIcon /> Add meeting
                             </Button>
                         </Link>
-
                         <Heading variant="sm">Upcoming Meetings</Heading>
                         {upcomingMeetings.map((meeting) => (
                             <Card className="p-4">
-                                <Link href={`meetings/${meeting.id}`}>
+                                <Link href={`${meeting.id}`}>
                                     <p className="hover:underline">
                                         {meeting.name}
                                     </p>
@@ -71,7 +69,7 @@ export default async function page() {
                         <Heading variant="sm">Previous Meetings</Heading>
                         {previousMeetings.map((meeting) => (
                             <Card className="p-4">
-                                <Link href={`meetings/${meeting.id}`}>
+                                <Link href={`${meeting.id}`}>
                                     <p className="hover:underline">
                                         {meeting.name}
                                     </p>
@@ -85,12 +83,7 @@ export default async function page() {
                         ))}
                     </section>
                 </SectionAside>
-                <SectionContent className="h-screen-without-navbar mx-8 flex align-middle">
-                    <ErrorMessage
-                        type="info"
-                        message="Please select a meeting"
-                    />
-                </SectionContent>
+                <SectionContent>{children}</SectionContent>
             </SectionSplitter>
         </Container>
     );

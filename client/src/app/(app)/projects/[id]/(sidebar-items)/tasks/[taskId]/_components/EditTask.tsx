@@ -14,7 +14,6 @@ import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import EditTaskForm from "../_forms/EditTaskFrom";
-import { DeleteTask } from "./DeleteTask";
 import { deleteTask } from "@/services/task.service";
 
 export default function EditTask({ task }: { task: ITask }) {

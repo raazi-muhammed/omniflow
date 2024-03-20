@@ -35,6 +35,24 @@ export default function buildMeetingRoutes({
         verifyProject,
         makeCallback(controllers.getMeeting)
     );
+    router.post(
+        "/meetings/:meetingId/notes",
+        verifyUser,
+        verifyProject,
+        makeCallback(controllers.addMeetingNotes)
+    );
+    router.delete(
+        "/meetings/:meetingId/notes",
+        verifyUser,
+        verifyProject,
+        makeCallback(controllers.removeMeetingNotes)
+    );
+    router.put(
+        "/meetings/:meetingId/notes",
+        verifyUser,
+        verifyProject,
+        makeCallback(controllers.editMeetingNotes)
+    );
 
     return router;
 }
