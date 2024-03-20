@@ -4,11 +4,12 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import morgan from "morgan";
 import { ErrorHandlingMiddleware, loadEnv, logger } from "@omniflow/common";
+import { meetingRoutes } from "./routes/index.js";
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 
 const app = express();
 
-const { CORS_ORIGINS, PORT } = loadEnv([
+const { CORS_ORIGINS } = loadEnv([
     "PORT",
     "SERVER_NAME",
     "CORS_ORIGINS",
@@ -30,7 +31,7 @@ const stream = {
 };
 app.use(morgan("dev", { stream }));
 
-// app.use("/api/api-doc", endpointRoutes);
+app.use("/api/communication", meetingRoutes);
 
 app.use(ErrorHandlingMiddleware);
 
