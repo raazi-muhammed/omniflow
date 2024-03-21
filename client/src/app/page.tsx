@@ -11,7 +11,7 @@ export default function Home() {
                     <Button className="mx-4">View Projects</Button>
                 </Link>
                 <Link href="login">
-                    <Button variant="secondary">Login</Button>
+                    <Button variant="muted">Login</Button>
                 </Link>
             </div>
         </main>
