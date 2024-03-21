@@ -17,7 +17,7 @@ import { setProject as setProjectOnRedux } from "@/redux/features/projectSlice";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Label } from "@/components/ui/label";
 
-export default function page({ params }: { params: { id: string } }) {
+export default function Page({ params }: { params: { id: string } }) {
     const [project, setProject] = useState<IProject | null>(null);
 
     const dispatch = useDispatch<AppDispatch>();
@@ -26,7 +26,7 @@ export default function page({ params }: { params: { id: string } }) {
             setProject(response.data);
             dispatch(setProjectOnRedux(response.data as IProject));
         });
-    }, []);
+    }, [dispatch, params.id]);
 
     return (
         <main className="w-full">

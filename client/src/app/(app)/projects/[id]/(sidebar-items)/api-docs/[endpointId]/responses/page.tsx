@@ -75,7 +75,7 @@ export default async function page({
                             </TableHeader>
                             <TableBody>
                                 {endpointData.requests.map((response) => (
-                                    <TableRow>
+                                    <TableRow key={response.id}>
                                         <TableCell>
                                             {response.statusCode}
                                         </TableCell>

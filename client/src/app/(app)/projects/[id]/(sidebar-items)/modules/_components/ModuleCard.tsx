@@ -57,6 +57,7 @@ export default function ModuleCard({
                                     <section className="-mt-1 flex h-fit flex-wrap gap-4">
                                         {module.dependencies.map((dep) => (
                                             <Link
+                                                key={dep.id}
                                                 href={`/projects/${projectId}/modules/${dep.id}`}>
                                                 <Label className="hover:underline">
                                                     {dep.name}
@@ -87,6 +88,7 @@ export default function ModuleCard({
                         <>
                             {subModules?.map((module) => (
                                 <ModuleCard
+                                    key={module.id}
                                     projectId={projectId}
                                     module={module}
                                 />

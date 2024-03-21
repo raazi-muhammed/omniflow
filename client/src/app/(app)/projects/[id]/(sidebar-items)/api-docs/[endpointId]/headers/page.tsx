@@ -70,7 +70,7 @@ export default async function page({
                             </TableHeader>
                             <TableBody>
                                 {endpointData.headers.map((header) => (
-                                    <TableRow>
+                                    <TableRow key={header.id}>
                                         <TableCell>{header.key}</TableCell>
                                         <TableCell>{header.value}</TableCell>
                                         <TableCell>

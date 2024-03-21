@@ -130,7 +130,9 @@ export default function AddResponseForm({
                                 </FormControl>
                                 <SelectContent>
                                     {contentTypes.map((type) => (
-                                        <SelectItem value={type.value}>
+                                        <SelectItem
+                                            key={type.value}
+                                            value={type.value}>
                                             {type.label}
                                         </SelectItem>
                                     ))}

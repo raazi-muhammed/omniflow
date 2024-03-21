@@ -261,7 +261,9 @@ export default function EditTaskForm({
                                     </FormControl>
                                     <SelectContent>
                                         {modules.map((module) => (
-                                            <SelectItem value={module.id}>
+                                            <SelectItem
+                                                key={module.id}
+                                                value={module.id}>
                                                 {module.name}
                                             </SelectItem>
                                         ))}

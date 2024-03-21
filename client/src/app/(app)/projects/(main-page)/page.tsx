@@ -13,7 +13,7 @@ import ErrorMessage from "@/components/custom/ErrorMessage";
 import { USER_TOKEN_COOKIE } from "@/constants/cookies";
 import { Label } from "@/components/ui/label";
 
-export async function getProjectsData() {
+async function getProjectsData() {
     const token = cookies().get(USER_TOKEN_COOKIE)?.value;
 
     const response = await getProjects({
@@ -46,7 +46,7 @@ export default async function page() {
             )}
             <ResponsiveGridContainer>
                 {projects.map((project) => (
-                    <Link href={`/projects/${project.id}`}>
+                    <Link key={project.id} href={`/projects/${project.id}`}>
                         <Card>
                             <CardHeader className="text-secondary">
                                 <p className="text-xl font-semibold text-foreground">
@@ -60,6 +60,7 @@ export default async function page() {
                                 <section className="ms-auto flex gap-2">
                                     {project.members.map((member) => (
                                         <Avatar
+                                            key={member.info.id}
                                             tooltip={true}
                                             name={member.info.name}
                                             email={member.info.email}

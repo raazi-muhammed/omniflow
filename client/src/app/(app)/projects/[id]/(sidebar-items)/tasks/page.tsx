@@ -50,7 +50,7 @@ export default async function page() {
                     <section className="w-80 flex-shrink-0 space-y-4">
                         <Heading variant="sm">Todo</Heading>
                         {tasks.toDo.map((task) => (
-                            <TaskCard task={task} />
+                            <TaskCard key={task.id} task={task} />
                         ))}
                         {tasks.toDo.length < 1 && (
                             <ErrorMessage
@@ -63,7 +63,7 @@ export default async function page() {
                     <section className="w-80 flex-shrink-0 space-y-4">
                         <Heading variant="sm">On Progress</Heading>
                         {tasks.onProgress.map((task) => (
-                            <TaskCard task={task} />
+                            <TaskCard key={task.id} task={task} />
                         ))}
                         {tasks.onProgress.length < 1 && (
                             <ErrorMessage
@@ -76,7 +76,7 @@ export default async function page() {
                     <section className="w-80 flex-shrink-0 space-y-4">
                         <Heading variant="sm">Completed</Heading>
                         {tasks.completed.map((task) => (
-                            <TaskCard task={task} />
+                            <TaskCard key={task.id} task={task} />
                         ))}
                         {tasks.completed.length < 1 && (
                             <ErrorMessage

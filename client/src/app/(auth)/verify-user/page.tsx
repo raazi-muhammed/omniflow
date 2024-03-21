@@ -1,5 +1,8 @@
+"use client";
+
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import VerifyForm from "./_forms/VerifyForm";
+import { Suspense } from "react";
 
 export default function page() {
     return (
@@ -8,7 +11,9 @@ export default function page() {
                 <CardHeader>
                     <CardTitle>Verify your account</CardTitle>
                 </CardHeader>
-                <VerifyForm />
+                <Suspense>
+                    <VerifyForm />
+                </Suspense>
             </Card>
         </main>
     );

@@ -11,8 +11,9 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { changeInvitationStatus } from "@/services/team.service";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
-export default function page() {
+function InvitationComponent() {
     const { toast } = useToast();
     const searchParams = useSearchParams();
     const token = searchParams.get("token");
@@ -89,5 +90,13 @@ export default function page() {
                 </CardContent>
             </Card>
         </main>
+    );
+}
+
+export default function InvitationPage() {
+    return (
+        <Suspense>
+            <InvitationComponent />
+        </Suspense>
     );
 }

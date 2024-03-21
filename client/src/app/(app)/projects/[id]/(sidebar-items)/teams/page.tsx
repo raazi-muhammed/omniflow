@@ -16,6 +16,7 @@ import ErrorMessage from "@/components/custom/ErrorMessage";
 import { PROJECT_TOKEN_COOKIE, USER_TOKEN_COOKIE } from "@/constants/cookies";
 import { Label } from "@/components/ui/label";
 import { formatConstants } from "@/lib/formaters";
+import { Fragment } from "react";
 
 async function loadTeams() {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -54,8 +55,8 @@ export default async function page() {
                 {teams.length <= 0 && (
                     <ErrorMessage message="Not teams yet" type="info" />
                 )}
-                {teams.map((team) => (
-                    <>
+                {teams.map((team, index) => (
+                    <Fragment key={index}>
                         <section className="flex justify-between">
                             <Heading variant="sm">{team.name}</Heading>
                             <Link href={`teams/${team.name}`}>
@@ -72,7 +73,9 @@ export default async function page() {
                                 />
                             )}
                             {team.members.map((member) => (
-                                <Card className="flex gap-4 p-4 align-middle">
+                                <Card
+                                    key={member.info.id}
+                                    className="flex gap-4 p-4 align-middle">
                                     <div className="my-auto">
                                         <Avatar
                                             name={member.info.name}
@@ -101,7 +104,7 @@ export default async function page() {
                             ))}
                         </ResponsiveGridContainer>
                         <Separator className="my-4" />
-                    </>
+                    </Fragment>
                 ))}
             </Container>
         </div>

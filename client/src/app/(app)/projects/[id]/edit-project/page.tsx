@@ -46,8 +46,8 @@ export default function page() {
                                 <AccordionContent className="px-4">
                                     <p className="mb-4">
                                         Deleting this project will remove it
-                                        from your workspace. Make sure you won't
-                                        need it anymore
+                                        from your workspace. Make sure you
+                                        won&apos;t need it anymore
                                     </p>
                                     <DeleteProject />
                                 </AccordionContent>

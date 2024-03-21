@@ -105,7 +105,9 @@ export default function AddVariableForm({
                                 </FormControl>
                                 <SelectContent>
                                     {dataValueTypes.map((type) => (
-                                        <SelectItem value={type.value}>
+                                        <SelectItem
+                                            key={type.value}
+                                            value={type.value}>
                                             {type.label}
                                         </SelectItem>
                                     ))}

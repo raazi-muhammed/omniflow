@@ -63,7 +63,7 @@ export default async function page({
                         </Link>
                         <Heading variant="sm">Upcoming Meetings</Heading>
                         {upcomingMeetings.map((meeting) => (
-                            <Card className="p-4">
+                            <Card key={meeting.id} className="p-4">
                                 <CustomLink
                                     href={`/projects/${params.projectId}/meetings/${meeting.id}`}>
                                     {meeting.name}
@@ -88,7 +88,7 @@ export default async function page({
                                     Previous Meetings
                                 </Heading>
                                 {previousMeetings.map((meeting) => (
-                                    <Card className="p-4">
+                                    <Card key={meeting.id} className="p-4">
                                         <CustomLink
                                             href={`/projects/${params.projectId}/meetings/${meeting.id}`}>
                                             {meeting.name}

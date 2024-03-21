@@ -24,7 +24,7 @@ import { USER_TOKEN_COOKIE } from "@/constants/cookies";
 import { Label } from "@/components/ui/label";
 import Container from "@/components/layout/Container";
 
-export async function getUserData(username: string) {
+async function getUserData(username: string) {
     const token = cookies().get(USER_TOKEN_COOKIE)?.value;
 
     const response = await getUserProfile(username, {
@@ -37,7 +37,7 @@ export async function getUserData(username: string) {
     return response?.data;
 }
 
-export default async function page({
+export default async function Page({
     params,
 }: {
     params: { username: string };

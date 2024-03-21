@@ -33,7 +33,7 @@ export default function Login() {
                         </CardContent>
                         <CardFooter>
                             <small className="mx-auto text-center text-secondary">
-                                Don't have an account?
+                                Don&apos;t have an account?
                                 <Link
                                     href="sign-up"
                                     className="ms-1 font-bold text-primary underline">

@@ -39,37 +39,37 @@ export default async function page({
 }: {
     params: { moduleId: string };
 }) {
-    const module = await getModuleDetails(params.moduleId);
+    const moduleData = await getModuleDetails(params.moduleId);
 
     return (
         <div>
             <Container className="space-y-6">
                 <PreviewActions>
-                    <EditModule module={module} />
+                    <EditModule module={moduleData} />
                 </PreviewActions>
                 <PreviewHeader>
                     <PreviewContent>
-                        <Heading> {module.name}</Heading>
+                        <Heading> {moduleData.name}</Heading>
                         <Label>Description</Label>
-                        <p>{module.description}</p>
+                        <p>{moduleData.description}</p>
                     </PreviewContent>
                     <PreviewAside>
                         <div>
                             <Label>Start Date</Label>
-                            <p>{moment(module.startDate).format("LL")}</p>
+                            <p>{moment(moduleData.startDate).format("LL")}</p>
                         </div>
                         <div>
                             <Label>Due Date</Label>
-                            <p>{moment(module.dueDate).format("LL")}</p>
+                            <p>{moment(moduleData.dueDate).format("LL")}</p>
                         </div>
                     </PreviewAside>
                 </PreviewHeader>
                 <Separator />
                 <Heading variant="sm">Dependencies</Heading>
-                {module.dependencies.length > 0 ? (
+                {moduleData.dependencies.length > 0 ? (
                     <section className="mt-2 flex gap-4">
-                        {module.dependencies.map((dep) => (
-                            <Card className="w-44 p-4">
+                        {moduleData.dependencies.map((dep) => (
+                            <Card key={dep.id} className="w-44 p-4">
                                 <Link href={dep.id}>
                                     <p className="hover:underline">
                                         {dep.name}

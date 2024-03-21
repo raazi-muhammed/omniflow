@@ -79,7 +79,7 @@ export default async function page({
                             </TableHeader>
                             <TableBody>
                                 {endpointData.schema.map((sch) => (
-                                    <TableRow>
+                                    <TableRow key={sch.id}>
                                         <TableCell>{sch.key}</TableCell>
                                         <TableCell>
                                             {formatConstants(sch.type)}
@@ -88,7 +88,7 @@ export default async function page({
                                             <div className="flex gap-2">
                                                 {sch.options.map(
                                                     (option, index) => (
-                                                        <p>
+                                                        <p key={index}>
                                                             {formatConstants(
                                                                 option
                                                             )}

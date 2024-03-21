@@ -32,7 +32,7 @@ export default function Sidebar() {
         getCurrentProject().then((response) => {
             dispatch(setProject(response.data as IProject));
         });
-    }, []);
+    }, [dispatch]);
 
     const options = [
         {

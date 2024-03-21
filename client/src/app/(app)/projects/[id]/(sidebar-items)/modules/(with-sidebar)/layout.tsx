@@ -58,6 +58,7 @@ export default async function page({
                     <section className="grid gap-4">
                         {modules.map((module) => (
                             <ModuleCard
+                                key={module.id}
                                 projectId={params.projectId}
                                 module={module}
                             />

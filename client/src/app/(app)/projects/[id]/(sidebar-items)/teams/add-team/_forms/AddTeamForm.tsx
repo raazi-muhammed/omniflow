@@ -107,7 +107,9 @@ export default function AddTeamForm() {
                                 </FormControl>
                                 <SelectContent>
                                     {membersList.map((member) => (
-                                        <SelectItem value={member.info.email}>
+                                        <SelectItem
+                                            key={member.info.id}
+                                            value={member.info.email}>
                                             {`${member.info.name}, ${member.info.email}`}
                                         </SelectItem>
                                     ))}

@@ -1,18 +1,14 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import {
-    DropdownMenu,
-    DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuSubContent,
-    DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/components/ui/use-toast";
 import { getTeams, moveMember } from "@/services/team.service";
 import { ITeam } from "@/types/database";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 export default function MoveToTeamSelector({
     email,
@@ -48,8 +44,9 @@ export default function MoveToTeamSelector({
     }
     return (
         <DropdownMenuSubContent>
-            {teams.map((team) => (
+            {teams.map((team, index) => (
                 <DropdownMenuItem
+                    key={index}
                     disabled={fromTeam === team.name}
                     onClick={() => handleMoveTeam(team.name)}>
                     {team.name}

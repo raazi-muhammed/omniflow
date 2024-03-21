@@ -70,7 +70,7 @@ export default async function page({
                             </TableHeader>
                             <TableBody>
                                 {endpointData.variables.map((variable) => (
-                                    <TableRow>
+                                    <TableRow key={variable.id}>
                                         <TableCell>{variable.name}</TableCell>
                                         <TableCell>
                                             {formatConstants(variable.type)}

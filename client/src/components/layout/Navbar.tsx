@@ -29,7 +29,7 @@ function Navbar() {
                     description: error || "Internal server error",
                 });
             });
-    }, []);
+    }, [dispatch, toast]);
     return (
         <section
             className={`sticky top-0 z-40 flex min-h-20 rounded-none border bg-black/50 backdrop-blur-lg`}>

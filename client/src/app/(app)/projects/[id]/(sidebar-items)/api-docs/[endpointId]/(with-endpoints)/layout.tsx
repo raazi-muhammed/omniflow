@@ -46,7 +46,7 @@ export default async function page({ children }: { children: ReactNode }) {
                         </Link>
                     </ActionItemsContainer>
                     {endpoints.map((point) => (
-                        <Card className="flex">
+                        <Card key={point.id} className="flex">
                             <div className="flex min-w-20 rounded-l-lg border-r bg-muted px-3">
                                 <p className="my-auto">{point.method}</p>
                             </div>

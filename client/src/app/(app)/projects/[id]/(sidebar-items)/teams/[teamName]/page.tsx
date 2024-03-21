@@ -27,7 +27,7 @@ import { Label } from "@/components/ui/label";
 import Container from "@/components/layout/Container";
 import { formatConstants } from "@/lib/formaters";
 
-export async function getTeamsData(teamName: string) {
+async function getTeamsData(teamName: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
     const projectToken = cookies().get(PROJECT_TOKEN_COOKIE)?.value;
 
@@ -59,7 +59,7 @@ export default async function page({
                         <Heading variant="spaced">{team.name}</Heading>
                         <section className="grid grid-cols-2 gap-4">
                             {team.members.map((member) => (
-                                <Card>
+                                <Card key={member.info.id}>
                                     <CardContent className="mt-4 flex justify-between gap-4 pe-2">
                                         <div className="flex w-full gap-2">
                                             <div className="my-auto">
@@ -130,8 +130,8 @@ export default async function page({
                                 <AccordionContent className="px-4">
                                     <p className="mb-4">
                                         Deleting this project will remove it
-                                        from your workspace. Make sure you won't
-                                        need it anymore
+                                        from your workspace. Make sure you
+                                        won&apos;t need it anymore
                                     </p>
                                     <RemoveTeam team={team.name} />
                                 </AccordionContent>

@@ -101,7 +101,9 @@ export default function AddSchemaForm({ endpointId }: { endpointId: string }) {
                                 </FormControl>
                                 <SelectContent>
                                     {dataValueTypes.map((type) => (
-                                        <SelectItem value={type.value}>
+                                        <SelectItem
+                                            key={type.value}
+                                            value={type.value}>
                                             {type.label}
                                         </SelectItem>
                                     ))}

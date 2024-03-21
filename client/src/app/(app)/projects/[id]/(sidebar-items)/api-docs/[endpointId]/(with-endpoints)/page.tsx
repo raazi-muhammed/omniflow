@@ -106,7 +106,7 @@ export default async function Endpoint({
                             </TableHeader>
                             <TableBody>
                                 {endpoint.variables.map((variable) => (
-                                    <TableRow>
+                                    <TableRow key={variable.id}>
                                         <TableCell>{variable.name}</TableCell>
                                         <TableCell>
                                             {formatConstants(variable.type)}
@@ -148,7 +148,7 @@ export default async function Endpoint({
                             </TableHeader>
                             <TableBody>
                                 {endpoint.headers.map((header) => (
-                                    <TableRow>
+                                    <TableRow key={header.id}>
                                         <TableCell>{header.key}</TableCell>
                                         <TableCell>{header.value}</TableCell>
                                         <TableCell>
@@ -197,7 +197,7 @@ export default async function Endpoint({
                             </TableHeader>
                             <TableBody>
                                 {endpoint.schema.map((sch) => (
-                                    <TableRow>
+                                    <TableRow key={sch.id}>
                                         <TableCell>{sch.key}</TableCell>
                                         <TableCell>
                                             {formatConstants(sch.type)}
@@ -206,7 +206,7 @@ export default async function Endpoint({
                                             <div className="flex gap-2">
                                                 {sch.options.map(
                                                     (option, index) => (
-                                                        <p>
+                                                        <p key={index}>
                                                             {formatConstants(
                                                                 option
                                                             )}
@@ -255,7 +255,7 @@ export default async function Endpoint({
                         </TableHeader>
                         <TableBody>
                             {endpoint.requests.map((response) => (
-                                <TableRow>
+                                <TableRow key={response.id}>
                                     <TableCell>{response.statusCode}</TableCell>
                                     <TableCell>
                                         {response.type.toLowerCase()}

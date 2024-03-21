@@ -281,7 +281,9 @@ export default function EditModuleForm({
                                     </FormControl>
                                     <SelectContent>
                                         {modules.map((module) => (
-                                            <SelectItem value={module.id}>
+                                            <SelectItem
+                                                key={module.id}
+                                                value={module.id}>
                                                 {module.name}
                                             </SelectItem>
                                         ))}
@@ -302,7 +304,9 @@ export default function EditModuleForm({
                             <FormLabel>Dependencies</FormLabel>
                             <section className="flex flex-wrap gap-2 pb-2">
                                 {dependencies.map((dep, i) => (
-                                    <Card className="flex w-fit gap-2 p-2 ps-3">
+                                    <Card
+                                        key={dep.id}
+                                        className="flex w-fit gap-2 p-2 ps-3">
                                         {dep.label}
                                         <Button
                                             onClick={() => {
@@ -339,6 +343,7 @@ export default function EditModuleForm({
                                 <SelectContent>
                                     {modules.map((module) => (
                                         <SelectItem
+                                            key={module.id}
                                             disabled={dependencies.some(
                                                 (dep) => dep.id === module.id
                                             )}

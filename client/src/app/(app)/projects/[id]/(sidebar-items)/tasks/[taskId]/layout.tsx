@@ -55,6 +55,7 @@ export default async function page({ children }: { children: ReactNode }) {
                                 <Heading variant="sm">Todo</Heading>
                                 {tasks.toDo.map((task) => (
                                     <TaskCard
+                                        key={task.id}
                                         onHomeScreen={false}
                                         task={task}
                                     />
@@ -66,6 +67,7 @@ export default async function page({ children }: { children: ReactNode }) {
                                 <Heading variant="sm">On Progress</Heading>
                                 {tasks.onProgress.map((task) => (
                                     <TaskCard
+                                        key={task.id}
                                         onHomeScreen={false}
                                         task={task}
                                     />
@@ -77,6 +79,7 @@ export default async function page({ children }: { children: ReactNode }) {
                                 <Heading variant="sm">Completed</Heading>
                                 {tasks.completed.map((task) => (
                                     <TaskCard
+                                        key={task.id}
                                         onHomeScreen={false}
                                         task={task}
                                     />
