@@ -14,6 +14,12 @@ import React from "react";
 import { AddNote } from "./_components/AddNote";
 import { EditNote } from "./_components/EditNote";
 import { EditMeeting } from "./_components/EditMeetings";
+import {
+    PreviewActions,
+    PreviewAside,
+    PreviewContent,
+    PreviewHeader,
+} from "@/components/layout/PreviewHeader";
 
 async function loadMeeting(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -40,24 +46,26 @@ export default async function MeetingPage({
 
     return (
         <main className="space-y-6">
-            <section className="mt-8 flex justify-between">
-                <Heading>{meeting.name}</Heading>
+            <PreviewActions>
                 <EditMeeting meeting={meeting} />
-            </section>
-            <section className="grid grid-cols-3">
-                <div>
+            </PreviewActions>
+            <PreviewHeader>
+                <PreviewContent>
+                    <Heading>{meeting.name}</Heading>
                     <Label>Agenda</Label>
                     <p>{meeting.agenda}</p>
-                </div>
-                <div>
-                    <Label>Start Date</Label>
-                    <p>{moment(meeting?.startDate).format("ll")}</p>
-                </div>
-                <div>
-                    <Label>End Date</Label>
-                    <p>{moment(meeting?.endDate).format("ll")}</p>
-                </div>
-            </section>
+                </PreviewContent>
+                <PreviewAside>
+                    <div>
+                        <Label>Start Date</Label>
+                        <p>{moment(meeting?.startDate).format("ll")}</p>
+                    </div>
+                    <div>
+                        <Label>End Date</Label>
+                        <p>{moment(meeting?.endDate).format("ll")}</p>
+                    </div>
+                </PreviewAside>
+            </PreviewHeader>
             <Separator />
             <section>
                 {meeting.notes ? (

@@ -11,6 +11,12 @@ import { cookies } from "next/headers";
 import moment from "moment";
 import Link from "next/link";
 import EditModule from "./_components/EditModule";
+import {
+    PreviewActions,
+    PreviewAside,
+    PreviewContent,
+    PreviewHeader,
+} from "@/components/layout/PreviewHeader";
 
 async function getModuleDetails(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -38,22 +44,26 @@ export default async function page({
     return (
         <div>
             <Container className="space-y-6">
-                <Heading variant="spaced"> {module.name}</Heading>
-                <EditModule module={module} />
-                <section className="grid grid-cols-3">
-                    <div>
+                <PreviewActions>
+                    <EditModule module={module} />
+                </PreviewActions>
+                <PreviewHeader>
+                    <PreviewContent>
+                        <Heading> {module.name}</Heading>
                         <Label>Description</Label>
                         <p>{module.description}</p>
-                    </div>
-                    <div>
-                        <Label>Start Date</Label>
-                        <p>{moment(module.startDate).format("LL")}</p>
-                    </div>
-                    <div>
-                        <Label>Due Date</Label>
-                        <p>{moment(module.dueDate).format("LL")}</p>
-                    </div>
-                </section>
+                    </PreviewContent>
+                    <PreviewAside>
+                        <div>
+                            <Label>Start Date</Label>
+                            <p>{moment(module.startDate).format("LL")}</p>
+                        </div>
+                        <div>
+                            <Label>Due Date</Label>
+                            <p>{moment(module.dueDate).format("LL")}</p>
+                        </div>
+                    </PreviewAside>
+                </PreviewHeader>
                 <Separator />
                 <Heading variant="sm">Dependencies</Heading>
                 {module.dependencies.length > 0 ? (

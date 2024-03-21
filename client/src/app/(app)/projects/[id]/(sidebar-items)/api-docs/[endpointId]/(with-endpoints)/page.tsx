@@ -22,6 +22,12 @@ import ErrorMessage from "@/components/custom/ErrorMessage";
 import EditEndpoint from "../_components/EditEndpoint";
 import { formatConstants } from "@/lib/formaters";
 import { SectionContent } from "@/components/layout/SectinSplitter";
+import {
+    PreviewActions,
+    PreviewAside,
+    PreviewContent,
+    PreviewHeader,
+} from "@/components/layout/PreviewHeader";
 
 async function getEndpointData(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -47,24 +53,30 @@ export default async function Endpoint({
     const endpoint: IEndpoint = await getEndpointData(params.endpointId);
     return (
         <SectionContent className="mb-12 w-full space-y-6 border-l ps-8">
-            <div className="mt-8 flex justify-between">
-                <Heading>{endpoint.name}</Heading>
+            <PreviewActions>
                 <EditEndpoint endpoint={endpoint} />
-            </div>
-            <section className="grid grid-cols-3">
-                <div>
-                    <Label>Method</Label>
-                    <p>{endpoint.method}</p>
-                </div>
-                <div>
-                    <Label>URL</Label>
-                    <p>{endpoint.route}</p>
-                </div>
-                <div>
-                    <Label>Summary</Label>
-                    <p>{endpoint.summary ? endpoint.summary : "No summary"}</p>
-                </div>
-            </section>
+            </PreviewActions>
+            <PreviewHeader>
+                <PreviewContent>
+                    <Heading>{endpoint.name}</Heading>
+                    <div>
+                        <Label>Summary</Label>
+                        <p>
+                            {endpoint.summary ? endpoint.summary : "No summary"}
+                        </p>
+                    </div>
+                </PreviewContent>
+                <PreviewAside>
+                    <div>
+                        <Label>Method</Label>
+                        <p>{endpoint.method}</p>
+                    </div>
+                    <div>
+                        <Label>URL</Label>
+                        <p>{endpoint.route}</p>
+                    </div>
+                </PreviewAside>
+            </PreviewHeader>
             <Separator className="my-0" />
             <Tabs defaultValue="variables" className="w-full">
                 <TabsList className="mx-auto flex w-fit">
