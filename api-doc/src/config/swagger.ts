@@ -1,7 +1,9 @@
-import { logger } from "@omniflow/common";
+import { loadEnv, logger } from "@omniflow/common";
 import { Express, Request, Response } from "express";
 import swaggerJsdoc, { Options } from "swagger-jsdoc";
 import swaggerUI from "swagger-ui-express";
+
+const { PORT } = loadEnv(["PORT"]);
 
 const options: Options = {
     definition: {
@@ -10,6 +12,11 @@ const options: Options = {
             title: "Omniflow API Docs Service Docs",
             version: "1.0.0",
         },
+        servers: [
+            {
+                url: `http://localhost:${PORT}/api/api-doc`,
+            },
+        ],
         components: {
             schemas: {
                 endpoint: {
