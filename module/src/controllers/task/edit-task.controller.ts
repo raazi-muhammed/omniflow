@@ -34,6 +34,6 @@ export default function buildEditTaskController({
         });
 
         const response = new ResponseCreator();
-        return response.setMessage("Task edited");
+        return response.setMessage("Task edited").setStatusCode(204);
     };
 }

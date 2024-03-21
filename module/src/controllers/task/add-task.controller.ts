@@ -23,6 +23,6 @@ export default function buildAddTaskController({
         });
 
         const response = new ResponseCreator();
-        return response.setMessage("Task created");
+        return response.setMessage("Task created").setStatusCode(201);
     };
 }
