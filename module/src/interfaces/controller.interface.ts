@@ -5,6 +5,8 @@ export type IModuleController = {
     getModules: (req: IRequest) => Promise<ResponseCreator>;
     getModule: (req: IRequest) => Promise<ResponseCreator>;
     getModuleList: (req: IRequest) => Promise<ResponseCreator>;
+    editModule: (req: IRequest) => Promise<ResponseCreator>;
+    deleteModule: (req: IRequest) => Promise<ResponseCreator>;
 };
 
 export type ITaskController = {

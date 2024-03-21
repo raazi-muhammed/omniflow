@@ -10,6 +10,7 @@ import { IModule } from "@/types/database";
 import { cookies } from "next/headers";
 import moment from "moment";
 import Link from "next/link";
+import EditModule from "./_components/EditModule";
 
 async function getModuleDetails(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -38,6 +39,7 @@ export default async function page({
         <div>
             <Container className="space-y-6">
                 <Heading variant="spaced"> {module.name}</Heading>
+                <EditModule module={module} />
                 <section className="grid grid-cols-3">
                     <div>
                         <Label>Description</Label>

@@ -4,6 +4,8 @@ import { IModule, ITask } from "./entity.interface.js";
 
 export type IModuleUseCases = {
     addModule: (data: IModule) => Promise<IDBModule>;
+    editModule: (data: { id: string; moduleData: IModule }) => Promise<void>;
+    deleteModule: (id: string) => Promise<void>;
     getModules: (data: {
         projectId: string;
         parentModule?: string;

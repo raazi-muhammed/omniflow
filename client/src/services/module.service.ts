@@ -29,6 +29,46 @@ export async function addModule(
             });
     });
 }
+export async function editModule(
+    { id }: { id: string },
+    values: {
+        name: string;
+        priority: number;
+        startDate: Date;
+        dueDate: Date;
+        description: string;
+        parentModule?: string;
+    },
+    config?: AxiosRequestConfig
+): Promise<IResponse> {
+    const url = new BuildUrl().module(`/modules/${id}`);
+    return new Promise((resolve, reject) => {
+        axios
+            .put(url, values, { ...config, withCredentials: true })
+            .then((response) => {
+                resolve(adaptSuccessResponse(response));
+            })
+            .catch((error) => {
+                reject(adaptErrorResponse(error));
+            });
+    });
+}
+export async function deleteModule(
+    { id }: { id: string },
+    config?: AxiosRequestConfig
+): Promise<IResponse> {
+    const url = new BuildUrl().module(`/modules/${id}`);
+    return new Promise((resolve, reject) => {
+        axios
+            .delete(url, { ...config, withCredentials: true })
+            .then((response) => {
+                resolve(adaptSuccessResponse(response));
+            })
+            .catch((error) => {
+                reject(adaptErrorResponse(error));
+            });
+    });
+}
 
 export async function getModules(
     { parentModule }: { parentModule?: string },

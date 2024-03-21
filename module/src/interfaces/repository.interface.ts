@@ -4,6 +4,8 @@ import { IModule, ITask } from "./entity.interface.js";
 
 export type IModuleRepository = {
     add: (data: IModule) => Promise<IDBModule>;
+    edit: (data: { id: string; moduleData: IModule }) => Promise<boolean>;
+    delete: (id: string) => Promise<boolean>;
     getAll: (data: {
         projectId: string;
         parentModule?: string;

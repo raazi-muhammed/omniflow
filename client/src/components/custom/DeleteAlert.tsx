@@ -30,11 +30,12 @@ export function DeleteAlert({ handleDelete }: { handleDelete: () => void }) {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction asChild>
-                        <Button onClick={handleDelete} variant="destructive">
-                            Delete
-                        </Button>
-                    </AlertDialogAction>
+                    <Button
+                        onClick={handleDelete}
+                        type="button"
+                        variant="destructive">
+                        Delete
+                    </Button>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

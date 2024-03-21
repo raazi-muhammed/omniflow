@@ -12,6 +12,23 @@ export default function buildModuleRepository({
         add: async (moduleData: IModule) => {
             return (await database.create(moduleData)) as IDBModule;
         },
+        edit: async ({
+            moduleData,
+            id,
+        }: {
+            id: string;
+            moduleData: IModule;
+        }) => {
+            const response = await database.updateOne({ _id: id }, moduleData);
+            return response.modifiedCount > 0;
+        },
+        delete: async (id: string) => {
+            const response = await database.updateOne(
+                { _id: id },
+                { deletedAt: new Date() }
+            );
+            return response.modifiedCount > 0;
+        },
         getAll: async ({
             projectId,
             parentModule = null,
@@ -20,7 +37,7 @@ export default function buildModuleRepository({
             parentModule?: string;
         }) => {
             return (await database
-                .find({ projectId, parentModule })
+                .find({ projectId, parentModule, deletedAt: null })
                 .populate("dependencies")) as IDBModule[];
         },
         getById: async (moduleId: string) => {
@@ -30,7 +47,7 @@ export default function buildModuleRepository({
         },
         getModuleList: async ({ projectId }: { projectId: string }) => {
             return (await database
-                .find({ projectId })
+                .find({ projectId, deletedAt: null })
                 .populate("dependencies")) as IDBModule[];
         },
     });

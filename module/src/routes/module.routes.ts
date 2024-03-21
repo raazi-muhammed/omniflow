@@ -129,5 +129,74 @@ export default function buildModuleRoutes({
         makeCallback(moduleController.addModule)
     );
 
+    /**
+     * @openapi
+     * /modules:
+     *   put:
+     *     summary: Updates a module
+     *     parameters:
+     *       - name: moduleId
+     *         in: path
+     *         required: true
+     *         description: id to find the module
+     *         schema:
+     *           type: string
+     *     requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             type: object
+     *             properties:
+     *               name:
+     *                 type: string
+     *               description:
+     *                 type: string
+     *               startDate:
+     *                 type: string
+     *               dueDate:
+     *                 type: string
+     *             required:
+     *               - name
+     *               - method
+     *               - route
+     *     responses:
+     *       '201':
+     *         description: Module updated
+     *       '500':
+     *         description: An error occurred
+     */
+    router.put(
+        "/modules/:moduleId",
+        verifyUser,
+        verifyProject,
+        makeCallback(moduleController.editModule)
+    );
+
+    /**
+     * @openapi
+     * /modules/{moduleId}:
+     *   delete:
+     *     summary: Deletes the module
+     *     parameters:
+     *       - name: moduleId
+     *         in: path
+     *         required: true
+     *         description: id to find the module
+     *         schema:
+     *           type: string
+     *     responses:
+     *       '204':
+     *         description: Module removed
+     *       '500':
+     *         description: An error occurred
+     */
+    router.delete(
+        "/modules/:moduleId",
+        verifyUser,
+        verifyProject,
+        makeCallback(moduleController.deleteModule)
+    );
+
     return router;
 }

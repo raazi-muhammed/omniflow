@@ -46,7 +46,9 @@ export default async function page({
             <SectionSplitter>
                 <SectionAside className="mt-0">
                     <ActionItemsContainer>
-                        <Link href="add" passHref legacyBehavior>
+                        <Link
+                            href={`/projects/${params.projectId}/modules/add`}
+                            legacyBehavior>
                             <Button size="sm">
                                 <AddIcon />
                                 Add module
