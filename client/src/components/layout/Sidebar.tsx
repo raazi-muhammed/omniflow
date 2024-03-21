@@ -11,15 +11,26 @@ import { useDispatch } from "react-redux";
 import { setProject } from "@/redux/features/projectSlice";
 import { IProject } from "@/types/database";
 import {
-    FileCode2,
-    GanttChartSquare,
-    KanbanSquare,
-    ListTodo,
-    Puzzle,
-    Users,
-    Video,
+    FileCode2 as APIDocsIcon,
+    GanttChartSquare as ProjectIcon,
+    KanbanSquare as OverviewIcon,
+    ListTodo as TasksIcon,
+    PanelRightClose as MenuBarIcon,
+    Puzzle as ModulesIcon,
+    Users as TeamsIcon,
+    Video as MeetingsIcon,
 } from "lucide-react";
 import { Separator } from "../ui/separator";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+
+type Option = {
+    type?: string;
+    url: string;
+    title?: string;
+    identifier?: string;
+    icon?: JSX.Element;
+};
+import { cn } from "@/lib/utils";
 
 export default function Sidebar() {
     const dispatch = useDispatch<AppDispatch>();
@@ -34,18 +45,18 @@ export default function Sidebar() {
         });
     }, [dispatch]);
 
-    const options = [
+    const options: Option[] = [
         {
             title: "Projects",
             url: "/projects",
             identifier: "",
-            icon: <GanttChartSquare className="me-2" size="1.3em" />,
+            icon: <ProjectIcon className="me-2" size="1.3em" />,
         },
         {
             title: "Overview",
             url: `/projects/${projectInfo?.id}`,
             identifier: "overview",
-            icon: <KanbanSquare className="me-2" size="1.3em" />,
+            icon: <OverviewIcon className="me-2" size="1.3em" />,
         },
         {
             type: "separator",
@@ -55,25 +66,25 @@ export default function Sidebar() {
             title: "Teams",
             url: `/projects/${projectInfo?.id}/teams`,
             identifier: "teams",
-            icon: <Users className="me-2" size="1.3em" />,
+            icon: <TeamsIcon className="me-2" size="1.3em" />,
         },
         {
             title: "API Docs",
             url: `/projects/${projectInfo?.id}/api-docs`,
             identifier: "api-docs",
-            icon: <FileCode2 className="me-2" size="1.3em" />,
+            icon: <APIDocsIcon className="me-2" size="1.3em" />,
         },
         {
             title: "Modules",
             url: `/projects/${projectInfo?.id}/modules`,
             identifier: "modules",
-            icon: <Puzzle className="me-2" size="1.3em" />,
+            icon: <ModulesIcon className="me-2" size="1.3em" />,
         },
         {
             title: "Tasks",
             url: `/projects/${projectInfo?.id}/tasks`,
             identifier: "tasks",
-            icon: <ListTodo className="me-2" size="1.3em" />,
+            icon: <TasksIcon className="me-2" size="1.3em" />,
         },
         {
             type: "separator",
@@ -83,7 +94,7 @@ export default function Sidebar() {
             title: "Meetings",
             url: `/projects/${projectInfo?.id}/meetings`,
             identifier: "meetings",
-            icon: <Video className="me-2" size="1.3em" />,
+            icon: <MeetingsIcon className="me-2" size="1.3em" />,
         },
     ];
 
@@ -91,7 +102,43 @@ export default function Sidebar() {
     urls.push("overview");
 
     return (
-        <aside className="sticky top-0 z-50 -mt-20 h-screen min-w-64 border border-t-0 bg-black/50 p-2 py-8 backdrop-blur-lg">
+        <>
+            <Sheet>
+                <SheetTrigger className="absolute left-5 top-[1.75rem] z-[9999] text-muted-foreground sm:hidden">
+                    <MenuBarIcon />
+                </SheetTrigger>
+                <SheetContent side="left" className="z-[9999] max-w-72 p-0">
+                    <SidebarItems
+                        className="border-none"
+                        urls={urls}
+                        options={options}
+                    />
+                </SheetContent>
+            </Sheet>
+            <SidebarItems
+                className="sticky top-0 z-50 -mt-20 hidden h-screen min-w-72 sm:block"
+                urls={urls}
+                options={options}
+            />
+        </>
+    );
+}
+
+function SidebarItems({
+    options,
+    urls,
+    className,
+}: {
+    options: Option[];
+    urls: string[];
+    className?: string;
+}) {
+    return (
+        <aside
+            className={cn(
+                "border border-t-0 bg-black/50 p-2 py-8 backdrop-blur-lg",
+                className
+            )}>
             <div className="mx-4 my-4 flex gap-2 align-middle text-primary">
                 <AppLogo />
                 <p className="text-xl font-semibold">Ominflow</p>
