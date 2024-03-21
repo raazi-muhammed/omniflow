@@ -19,10 +19,10 @@ import Link from "next/link";
 
 export default function ModuleCard({
     module,
-    onHomeScreen = false,
+    projectId,
 }: {
     module: IModule;
-    onHomeScreen?: boolean;
+    projectId: string;
 }) {
     const [loading, setLoading] = useState(false);
     const [subModules, setSubModules] = useState<IModule[] | null>(null);
@@ -46,9 +46,7 @@ export default function ModuleCard({
                     <AccordionTrigger className="my-auto h-8 w-fit"></AccordionTrigger>
                     <section className="h-fit w-full">
                         <Link
-                            href={`${onHomeScreen ? "modules/" : ""}${
-                                module.id
-                            }`}>
+                            href={`/projects/${projectId}/modules/${module.id}`}>
                             <p className="hover:underline">{module.name}</p>
                         </Link>
                         <section>
@@ -58,11 +56,7 @@ export default function ModuleCard({
                                     <section className="-mt-1 flex h-fit flex-wrap gap-4">
                                         {module.dependencies.map((dep) => (
                                             <Link
-                                                href={`${
-                                                    onHomeScreen
-                                                        ? "modules/"
-                                                        : ""
-                                                }${dep.id}`}>
+                                                href={`/projects/${projectId}/modules/${dep.id}`}>
                                                 <Label className="hover:underline">
                                                     {dep.name}
                                                 </Label>
@@ -76,9 +70,7 @@ export default function ModuleCard({
                         </section>
                     </section>
                     <Link
-                        href={`${
-                            onHomeScreen ? "modules/" : ""
-                        }add?parentModule=${module.id}`}
+                        href={`/projects/${projectId}/modules/add?parentModule=${module.id}`}
                         legacyBehavior>
                         <Button
                             size="sm"
@@ -93,7 +85,10 @@ export default function ModuleCard({
                     <section className="grid w-full gap-4">
                         <>
                             {subModules?.map((module) => (
-                                <ModuleCard module={module} />
+                                <ModuleCard
+                                    projectId={projectId}
+                                    module={module}
+                                />
                             ))}
                             {loading ? (
                                 <div className="mx-auto my-2 w-fit">

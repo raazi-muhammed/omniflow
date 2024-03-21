@@ -32,7 +32,13 @@ async function loadModules() {
     return response.data;
 }
 
-export default async function page({ children }: { children: ReactNode }) {
+export default async function page({
+    children,
+    params,
+}: {
+    children: ReactNode;
+    params: { projectId: string };
+}) {
     const modules: IModule[] = await loadModules();
 
     return (
@@ -49,7 +55,10 @@ export default async function page({ children }: { children: ReactNode }) {
                     </ActionItemsContainer>
                     <section className="grid gap-4">
                         {modules.map((module) => (
-                            <ModuleCard module={module} />
+                            <ModuleCard
+                                projectId={params.projectId}
+                                module={module}
+                            />
                         ))}
                         {modules.length === 0 && (
                             <ErrorMessage
