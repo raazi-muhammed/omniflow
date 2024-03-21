@@ -16,6 +16,7 @@ import {
     SectionContent,
     SectionSplitter,
 } from "@/components/layout/SectinSplitter";
+import CustomLink from "@/components/custom/CustomLink";
 
 async function loadEndpoints() {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -30,13 +31,7 @@ async function loadEndpoints() {
     return response.data;
 }
 
-export default async function page({
-    params,
-    children,
-}: {
-    params: { endpointId: string };
-    children: ReactNode;
-}) {
+export default async function page({ children }: { children: ReactNode }) {
     const endpoints: IEndpoint[] = await loadEndpoints();
     return (
         <Container>
@@ -56,19 +51,11 @@ export default async function page({
                                 <p className="my-auto">{point.method}</p>
                             </div>
                             <div className="mx-4 my-2 flex flex-col gap-0">
-                                <p className="font-bold">{point.name}</p>
+                                <CustomLink href={`${point.id}`}>
+                                    {point.name}
+                                </CustomLink>
                                 <Label>{point.route}</Label>
                             </div>
-                            <Link
-                                className="my-auto me-6 ms-auto"
-                                href={`${point.id}`}>
-                                <Button size="icon" variant="ghost">
-                                    <ViewIcon
-                                        className="text-secondary"
-                                        size="1.2em"
-                                    />
-                                </Button>
-                            </Link>
                         </Card>
                     ))}
                 </SectionAside>

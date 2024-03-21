@@ -1,4 +1,3 @@
-import Heading from "@/components/custom/Heading";
 import ActionItemsContainer from "@/components/layout/ActionItemsContainer";
 import Container from "@/components/layout/Container";
 import { Button } from "@/components/ui/button";
@@ -9,7 +8,6 @@ import { getEndpoints } from "@/services/endpoints.service";
 import { IEndpoint } from "@/types/database";
 import { cookies } from "next/headers";
 import Link from "next/link";
-import { Eye as ViewIcon } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import ErrorMessage from "@/components/custom/ErrorMessage";
 import {
@@ -17,6 +15,7 @@ import {
     SectionContent,
     SectionSplitter,
 } from "@/components/layout/SectinSplitter";
+import CustomLink from "@/components/custom/CustomLink";
 
 async function loadEndpoints() {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -51,19 +50,11 @@ export default async function page() {
                                 <p className="my-auto">{point.method}</p>
                             </div>
                             <div className="mx-4 my-2 flex flex-col gap-0">
-                                <p className="font-bold">{point.name}</p>
+                                <CustomLink href={`api-docs/${point.id}`}>
+                                    {point.name}
+                                </CustomLink>
                                 <Label>{point.route}</Label>
                             </div>
-                            <Link
-                                className="my-auto me-6 ms-auto"
-                                href={`api-docs/${point.id}`}>
-                                <Button size="icon" variant="ghost">
-                                    <ViewIcon
-                                        className="text-secondary"
-                                        size="1.2em"
-                                    />
-                                </Button>
-                            </Link>
                         </Card>
                     ))}
                     {endpoints.length === 0 && (

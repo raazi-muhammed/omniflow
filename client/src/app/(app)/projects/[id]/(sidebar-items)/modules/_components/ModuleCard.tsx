@@ -16,6 +16,7 @@ import Spinner from "@/components/custom/Spinner";
 import { Button } from "@/components/ui/button";
 import { AddIcon } from "@/lib/icons";
 import Link from "next/link";
+import CustomLink from "@/components/custom/CustomLink";
 
 export default function ModuleCard({
     module,
@@ -41,14 +42,14 @@ export default function ModuleCard({
             onValueChange={() => {
                 if (!subModules) getSubModules();
             }}>
-            <AccordionItem value="item-1">
-                <Card className="flex p-4 align-middle">
-                    <AccordionTrigger className="my-auto h-8 w-fit"></AccordionTrigger>
-                    <section className="h-fit w-full">
-                        <Link
+            <AccordionItem value="item-1 ">
+                <Card className="flex align-middle">
+                    <AccordionTrigger className="h-full w-fit rounded-r-none bg-muted hover:bg-muted/90"></AccordionTrigger>
+                    <section className="h-fit w-full p-3">
+                        <CustomLink
                             href={`/projects/${projectId}/modules/${module.id}`}>
-                            <p className="hover:underline">{module.name}</p>
-                        </Link>
+                            {module.name}
+                        </CustomLink>
                         <section>
                             {module.dependencies.length > 0 ? (
                                 <>
@@ -75,7 +76,7 @@ export default function ModuleCard({
                         <Button
                             size="sm"
                             variant="ghost"
-                            className="my-auto text-secondary">
+                            className="my-auto me-2 text-secondary">
                             <AddIcon />
                             Add module
                         </Button>

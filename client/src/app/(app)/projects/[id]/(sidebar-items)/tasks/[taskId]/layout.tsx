@@ -53,7 +53,6 @@ export default async function page({ children }: { children: ReactNode }) {
                         {tasks.toDo.length > 0 && (
                             <section className="w-full space-y-4">
                                 <Heading variant="sm">Todo</Heading>
-
                                 {tasks.toDo.map((task) => (
                                     <TaskCard
                                         onHomeScreen={false}

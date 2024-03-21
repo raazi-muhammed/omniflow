@@ -1,3 +1,4 @@
+import CustomLink from "@/components/custom/CustomLink";
 import ErrorMessage from "@/components/custom/ErrorMessage";
 import Heading from "@/components/custom/Heading";
 import Container from "@/components/layout/Container";
@@ -63,12 +64,10 @@ export default async function page({
                         <Heading variant="sm">Upcoming Meetings</Heading>
                         {upcomingMeetings.map((meeting) => (
                             <Card className="p-4">
-                                <Link
+                                <CustomLink
                                     href={`/projects/${params.projectId}/meetings/${meeting.id}`}>
-                                    <p className="hover:underline">
-                                        {meeting.name}
-                                    </p>
-                                </Link>
+                                    {meeting.name}
+                                </CustomLink>
                                 <Label>
                                     {moment(meeting.startDate)
                                         .startOf("day")
@@ -90,12 +89,10 @@ export default async function page({
                                 </Heading>
                                 {previousMeetings.map((meeting) => (
                                     <Card className="p-4">
-                                        <Link
+                                        <CustomLink
                                             href={`/projects/${params.projectId}/meetings/${meeting.id}`}>
-                                            <p className="hover:underline">
-                                                {meeting.name}
-                                            </p>
-                                        </Link>
+                                            {meeting.name}
+                                        </CustomLink>
                                         <Label>
                                             {moment(meeting.startDate)
                                                 .startOf("day")
