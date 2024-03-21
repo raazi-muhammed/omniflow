@@ -4,13 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { cn } from "@/lib/utils";
 import { useForm } from "react-hook-form";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -22,7 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { CalendarIcon, X as XIcon } from "lucide-react";
+import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -31,13 +24,10 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 import { useToast } from "@/components/ui/use-toast";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { IModule } from "@/types/database";
+import { useRouter } from "next/navigation";
 import { logger } from "@/lib/logger";
 import { makeApiCall } from "@/lib/apicaller";
 import Heading from "@/components/custom/Heading";
-import { addTask } from "@/services/task.service";
 import { addMeeting } from "@/services/meeting.service";
 
 const formSchema = z.object({
@@ -50,7 +40,6 @@ const formSchema = z.object({
 export default function AddMeetingForm() {
     const { toast } = useToast();
     const router = useRouter();
-    const [modules, setModules] = useState<IModule[]>([]);
     const currentDate = new Date();
     currentDate.setMonth(currentDate.getMonth() + 1);
 

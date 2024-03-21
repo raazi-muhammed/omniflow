@@ -1,3 +1,4 @@
+import ErrorMessage from "@/components/custom/ErrorMessage";
 import Heading from "@/components/custom/Heading";
 import Container from "@/components/layout/Container";
 import {
@@ -62,21 +63,6 @@ export default async function page({
                         <Heading variant="sm">Upcoming Meetings</Heading>
                         {upcomingMeetings.map((meeting) => (
                             <Card className="p-4">
-                                <Link href={`${meeting.id}`}>
-                                    <p className="hover:underline">
-                                        {meeting.name}
-                                    </p>
-                                </Link>
-                                <Label>
-                                    {moment(meeting.startDate)
-                                        .startOf("day")
-                                        .fromNow()}
-                                </Label>
-                            </Card>
-                        ))}
-                        <Heading variant="sm">Previous Meetings</Heading>
-                        {previousMeetings.map((meeting) => (
-                            <Card className="p-4">
                                 <Link
                                     href={`/projects/${params.projectId}/meetings/${meeting.id}`}>
                                     <p className="hover:underline">
@@ -90,6 +76,35 @@ export default async function page({
                                 </Label>
                             </Card>
                         ))}
+                        {upcomingMeetings.length < 1 && (
+                            <ErrorMessage
+                                type="info"
+                                className="-ms-2"
+                                message="No upcoming meetings"
+                            />
+                        )}
+                        {previousMeetings.length > 0 && (
+                            <>
+                                <Heading variant="sm">
+                                    Previous Meetings
+                                </Heading>
+                                {previousMeetings.map((meeting) => (
+                                    <Card className="p-4">
+                                        <Link
+                                            href={`/projects/${params.projectId}/meetings/${meeting.id}`}>
+                                            <p className="hover:underline">
+                                                {meeting.name}
+                                            </p>
+                                        </Link>
+                                        <Label>
+                                            {moment(meeting.startDate)
+                                                .startOf("day")
+                                                .fromNow()}
+                                        </Label>
+                                    </Card>
+                                ))}
+                            </>
+                        )}
                     </section>
                 </SectionAside>
                 <SectionContent>{children}</SectionContent>

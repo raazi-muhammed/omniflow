@@ -2,5 +2,9 @@ import ErrorMessage from "@/components/custom/ErrorMessage";
 import React from "react";
 
 export default function page() {
-    return <ErrorMessage type="info" message="Please select a meeting" />;
+    return (
+        <div className="h-screen-without-navbar mx-8 flex align-middle">
+            <ErrorMessage type="info" message="Please select a meeting" />
+        </div>
+    );
 }
