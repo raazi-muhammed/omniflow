@@ -92,7 +92,7 @@ export default function Sidebar() {
 
     return (
         <aside className="sticky top-0 z-50 -mt-20 h-screen min-w-64 border border-t-0 bg-black/50 p-2 py-8 backdrop-blur-lg">
-            <div className="m-1 my-4 flex gap-2 align-middle text-primary">
+            <div className="mx-4 my-4 flex gap-2 align-middle text-primary">
                 <AppLogo />
                 <p className="text-xl font-semibold">Ominflow</p>
             </div>

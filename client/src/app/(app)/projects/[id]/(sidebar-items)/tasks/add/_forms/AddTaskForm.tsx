@@ -32,13 +32,15 @@ import {
 } from "@/components/ui/popover";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter, useSearchParams } from "next/navigation";
-import { addModule, getModuleList } from "@/services/module.service";
+import { getModuleList } from "@/services/module.service";
 import { useEffect, useState } from "react";
-import { IModule } from "@/types/database";
+import { IAllMemberList, IModule } from "@/types/database";
 import { logger } from "@/lib/logger";
 import { makeApiCall } from "@/lib/apicaller";
 import Heading from "@/components/custom/Heading";
 import { addTask } from "@/services/task.service";
+import { getMembersList } from "@/services/team.service";
+import { useAppSelector } from "@/redux/store";
 
 function getLabelFromId(modules: IModule[], id: string): string {
     return modules.reduce((a, e) => {
@@ -55,16 +57,20 @@ const formSchema = z.object({
     description: z.string().min(3, "Invalid"),
     module: z.string().optional(),
     status: z.string(),
+    reporter: z.string().min(1, "Invalid"),
+    assignee: z.string().min(1, "Invalid"),
 });
 
 export default function AddTaskForm() {
     const { toast } = useToast();
     const router = useRouter();
     const [modules, setModules] = useState<IModule[]>([]);
+    const [membersList, setMembersList] = useState<IAllMemberList[]>([]);
     const params = useSearchParams();
     const parentModule = params.get("parentModule");
     const currentDate = new Date();
     currentDate.setMonth(currentDate.getMonth() + 1);
+    const user = useAppSelector((state) => state.authReducer.userData);
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -84,6 +90,12 @@ export default function AddTaskForm() {
         getModuleList().then((response) => {
             logger.debug(response.data);
             setModules(response.data);
+        });
+    }, []);
+
+    useEffect(() => {
+        getMembersList().then((response) => {
+            setMembersList(response.data as IAllMemberList[]);
         });
     }, []);
 
@@ -304,6 +316,62 @@ export default function AddTaskForm() {
                         </FormItem>
                     )}
                 />
+                <Heading variant="form">Assignment</Heading>
+                <div className="grid grid-cols-2 gap-4">
+                    <FormField
+                        control={form.control}
+                        name="assignee"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Assignee</FormLabel>
+                                <Select
+                                    onValueChange={field.onChange}
+                                    defaultValue={field.value}>
+                                    <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select a assignee" />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        {membersList.map((member) => (
+                                            <SelectItem
+                                                key={member.info.id}
+                                                value={member.info.email}>
+                                                {`${member.info.name}, ${member.info.email}`}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="reporter"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Reporter</FormLabel>
+                                <Select
+                                    disabled={true}
+                                    defaultValue={field.value}>
+                                    <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue
+                                                placeholder={
+                                                    user
+                                                        ? `${user.name}, ${user.email}`
+                                                        : "You"
+                                                }
+                                            />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                </Select>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                </div>
                 <div className="ms-auto flex w-fit gap-4">
                     <Button
                         onClick={() => router.back()}

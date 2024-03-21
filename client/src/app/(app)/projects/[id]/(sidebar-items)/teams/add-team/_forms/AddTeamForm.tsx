@@ -47,7 +47,6 @@ export default function AddTeamForm() {
 
     useEffect(() => {
         getMembersList().then((response) => {
-            console.log(response.data);
             setMembersList(response.data as IAllMemberList[]);
         });
     }, []);
