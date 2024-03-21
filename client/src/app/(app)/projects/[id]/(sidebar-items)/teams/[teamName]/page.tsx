@@ -25,6 +25,7 @@ import ErrorMessage from "@/components/custom/ErrorMessage";
 import { PROJECT_TOKEN_COOKIE, USER_TOKEN_COOKIE } from "@/constants/cookies";
 import { Label } from "@/components/ui/label";
 import Container from "@/components/layout/Container";
+import { formatConstants } from "@/lib/formaters";
 
 export async function getTeamsData(teamName: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -75,15 +76,15 @@ export default async function page({
                                                     {member.info.email}
                                                 </Label>
                                                 <div className="mt-2 flex gap-2">
-                                                    <Badge
-                                                        variant="secondary"
-                                                        className="capitalize">
-                                                        {member.inviteStatus.toLowerCase()}
+                                                    <Badge variant="secondary">
+                                                        {formatConstants(
+                                                            member.inviteStatus
+                                                        )}
                                                     </Badge>
-                                                    <Badge
-                                                        variant="secondary"
-                                                        className="capitalize">
-                                                        {member.role.toLowerCase()}
+                                                    <Badge variant="secondary">
+                                                        {formatConstants(
+                                                            member.role
+                                                        )}
                                                     </Badge>
                                                 </div>
                                             </section>

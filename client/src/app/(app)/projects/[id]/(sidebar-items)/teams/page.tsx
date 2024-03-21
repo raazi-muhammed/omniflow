@@ -15,6 +15,7 @@ import ResponsiveGridContainer from "@/components/layout/ResponsiveGridContainer
 import ErrorMessage from "@/components/custom/ErrorMessage";
 import { PROJECT_TOKEN_COOKIE, USER_TOKEN_COOKIE } from "@/constants/cookies";
 import { Label } from "@/components/ui/label";
+import { formatConstants } from "@/lib/formaters";
 
 async function loadTeams() {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -82,19 +83,17 @@ export default async function page() {
                                         <Label>{member.info.email}</Label>
                                         <p>{member.info.name}</p>
                                         {member.role !== Role.DEFAULT ? (
-                                            <Badge
-                                                variant="secondary"
-                                                className="capitalize">
-                                                {member.role.toLowerCase()}
+                                            <Badge variant="secondary">
+                                                {formatConstants(member.role)}
                                             </Badge>
                                         ) : null}
 
                                         {member.inviteStatus !==
                                         InviteStatus.ACCEPTED ? (
-                                            <Badge
-                                                variant="secondary"
-                                                className="capitalize">
-                                                {member.inviteStatus.toLowerCase()}
+                                            <Badge variant="secondary">
+                                                {formatConstants(
+                                                    member.inviteStatus
+                                                )}
                                             </Badge>
                                         ) : null}
                                     </div>

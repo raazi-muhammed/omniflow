@@ -17,7 +17,7 @@ export default function buildGetProfileController({
         if (!username) throw new BadRequestError();
         if (currentUser.username !== username) throw new UnauthorizedError();
 
-        const userData = userUseCases.getProfile({
+        const userData = await userUseCases.getProfile({
             username: currentUser.username,
         });
 

@@ -2,9 +2,9 @@ import CustomLink from "@/components/custom/CustomLink";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
+import { formatConstants } from "@/lib/formaters";
 import { ITask } from "@/types/database";
 import moment from "moment";
-import Link from "next/link";
 
 export default function TaskCard({
     task,
@@ -21,7 +21,7 @@ export default function TaskCard({
             <div className="flex justify-between">
                 <Label>{moment(task.dueDate).format("ll")}</Label>
                 <Badge className="ms-auto flex w-fit" variant="secondary">
-                    {task.status}
+                    {formatConstants(task.status)}
                 </Badge>
             </div>
         </Card>
