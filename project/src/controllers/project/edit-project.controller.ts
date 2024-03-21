@@ -27,6 +27,6 @@ export default function buildEditProjectController({
         });
 
         const response = new ResponseCreator();
-        return response.setMessage("Project edited");
+        return response.setMessage("Project edited").setStatusCode(204);
     };
 }

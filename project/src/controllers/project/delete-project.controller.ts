@@ -11,6 +11,6 @@ export default function buildDeleteProjectController({
         await projectUseCases.deleteProject({ projectId: currentProject.id });
 
         const response = new ResponseCreator();
-        return response.setMessage("Project deleted");
+        return response.setMessage("Project deleted").setStatusCode(204);
     };
 }
