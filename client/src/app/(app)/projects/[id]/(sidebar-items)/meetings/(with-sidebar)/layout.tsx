@@ -30,7 +30,13 @@ async function loadMeetings() {
     return response.data as IMeeting[];
 }
 
-export default async function page({ children }: { children: ReactNode }) {
+export default async function page({
+    children,
+    params,
+}: {
+    children: ReactNode;
+    params: { projectId: string };
+}) {
     const meetings: IMeeting[] = await loadMeetings();
 
     const TODAY = new Date();
@@ -46,7 +52,9 @@ export default async function page({ children }: { children: ReactNode }) {
             <SectionSplitter>
                 <SectionAside className="mt-8">
                     <section className="space-y-4">
-                        <Link href="add" legacyBehavior>
+                        <Link
+                            href={`/projects/${params.projectId}/meetings/add`}
+                            legacyBehavior>
                             <Button size="sm" className="me-0 ms-auto flex">
                                 <AddIcon /> Add meeting
                             </Button>
@@ -69,7 +77,8 @@ export default async function page({ children }: { children: ReactNode }) {
                         <Heading variant="sm">Previous Meetings</Heading>
                         {previousMeetings.map((meeting) => (
                             <Card className="p-4">
-                                <Link href={`${meeting.id}`}>
+                                <Link
+                                    href={`/projects/${params.projectId}/meetings/${meeting.id}`}>
                                     <p className="hover:underline">
                                         {meeting.name}
                                     </p>
