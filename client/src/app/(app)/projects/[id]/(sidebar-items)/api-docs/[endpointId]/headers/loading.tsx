@@ -1,3 +1,4 @@
+import Container from "@/components/layout/Container";
 import {
     SectionAside,
     SectionContent,
@@ -8,19 +9,21 @@ import { Skeleton } from "@/components/ui/skeleton";
 export default function loading() {
     return (
         <main className="mt-28 w-full">
-            <SectionSplitter>
-                <SectionContent className="space-y-4">
-                    <Skeleton className="h-12 w-full" />
-                    <Skeleton className="h-12 w-full" />
-                    <Skeleton className="h-12 w-full" />
-                    <Skeleton className="h-12 w-full" />
-                    <Skeleton className="h-32 w-full" />
-                </SectionContent>
-                <SectionAside className="space-y-4">
-                    <Skeleton className="h-11 w-full" />
-                    <Skeleton className="h-11 w-full" />
-                </SectionAside>
-            </SectionSplitter>
+            <Container>
+                <SectionSplitter>
+                    <SectionContent className="space-y-4">
+                        <Skeleton className="h-12 w-full" />
+                        <Skeleton className="h-12 w-full" />
+                        <Skeleton className="h-12 w-full" />
+                        <Skeleton className="h-12 w-full" />
+                        <Skeleton className="h-32 w-full" />
+                    </SectionContent>
+                    <SectionAside className="space-y-4">
+                        <Skeleton className="h-11 w-full" />
+                        <Skeleton className="h-11 w-full" />
+                    </SectionAside>
+                </SectionSplitter>
+            </Container>
         </main>
     );
 }

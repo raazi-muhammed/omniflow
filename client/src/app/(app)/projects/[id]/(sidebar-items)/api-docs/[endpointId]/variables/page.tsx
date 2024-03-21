@@ -27,6 +27,7 @@ import {
 import RemoveVariable from "./_components/RemoveVariable";
 import ErrorMessage from "@/components/custom/ErrorMessage";
 import { formatConstants } from "@/lib/formaters";
+import Container from "@/components/layout/Container";
 
 async function getEndpointData(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -51,7 +52,7 @@ export default async function page({
 }) {
     const endpointData: IEndpoint = await getEndpointData(params.endpointId);
     return (
-        <>
+        <Container>
             <SectionSplitter>
                 <SectionContent>
                     <Heading variant="spaced">Variables</Heading>
@@ -119,6 +120,6 @@ export default async function page({
                     </Accordion>
                 </SectionAside>
             </SectionSplitter>
-        </>
+        </Container>
     );
 }
