@@ -112,6 +112,28 @@ services:
                       - dist/
                 - action: rebuild
                   path: ./api-doc/package.json
+    db-design:
+        build: ./db-design
+        container_name: omniflow-db-design
+        depends_on:
+            - db-db-design
+        ports:
+            - 4030:4030
+        env_file:
+            - path: ./db-design/.env.development
+              required: true
+        environment:
+            DB_URL: postgres://user:pass@db-db-design:5432/db
+        develop:
+            watch:
+                - action: sync
+                  path: ./db-design
+                  target: /db-design
+                  ignore:
+                      - node_modules/
+                      - dist/
+                - action: rebuild
+                  path: ./db-design/package.json
     module:
         build: ./module
         container_name: omniflow-module
@@ -225,6 +247,18 @@ services:
             POSTGRES_USER: user
             POSTGRES_PASSWORD: pass
             POSTGRES_DB: db
+    db-db-design:
+        build: ./db-db-design
+        image: postgres
+        restart: always
+        ports:
+            - 5433:5432
+        volumes:
+            - db_db_design:/var/lib/postgresql/data
+        environment:
+            POSTGRES_USER: user
+            POSTGRES_PASSWORD: pass
+            POSTGRES_DB: db
     redpanda:
         image: docker.redpanda.com/vectorized/redpanda:v22.2.2
         container_name: omniflow-redpanda
@@ -248,3 +282,5 @@ volumes:
         name: omni_db_module_data
     db_comunication:
         name: omni_db_comunication_data
+    db_db_design:
+        name: omni_db_db_design_data
