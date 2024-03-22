@@ -32,6 +32,10 @@ export class BuildUrl {
         const url = "localhost:4025/api/communication";
         return this.baseUrl + url + endpoint;
     }
+    dbDesign(endpoint: string) {
+        const url = "localhost:4030/api/db-design";
+        return this.baseUrl + url + endpoint;
+    }
 }
 
 export type IResponse = {

@@ -1,27 +1,26 @@
 "use client";
 
+import Heading from "@/components/custom/Heading";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import React, { useState } from "react";
+import { Separator } from "@/components/ui/separator";
+import { ITable } from "@/types/database";
+import React from "react";
 
 export default function DatabaseTable({
+    table,
     index,
-    n,
-    x,
-    y,
 }: {
+    table: ITable;
     index: number;
-    n: number;
-    x: number;
-    y: number;
 }) {
     return (
         <div
             style={{
-                top: `${y}px`,
-                left: `${x}px`,
+                top: `${table.y}px`,
+                left: `${table.x}px`,
             }}
-            className={`absolute border p-12 ${index}`}>
+            className={`absolute border p-12 ${table.id}`}>
             <Card
                 draggable
                 onDragStart={(e) => {
@@ -30,7 +29,9 @@ export default function DatabaseTable({
                     e.dataTransfer.setData("pageY", String(e.clientY));
                 }}
                 className="min-w-48 space-y-3 p-4">
-                {[...Array(n)].map(() => (
+                <Heading variant="sm">{table.name}</Heading>
+                <Separator />
+                {[...Array(3)].map(() => (
                     <section className="grid grid-cols-2">
                         <div>
                             <p>name</p>

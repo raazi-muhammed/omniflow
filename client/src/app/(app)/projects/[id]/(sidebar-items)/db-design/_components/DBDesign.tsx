@@ -1,64 +1,49 @@
 "use client";
-import Heading from "@/components/custom/Heading";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DatabaseTable from "./DatabaseTable";
-import LineTo, { SteppedLineTo } from "react-lineto";
+import { SteppedLineTo } from "react-lineto";
+import { getTables } from "@/services/table.service";
+import { ITable } from "@/types/database";
 
 export default function DBDesign() {
-    const [data, setDate] = useState([
-        {
-            n: 4,
-            x: 20,
-            y: 0,
-        },
-        {
-            n: 2,
-            x: 202,
-            y: 30,
-        },
-        {
-            n: 8,
-            x: 320,
-            y: 900,
-        },
-    ]);
+    useEffect(() => {
+        getTables().then((res) => {
+            console.log(res.data);
+            setDate(res.data);
+        });
+    }, []);
+
+    function handleOnDrop(e: React.DragEvent<HTMLElement>) {
+        e.preventDefault();
+        const index = e.dataTransfer.getData("index");
+        const oldPageX = e.dataTransfer.getData("pageX");
+        const oldPageY = e.dataTransfer.getData("pageY");
+
+        console.log({ oldPageX, pageX: e.pageX });
+
+        const newDate = data;
+        newDate[Number(index)] = {
+            ...newDate[Number(index)],
+            x:
+                newDate[Number(index)].x +
+                (Number(e.clientX) - Number(oldPageX)),
+            y:
+                newDate[Number(index)].y +
+                (Number(e.clientY) - Number(oldPageY)),
+        };
+
+        setDate([...newDate]);
+    }
+
+    const [data, setDate] = useState<ITable[]>([]);
     return (
         <main className="w-screen-without-sidebar h-screen-without-navbar border border-emerald-300">
-            <Heading>DB Desing</Heading>
-
             <section
                 className="db-design relative h-[70vh] overflow-x-auto overflow-y-auto border border-red-400"
                 onDragOver={(e) => e.preventDefault()}
-                onDrop={(e) => {
-                    e.preventDefault();
-                    const index = e.dataTransfer.getData("index");
-                    const oldPageX = e.dataTransfer.getData("pageX");
-                    const oldPageY = e.dataTransfer.getData("pageY");
-
-                    console.log({ oldPageX, pageX: e.pageX });
-
-                    const newDate = data;
-                    newDate[Number(index)] = {
-                        n: newDate[Number(index)].n,
-                        x:
-                            newDate[Number(index)].x +
-                            (Number(e.clientX) - Number(oldPageX)),
-                        y:
-                            newDate[Number(index)].y +
-                            (Number(e.clientY) - Number(oldPageY)),
-                    };
-
-                    setDate([...newDate]);
-
-                    //console.log(e);
-                }}>
+                onDrop={handleOnDrop}>
                 {data.map((table, index) => (
-                    <DatabaseTable
-                        index={index}
-                        n={table.n}
-                        y={table.y}
-                        x={table.x}
-                    />
+                    <DatabaseTable index={index} table={table} />
                 ))}
                 <SteppedLineTo
                     within="db-design"

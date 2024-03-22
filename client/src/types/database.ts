@@ -170,3 +170,12 @@ export type IMeeting = {
     deletedAt?: Date | null;
     meetingLink?: string;
 };
+
+export type ITable = {
+    id: string;
+    name: string;
+    description: string;
+    projectId: string;
+    x: number;
+    y: number;
+};
