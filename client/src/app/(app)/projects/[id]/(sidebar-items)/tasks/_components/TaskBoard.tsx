@@ -9,6 +9,7 @@ import { changeTaskStatus } from "@/services/task.service";
 import { makeApiCall } from "@/lib/apicaller";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
+import { formatConstants } from "@/lib/formaters";
 
 export default function TaskBoard({
     tasks,
@@ -39,7 +40,7 @@ export default function TaskBoard({
             onDragOver={(e) => e.preventDefault()}
             onDrop={handleOnDrop}
             className="w-80 flex-shrink-0 space-y-4 pb-20">
-            <Heading variant="sm">{header.value}</Heading>
+            <Heading variant="sm"> {formatConstants(header.value)}</Heading>
             {tasks.map((task) => (
                 <div
                     draggable
@@ -53,7 +54,7 @@ export default function TaskBoard({
                 <ErrorMessage
                     type="info"
                     className="-ms-2"
-                    message={` No items on ${header.value}`}
+                    message={` No items on ${formatConstants(header.value)}`}
                 />
             )}
         </section>
