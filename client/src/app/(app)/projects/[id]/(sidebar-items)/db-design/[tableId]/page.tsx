@@ -26,6 +26,8 @@ import {
 import ErrorMessage from "@/components/custom/ErrorMessage";
 import Container from "@/components/layout/Container";
 import { getTable } from "@/services/table.service";
+import AddTableFieldForm from "./_components/AddTableFieldForm";
+import { formatConstants } from "@/lib/formaters";
 
 async function getEndpointData(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -56,27 +58,24 @@ export default async function page({
             <SectionSplitter>
                 <SectionContent>
                     <Heading variant="spaced">{tableData.name}</Heading>
-                    {/* {endpointData.requests.length > 0 ? (
+                    {tableData.fields.length > 0 ? (
                         <Table>
                             <TableHeader>
                                 <TableRow>
                                     <TableHead>Status code</TableHead>
                                     <TableHead>Content Type</TableHead>
                                     <TableHead>Description</TableHead>
-                                    <TableHead>Body</TableHead>
                                     <TableHead className="w-20">
                                         Actions
                                     </TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {endpointData.requests.map((response) => (
+                                {tableData.fields.map((response) => (
                                     <TableRow key={response.id}>
+                                        <TableCell>{response.name}</TableCell>
                                         <TableCell>
-                                            {response.statusCode}
-                                        </TableCell>
-                                        <TableCell>
-                                            {response.type.toLowerCase()}
+                                            {formatConstants(response.type)}
                                         </TableCell>
                                         <TableCell>
                                             {response.description}
@@ -89,9 +88,9 @@ export default async function page({
                         <ErrorMessage
                             className="-ms-2"
                             type="info"
-                            message="No responses"
+                            message="No fields"
                         />
-                    )} */}
+                    )}
                 </SectionContent>
                 <SectionAside>
                     <Accordion
@@ -109,9 +108,7 @@ export default async function page({
                                 </div>
                             </AccordionTrigger>
                             <AccordionContent>
-                                {/* <AddResponseForm
-                                    endpointId={endpointData.id || ""}
-                                /> */}
+                                <AddTableFieldForm tableId={tableData.id} />
                             </AccordionContent>
                         </AccordionItem>
                     </Accordion>

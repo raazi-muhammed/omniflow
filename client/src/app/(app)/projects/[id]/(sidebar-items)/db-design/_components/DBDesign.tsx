@@ -51,7 +51,7 @@ export default function DBDesign() {
                 onDragOver={(e) => e.preventDefault()}
                 onDrop={handleOnDrop}>
                 {data.map((table, index) => (
-                    <DatabaseTable index={index} table={table} />
+                    <DatabaseTable key={table.id} index={index} table={table} />
                 ))}
                 <SteppedLineTo
                     within="db-design"

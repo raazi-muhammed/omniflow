@@ -178,4 +178,13 @@ export type ITable = {
     projectId: string;
     x: number;
     y: number;
+    fields: ITableField[];
+};
+
+export type ITableField = {
+    id: string;
+    name: string;
+    type: string;
+    description: string;
+    tableId: string;
 };

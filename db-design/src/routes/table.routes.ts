@@ -41,6 +41,12 @@ export default function buildTableRoutes({
         verifyProject,
         makeCallback(tableController.changeTablePosition)
     );
+    router.post(
+        "/tables/:tableId/fields",
+        verifyUser,
+        verifyProject,
+        makeCallback(tableController.addTableField)
+    );
 
     return router;
 }

@@ -1,16 +1,27 @@
 import { ModelDefined, Sequelize } from "sequelize";
 import { logger } from "@omniflow/common";
 import { IDBTable, tableModel } from "./models/table.model.js";
-import { ITable } from "../../interfaces/entity.interface.js";
+import { ITable, ITableField } from "../../interfaces/entity.interface.js";
+import { IDBTableField, tableFieldModel } from "./models/table-field.model.js";
 
 export class BuildDatabaseRepository {
     client: Sequelize;
     models: {
         Table: ModelDefined<IDBTable, ITable>;
+        TableField: ModelDefined<IDBTableField, ITableField>;
     };
 
     constructor(sequelize: Sequelize) {
         const TableModel = tableModel(sequelize);
+        const TableFieldModel = tableFieldModel(sequelize);
+
+        TableModel.hasMany(TableFieldModel, {
+            as: "fields",
+            foreignKey: "tableId",
+        });
+        TableFieldModel.belongsTo(TableModel, {
+            foreignKey: "tableId",
+        });
 
         sequelize
             .sync({ alter: true })
@@ -50,13 +61,19 @@ export class BuildDatabaseRepository {
     async getTables({ projectId }: { projectId: string }) {
         const tables = await this.models.Table.findAll({
             where: { projectId },
+            include: [{ model: this.models.TableField, as: "fields" }],
         });
         return tables.map((e) => e.dataValues) as IDBTable[];
     }
     async getTableById(tableId: string) {
         const table = await this.models.Table.findOne({
             where: { id: tableId },
+            include: [{ model: this.models.TableField, as: "fields" }],
         });
         return table.dataValues as IDBTable;
+    }
+    async addTableField(data: ITableField) {
+        const table = await this.models.TableField.create(data);
+        return table.dataValues as IDBTableField;
     }
 }

@@ -5,6 +5,7 @@ import Heading from "@/components/custom/Heading";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { formatConstants } from "@/lib/formaters";
 import { ITable } from "@/types/database";
 import React from "react";
 
@@ -35,13 +36,15 @@ export default function DatabaseTable({
                     <Heading variant="sm">{table.name}</Heading>
                 </CustomLink>
                 <Separator />
-                {[...Array(3)].map(() => (
-                    <section className="grid grid-cols-2">
+                {table.fields.map((field) => (
+                    <section key={field.id} className="grid grid-cols-2">
                         <div>
-                            <p>name</p>
-                            <Label className="flex">optional</Label>
+                            <p>{field.name}</p>
+                            <Label className="flex">{field.description}</Label>
                         </div>
-                        <p className="text-end">string</p>
+                        <p className="text-end">
+                            {formatConstants(field.type)}
+                        </p>
                     </section>
                 ))}
             </Card>

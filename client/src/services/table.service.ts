@@ -78,3 +78,25 @@ export async function getTable(
             });
     });
 }
+
+export async function addTableField(
+    { tableId }: { tableId: string },
+    values: {
+        name: string;
+        description: string;
+        type: string;
+    },
+    config?: AxiosRequestConfig
+): Promise<IResponse> {
+    const url = new BuildUrl().dbDesign(`/tables/${tableId}/fields`);
+    return new Promise((resolve, reject) => {
+        axios
+            .post(url, values, { ...config, withCredentials: true })
+            .then((response) => {
+                resolve(adaptSuccessResponse(response));
+            })
+            .catch((error) => {
+                reject(adaptErrorResponse(error));
+            });
+    });
+}

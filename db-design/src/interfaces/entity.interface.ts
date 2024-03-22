@@ -5,3 +5,10 @@ export type ITable = {
     x: number;
     y: number;
 };
+
+export type ITableField = {
+    name: string;
+    type: string;
+    description: string;
+    tableId: string;
+};

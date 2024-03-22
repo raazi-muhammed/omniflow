@@ -5,4 +5,5 @@ export type ITableController = {
     getTables: (req: IRequest) => Promise<ResponseCreator>;
     getTable: (req: IRequest) => Promise<ResponseCreator>;
     changeTablePosition: (req: IRequest) => Promise<ResponseCreator>;
+    addTableField: (req: IRequest) => Promise<ResponseCreator>;
 };
