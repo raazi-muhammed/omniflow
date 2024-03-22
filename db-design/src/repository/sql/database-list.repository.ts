@@ -53,4 +53,10 @@ export class BuildDatabaseRepository {
         });
         return tables.map((e) => e.dataValues) as IDBTable[];
     }
+    async getTableById(tableId: string) {
+        const table = await this.models.Table.findOne({
+            where: { id: tableId },
+        });
+        return table.dataValues as IDBTable;
+    }
 }

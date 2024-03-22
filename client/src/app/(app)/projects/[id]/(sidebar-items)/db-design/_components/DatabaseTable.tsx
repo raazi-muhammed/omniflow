@@ -1,5 +1,6 @@
 "use client";
 
+import CustomLink from "@/components/custom/CustomLink";
 import Heading from "@/components/custom/Heading";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -30,7 +31,9 @@ export default function DatabaseTable({
                     e.dataTransfer.setData("tableId", String(table.id));
                 }}
                 className="min-w-48 space-y-3 p-4">
-                <Heading variant="sm">{table.name}</Heading>
+                <CustomLink href={`db-design/${table.id}`}>
+                    <Heading variant="sm">{table.name}</Heading>
+                </CustomLink>
                 <Separator />
                 {[...Array(3)].map(() => (
                     <section className="grid grid-cols-2">

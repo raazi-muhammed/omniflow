@@ -6,7 +6,7 @@ import {
 } from "@/components/layout/SectinSplitter";
 import { PROJECT_TOKEN_COOKIE, USER_TOKEN_COOKIE } from "@/constants/cookies";
 import { getEndpoint } from "@/services/endpoints.service";
-import { IEndpoint } from "@/types/database";
+import { IEndpoint, ITable } from "@/types/database";
 import { cookies } from "next/headers";
 import {
     Accordion,
@@ -15,7 +15,6 @@ import {
     AccordionTrigger,
 } from "@/components/ui/accordion";
 import { DeleteIcon } from "lucide-react";
-import AddResponseForm from "./_forms/AddResponseForm";
 import {
     Table,
     TableBody,
@@ -24,17 +23,16 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import JsonView from "../../../../../../../../components/custom/JsonView";
 import ErrorMessage from "@/components/custom/ErrorMessage";
-import RemoveResponse from "./_components/RemoveResponse";
 import Container from "@/components/layout/Container";
+import { getTable } from "@/services/table.service";
 
 async function getEndpointData(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
     const projectToken = cookies().get(PROJECT_TOKEN_COOKIE)?.value;
 
-    const response = await getEndpoint(
-        { id },
+    const response = await getTable(
+        { tableId: id },
         {
             headers: {
                 Authorization: `Bearer ${userToken}`,
@@ -50,15 +48,15 @@ async function getEndpointData(id: string) {
 export default async function page({
     params,
 }: {
-    params: { endpointId: string };
+    params: { tableId: string };
 }) {
-    const endpointData: IEndpoint = await getEndpointData(params.endpointId);
+    const tableData: ITable = await getEndpointData(params.tableId);
     return (
         <Container>
             <SectionSplitter>
                 <SectionContent>
-                    <Heading variant="spaced">Responses</Heading>
-                    {endpointData.requests.length > 0 ? (
+                    <Heading variant="spaced">{tableData.name}</Heading>
+                    {/* {endpointData.requests.length > 0 ? (
                         <Table>
                             <TableHeader>
                                 <TableRow>
@@ -83,20 +81,6 @@ export default async function page({
                                         <TableCell>
                                             {response.description}
                                         </TableCell>
-                                        <TableCell>
-                                            {!!response?.body && (
-                                                <JsonView
-                                                    className="m-0 my-0"
-                                                    data={response?.body}
-                                                />
-                                            )}
-                                        </TableCell>
-                                        <TableCell>
-                                            <RemoveResponse
-                                                endpointId={endpointData.id}
-                                                responseId={response.id}
-                                            />
-                                        </TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
@@ -107,7 +91,7 @@ export default async function page({
                             type="info"
                             message="No responses"
                         />
-                    )}
+                    )} */}
                 </SectionContent>
                 <SectionAside>
                     <Accordion
@@ -121,13 +105,13 @@ export default async function page({
                                         size="1.2em"
                                         className="my-auto"
                                     />
-                                    Add response
+                                    Add a field
                                 </div>
                             </AccordionTrigger>
                             <AccordionContent>
-                                <AddResponseForm
+                                {/* <AddResponseForm
                                     endpointId={endpointData.id || ""}
-                                />
+                                /> */}
                             </AccordionContent>
                         </AccordionItem>
                     </Accordion>

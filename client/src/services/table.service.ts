@@ -62,3 +62,19 @@ export async function changeTablePosition(
             });
     });
 }
+export async function getTable(
+    { tableId }: { tableId: string },
+    config?: AxiosRequestConfig
+): Promise<IResponse> {
+    const url = new BuildUrl().dbDesign(`/tables/${tableId}`);
+    return new Promise((resolve, reject) => {
+        axios
+            .get(url, { ...config, withCredentials: true })
+            .then((response) => {
+                resolve(adaptSuccessResponse(response));
+            })
+            .catch((error) => {
+                reject(adaptErrorResponse(error));
+            });
+    });
+}
