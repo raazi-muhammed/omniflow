@@ -10,9 +10,14 @@ import { ITable } from "@/types/database";
 import React from "react";
 
 export default function DatabaseTable({
+    handleOnDropRelation,
     table,
     index,
 }: {
+    handleOnDropRelation: (
+        e: React.DragEvent<HTMLElement>,
+        onField: string
+    ) => void;
     table: ITable;
     index: number;
 }) {
@@ -38,9 +43,29 @@ export default function DatabaseTable({
                 <Separator />
                 {table.fields.map((field) => (
                     <section key={field.id} className="grid grid-cols-2">
-                        <div>
-                            <p>{field.name}</p>
-                            <Label className="flex">{field.description}</Label>
+                        <div className="flex gap-1">
+                            <section
+                                draggable
+                                onDragStart={(e) => {
+                                    e.stopPropagation();
+                                    e.dataTransfer.setData(
+                                        "fromField",
+                                        field.id
+                                    );
+                                }}
+                                onDragOver={(e) => e.preventDefault()}
+                                onDrop={(e) =>
+                                    handleOnDropRelation(e, field.id)
+                                }
+                                className={`bg-muted p-2 ${field.id}`}>
+                                •
+                            </section>
+                            <div>
+                                <p>{field.name}</p>
+                                <Label className="flex">
+                                    {field.description}
+                                </Label>
+                            </div>
                         </div>
                         <p className="text-end">
                             {formatConstants(field.type)}

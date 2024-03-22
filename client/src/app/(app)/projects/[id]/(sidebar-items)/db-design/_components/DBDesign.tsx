@@ -4,8 +4,14 @@ import DatabaseTable from "./DatabaseTable";
 import { SteppedLineTo } from "react-lineto";
 import { changeTablePosition, getTables } from "@/services/table.service";
 import { ITable } from "@/types/database";
+import { useToast } from "@/components/ui/use-toast";
 
 export default function DBDesign() {
+    const { toast } = useToast();
+    const [relations, setRelations] = useState<{ from: string; to: string }[]>(
+        []
+    );
+
     useEffect(() => {
         getTables().then((res) => {
             console.log(res.data);
@@ -19,6 +25,11 @@ export default function DBDesign() {
         const oldPageX = e.dataTransfer.getData("pageX");
         const oldPageY = e.dataTransfer.getData("pageY");
         const tableId = e.dataTransfer.getData("tableId");
+
+        if (!tableId) {
+            toast({ description: "No table id" });
+            return;
+        }
 
         console.log({ oldPageX, pageX: e.pageX });
 
@@ -43,6 +54,16 @@ export default function DBDesign() {
             .catch((err) => console.log({ err }));
     }
 
+    function handleOnDropRelation(
+        e: React.DragEvent<HTMLElement>,
+        onField: string
+    ) {
+        e.preventDefault();
+        const fromField = e.dataTransfer.getData("fromField");
+        console.log(fromField, onField, e);
+        setRelations((rel) => [...rel, { from: fromField, to: onField }]);
+    }
+
     const [data, setDate] = useState<ITable[]>([]);
     return (
         <main className="w-screen-without-sidebar h-screen-without-navbar border border-emerald-300">
@@ -51,16 +72,24 @@ export default function DBDesign() {
                 onDragOver={(e) => e.preventDefault()}
                 onDrop={handleOnDrop}>
                 {data.map((table, index) => (
-                    <DatabaseTable key={table.id} index={index} table={table} />
+                    <DatabaseTable
+                        handleOnDropRelation={handleOnDropRelation}
+                        key={table.id}
+                        index={index}
+                        table={table}
+                    />
                 ))}
-                <SteppedLineTo
-                    within="db-design"
-                    delay={true}
-                    borderWidth={2}
-                    borderColor="#242327"
-                    from="1"
-                    to="2"
-                />
+
+                {relations.map((rel) => (
+                    <SteppedLineTo
+                        within="db-design"
+                        delay={true}
+                        borderWidth={2}
+                        borderColor="#242327"
+                        from={rel.from}
+                        to={rel.to}
+                    />
+                ))}
             </section>
         </main>
     );
