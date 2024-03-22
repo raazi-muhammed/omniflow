@@ -8,8 +8,7 @@ import { ITask } from "@/types/database";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import React from "react";
-import TaskCard from "./_components/TaskCard";
-import ErrorMessage from "@/components/custom/ErrorMessage";
+import TaskBoard from "./_components/TaskBoard";
 
 async function loadTasks() {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -47,45 +46,15 @@ export default async function page() {
             </section>
             <main className="w-screen-without-sidebar min-h-screen overflow-auto">
                 <Container className="flex gap-4">
-                    <section className="w-80 flex-shrink-0 space-y-4">
-                        <Heading variant="sm">Todo</Heading>
-                        {tasks.toDo.map((task) => (
-                            <TaskCard key={task.id} task={task} />
-                        ))}
-                        {tasks.toDo.length < 1 && (
-                            <ErrorMessage
-                                type="info"
-                                className="-ms-2"
-                                message="No items on todo"
-                            />
-                        )}
-                    </section>
-                    <section className="w-80 flex-shrink-0 space-y-4">
-                        <Heading variant="sm">On Progress</Heading>
-                        {tasks.onProgress.map((task) => (
-                            <TaskCard key={task.id} task={task} />
-                        ))}
-                        {tasks.onProgress.length < 1 && (
-                            <ErrorMessage
-                                type="info"
-                                className="-ms-2"
-                                message="No items on progress"
-                            />
-                        )}
-                    </section>
-                    <section className="w-80 flex-shrink-0 space-y-4">
-                        <Heading variant="sm">Completed</Heading>
-                        {tasks.completed.map((task) => (
-                            <TaskCard key={task.id} task={task} />
-                        ))}
-                        {tasks.completed.length < 1 && (
-                            <ErrorMessage
-                                type="info"
-                                className="-ms-2"
-                                message="No items are completed"
-                            />
-                        )}
-                    </section>
+                    <TaskBoard tasks={tasks.toDo} header={{ value: "TO_DO" }} />
+                    <TaskBoard
+                        tasks={tasks.onProgress}
+                        header={{ value: "ON_PROGRESS" }}
+                    />
+                    <TaskBoard
+                        tasks={tasks.completed}
+                        header={{ value: "COMPLETED" }}
+                    />
                 </Container>
             </main>
         </section>

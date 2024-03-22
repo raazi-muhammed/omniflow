@@ -16,6 +16,7 @@ import buildEditTaskUseCase from "./task/edit-task.use-case.js";
 import buildDeleteTaskUseCase from "./task/delete-task.use-case.js";
 import buildDeleteModuleUseCase from "./module/delete-module.use-case.js";
 import buildEditModuleUseCase from "./module/edit-module.use-case.js";
+import buildChangeTaskStatusUseCase from "./task/change-task-status.use-case.js";
 
 const addModule = buildAddModuleUseCase({
     moduleRepository,
@@ -36,6 +37,7 @@ const getTasks = buildGetTasksUseCase({ taskRepository });
 const getTask = buildGetTaskUseCase({ taskRepository });
 const editTask = buildEditTaskUseCase({ taskRepository });
 const deleteTask = buildDeleteTaskUseCase({ taskRepository });
+const changeTaskStatus = buildChangeTaskStatusUseCase({ taskRepository });
 
 export const moduleUseCases: IModuleUseCases = Object.freeze({
     addModule,
@@ -52,4 +54,5 @@ export const taskUseCases: ITaskUseCases = Object.freeze({
     getTask,
     editTask,
     deleteTask,
+    changeTaskStatus,
 });

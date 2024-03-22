@@ -24,6 +24,19 @@ export default function buildTaskRepository({
             );
             return response.modifiedCount > 0;
         },
+        changeStatus: async ({
+            status,
+            taskId,
+        }: {
+            taskId: string;
+            status: string;
+        }) => {
+            const response = await database.updateOne(
+                { _id: taskId },
+                { status }
+            );
+            return response.modifiedCount > 0;
+        },
         deleteById: async (taskId: string) => {
             const response = await database.updateOne(
                 { _id: taskId },

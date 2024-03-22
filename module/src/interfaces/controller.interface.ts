@@ -15,4 +15,5 @@ export type ITaskController = {
     getTask: (req: IRequest) => Promise<ResponseCreator>;
     editTask: (req: IRequest) => Promise<ResponseCreator>;
     deleteTask: (req: IRequest) => Promise<ResponseCreator>;
+    changeTaskStatus: (req: IRequest) => Promise<ResponseCreator>;
 };

@@ -14,6 +14,7 @@ import buildEditTaskController from "./task/edit-task.controller.js";
 import buildDeleteTaskController from "./task/delete-task.controller.js";
 import buildEditModuleController from "./module/edit-module.controller.js";
 import buildDeleteModuleController from "./module/delete-module.controller.js";
+import buildChangeTaskStatusController from "./task/change-task-status.controller.js";
 
 const addModule = buildAddModuleController({ moduleUseCases });
 const getModules = buildGetModulesController({ moduleUseCases });
@@ -27,6 +28,7 @@ const getTasks = buildGetTasksController({ taskUseCases });
 const getTask = buildGetTaskController({ taskUseCases });
 const editTask = buildEditTaskController({ taskUseCases });
 const deleteTask = buildDeleteTaskController({ taskUseCases });
+const changeTaskStatus = buildChangeTaskStatusController({ taskUseCases });
 
 export const moduleController: IModuleController = Object.freeze({
     addModule,
@@ -43,4 +45,5 @@ export const taskController: ITaskController = Object.freeze({
     getTask,
     editTask,
     deleteTask,
+    changeTaskStatus,
 });

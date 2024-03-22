@@ -179,5 +179,41 @@ export default function buildTaskRoutes({
         makeCallback(taskController.deleteTask)
     );
 
+    /**
+     * @openapi
+     * /tasks:
+     *   patch:
+     *     summary: Updates a task
+     *     parameters:
+     *       - name: taskId
+     *         in: path
+     *         required: true
+     *         description: id to find the task
+     *         schema:
+     *           type: string
+     *     requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             type: object
+     *             properties:
+     *               status:
+     *                 type: string
+     *             required:
+     *               - status
+     *     responses:
+     *       '204':
+     *         description: Task status changed
+     *       '500':
+     *         description: An error occurred
+     */
+    router.patch(
+        "/tasks/:taskId/status",
+        verifyUser,
+        verifyProject,
+        makeCallback(taskController.changeTaskStatus)
+    );
+
     return router;
 }

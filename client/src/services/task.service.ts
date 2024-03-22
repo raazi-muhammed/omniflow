@@ -103,3 +103,27 @@ export async function getTask(
             });
     });
 }
+
+export async function changeTaskStatus(
+    values: {
+        taskId: string;
+        status: string;
+    },
+    config?: AxiosRequestConfig
+): Promise<IResponse> {
+    const url = new BuildUrl().module(`/tasks/${values.taskId}/status`);
+    return new Promise((resolve, reject) => {
+        axios
+            .patch(
+                url,
+                { status: values.status },
+                { ...config, withCredentials: true }
+            )
+            .then((response) => {
+                resolve(adaptSuccessResponse(response));
+            })
+            .catch((error) => {
+                reject(adaptErrorResponse(error));
+            });
+    });
+}

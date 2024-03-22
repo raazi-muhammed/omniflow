@@ -17,6 +17,10 @@ export type IModuleRepository = {
 export type ITaskRepository = {
     add: (data: ITask) => Promise<IDBTask>;
     edit: (data: { taskId: string; taskData: ITask }) => Promise<boolean>;
+    changeStatus: (data: {
+        taskId: string;
+        status: string;
+    }) => Promise<boolean>;
     deleteById: (taskId: string) => Promise<boolean>;
     getAll: (data: { projectId: string }) => Promise<IDBTask[]>;
     getById: (id: string) => Promise<IDBTask>;
