@@ -151,5 +151,5 @@ tr td:first-child {
 }
 
 .w-screen-without-sidebar {
-    width: calc(100vw - 16rem);
+    width: calc(100vw - 18rem);
 }

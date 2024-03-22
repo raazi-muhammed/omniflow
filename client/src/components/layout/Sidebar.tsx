@@ -19,6 +19,7 @@ import {
     Puzzle as ModulesIcon,
     Users as TeamsIcon,
     Video as MeetingsIcon,
+    Database as DatabaseIcon,
 } from "lucide-react";
 import { Separator } from "../ui/separator";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -73,6 +74,12 @@ export default function Sidebar() {
             url: `/projects/${projectInfo?.id}/api-docs`,
             identifier: "api-docs",
             icon: <APIDocsIcon className="me-2" size="1.3em" />,
+        },
+        {
+            title: "DB Design",
+            url: `/projects/${projectInfo?.id}/db-design`,
+            identifier: "db-design",
+            icon: <DatabaseIcon className="me-2" size="1.3em" />,
         },
         {
             title: "Modules",
