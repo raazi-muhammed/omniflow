@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import DatabaseTable from "./DatabaseTable";
 import { SteppedLineTo } from "react-lineto";
-import { getTables } from "@/services/table.service";
+import { changeTablePosition, getTables } from "@/services/table.service";
 import { ITable } from "@/types/database";
 
 export default function DBDesign() {
@@ -18,6 +18,7 @@ export default function DBDesign() {
         const index = e.dataTransfer.getData("index");
         const oldPageX = e.dataTransfer.getData("pageX");
         const oldPageY = e.dataTransfer.getData("pageY");
+        const tableId = e.dataTransfer.getData("tableId");
 
         console.log({ oldPageX, pageX: e.pageX });
 
@@ -33,6 +34,13 @@ export default function DBDesign() {
         };
 
         setDate([...newDate]);
+
+        changeTablePosition(
+            { tableId },
+            { x: newDate[Number(index)].x, y: newDate[Number(index)].y }
+        )
+            .then((res) => console.log({ res }))
+            .catch((err) => console.log({ err }));
     }
 
     const [data, setDate] = useState<ITable[]>([]);

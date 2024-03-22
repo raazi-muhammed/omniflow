@@ -1,6 +1,6 @@
 import { IDatabaseRepository } from "../../interfaces/repository.interface.js";
 
-export default function getTablesUseCase({
+export default function buildGetTablesUseCase({
     databaseRepository,
 }: {
     databaseRepository: IDatabaseRepository;

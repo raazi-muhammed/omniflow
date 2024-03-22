@@ -25,6 +25,7 @@ export async function addTable(
             });
     });
 }
+
 export async function getTables(
     config?: AxiosRequestConfig
 ): Promise<IResponse> {
@@ -32,6 +33,27 @@ export async function getTables(
     return new Promise((resolve, reject) => {
         axios
             .get(url, { ...config, withCredentials: true })
+            .then((response) => {
+                resolve(adaptSuccessResponse(response));
+            })
+            .catch((error) => {
+                reject(adaptErrorResponse(error));
+            });
+    });
+}
+
+export async function changeTablePosition(
+    { tableId }: { tableId: string },
+    values: {
+        x: number;
+        y: number;
+    },
+    config?: AxiosRequestConfig
+): Promise<IResponse> {
+    const url = new BuildUrl().dbDesign(`/tables/${tableId}`);
+    return new Promise((resolve, reject) => {
+        axios
+            .patch(url, values, { ...config, withCredentials: true })
             .then((response) => {
                 resolve(adaptSuccessResponse(response));
             })

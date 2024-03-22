@@ -30,6 +30,23 @@ export class BuildDatabaseRepository {
         const table = await this.models.Table.create(data);
         return table.dataValues as IDBTable;
     }
+    async changeTablePosition({
+        x,
+        y,
+        tableId,
+    }: {
+        x: number;
+        y: number;
+        tableId: string;
+    }) {
+        const updated = await this.models.Table.update(
+            { x, y },
+            {
+                where: { id: tableId },
+            }
+        );
+        return updated[0] > 0;
+    }
     async getTables({ projectId }: { projectId: string }) {
         const tables = await this.models.Table.findAll({
             where: { projectId },

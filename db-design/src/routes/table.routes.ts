@@ -29,6 +29,12 @@ export default function buildTableRoutes({
         verifyProject,
         makeCallback(tableController.addTable)
     );
+    router.patch(
+        "/tables/:tableId",
+        verifyUser,
+        verifyProject,
+        makeCallback(tableController.changeTablePosition)
+    );
 
     return router;
 }

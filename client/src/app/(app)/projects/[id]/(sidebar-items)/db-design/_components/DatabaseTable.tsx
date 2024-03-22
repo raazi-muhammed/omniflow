@@ -27,6 +27,7 @@ export default function DatabaseTable({
                     e.dataTransfer.setData("index", String(index));
                     e.dataTransfer.setData("pageX", String(e.clientX));
                     e.dataTransfer.setData("pageY", String(e.clientY));
+                    e.dataTransfer.setData("tableId", String(table.id));
                 }}
                 className="min-w-48 space-y-3 p-4">
                 <Heading variant="sm">{table.name}</Heading>

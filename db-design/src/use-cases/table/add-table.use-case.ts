@@ -1,7 +1,7 @@
 import { ITable } from "../../interfaces/entity.interface.js";
 import { IDatabaseRepository } from "../../interfaces/repository.interface.js";
 
-export default function addTableUseCase({
+export default function buildAddTableUseCase({
     databaseRepository,
 }: {
     databaseRepository: IDatabaseRepository;
