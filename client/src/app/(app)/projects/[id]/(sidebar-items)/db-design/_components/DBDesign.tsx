@@ -2,6 +2,7 @@
 import Heading from "@/components/custom/Heading";
 import React, { useState } from "react";
 import DatabaseTable from "./DatabaseTable";
+import LineTo, { SteppedLineTo } from "react-lineto";
 
 export default function DBDesign() {
     const [data, setDate] = useState([
@@ -26,7 +27,7 @@ export default function DBDesign() {
             <Heading>DB Desing</Heading>
 
             <section
-                className="relative flex h-[70vh] overflow-x-auto overflow-y-auto border border-red-400"
+                className="db-design relative h-[70vh] overflow-x-auto overflow-y-auto border border-red-400"
                 onDragOver={(e) => e.preventDefault()}
                 onDrop={(e) => {
                     e.preventDefault();
@@ -59,6 +60,14 @@ export default function DBDesign() {
                         x={table.x}
                     />
                 ))}
+                <SteppedLineTo
+                    within="db-design"
+                    delay={true}
+                    borderWidth={2}
+                    borderColor="#242327"
+                    from="1"
+                    to="2"
+                />
             </section>
         </main>
     );
