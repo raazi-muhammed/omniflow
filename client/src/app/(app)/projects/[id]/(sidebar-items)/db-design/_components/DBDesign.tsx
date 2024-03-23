@@ -80,9 +80,9 @@ export default function DBDesign() {
 
     const [data, setDate] = useState<ITable[]>([]);
     return (
-        <main className="w-screen-without-sidebar h-screen-without-navbar border border-emerald-300">
+        <main className="w-screen-without-sidebar h-[calc(100vh-10rem)]">
             <section
-                className="db-design relative h-[70vh] overflow-x-auto overflow-y-auto border border-red-400"
+                className="db-design relative h-full overflow-x-auto overflow-y-auto"
                 onDragOver={(e) => e.preventDefault()}
                 onDrop={handleOnDrop}>
                 {data.map((table, index) => (
