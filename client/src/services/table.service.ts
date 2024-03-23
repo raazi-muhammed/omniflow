@@ -100,3 +100,23 @@ export async function addTableField(
             });
     });
 }
+
+export async function addRelation(
+    values: {
+        to: string;
+        from: string;
+    },
+    config?: AxiosRequestConfig
+): Promise<IResponse> {
+    const url = new BuildUrl().dbDesign(`/relations`);
+    return new Promise((resolve, reject) => {
+        axios
+            .post(url, values, { ...config, withCredentials: true })
+            .then((response) => {
+                resolve(adaptSuccessResponse(response));
+            })
+            .catch((error) => {
+                reject(adaptErrorResponse(error));
+            });
+    });
+}

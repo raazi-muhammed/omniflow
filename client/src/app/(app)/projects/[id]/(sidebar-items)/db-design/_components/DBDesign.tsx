@@ -2,7 +2,11 @@
 import React, { useEffect, useState } from "react";
 import DatabaseTable from "./DatabaseTable";
 import { SteppedLineTo } from "react-lineto";
-import { changeTablePosition, getTables } from "@/services/table.service";
+import {
+    addRelation,
+    changeTablePosition,
+    getTables,
+} from "@/services/table.service";
 import { ITable } from "@/types/database";
 import { useToast } from "@/components/ui/use-toast";
 
@@ -62,6 +66,10 @@ export default function DBDesign() {
         const fromField = e.dataTransfer.getData("fromField");
         console.log(fromField, onField, e);
         setRelations((rel) => [...rel, { from: fromField, to: onField }]);
+
+        addRelation({ to: onField, from: fromField })
+            .then((res) => console.log({ res }))
+            .catch((err) => console.log({ err }));
     }
 
     const [data, setDate] = useState<ITable[]>([]);

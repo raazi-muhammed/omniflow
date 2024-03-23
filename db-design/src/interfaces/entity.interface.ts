@@ -12,3 +12,9 @@ export type ITableField = {
     description: string;
     tableId: string;
 };
+
+export type IRelation = {
+    projectId: string;
+    to: string;
+    from: string;
+};

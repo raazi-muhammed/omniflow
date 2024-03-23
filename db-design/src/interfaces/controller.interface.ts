@@ -7,3 +7,7 @@ export type ITableController = {
     changeTablePosition: (req: IRequest) => Promise<ResponseCreator>;
     addTableField: (req: IRequest) => Promise<ResponseCreator>;
 };
+
+export type IRelationController = {
+    addRelation: (req: IRequest) => Promise<ResponseCreator>;
+};

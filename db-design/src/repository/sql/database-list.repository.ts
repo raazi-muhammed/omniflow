@@ -1,19 +1,26 @@
 import { ModelDefined, Sequelize } from "sequelize";
 import { logger } from "@omniflow/common";
 import { IDBTable, tableModel } from "./models/table.model.js";
-import { ITable, ITableField } from "../../interfaces/entity.interface.js";
+import {
+    IRelation,
+    ITable,
+    ITableField,
+} from "../../interfaces/entity.interface.js";
 import { IDBTableField, tableFieldModel } from "./models/table-field.model.js";
+import { IDBRelation, relationModel } from "./models/relations.model.js";
 
 export class BuildDatabaseRepository {
     client: Sequelize;
     models: {
         Table: ModelDefined<IDBTable, ITable>;
         TableField: ModelDefined<IDBTableField, ITableField>;
+        Relation: ModelDefined<IDBRelation, IRelation>;
     };
 
     constructor(sequelize: Sequelize) {
         const TableModel = tableModel(sequelize);
         const TableFieldModel = tableFieldModel(sequelize);
+        relationModel(sequelize);
 
         TableModel.hasMany(TableFieldModel, {
             as: "fields",
@@ -75,5 +82,9 @@ export class BuildDatabaseRepository {
     async addTableField(data: ITableField) {
         const table = await this.models.TableField.create(data);
         return table.dataValues as IDBTableField;
+    }
+    async addRelation(data: IRelation) {
+        const table = await this.models.Relation.create(data);
+        return table.dataValues as IDBRelation;
     }
 }
