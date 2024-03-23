@@ -36,14 +36,14 @@ export default function DatabaseTable({
                     e.dataTransfer.setData("pageY", String(e.clientY));
                     e.dataTransfer.setData("tableId", String(table.id));
                 }}
-                className="min-w-48 space-y-3 p-4">
+                className="min-w-48 space-y-3 p-3">
                 <CustomLink href={`db-design/${table.id}`}>
                     <Heading variant="sm">{table.name}</Heading>
                 </CustomLink>
                 <Separator />
                 {table.fields.map((field) => (
                     <section key={field.id} className="grid grid-cols-2">
-                        <div className="flex gap-1">
+                        <div className="flex gap-2">
                             <section
                                 draggable
                                 onDragStart={(e) => {
@@ -57,9 +57,7 @@ export default function DatabaseTable({
                                 onDrop={(e) =>
                                     handleOnDropRelation(e, field.id)
                                 }
-                                className={`bg-muted p-2 ${field.id}`}>
-                                •
-                            </section>
+                                className={`bg-muted rounded-full p-2 ${field.id} w-4 h-4 my-auto z-50`}></section>
                             <div>
                                 <p>{field.name}</p>
                                 <Label className="flex">

@@ -93,4 +93,16 @@ export class BuildDatabaseRepository {
         });
         return relations.map((e) => e.dataValues) as IDBRelation[];
     }
+    async removeRelation({ relationId }: { relationId: string }) {
+        const deleted = await this.models.Relation.destroy({
+            where: { id: relationId },
+        });
+        return deleted > 0;
+    }
+    async getRelation({ projectId, to, from }: IRelation) {
+        const relations = await this.models.Relation.findOne({
+            where: { projectId, to, from },
+        });
+        return relations?.dataValues as IDBRelation;
+    }
 }

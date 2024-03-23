@@ -9,7 +9,9 @@ export type IDatabaseRepository = {
     getTableById: (id: string) => Promise<IDBTable>;
     addTableField: (data: ITableField) => Promise<IDBTableField>;
     addRelation: (data: IRelation) => Promise<IDBRelation>;
+    removeRelation: (data: { relationId: string }) => Promise<boolean>;
     getRelations: (data: { projectId: string }) => Promise<IDBRelation[]>;
+    getRelation: (data: IRelation) => Promise<IDBRelation | null>;
     changeTablePosition: (data: {
         x: number;
         y: number;

@@ -10,6 +10,7 @@ import {
 } from "@/services/table.service";
 import { ITable } from "@/types/database";
 import { useToast } from "@/components/ui/use-toast";
+import { makeApiCall } from "@/lib/apicaller";
 
 export default function DBDesign() {
     const { toast } = useToast();
@@ -32,37 +33,34 @@ export default function DBDesign() {
 
     function handleOnDrop(e: React.DragEvent<HTMLElement>) {
         e.preventDefault();
-        const index = e.dataTransfer.getData("index");
-        const oldPageX = e.dataTransfer.getData("pageX");
-        const oldPageY = e.dataTransfer.getData("pageY");
+        const index = Number(e.dataTransfer.getData("index"));
+        const oldPageX = Number(e.dataTransfer.getData("pageX"));
+        const oldPageY = Number(e.dataTransfer.getData("pageY"));
         const tableId = e.dataTransfer.getData("tableId");
+
+        const currentClientX = Number(e.clientX);
+        const currentClientY = Number(e.clientY);
 
         if (!tableId) {
             toast({ description: "No table id" });
             return;
         }
 
-        console.log({ oldPageX, pageX: e.pageX });
-
         const newDate = data;
-        newDate[Number(index)] = {
-            ...newDate[Number(index)],
-            x:
-                newDate[Number(index)].x +
-                (Number(e.clientX) - Number(oldPageX)),
-            y:
-                newDate[Number(index)].y +
-                (Number(e.clientY) - Number(oldPageY)),
+        const newPositions = {
+            x: newDate[index].x + (currentClientX - oldPageX),
+            y: newDate[index].y + (currentClientY - oldPageY),
+        };
+        newDate[index] = {
+            ...newDate[index],
+            ...newPositions,
         };
 
         setDate([...newDate]);
 
-        changeTablePosition(
-            { tableId },
-            { x: newDate[Number(index)].x, y: newDate[Number(index)].y }
-        )
-            .then((res) => console.log({ res }))
-            .catch((err) => console.log({ err }));
+        makeApiCall(() => changeTablePosition({ tableId }, newPositions), {
+            toast,
+        });
     }
 
     function handleOnDropRelation(
@@ -71,12 +69,13 @@ export default function DBDesign() {
     ) {
         e.preventDefault();
         const fromField = e.dataTransfer.getData("fromField");
-        console.log(fromField, onField, e);
-        setRelations((rel) => [...rel, { from: fromField, to: onField }]);
+        const dataToAdd = { from: fromField, to: onField };
 
-        addRelation({ to: onField, from: fromField })
-            .then((res) => console.log({ res }))
-            .catch((err) => console.log({ err }));
+        setRelations((rel) => [...rel, dataToAdd]);
+
+        makeApiCall(() => addRelation(dataToAdd), {
+            toast,
+        });
     }
 
     const [data, setDate] = useState<ITable[]>([]);
@@ -95,12 +94,16 @@ export default function DBDesign() {
                     />
                 ))}
 
-                {relations.map((rel) => (
+                {relations.map((rel, index) => (
                     <SteppedLineTo
+                        orientation="h"
+                        key={index}
                         within="db-design"
+                        fromAnchor={`${index * 3}`}
+                        toAnchor={`${index * 3}`}
                         delay={true}
-                        borderWidth={2}
-                        borderColor="#242327"
+                        borderWidth={1}
+                        borderColor="#5A24AE"
                         from={rel.from}
                         to={rel.to}
                     />

@@ -11,11 +11,18 @@ export default function DbDesign() {
         <div>
             <Container className="mt-4 flex justify-between align-middle">
                 <Heading>Database Design</Heading>
-                <Link href="db-design/add" legacyBehavior>
-                    <Button size="sm" variant="muted">
-                        <AddIcon /> Add Table
-                    </Button>
-                </Link>
+                <div className="flex-end flex gap-2">
+                    <Link href="db-design/relations" legacyBehavior>
+                        <Button size="sm" variant="muted">
+                            Relations
+                        </Button>
+                    </Link>
+                    <Link href="db-design/add" legacyBehavior>
+                        <Button size="sm">
+                            <AddIcon /> Add Table
+                        </Button>
+                    </Link>
+                </div>
             </Container>
             <DBDesign />
         </div>

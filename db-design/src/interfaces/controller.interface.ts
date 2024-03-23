@@ -11,4 +11,5 @@ export type ITableController = {
 export type IRelationController = {
     addRelation: (req: IRequest) => Promise<ResponseCreator>;
     getRelations: (req: IRequest) => Promise<ResponseCreator>;
+    removeRelation: (req: IRequest) => Promise<ResponseCreator>;
 };

@@ -29,6 +29,12 @@ export default function buildRelationRoutes({
         verifyProject,
         makeCallback(relationController.addRelation)
     );
+    router.delete(
+        "/relations/:relationId",
+        verifyUser,
+        verifyProject,
+        makeCallback(relationController.removeRelation)
+    );
 
     return router;
 }

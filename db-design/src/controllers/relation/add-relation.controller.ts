@@ -1,4 +1,9 @@
-import { IRequest, ResponseCreator, validateBody } from "@omniflow/common";
+import {
+    BadRequestError,
+    IRequest,
+    ResponseCreator,
+    validateBody,
+} from "@omniflow/common";
 import { IRelationUseCases } from "../../interfaces/use-cases.interface.js";
 
 export default function buildAddRelationController({
@@ -11,6 +16,10 @@ export default function buildAddRelationController({
         const relationData = req.body;
 
         validateBody(relationData, ["to", "from"]);
+
+        if (relationData.to == relationData.from) {
+            throw new BadRequestError("Cannot define a relation to itself");
+        }
 
         const relation = await relationUseCases.addRelation({
             projectId: currentProject.id,

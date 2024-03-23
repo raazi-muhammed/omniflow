@@ -135,3 +135,20 @@ export async function getRelations(
             });
     });
 }
+
+export async function removeRelations(
+    { id }: { id: string },
+    config?: AxiosRequestConfig
+): Promise<IResponse> {
+    const url = new BuildUrl().dbDesign(`/relations/${id}`);
+    return new Promise((resolve, reject) => {
+        axios
+            .delete(url, { ...config, withCredentials: true })
+            .then((response) => {
+                resolve(adaptSuccessResponse(response));
+            })
+            .catch((error) => {
+                reject(adaptErrorResponse(error));
+            });
+    });
+}

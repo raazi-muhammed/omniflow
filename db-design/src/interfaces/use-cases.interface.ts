@@ -18,4 +18,5 @@ export type ITableUseCases = {
 export type IRelationUseCases = {
     addRelation: (data: IRelation) => Promise<IDBRelation>;
     getRelations: (data: { projectId: string }) => Promise<IDBRelation[]>;
+    removeRelation: (data: { relationId: string }) => Promise<void>;
 };
