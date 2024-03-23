@@ -57,7 +57,7 @@ export default function DatabaseTable({
                                 onDrop={(e) =>
                                     handleOnDropRelation(e, field.id)
                                 }
-                                className={`bg-muted rounded-full p-2 ${field.id} w-4 h-4 my-auto z-50`}></section>
+                                className={`bg-muted rounded-full p-2 s${field.id} w-4 h-4 my-auto z-50`}></section>
                             <div>
                                 <p>{field.name}</p>
                                 <Label className="flex">

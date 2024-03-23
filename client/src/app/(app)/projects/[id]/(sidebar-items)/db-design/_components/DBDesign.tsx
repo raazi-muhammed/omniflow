@@ -11,6 +11,7 @@ import {
 import { ITable } from "@/types/database";
 import { useToast } from "@/components/ui/use-toast";
 import { makeApiCall } from "@/lib/apicaller";
+import LinkConnector from "./LineConnector";
 
 export default function DBDesign() {
     const { toast } = useToast();
@@ -95,17 +96,11 @@ export default function DBDesign() {
                 ))}
 
                 {relations.map((rel, index) => (
-                    <SteppedLineTo
-                        orientation="h"
-                        key={index}
-                        within="db-design"
-                        fromAnchor={`${index * 3}`}
-                        toAnchor={`${index * 3}`}
-                        delay={true}
-                        borderWidth={1}
-                        borderColor="#5A24AE"
-                        from={rel.from}
-                        to={rel.to}
+                    <LinkConnector
+                        container=".db-design"
+                        data={data}
+                        from={`.s${rel.from}`}
+                        to={`.s${rel.to}`}
                     />
                 ))}
             </section>
