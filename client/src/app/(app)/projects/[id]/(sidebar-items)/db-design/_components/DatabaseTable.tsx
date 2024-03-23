@@ -27,7 +27,7 @@ export default function DatabaseTable({
                 top: `${table.y}px`,
                 left: `${table.x}px`,
             }}
-            className={`absolute border p-12 ${table.id}`}>
+            className={`absolute p-12 ${table.id}`}>
             <Card
                 draggable
                 onDragStart={(e) => {

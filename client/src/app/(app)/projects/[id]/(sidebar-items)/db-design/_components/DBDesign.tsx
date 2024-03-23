@@ -5,6 +5,7 @@ import { SteppedLineTo } from "react-lineto";
 import {
     addRelation,
     changeTablePosition,
+    getRelations,
     getTables,
 } from "@/services/table.service";
 import { ITable } from "@/types/database";
@@ -20,6 +21,12 @@ export default function DBDesign() {
         getTables().then((res) => {
             console.log(res.data);
             setDate(res.data);
+        });
+    }, []);
+    useEffect(() => {
+        getRelations().then((res) => {
+            console.log(res.data);
+            setRelations(res.data);
         });
     }, []);
 

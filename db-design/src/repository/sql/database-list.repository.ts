@@ -84,7 +84,13 @@ export class BuildDatabaseRepository {
         return table.dataValues as IDBTableField;
     }
     async addRelation(data: IRelation) {
-        const table = await this.models.Relation.create(data);
-        return table.dataValues as IDBRelation;
+        const relation = await this.models.Relation.create(data);
+        return relation.dataValues as IDBRelation;
+    }
+    async getRelations({ projectId }: { projectId: string }) {
+        const relations = await this.models.Relation.findAll({
+            where: { projectId },
+        });
+        return relations.map((e) => e.dataValues) as IDBRelation[];
     }
 }

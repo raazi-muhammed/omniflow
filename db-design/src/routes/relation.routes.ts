@@ -21,7 +21,7 @@ export default function buildRelationRoutes({
         "/relations",
         verifyUser,
         verifyProject,
-        makeCallback(relationController.addRelation)
+        makeCallback(relationController.getRelations)
     );
     router.post(
         "/relations",

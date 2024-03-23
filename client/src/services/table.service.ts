@@ -120,3 +120,18 @@ export async function addRelation(
             });
     });
 }
+export async function getRelations(
+    config?: AxiosRequestConfig
+): Promise<IResponse> {
+    const url = new BuildUrl().dbDesign(`/relations`);
+    return new Promise((resolve, reject) => {
+        axios
+            .get(url, { ...config, withCredentials: true })
+            .then((response) => {
+                resolve(adaptSuccessResponse(response));
+            })
+            .catch((error) => {
+                reject(adaptErrorResponse(error));
+            });
+    });
+}
