@@ -1,11 +1,9 @@
-import ErrorMessage from "@/components/custom/ErrorMessage";
 import Heading from "@/components/custom/Heading";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { PROJECT_TOKEN_COOKIE, USER_TOKEN_COOKIE } from "@/constants/cookies";
-import { AddIcon, EditIcon } from "@/lib/icons";
 import { getMeeting } from "@/services/meeting.service";
 import { IMeeting } from "@/types/database";
 import moment from "moment";
@@ -20,6 +18,7 @@ import {
     PreviewContent,
     PreviewHeader,
 } from "@/components/layout/PreviewHeader";
+import Link from "next/link";
 
 async function loadMeeting(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -48,6 +47,9 @@ export default async function MeetingPage({
         <main className="space-y-6">
             <PreviewActions>
                 <EditMeeting meeting={meeting} />
+                <Link href={`join/${meeting.id}`} legacyBehavior>
+                    <Button size="sm">Join meeting</Button>
+                </Link>
             </PreviewActions>
             <PreviewHeader>
                 <PreviewContent>

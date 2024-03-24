@@ -8,12 +8,14 @@ import buildEditMeetingNotesController from "./meeting/edit-meeting-notes.contro
 import buildRemoveMeetingNotesController from "./meeting/remove-meetings-notes.controller.js";
 import buildRemoveMeetingController from "./meeting/remove-meeting.controller.js";
 import buildEditMeetingController from "./meeting/edit-meeting.controller.js";
+import buildJoinMeetingController from "./meeting/join-meeting.controller.js";
 
 const addMeeting = buildAddMeetingController({ meetingUseCases });
 const getMeetings = buildGetMeetingsController({ meetingUseCases });
 const getMeeting = buildGetMeetingController({ meetingUseCases });
 const removeMeeting = buildRemoveMeetingController({ meetingUseCases });
 const editMeeting = buildEditMeetingController({ meetingUseCases });
+const joinMeeting = buildJoinMeetingController();
 
 const addMeetingNotes = buildAddMeetingNotesController({ meetingUseCases });
 const editMeetingNotes = buildEditMeetingNotesController({ meetingUseCases });
@@ -30,4 +32,5 @@ export const meetingController: IMeetingController = Object.freeze({
     removeMeetingNotes,
     removeMeeting,
     editMeeting,
+    joinMeeting,
 });

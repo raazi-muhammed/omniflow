@@ -23,7 +23,7 @@ export function PreviewActions({
     className?: string;
 }) {
     return (
-        <div className={cn("mt-8 flex justify-end w-full", className)}>
+        <div className={cn("mt-8 flex justify-end w-full gap-4", className)}>
             {children}
         </div>
     );

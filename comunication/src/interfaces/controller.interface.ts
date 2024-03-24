@@ -9,4 +9,5 @@ export type IMeetingController = {
     removeMeetingNotes: (req: IRequest) => Promise<ResponseCreator>;
     editMeeting: (req: IRequest) => Promise<ResponseCreator>;
     removeMeeting: (req: IRequest) => Promise<ResponseCreator>;
+    joinMeeting: (req: IRequest) => Promise<ResponseCreator>;
 };

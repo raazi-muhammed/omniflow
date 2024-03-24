@@ -153,3 +153,29 @@ tr td:first-child {
 .w-screen-without-sidebar {
     width: calc(100vw - 18rem);
 }
+
+/* Zego cloud join section */
+.D9WLyEQaARfWqCTyVrpU {
+    background-color: hsl(var(--muted)) !important;
+    box-shadow: none !important;
+    border: 2px solid #37353e !important;
+    color: white !important;
+}
+
+/* Zego cloud text */
+.pOvRwHj19chJGkgemUH3,
+._M8cCug8H18ALQ05cNMt {
+    color: white !important;
+}
+
+/* Zego cloud input */
+.TYiiRFB3EhYJGVPE4k4q {
+    border-color: #5724a8 !important;
+
+    color: white !important;
+}
+
+/* Zego cloud button*/
+.VsTVUAD89KWleD0YRVsD {
+    background-color: #5724a8 !important;
+}

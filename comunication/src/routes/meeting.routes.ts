@@ -47,6 +47,12 @@ export default function buildMeetingRoutes({
         verifyProject,
         makeCallback(controllers.removeMeeting)
     );
+    router.get(
+        "/meetings/:meetingId/join",
+        verifyUser,
+        verifyProject,
+        makeCallback(controllers.joinMeeting)
+    );
     router.post(
         "/meetings/:meetingId/notes",
         verifyUser,

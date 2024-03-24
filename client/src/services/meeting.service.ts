@@ -100,6 +100,23 @@ export async function getMeeting(
     });
 }
 
+export async function joinMeeting(
+    { id }: { id: string },
+    config?: AxiosRequestConfig
+): Promise<IResponse> {
+    const url = new BuildUrl().communication(`/meetings/${id}/join`);
+    return new Promise((resolve, reject) => {
+        axios
+            .get(url, { ...config, withCredentials: true })
+            .then((response) => {
+                resolve(adaptSuccessResponse(response));
+            })
+            .catch((error) => {
+                reject(adaptErrorResponse(error));
+            });
+    });
+}
+
 export async function addMeetingNotes(
     { id }: { id: string },
     values: {

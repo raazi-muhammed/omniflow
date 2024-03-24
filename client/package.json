@@ -29,6 +29,7 @@
     "@reduxjs/toolkit": "^2.2.1",
     "@uiw/react-json-view": "^2.0.0-alpha.18",
     "@uiw/react-textarea-code-editor": "^3.0.2",
+    "@zegocloud/zego-uikit-prebuilt": "^2.0.0",
     "axios": "^1.6.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
