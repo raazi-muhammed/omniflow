@@ -1,5 +1,12 @@
 import { useEffect, useState } from "react";
 
+enum OriginTypes {
+    TOP_LEFT = "TOP_LEFT",
+    TOP_RIGHT = "TOP_RIGHT",
+    BOTTOM_LEFT = "BOTTOM_LEFT",
+    BOTTOM_RIGHT = "BOTTOM_RIGHT",
+}
+
 export default function LinkConnector({
     to,
     from,
@@ -8,8 +15,8 @@ export default function LinkConnector({
 }: {
     to: string;
     from: string;
-    container: string;
-    data: any;
+    container?: string;
+    data?: any;
 }) {
     const [position, setPosition] = useState({
         x: 0,
@@ -18,46 +25,58 @@ export default function LinkConnector({
         height: 100,
     });
 
-    const [orientation, setOrientation] = useState<"tl" | "bl" | "tr" | "br">(
-        "tl"
-    );
+    const [origin, setOrigin] = useState<OriginTypes>(OriginTypes.TOP_LEFT);
 
     useEffect(() => {
         try {
-            const A = document.querySelector(from);
-            const B = document.querySelector(to);
-            const CONTAINER = document.querySelector(container);
+            const fromElem = document.querySelector(from);
+            const toElem = document.querySelector(to);
 
-            if (A && B && CONTAINER) {
-                const aPos = A.getBoundingClientRect();
-                const bPos = B.getBoundingClientRect();
-                const CONTAINERPos = CONTAINER.getBoundingClientRect();
-
-                const newPosition = {
-                    width: Math.abs(bPos.x - aPos.x),
-                    height: Math.abs(bPos.y - aPos.y),
-                    x: aPos.x + aPos.height / 2 - CONTAINERPos.x,
-                    y: aPos.y + aPos.width / 2 - CONTAINERPos.y,
-                };
-
-                if (bPos.y - aPos.y < 0) {
-                    if (bPos.x - aPos.x < 0) {
-                        setOrientation("br");
-                    } else {
-                        setOrientation("bl");
-                    }
-                } else {
-                    if (bPos.x - aPos.x < 0) {
-                        setOrientation("tr");
-                    } else {
-                        setOrientation("tl");
-                    }
-                }
-
-                console.log({ aPos, bPos, CONTAINERPos, newPosition });
-
-                setPosition(newPosition);
+            if (!fromElem || !toElem) {
+                console.log("invalid to or from elem");
+                return;
             }
+
+            const fromBounding = fromElem.getBoundingClientRect();
+            const toBounding = toElem.getBoundingClientRect();
+
+            const xPosition = fromBounding.x + fromBounding.height / 2;
+            const yPosition = fromBounding.y + fromBounding.width / 2;
+
+            let newPosition = {
+                width: Math.abs(toBounding.x - fromBounding.x),
+                height: Math.abs(toBounding.y - fromBounding.y),
+                x: xPosition,
+                y: yPosition,
+            };
+
+            const isHeightNegative = toBounding.y - fromBounding.y < 0;
+            const isWidthNegative = toBounding.x - fromBounding.x < 0;
+
+            if (isHeightNegative) {
+                if (isWidthNegative) setOrigin(OriginTypes.BOTTOM_RIGHT);
+                else setOrigin(OriginTypes.BOTTOM_LEFT);
+            } else {
+                if (isWidthNegative) setOrigin(OriginTypes.TOP_RIGHT);
+                else setOrigin(OriginTypes.TOP_LEFT);
+            }
+
+            if (container) {
+                const containerElem = document.querySelector(container);
+                if (!containerElem) {
+                    console.log("no container elem found");
+                    return;
+                }
+                const containerBounding = containerElem.getBoundingClientRect();
+
+                newPosition = {
+                    ...newPosition,
+                    x: newPosition.x - containerBounding.x,
+                    y: newPosition.y - containerBounding.y,
+                };
+            }
+
+            setPosition(newPosition);
         } catch (error) {
             console.log(error);
         }
@@ -65,7 +84,7 @@ export default function LinkConnector({
 
     return (
         <>
-            {orientation == "bl" ? (
+            {origin == OriginTypes.BOTTOM_LEFT ? (
                 <div
                     style={{
                         top: `${position.y - position.height}px`,
@@ -84,13 +103,13 @@ export default function LinkConnector({
                                 position.width / 2
                             } 0 ${position.width} 0
                              m${position.width} 0 Z`}
-                            stroke="blue"
+                            stroke="#4A228B"
                             stroke-width="3"
                             fill="none"
                         />
                     </svg>
                 </div>
-            ) : orientation == "tr" ? (
+            ) : origin == OriginTypes.TOP_RIGHT ? (
                 <div
                     style={{
                         top: `${position.y}px`,
@@ -109,13 +128,13 @@ export default function LinkConnector({
                                 position.width / 2
                             } 0 ${position.width} 0
                              m${position.width} 0 Z`}
-                            stroke="teal"
+                            stroke="#4A228B"
                             stroke-width="3"
                             fill="none"
                         />
                     </svg>
                 </div>
-            ) : orientation == "br" ? (
+            ) : origin == OriginTypes.BOTTOM_RIGHT ? (
                 <div
                     style={{
                         top: `${position.y - position.height}px`,
@@ -133,7 +152,7 @@ export default function LinkConnector({
                             } ${position.height / 2} Q${position.width / 2} ${
                                 position.height
                             } ${position.width} ${position.height} m0 0 Z`}
-                            stroke="white"
+                            stroke="#4A228B"
                             stroke-width="3"
                             fill="none"
                         />
@@ -157,7 +176,7 @@ export default function LinkConnector({
                             } ${position.height / 2} Q${position.width / 2} ${
                                 position.height
                             } ${position.width} ${position.height} m0 0 Z`}
-                            stroke="orange"
+                            stroke="#4A228B"
                             stroke-width="3"
                             fill="none"
                         />
