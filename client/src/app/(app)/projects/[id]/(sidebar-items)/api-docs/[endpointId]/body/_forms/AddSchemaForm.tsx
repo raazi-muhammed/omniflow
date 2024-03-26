@@ -20,7 +20,6 @@ import { useRouter } from "next/navigation";
 import { AddIcon } from "@/lib/icons";
 import { useState } from "react";
 import { EDataTypes, dataValueTypes } from "@/types/database";
-import { addEndpointSchema } from "@/services/endpoints.service";
 import {
     Select,
     SelectContent,
@@ -29,6 +28,9 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { HelpCircle, Key, Sparkles } from "lucide-react";
+import { logger } from "@/lib/logger";
+import { makeApiCall } from "@/lib/apicaller";
+import { ApiDocService } from "@/services/api/api-doc.service";
 
 const formSchema = z.object({
     key: z.string().min(1, "Invalid"),
@@ -52,18 +54,19 @@ export default function AddSchemaForm({ endpointId }: { endpointId: string }) {
     });
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values);
-        addEndpointSchema({ id: endpointId }, values)
-            .then((response) => {
-                console.log(response);
-                router.refresh();
-                form.reset();
-                toast({ description: response.message });
-            })
-            .catch((err) => {
-                console.log(err);
-                toast({ description: err.message });
-            });
+        logger.debug(values);
+
+        const service = new ApiDocService();
+        makeApiCall(
+            () => service.addEndpointSchema(endpointId, values).exec(),
+            {
+                toast,
+                afterSuccess: () => {
+                    router.refresh();
+                    form.reset();
+                },
+            }
+        );
     }
 
     return (

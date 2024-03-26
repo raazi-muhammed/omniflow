@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
-import { removeEndpointResponse } from "@/services/endpoints.service";
 import { removeRelations } from "@/services/table.service";
 import { Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";

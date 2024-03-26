@@ -6,7 +6,7 @@ import {
 } from "@/components/layout/SectinSplitter";
 import { Card } from "@/components/ui/card";
 import { PROJECT_TOKEN_COOKIE, USER_TOKEN_COOKIE } from "@/constants/cookies";
-import { getEndpoint } from "@/services/endpoints.service";
+import { ApiDocService } from "@/services/api/api-doc.service";
 import { IEndpoint } from "@/types/database";
 import { cookies } from "next/headers";
 import {
@@ -33,15 +33,14 @@ async function getEndpointData(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
     const projectToken = cookies().get(PROJECT_TOKEN_COOKIE)?.value;
 
-    const response = await getEndpoint(
-        { id },
-        {
-            headers: {
-                Authorization: `Bearer ${userToken}`,
-                Project: `Bearer ${projectToken}`,
-            },
-        }
-    );
+    const service = new ApiDocService({
+        headers: {
+            Authorization: `Bearer ${userToken}`,
+            Project: `Bearer ${projectToken}`,
+        },
+    });
+
+    const response = await service.getEndpoint(id).exec();
     return response.data;
 }
 

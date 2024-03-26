@@ -5,8 +5,7 @@ import {
     SectionSplitter,
 } from "@/components/layout/SectinSplitter";
 import { PROJECT_TOKEN_COOKIE, USER_TOKEN_COOKIE } from "@/constants/cookies";
-import { getEndpoint } from "@/services/endpoints.service";
-import { IEndpoint, ITable } from "@/types/database";
+import { ITable } from "@/types/database";
 import { cookies } from "next/headers";
 import {
     Accordion,

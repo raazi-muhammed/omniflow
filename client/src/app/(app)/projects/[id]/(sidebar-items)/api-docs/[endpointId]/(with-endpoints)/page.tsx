@@ -1,6 +1,5 @@
 import Heading from "@/components/custom/Heading";
 import { Button } from "@/components/ui/button";
-import { getEndpoint } from "@/services/endpoints.service";
 import { IEndpoint } from "@/types/database";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -28,20 +27,20 @@ import {
     PreviewContent,
     PreviewHeader,
 } from "@/components/layout/PreviewHeader";
+import { ApiDocService } from "@/services/api/api-doc.service";
 
 async function getEndpointData(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
     const projectToken = cookies().get(PROJECT_TOKEN_COOKIE)?.value;
 
-    const response = await getEndpoint(
-        { id },
-        {
-            headers: {
-                Authorization: `Bearer ${userToken}`,
-                Project: `Bearer ${projectToken}`,
-            },
-        }
-    );
+    const service = new ApiDocService({
+        headers: {
+            Authorization: `Bearer ${userToken}`,
+            Project: `Bearer ${projectToken}`,
+        },
+    });
+
+    const response = await service.getEndpoint(id).exec();
     return response.data;
 }
 

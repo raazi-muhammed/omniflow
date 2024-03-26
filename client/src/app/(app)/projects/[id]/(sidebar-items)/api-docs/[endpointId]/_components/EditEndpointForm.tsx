@@ -23,9 +23,12 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
-import { addEndpoint, editEndpoint } from "@/services/endpoints.service";
 import { IEndpoint } from "@/types/database";
 import { Dispatch, SetStateAction } from "react";
+import { logger } from "@/lib/logger";
+import { ApiDocService } from "@/services/api/api-doc.service";
+import { makeApiCall } from "@/lib/apicaller";
+import { DeleteAlert } from "@/components/custom/DeleteAlert";
 
 const formSchema = z.object({
     name: z.string().min(3, "Invalid"),
@@ -60,20 +63,17 @@ export default function EditEndpointForm({
     });
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values);
-        editEndpoint({ id: endpoint.id }, values)
-            .then((response) => {
-                toast({
-                    description: response.message,
-                });
+        logger.debug(values);
+
+        const service = new ApiDocService();
+
+        makeApiCall(() => service.editEndpoint(endpoint.id, values).exec(), {
+            toast,
+            afterSuccess: () => {
                 setOpen(false);
                 router.refresh();
-            })
-            .catch((error) => {
-                toast({
-                    description: error,
-                });
-            });
+            },
+        });
     }
 
     return (
@@ -170,21 +170,17 @@ export default function EditEndpointForm({
                     )}
                 />
 
-                <div className="flex gap-4">
-                    <Button
-                        onClick={handleDelete}
-                        type="button"
-                        variant="destructiveFlat"
-                        className="me-auto">
-                        Delete
-                    </Button>
-                    <Button
-                        onClick={() => setOpen(false)}
-                        type="button"
-                        variant="outline">
-                        Cancel
-                    </Button>
-                    <Button type="submit">Add</Button>
+                <div className="flex w-full justify-between gap-4">
+                    <DeleteAlert handleDelete={handleDelete} />
+                    <div className="flex gap-4">
+                        <Button
+                            onClick={() => setOpen(false)}
+                            type="button"
+                            variant="outline">
+                            Cancel
+                        </Button>
+                        <Button type="submit">Save</Button>
+                    </div>
                 </div>
             </form>
         </Form>

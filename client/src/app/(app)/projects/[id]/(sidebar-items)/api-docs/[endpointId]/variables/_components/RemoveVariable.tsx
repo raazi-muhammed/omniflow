@@ -12,7 +12,8 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
-import { removeEndpointVariable } from "@/services/endpoints.service";
+import { makeApiCall } from "@/lib/apicaller";
+import { ApiDocService } from "@/services/api/api-doc.service";
 import { Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -26,18 +27,15 @@ export default function RemoveVariable({
     const { toast } = useToast();
     const router = useRouter();
     function handleRemoveMember() {
-        removeEndpointVariable({ endpointId, variableId })
-            .then((response) => {
-                toast({
-                    description: response.message,
-                });
-                router.refresh();
-            })
-            .catch((error) => {
-                toast({
-                    description: error,
-                });
-            });
+        const service = new ApiDocService();
+
+        makeApiCall(
+            () => service.removeEndpointVariable(endpointId, variableId).exec(),
+            {
+                toast,
+                afterSuccess: () => router.refresh(),
+            }
+        );
     }
     return (
         <AlertDialog>

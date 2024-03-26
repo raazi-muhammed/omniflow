@@ -3,29 +3,22 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
-import { addEndpoint, addFolder } from "@/services/endpoints.service";
 import { AddIcon } from "@/lib/icons";
+import { logger } from "@/lib/logger";
+import { makeApiCall } from "@/lib/apicaller";
+import { ApiDocService } from "@/services/api/api-doc.service";
 
 const formSchema = z.object({
     name: z.string().min(3, "Invalid"),
@@ -46,20 +39,16 @@ export default function AddFolderForm() {
     });
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values);
-        addFolder(values)
-            .then((response) => {
-                toast({
-                    description: response.message,
-                });
+        logger.debug(values);
+
+        const service = new ApiDocService();
+        makeApiCall(() => service.addFolder(values).exec(), {
+            toast,
+            afterSuccess: () => {
                 router.back();
                 router.refresh();
-            })
-            .catch((error) => {
-                toast({
-                    description: error,
-                });
-            });
+            },
+        });
     }
 
     return (

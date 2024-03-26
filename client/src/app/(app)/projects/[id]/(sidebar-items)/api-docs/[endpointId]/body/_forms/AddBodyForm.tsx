@@ -4,9 +4,11 @@ import React, { useState } from "react";
 import CodeEditor from "@uiw/react-textarea-code-editor";
 import { Button } from "@/components/ui/button";
 import { AddIcon } from "@/lib/icons";
-import { addEndpointBody } from "@/services/endpoints.service";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
+import { logger } from "@/lib/logger";
+import { ApiDocService } from "@/services/api/api-doc.service";
+import { makeApiCall } from "@/lib/apicaller";
 
 export default function AddBodyForm({
     endpointId,
@@ -25,17 +27,14 @@ export default function AddBodyForm({
     const router = useRouter();
 
     function handleAddBody() {
-        console.log({ body: code });
-        addEndpointBody({ id: endpointId }, { body: code })
-            .then((response) => {
-                console.log(response);
-                router.refresh();
-                toast({ description: response.message });
-            })
-            .catch((err) => {
-                console.log(err);
-                toast({ description: err });
-            });
+        logger.debug({ body: code });
+
+        const service = new ApiDocService();
+
+        makeApiCall(
+            () => service.addEndpointBody(endpointId, { body: code }).exec(),
+            { toast, afterSuccess: () => router.refresh() }
+        );
     }
 
     return (

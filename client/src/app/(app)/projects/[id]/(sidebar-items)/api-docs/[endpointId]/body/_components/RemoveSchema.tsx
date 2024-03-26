@@ -12,10 +12,8 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
-import {
-    removeEndpointHeader,
-    removeEndpointSchema,
-} from "@/services/endpoints.service";
+import { makeApiCall } from "@/lib/apicaller";
+import { ApiDocService } from "@/services/api/api-doc.service";
 import { Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -29,18 +27,12 @@ export default function RemoveSchema({
     const { toast } = useToast();
     const router = useRouter();
     function handleRemoveMember() {
-        removeEndpointSchema({ schemaId, endpointId })
-            .then((response) => {
-                toast({
-                    description: response.message,
-                });
-                router.refresh();
-            })
-            .catch((error) => {
-                toast({
-                    description: error,
-                });
-            });
+        const service = new ApiDocService();
+
+        makeApiCall(
+            () => service.removeEndpointSchema(endpointId, schemaId).exec(),
+            { toast, afterSuccess: () => router.refresh() }
+        );
     }
     return (
         <AlertDialog>

@@ -17,7 +17,9 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { AddIcon } from "@/lib/icons";
-import { addEndpointHeader } from "@/services/endpoints.service";
+import { logger } from "@/lib/logger";
+import { ApiDocService } from "@/services/api/api-doc.service";
+import { makeApiCall } from "@/lib/apicaller";
 
 const formSchema = z.object({
     key: z.string().min(1, "Invalid"),
@@ -40,17 +42,20 @@ export default function AddHeadersForm({ endpointId }: { endpointId: string }) {
     });
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log({ values });
-        addEndpointHeader({ id: endpointId }, values)
-            .then((response) => {
-                console.log(response);
-                router.refresh();
-                toast({ description: response.message });
-            })
-            .catch((err) => {
-                console.log(err);
-                toast({ description: err });
-            });
+        logger.debug(values);
+
+        const response = new ApiDocService();
+
+        makeApiCall(
+            () => response.addEndpointHeader(endpointId, values).exec(),
+            {
+                toast,
+                afterSuccess: () => {
+                    router.refresh();
+                    form.reset();
+                },
+            }
+        );
     }
 
     return (

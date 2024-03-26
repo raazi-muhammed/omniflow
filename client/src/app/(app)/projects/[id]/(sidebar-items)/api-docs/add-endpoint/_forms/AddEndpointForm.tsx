@@ -24,8 +24,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
-import { addEndpoint } from "@/services/endpoints.service";
 import { AddIcon } from "@/lib/icons";
+import { ApiDocService } from "@/services/api/api-doc.service";
+import { makeApiCall } from "@/lib/apicaller";
 
 const formSchema = z.object({
     name: z.string().min(3, "Invalid"),
@@ -53,19 +54,16 @@ export default function AddEndpointForm() {
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         console.log(values);
-        addEndpoint(values)
-            .then((response) => {
-                toast({
-                    description: response.message,
-                });
+
+        const service = new ApiDocService();
+
+        makeApiCall(() => service.addEndpoint(values).exec(), {
+            toast,
+            afterSuccess: () => {
                 router.back();
                 router.refresh();
-            })
-            .catch((error) => {
-                toast({
-                    description: error,
-                });
-            });
+            },
+        });
     }
 
     return (

@@ -18,7 +18,6 @@ import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { AddIcon } from "@/lib/icons";
 import { useState } from "react";
-import { addEndpointResponse } from "@/services/endpoints.service";
 import CodeEditor from "@uiw/react-textarea-code-editor";
 import {
     Select,
@@ -28,6 +27,9 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { contentTypes } from "@/types/database";
+import { logger } from "@/lib/logger";
+import { ApiDocService } from "@/services/api/api-doc.service";
+import { makeApiCall } from "@/lib/apicaller";
 
 const formSchema = z.object({
     statusCode: z.number().min(100, "Invalid").max(599, "Invalid"),
@@ -55,25 +57,27 @@ export default function AddResponseForm({
     });
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values);
-        addEndpointResponse(
-            { id: endpointId },
+        logger.debug(values);
+
+        const service = new ApiDocService();
+        makeApiCall(
+            () =>
+                service
+                    .addEndpointResponse(endpointId, {
+                        statusCode: values.statusCode,
+                        description: values.description,
+                        type: values.type,
+                        body: code,
+                    })
+                    .exec(),
             {
-                statusCode: values.statusCode,
-                description: values.description,
-                type: values.type,
-                body: code,
+                toast,
+                afterSuccess: () => {
+                    router.refresh();
+                    form.reset();
+                },
             }
-        )
-            .then((response) => {
-                console.log(response);
-                router.refresh();
-                toast({ description: response.message });
-            })
-            .catch((err) => {
-                console.log(err);
-                toast({ description: err });
-            });
+        );
     }
 
     return (

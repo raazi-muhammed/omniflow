@@ -12,9 +12,11 @@ import { EditIcon } from "@/lib/icons";
 import EditEndpointForm from "./EditEndpointForm";
 import { IEndpoint } from "@/types/database";
 import { useState } from "react";
-import { removeEndpoint } from "@/services/endpoints.service";
+
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
+import { ApiDocService } from "@/services/api/api-doc.service";
+import { makeApiCall } from "@/lib/apicaller";
 
 export default function EditEndpoint({ endpoint }: { endpoint: IEndpoint }) {
     const [open, setOpen] = useState(false);
@@ -22,20 +24,15 @@ export default function EditEndpoint({ endpoint }: { endpoint: IEndpoint }) {
     const router = useRouter();
 
     function handleDelete() {
-        removeEndpoint({ id: endpoint.id })
-            .then((response) => {
-                toast({
-                    description: response.message,
-                });
+        const service = new ApiDocService();
+        makeApiCall(() => service.removeEndpoint(endpoint.id).exec(), {
+            toast,
+            afterSuccess: () => {
                 setOpen(false);
                 router.back();
                 router.refresh();
-            })
-            .catch((error) => {
-                toast({
-                    description: error,
-                });
-            });
+            },
+        });
     }
 
     return (

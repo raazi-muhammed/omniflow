@@ -4,11 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { PROJECT_TOKEN_COOKIE, USER_TOKEN_COOKIE } from "@/constants/cookies";
 import { AddIcon } from "@/lib/icons";
-import { getEndpoints } from "@/services/endpoints.service";
 import { IEndpoint } from "@/types/database";
 import { cookies } from "next/headers";
 import Link from "next/link";
-import { Eye as ViewIcon } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { ReactNode } from "react";
 import {
@@ -17,17 +15,20 @@ import {
     SectionSplitter,
 } from "@/components/layout/SectinSplitter";
 import CustomLink from "@/components/custom/CustomLink";
+import { ApiDocService } from "@/services/api/api-doc.service";
 
 async function loadEndpoints() {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
     const projectToken = cookies().get(PROJECT_TOKEN_COOKIE)?.value;
 
-    const response = await getEndpoints({
+    const service = new ApiDocService({
         headers: {
             Authorization: `Bearer ${userToken}`,
             Project: `Bearer ${projectToken}`,
         },
     });
+
+    const response = await service.getEndpoints().exec();
     return response.data;
 }
 

@@ -17,7 +17,6 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { AddIcon } from "@/lib/icons";
-import { addEndpointVariable } from "@/services/endpoints.service";
 import {
     Select,
     SelectContent,
@@ -26,6 +25,9 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { dataValueTypes } from "@/types/database";
+import { logger } from "@/lib/logger";
+import { makeApiCall } from "@/lib/apicaller";
+import { ApiDocService } from "@/services/api/api-doc.service";
 
 const formSchema = z.object({
     name: z.string().min(1, "Invalid"),
@@ -56,18 +58,19 @@ export default function AddVariableForm({
     });
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log({ values });
-        addEndpointVariable({ id: endpointId }, values)
-            .then((response) => {
-                console.log(response);
-                router.refresh();
-                form.reset();
-                toast({ description: response.message });
-            })
-            .catch((err) => {
-                console.log(err);
-                toast({ description: err });
-            });
+        logger.debug(values);
+
+        const service = new ApiDocService();
+        makeApiCall(
+            () => service.addEndpointVariable(endpointId, values).exec(),
+            {
+                toast,
+                afterSuccess: () => {
+                    router.refresh();
+                    form.reset();
+                },
+            }
+        );
     }
 
     return (
