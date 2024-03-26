@@ -16,8 +16,8 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { Textarea } from "@/components/ui/textarea";
 import { makeApiCall } from "@/lib/apicaller";
-import { addMeetingNotes } from "@/services/meeting.service";
 import { useRouter } from "next/navigation";
+import { MeetingService } from "@/services/api/meeting.service";
 
 const FormSchema = z.object({
     notes: z.string().min(10),
@@ -34,8 +34,10 @@ export default function AddNoteForm({ moduleId }: { moduleId: string }) {
     const route = useRouter();
 
     function onSubmit(data: z.infer<typeof FormSchema>) {
+        const service = new MeetingService();
         makeApiCall(
-            () => addMeetingNotes({ id: moduleId }, { notes: data.notes }),
+            () =>
+                service.addMeetingNotes(moduleId, { notes: data.notes }).exec(),
             {
                 toast,
                 afterSuccess: () => {

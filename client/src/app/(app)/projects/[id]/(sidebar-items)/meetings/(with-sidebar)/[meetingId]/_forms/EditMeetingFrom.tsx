@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { CalendarIcon, X as XIcon } from "lucide-react";
+import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -24,18 +24,12 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 import { useToast } from "@/components/ui/use-toast";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { IMeeting, IModule } from "@/types/database";
+import { useRouter } from "next/navigation";
+import { IMeeting } from "@/types/database";
 import { logger } from "@/lib/logger";
 import { makeApiCall } from "@/lib/apicaller";
 import Heading from "@/components/custom/Heading";
-import { addTask } from "@/services/task.service";
-import {
-    addMeeting,
-    editMeeting,
-    removeMeeting,
-} from "@/services/meeting.service";
+import { MeetingService } from "@/services/api/meeting.service";
 import { DeleteAlert } from "@/components/custom/DeleteAlert";
 
 const formSchema = z.object({
@@ -69,8 +63,8 @@ export default function EditMeetingForm({
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         logger.debug(values);
-
-        makeApiCall(() => editMeeting({ id: meeting.id || "" }, values), {
+        const service = new MeetingService();
+        makeApiCall(() => service.editMeeting(meeting.id, values).exec(), {
             toast,
             afterSuccess: () => {
                 closeDialog();
@@ -80,7 +74,8 @@ export default function EditMeetingForm({
     }
 
     function handleDelete() {
-        makeApiCall(() => removeMeeting({ id: meeting.id || "" }), {
+        const service = new MeetingService();
+        makeApiCall(() => service.removeMeeting(meeting.id).exec(), {
             toast,
             afterSuccess: () => {
                 closeDialog();

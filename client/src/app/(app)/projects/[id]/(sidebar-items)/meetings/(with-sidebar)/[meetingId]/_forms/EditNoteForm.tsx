@@ -16,12 +16,9 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { Textarea } from "@/components/ui/textarea";
 import { makeApiCall } from "@/lib/apicaller";
-import {
-    deleteMeetingNotes,
-    editMeetingNotes,
-} from "@/services/meeting.service";
 import { useRouter } from "next/navigation";
 import { DeleteAlert } from "@/components/custom/DeleteAlert";
+import { MeetingService } from "@/services/api/meeting.service";
 
 const FormSchema = z.object({
     notes: z.string().min(10),
@@ -46,8 +43,12 @@ export default function EditNoteForm({
     const route = useRouter();
 
     function onSubmit(data: z.infer<typeof FormSchema>) {
+        const service = new MeetingService();
         makeApiCall(
-            () => editMeetingNotes({ id: meetingId }, { notes: data.notes }),
+            () =>
+                service
+                    .editMeetingNotes(meetingId, { notes: data.notes })
+                    .exec(),
             {
                 toast,
                 afterSuccess: () => {
@@ -59,7 +60,8 @@ export default function EditNoteForm({
     }
 
     function handleDelete() {
-        makeApiCall(() => deleteMeetingNotes({ id: meetingId }), {
+        const service = new MeetingService();
+        makeApiCall(() => service.deleteMeetingNotes(meetingId).exec(), {
             toast,
             afterSuccess: () => {
                 route.refresh();

@@ -160,7 +160,7 @@ export enum TaskStatus {
 }
 
 export type IMeeting = {
-    id?: string;
+    id: string;
     name: string;
     projectId: string;
     agenda: string;

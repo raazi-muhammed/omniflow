@@ -12,7 +12,7 @@ import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { PROJECT_TOKEN_COOKIE, USER_TOKEN_COOKIE } from "@/constants/cookies";
 import { AddIcon } from "@/lib/icons";
-import { getMeetings } from "@/services/meeting.service";
+import { MeetingService } from "@/services/api/meeting.service";
 import { IMeeting } from "@/types/database";
 import moment from "moment";
 import { cookies } from "next/headers";
@@ -22,13 +22,13 @@ import React, { ReactNode } from "react";
 async function loadMeetings() {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
     const projectToken = cookies().get(PROJECT_TOKEN_COOKIE)?.value;
-
-    const response = await getMeetings({
+    const service = new MeetingService({
         headers: {
             Authorization: `Bearer ${userToken}`,
             Project: `Bearer ${projectToken}`,
         },
     });
+    const response = await service.getMeetings().exec();
     return response.data as IMeeting[];
 }
 

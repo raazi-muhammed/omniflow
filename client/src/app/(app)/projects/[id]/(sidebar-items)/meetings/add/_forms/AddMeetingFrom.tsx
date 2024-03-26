@@ -28,7 +28,7 @@ import { useRouter } from "next/navigation";
 import { logger } from "@/lib/logger";
 import { makeApiCall } from "@/lib/apicaller";
 import Heading from "@/components/custom/Heading";
-import { addMeeting } from "@/services/meeting.service";
+import { MeetingService } from "@/services/api/meeting.service";
 
 const formSchema = z.object({
     name: z.string().min(3, "Invalid"),
@@ -56,8 +56,9 @@ export default function AddMeetingForm() {
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         logger.debug(values);
+        const service = new MeetingService();
 
-        makeApiCall(() => addMeeting(values), {
+        makeApiCall(() => service.addMeeting(values).exec(), {
             toast,
             afterSuccess: () => {
                 router.back();

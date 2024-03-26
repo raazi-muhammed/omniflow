@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { PROJECT_TOKEN_COOKIE, USER_TOKEN_COOKIE } from "@/constants/cookies";
-import { getMeeting } from "@/services/meeting.service";
+import { MeetingService } from "@/services/api/meeting.service";
 import { IMeeting } from "@/types/database";
 import moment from "moment";
 import { cookies } from "next/headers";
@@ -24,15 +24,13 @@ async function loadMeeting(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
     const projectToken = cookies().get(PROJECT_TOKEN_COOKIE)?.value;
 
-    const response = await getMeeting(
-        { id },
-        {
-            headers: {
-                Authorization: `Bearer ${userToken}`,
-                Project: `Bearer ${projectToken}`,
-            },
-        }
-    );
+    const service = new MeetingService({
+        headers: {
+            Authorization: `Bearer ${userToken}`,
+            Project: `Bearer ${projectToken}`,
+        },
+    });
+    const response = await service.getMeetingById(id).exec();
     return response.data as IMeeting;
 }
 

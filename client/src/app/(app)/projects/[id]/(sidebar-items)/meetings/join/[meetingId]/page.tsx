@@ -1,4 +1,4 @@
-import { joinMeeting } from "@/services/meeting.service";
+import { joinMeeting } from "@/services/api/meeting.service";
 import VideCall from "./_components/VideCall";
 import { IUser } from "@/types/database";
 import { cookies } from "next/headers";
