@@ -17,7 +17,8 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { IUser } from "@/types/database";
 import { useRouter } from "next/navigation";
-import { editUserProfile } from "@/services/user.service";
+import { makeApiCall } from "@/lib/apicaller";
+import { UserService } from "@/services/api/user.service";
 
 const formSchema = z.object({
     name: z.string().min(3, "Invalid"),
@@ -43,19 +44,12 @@ export default function EditProfileForm({ user }: { user: IUser }) {
         if (values.picture) {
             data.append("avatar", values.picture[0]);
         }
-        editUserProfile(user.username, data)
-            .then((response) => {
-                toast({
-                    description: response.message || "Profile edited",
-                });
-                router.refresh();
-            })
-            .catch((error) => {
-                toast({
-                    title: "Cannot edit profile",
-                    description: error || "Internal server error",
-                });
-            });
+
+        const service = new UserService();
+
+        makeApiCall(() => service.editUserProfile(user.username, data).exec(), {
+            toast,
+        });
     }
 
     return (

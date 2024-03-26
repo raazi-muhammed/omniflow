@@ -1,7 +1,7 @@
 import Heading from "@/components/custom/Heading";
 import { IUser } from "@/types/database";
 import Avatar from "@/components/custom/Avatar";
-import { getUserProfile } from "@/services/user.service";
+import { UserService } from "@/services/api/user.service";
 import { cookies } from "next/headers";
 import {
     SectionAside,
@@ -27,13 +27,13 @@ import Container from "@/components/layout/Container";
 async function getUserData(username: string) {
     const token = cookies().get(USER_TOKEN_COOKIE)?.value;
 
-    const response = await getUserProfile(username, {
+    const service = new UserService({
         headers: {
             Authorization: `Bearer ${token}`,
         },
     });
-    console.log(response.data);
 
+    const response = await service.getUserProfile(username).exec();
     return response?.data;
 }
 

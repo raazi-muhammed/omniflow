@@ -20,7 +20,8 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
-import { changePassword } from "@/services/user.service";
+import { UserService } from "@/services/api/user.service";
+import { makeApiCall } from "@/lib/apicaller";
 
 const formSchema = z
     .object({
@@ -57,20 +58,18 @@ export default function ChangePasswordForm({ username }: { username: string }) {
     });
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        changePassword(username, {
+        const data = {
             currentPassword: values.currentPassword,
             newPassword: values.newPassword,
-        })
-            .then((response) => {
-                toast({
-                    description: response.message || "Success",
-                });
-            })
-            .catch((error) => {
-                toast({
-                    description: error || "Error",
-                });
-            });
+        };
+
+        const service = new UserService();
+        makeApiCall(() => service.changePassword(username, data).exec(), {
+            toast,
+            afterSuccess: () => {
+                form.reset();
+            },
+        });
     }
 
     return (

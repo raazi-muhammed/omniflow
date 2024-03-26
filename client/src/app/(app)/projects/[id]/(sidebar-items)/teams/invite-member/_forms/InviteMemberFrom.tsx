@@ -19,9 +19,9 @@ import { inviteMemberToTeam } from "@/services/team.service";
 import { useToast } from "@/components/ui/use-toast";
 import { Textarea } from "@/components/ui/textarea";
 import { useAppSelector } from "@/redux/store";
-import { getPublicUser } from "@/services/user.service";
 import { IUser } from "@/types/database";
 import { useRouter } from "next/navigation";
+import { UserService } from "@/services/api/user.service";
 
 const formSchema = z.object({
     email: z.string().email(),
@@ -47,7 +47,11 @@ export default function InviteMemberForm() {
     });
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        getPublicUser({ email: values.email })
+        const service = new UserService();
+
+        service
+            .getPublicUser(values.email)
+            .exec()
             .then((response) => {
                 const userDetails: IUser = response.data;
 
