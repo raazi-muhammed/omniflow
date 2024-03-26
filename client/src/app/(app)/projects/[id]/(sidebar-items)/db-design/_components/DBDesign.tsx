@@ -15,6 +15,7 @@ import LinkConnector from "./LineConnector";
 
 export default function DBDesign() {
     const { toast } = useToast();
+    const [data, setDate] = useState<ITable[]>([]);
     const [relations, setRelations] = useState<{ from: string; to: string }[]>(
         []
     );
@@ -79,7 +80,6 @@ export default function DBDesign() {
         });
     }
 
-    const [data, setDate] = useState<ITable[]>([]);
     return (
         <main className="w-screen-without-sidebar h-[calc(100vh-10rem)]">
             <section

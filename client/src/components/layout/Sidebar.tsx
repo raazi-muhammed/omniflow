@@ -20,6 +20,7 @@ import {
     Users as TeamsIcon,
     Video as MeetingsIcon,
     Database as DatabaseIcon,
+    MessagesSquare as ChatIcon,
 } from "lucide-react";
 import { Separator } from "../ui/separator";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -102,6 +103,12 @@ export default function Sidebar() {
             url: `/projects/${projectInfo?.id}/meetings`,
             identifier: "meetings",
             icon: <MeetingsIcon className="me-2" size="1.3em" />,
+        },
+        {
+            title: "Chats",
+            url: `/projects/${projectInfo?.id}/chats`,
+            identifier: "chats",
+            icon: <ChatIcon className="me-2" size="1.3em" />,
         },
     ];
 

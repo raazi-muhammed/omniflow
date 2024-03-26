@@ -10,4 +10,6 @@ COPY . .
 
 EXPOSE 4025
 
+EXPOSE 4040
+
 CMD [ "npm", "run", "dev" ]

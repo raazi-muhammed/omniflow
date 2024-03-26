@@ -165,6 +165,7 @@ services:
             - db-comunication
         ports:
             - 4025:4025
+            - 4040:4040
         env_file:
             - path: ./comunication/.env.development
               required: true

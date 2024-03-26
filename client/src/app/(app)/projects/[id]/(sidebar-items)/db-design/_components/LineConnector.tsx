@@ -40,8 +40,8 @@ export default function LinkConnector({
             const fromBounding = fromElem.getBoundingClientRect();
             const toBounding = toElem.getBoundingClientRect();
 
-            const xPosition = fromBounding.x + fromBounding.height / 2;
-            const yPosition = fromBounding.y + fromBounding.width / 2;
+            const xPosition = fromBounding.x + fromBounding.width / 2;
+            const yPosition = fromBounding.y + fromBounding.height / 2;
 
             let newPosition = {
                 width: Math.abs(toBounding.x - fromBounding.x),
