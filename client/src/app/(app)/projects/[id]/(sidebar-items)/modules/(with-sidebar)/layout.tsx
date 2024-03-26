@@ -4,7 +4,6 @@ import Container from "@/components/layout/Container";
 import { Button } from "@/components/ui/button";
 import { PROJECT_TOKEN_COOKIE, USER_TOKEN_COOKIE } from "@/constants/cookies";
 import { AddIcon } from "@/lib/icons";
-import { getModules } from "@/services/module.service";
 import { IModule } from "@/types/database";
 import { cookies } from "next/headers";
 import Link from "next/link";
@@ -15,20 +14,20 @@ import {
     SectionSplitter,
 } from "@/components/layout/SectinSplitter";
 import ModuleCard from "../_components/ModuleCard";
+import { ModuleService } from "@/services/api/module.service";
 
 async function loadModules() {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
     const projectToken = cookies().get(PROJECT_TOKEN_COOKIE)?.value;
 
-    const response = await getModules(
-        {},
-        {
-            headers: {
-                Authorization: `Bearer ${userToken}`,
-                Project: `Bearer ${projectToken}`,
-            },
-        }
-    );
+    const service = new ModuleService({
+        headers: {
+            Authorization: `Bearer ${userToken}`,
+            Project: `Bearer ${projectToken}`,
+        },
+    });
+
+    const response = await service.getModules({}).exec();
     return response.data;
 }
 

@@ -31,8 +31,7 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 import { useToast } from "@/components/ui/use-toast";
-import { useRouter, useSearchParams } from "next/navigation";
-import { getModuleList } from "@/services/module.service";
+import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { IModule, ITask } from "@/types/database";
 import { logger } from "@/lib/logger";
@@ -40,6 +39,7 @@ import { makeApiCall } from "@/lib/apicaller";
 import Heading from "@/components/custom/Heading";
 import { editTask } from "@/services/task.service";
 import { DeleteAlert } from "@/components/custom/DeleteAlert";
+import { ModuleService } from "@/services/api/module.service";
 
 const formSchema = z.object({
     name: z.string().min(3, "Invalid"),
@@ -81,10 +81,14 @@ export default function EditTaskForm({
     });
 
     useEffect(() => {
-        getModuleList().then((response) => {
-            logger.debug(response.data);
-            setModules(response.data);
-        });
+        const service = new ModuleService();
+        service
+            .getModuleList()
+            .exec()
+            .then((response) => {
+                logger.debug(response.data);
+                setModules(response.data);
+            });
     }, []);
 
     async function onSubmit(values: z.infer<typeof formSchema>) {

@@ -32,11 +32,6 @@ import {
 } from "@/components/ui/popover";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
-import {
-    addModule,
-    editModule,
-    getModuleList,
-} from "@/services/module.service";
 import { useEffect, useState } from "react";
 import { IModule } from "@/types/database";
 import { logger } from "@/lib/logger";
@@ -44,6 +39,7 @@ import { makeApiCall } from "@/lib/apicaller";
 import Heading from "@/components/custom/Heading";
 import { Card } from "@/components/ui/card";
 import { DeleteAlert } from "@/components/custom/DeleteAlert";
+import { ModuleService } from "@/services/api/module.service";
 
 function getLabelFromId(modules: IModule[], id: string): string {
     return modules.reduce((a, e) => {
@@ -96,10 +92,14 @@ export default function EditModuleForm({
     });
 
     useEffect(() => {
-        getModuleList().then((response) => {
-            logger.debug(response.data);
-            setModules(response.data);
-        });
+        const service = new ModuleService();
+        service
+            .getModuleList()
+            .exec()
+            .then((response) => {
+                logger.debug(response.data);
+                setModules(response.data);
+            });
     }, []);
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -108,8 +108,8 @@ export default function EditModuleForm({
             dependencies: dependencies.map((e) => e.id),
         };
         logger.debug(val);
-
-        makeApiCall(() => editModule({ id: module.id }, val), {
+        const service = new ModuleService();
+        makeApiCall(() => service.editModule(module.id, val).exec(), {
             toast,
             afterSuccess: () => {
                 closeModel();

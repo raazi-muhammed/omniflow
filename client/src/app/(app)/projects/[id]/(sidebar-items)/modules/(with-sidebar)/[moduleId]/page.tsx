@@ -5,7 +5,6 @@ import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { PROJECT_TOKEN_COOKIE, USER_TOKEN_COOKIE } from "@/constants/cookies";
-import { getModule } from "@/services/module.service";
 import { IModule } from "@/types/database";
 import { cookies } from "next/headers";
 import moment from "moment";
@@ -17,20 +16,20 @@ import {
     PreviewContent,
     PreviewHeader,
 } from "@/components/layout/PreviewHeader";
+import { ModuleService } from "@/services/api/module.service";
 
 async function getModuleDetails(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
     const projectToken = cookies().get(PROJECT_TOKEN_COOKIE)?.value;
 
-    const response = await getModule(
-        { moduleId: id },
-        {
-            headers: {
-                Authorization: `Bearer ${userToken}`,
-                Project: `Bearer ${projectToken}`,
-            },
-        }
-    );
+    const service = new ModuleService({
+        headers: {
+            Authorization: `Bearer ${userToken}`,
+            Project: `Bearer ${projectToken}`,
+        },
+    });
+
+    const response = await service.getModule(id).exec();
     return response.data as IModule;
 }
 

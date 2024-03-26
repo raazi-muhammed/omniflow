@@ -32,7 +32,6 @@ import {
 } from "@/components/ui/popover";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter, useSearchParams } from "next/navigation";
-import { getModuleList } from "@/services/module.service";
 import { useEffect, useState } from "react";
 import { IAllMemberList, IModule } from "@/types/database";
 import { logger } from "@/lib/logger";
@@ -41,6 +40,7 @@ import Heading from "@/components/custom/Heading";
 import { addTask } from "@/services/task.service";
 import { getMembersList } from "@/services/team.service";
 import { useAppSelector } from "@/redux/store";
+import { ModuleService } from "@/services/api/module.service";
 
 function getLabelFromId(modules: IModule[], id: string): string {
     return modules.reduce((a, e) => {
@@ -87,10 +87,14 @@ export default function AddTaskForm() {
     });
 
     useEffect(() => {
-        getModuleList().then((response) => {
-            logger.debug(response.data);
-            setModules(response.data);
-        });
+        const service = new ModuleService();
+        service
+            .getModuleList()
+            .exec()
+            .then((response) => {
+                logger.debug(response.data);
+                setModules(response.data);
+            });
     }, []);
 
     useEffect(() => {

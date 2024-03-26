@@ -14,7 +14,8 @@ import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import EditModuleForm from "../_forms/EditModuleForm";
-import { deleteModule } from "@/services/module.service";
+import { ModuleService } from "@/services/api/module.service";
+import { makeApiCall } from "@/lib/apicaller";
 
 export default function EditModule({ module }: { module: IModule }) {
     const [open, setOpen] = useState(false);
@@ -22,20 +23,16 @@ export default function EditModule({ module }: { module: IModule }) {
     const router = useRouter();
     const closeModel = () => setOpen(false);
     function handleDelete() {
-        deleteModule({ id: module.id })
-            .then((response) => {
-                toast({
-                    description: response.message,
-                });
+        const service = new ModuleService();
+
+        makeApiCall(() => service.deleteModule(module.id).exec(), {
+            toast,
+            afterSuccess: () => {
                 setOpen(false);
                 router.refresh();
                 router.back();
-            })
-            .catch((error) => {
-                toast({
-                    description: error,
-                });
-            });
+            },
+        });
     }
 
     return (

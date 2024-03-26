@@ -3,7 +3,6 @@
 import ErrorMessage from "@/components/custom/ErrorMessage";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { getModules } from "@/services/module.service";
 import { IModule } from "@/types/database";
 import { useState } from "react";
 import {
@@ -17,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { AddIcon } from "@/lib/icons";
 import Link from "next/link";
 import CustomLink from "@/components/custom/CustomLink";
+import { ModuleService } from "@/services/api/module.service";
 
 export default function ModuleCard({
     module,
@@ -30,8 +30,11 @@ export default function ModuleCard({
 
     async function getSubModules() {
         setLoading(true);
-        const data = await getModules({ parentModule: module.id });
-        setSubModules(data.data);
+        const service = new ModuleService();
+        const response = await service
+            .getModules({ parentModule: module.id })
+            .exec();
+        setSubModules(response.data);
         setLoading(false);
     }
 
