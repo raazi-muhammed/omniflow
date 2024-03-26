@@ -22,8 +22,9 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { ITeamMember, InviteStatus } from "@/types/database";
-import { changeTeamLead } from "@/services/team.service";
 import { useRouter } from "next/navigation";
+import { TeamService } from "@/services/api/team.service";
+import { makeApiCall } from "@/lib/apicaller";
 
 const formSchema = z.object({
     lead: z.string().min(3, "Invalid"),
@@ -47,18 +48,13 @@ export default function ChangeTeamLeadForm({
     });
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        changeTeamLead({ lead: values.lead, teamName })
-            .then((response) => {
-                toast({
-                    description: response?.message || "Success",
-                });
-                router.refresh();
-            })
-            .catch((error) => {
-                toast({
-                    description: error || "Error",
-                });
-            });
+        const service = new TeamService();
+
+        makeApiCall(
+            () =>
+                service.changeTeamLead({ lead: values.lead, teamName }).exec(),
+            { toast, afterSuccess: () => router.refresh() }
+        );
     }
 
     return (

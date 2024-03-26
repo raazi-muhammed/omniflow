@@ -38,9 +38,9 @@ import { logger } from "@/lib/logger";
 import { makeApiCall } from "@/lib/apicaller";
 import Heading from "@/components/custom/Heading";
 import { addTask } from "@/services/task.service";
-import { getMembersList } from "@/services/team.service";
 import { useAppSelector } from "@/redux/store";
 import { ModuleService } from "@/services/api/module.service";
+import { TeamService } from "@/services/api/team.service";
 
 function getLabelFromId(modules: IModule[], id: string): string {
     return modules.reduce((a, e) => {
@@ -98,9 +98,14 @@ export default function AddTaskForm() {
     }, []);
 
     useEffect(() => {
-        getMembersList().then((response) => {
-            setMembersList(response.data as IAllMemberList[]);
-        });
+        const service = new TeamService();
+
+        service
+            .getMembersList()
+            .exec()
+            .then((response) => {
+                setMembersList(response.data as IAllMemberList[]);
+            });
     }, []);
 
     async function onSubmit(values: z.infer<typeof formSchema>) {

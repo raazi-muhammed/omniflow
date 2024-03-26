@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 import { useForm } from "react-hook-form";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -15,13 +14,13 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { inviteMemberToTeam } from "@/services/team.service";
 import { useToast } from "@/components/ui/use-toast";
 import { Textarea } from "@/components/ui/textarea";
 import { useAppSelector } from "@/redux/store";
 import { IUser } from "@/types/database";
 import { useRouter } from "next/navigation";
 import { UserService } from "@/services/api/user.service";
+import { TeamService } from "@/services/api/team.service";
 
 const formSchema = z.object({
     email: z.string().email(),
@@ -59,13 +58,17 @@ export default function InviteMemberForm() {
                     form.setError("email", { message: "Invalid user" });
                     return;
                 }
-                inviteMemberToTeam({
-                    email: userDetails.email,
-                    username: userDetails.username,
-                    avatar: userDetails.avatar,
-                    name: userDetails.name,
-                    message: values.message,
-                })
+
+                const teamService = new TeamService();
+                teamService
+                    .inviteMemberToTeam({
+                        email: userDetails.email,
+                        username: userDetails.username,
+                        avatar: userDetails.avatar,
+                        name: userDetails.name,
+                        message: values.message,
+                    })
+                    .exec()
                     .then((response) => {
                         toast({
                             description: response?.message || "Success",

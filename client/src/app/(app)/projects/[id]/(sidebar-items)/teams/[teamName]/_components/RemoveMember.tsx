@@ -13,7 +13,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/components/ui/use-toast";
-import { removeMember } from "@/services/team.service";
+import { makeApiCall } from "@/lib/apicaller";
+import { TeamService } from "@/services/api/team.service";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -30,19 +31,14 @@ export default function RemoveMember({
     const { toast } = useToast();
     const router = useRouter();
     function handleRemoveMember() {
-        removeMember({ email, team })
-            .then((response) => {
-                toast({
-                    description: response.message,
-                });
+        const service = new TeamService();
+        makeApiCall(() => service.removeMember({ email, team }).exec(), {
+            toast,
+            afterSuccess: () => {
                 setOpen(false);
                 router.refresh();
-            })
-            .catch((error) => {
-                toast({
-                    description: error,
-                });
-            });
+            },
+        });
     }
     return (
         <AlertDialog open={open} onOpenChange={(e) => setOpen(e)}>

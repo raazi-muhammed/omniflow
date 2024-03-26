@@ -5,7 +5,8 @@ import {
     DropdownMenuSubContent,
 } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/components/ui/use-toast";
-import { getTeams, moveMember } from "@/services/team.service";
+import { makeApiCall } from "@/lib/apicaller";
+import { TeamService } from "@/services/api/team.service";
 import { ITeam } from "@/types/database";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
@@ -22,25 +23,24 @@ export default function MoveToTeamSelector({
     const router = useRouter();
 
     useMemo(() => {
-        getTeams().then((response) => {
-            setTeams(response.data);
-        });
+        const service = new TeamService();
+        service
+            .getTeams()
+            .exec()
+            .then((response) => {
+                setTeams(response.data);
+            });
     }, []);
 
     function handleMoveTeam(toTeam: string) {
-        console.log();
-        moveMember({ fromTeam, toTeam, email })
-            .then((response) => {
-                toast({
-                    description: response?.message || "Success",
-                });
-                router.refresh();
-            })
-            .catch((error) => {
-                toast({
-                    description: error || "Error",
-                });
-            });
+        const service = new TeamService();
+        makeApiCall(
+            () => service.moveMember({ fromTeam, toTeam, email }).exec(),
+            {
+                toast,
+                afterSuccess: () => router.refresh(),
+            }
+        );
     }
     return (
         <DropdownMenuSubContent>

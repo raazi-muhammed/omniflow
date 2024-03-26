@@ -14,7 +14,6 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { addTeam, getMembersList } from "@/services/team.service";
 import { useToast } from "@/components/ui/use-toast";
 import { useEffect, useState } from "react";
 import {
@@ -26,6 +25,9 @@ import {
 } from "@/components/ui/select";
 import { IAllMemberList } from "@/types/database";
 import { useRouter } from "next/navigation";
+import { TeamService } from "@/services/api/team.service";
+import { logger } from "@/lib/logger";
+import { makeApiCall } from "@/lib/apicaller";
 
 const formSchema = z.object({
     name: z.string().min(3, "Invalid"),
@@ -46,32 +48,32 @@ export default function AddTeamForm() {
     });
 
     useEffect(() => {
-        getMembersList().then((response) => {
-            setMembersList(response.data as IAllMemberList[]);
-        });
+        const service = new TeamService();
+        service
+            .getMembersList()
+            .exec()
+            .then((response) => {
+                setMembersList(response.data as IAllMemberList[]);
+            });
     }, []);
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values);
-        addTeam(values)
-            .then((response) => {
-                toast({
-                    description: response?.message || "Team added",
-                });
+        logger.debug(values);
+
+        const service = new TeamService();
+        makeApiCall(() => service.addTeam(values).exec(), {
+            toast,
+            afterSuccess: () => {
                 router.back();
                 router.refresh();
-            })
-            .catch((error) => {
+            },
+            afterError: (error: any) => {
                 const sanitizedError: string = error.toLowerCase();
                 if (sanitizedError.includes("name")) {
                     form.setError("name", { message: error });
-                } else {
-                    toast({
-                        title: "Team adding failed",
-                        description: error || "Team adding failed",
-                    });
                 }
-            });
+            },
+        });
     }
 
     return (

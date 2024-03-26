@@ -13,7 +13,6 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { getMembersList } from "@/services/team.service";
 import { useToast } from "@/components/ui/use-toast";
 import { useEffect, useState } from "react";
 import {
@@ -28,6 +27,7 @@ import { ProjectService } from "@/services/api/project.service";
 import { useRouter } from "next/navigation";
 import { logger } from "@/lib/logger";
 import { makeApiCall } from "@/lib/apicaller";
+import { TeamService } from "@/services/api/team.service";
 
 const formSchema = z.object({
     lead: z.string().min(3, "Invalid"),
@@ -46,10 +46,14 @@ export default function ChangeProjectLeadForm() {
     });
 
     useEffect(() => {
-        getMembersList().then((response) => {
-            console.log(response.data);
-            setMembersList(response.data as IAllMemberList[]);
-        });
+        const service = new TeamService();
+        service
+            .getMembersList()
+            .exec()
+            .then((response) => {
+                console.log(response.data);
+                setMembersList(response.data as IAllMemberList[]);
+            });
     }, []);
 
     async function onSubmit(values: z.infer<typeof formSchema>) {

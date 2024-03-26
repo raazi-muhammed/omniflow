@@ -12,26 +12,22 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
-import { removeTeam } from "@/services/team.service";
+import { makeApiCall } from "@/lib/apicaller";
+import { TeamService } from "@/services/api/team.service";
 import { useRouter } from "next/navigation";
 
 export default function RemoveTeam({ team }: { team: string }) {
     const { toast } = useToast();
     const router = useRouter();
     function handleRemoveMember() {
-        removeTeam({ name: team })
-            .then((response) => {
-                toast({
-                    description: response.message,
-                });
+        const service = new TeamService();
+        makeApiCall(() => service.removeTeam({ name: team }).exec(), {
+            toast,
+            afterSuccess: () => {
                 router.back();
                 router.refresh();
-            })
-            .catch((error) => {
-                toast({
-                    description: error,
-                });
-            });
+            },
+        });
     }
     return (
         <AlertDialog>

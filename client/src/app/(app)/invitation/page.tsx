@@ -9,7 +9,8 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
-import { changeInvitationStatus } from "@/services/team.service";
+import { makeApiCall } from "@/lib/apicaller";
+import { TeamService } from "@/services/api/team.service";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 
@@ -26,23 +27,24 @@ function InvitationComponent() {
             });
             return;
         }
-        changeInvitationStatus({
-            token,
-            invitationAccepted: true,
-        })
-            .then((response) => {
-                toast({
-                    description: response?.message || "Invitation accepted",
-                });
-                router.push("/projects");
-                router.refresh();
-            })
-            .catch((error) => {
-                toast({
-                    title: "Invitation accepted failed",
-                    description: error || "failed",
-                });
-            });
+
+        const service = new TeamService();
+        makeApiCall(
+            () =>
+                service
+                    .changeInvitationStatus({
+                        token,
+                        invitationAccepted: true,
+                    })
+                    .exec(),
+            {
+                toast,
+                afterSuccess: () => {
+                    router.push("/projects");
+                    router.refresh();
+                },
+            }
+        );
     }
     function handleRejectInvitation() {
         if (!token) {
@@ -51,22 +53,23 @@ function InvitationComponent() {
             });
             return;
         }
-        changeInvitationStatus({
-            token,
-            invitationAccepted: false,
-        })
-            .then((response) => {
-                toast({
-                    description: response?.message || "Invitation accepted",
-                });
-                router.push("/projects");
-            })
-            .catch((error) => {
-                toast({
-                    title: "Invitation accepted failed",
-                    description: error || "failed",
-                });
-            });
+        const service = new TeamService();
+        makeApiCall(
+            () =>
+                service
+                    .changeInvitationStatus({
+                        token,
+                        invitationAccepted: false,
+                    })
+                    .exec(),
+            {
+                toast,
+                afterSuccess: () => {
+                    router.push("/projects");
+                    router.refresh();
+                },
+            }
+        );
     }
 
     return (

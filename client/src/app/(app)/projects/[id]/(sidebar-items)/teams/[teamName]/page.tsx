@@ -2,7 +2,7 @@ import Avatar from "@/components/custom/Avatar";
 import Heading from "@/components/custom/Heading";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { getTeamMembers } from "@/services/team.service";
+import { TeamService } from "@/services/api/team.service";
 import { ITeam, ITeamMember, InviteStatus, Role } from "@/types/database";
 import { Trash2 as DeleteIcon, RefreshCw as ChangeIcon } from "lucide-react";
 import { cookies } from "next/headers";
@@ -31,17 +31,17 @@ async function getTeamsData(teamName: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
     const projectToken = cookies().get(PROJECT_TOKEN_COOKIE)?.value;
 
-    const response = await getTeamMembers(
-        {
-            teamName,
+    const service = new TeamService({
+        headers: {
+            Authorization: `Bearer ${userToken}`,
+            Project: `Bearer ${projectToken}`,
         },
-        {
-            headers: {
-                Authorization: `Bearer ${userToken}`,
-                Project: `Bearer ${projectToken}`,
-            },
-        }
-    );
+    });
+    const response = await service
+        .getTeamMembers({
+            teamName,
+        })
+        .exec();
     return response.data as ITeam;
 }
 

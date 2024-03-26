@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import RemoveMember from "./RemoveMember";
 import MoveToTeamSelector from "./MoveToTeamSelector";
 import {

@@ -4,7 +4,6 @@ import Container from "@/components/layout/Container";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { AddIcon, EditIcon } from "@/lib/icons";
-import { getTeams } from "@/services/team.service";
 import { ITeam, InviteStatus, Role } from "@/types/database";
 import { cookies } from "next/headers";
 import Link from "next/link";
@@ -17,17 +16,19 @@ import { PROJECT_TOKEN_COOKIE, USER_TOKEN_COOKIE } from "@/constants/cookies";
 import { Label } from "@/components/ui/label";
 import { formatConstants } from "@/lib/formaters";
 import { Fragment } from "react";
+import { TeamService } from "@/services/api/team.service";
 
 async function loadTeams() {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
     const projectToken = cookies().get(PROJECT_TOKEN_COOKIE)?.value;
 
-    const response = await getTeams({
+    const service = new TeamService({
         headers: {
             Authorization: `Bearer ${userToken}`,
             Project: `Bearer ${projectToken}`,
         },
     });
+    const response = await service.getTeams().exec();
     console.log(response.data);
 
     return response.data;
