@@ -195,3 +195,10 @@ export type IRelation = {
     to: string;
     from: string;
 };
+
+export type IFolder = {
+    id: string;
+    name: string;
+    parentFolder?: string;
+    projectId: string;
+};

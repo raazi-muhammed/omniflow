@@ -1,5 +1,5 @@
 import { DataTypes, ModelDefined, Sequelize } from "sequelize";
-import { IHeader } from "../../interfaces/entity.interface.js";
+import { IHeader } from "../../../interfaces/entity.interface.js";
 
 export function headerModel(sequelize: Sequelize) {
     const HeaderModel: ModelDefined<IDBHeader, IHeader> = sequelize.define(

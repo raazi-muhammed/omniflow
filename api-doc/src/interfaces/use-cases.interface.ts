@@ -1,6 +1,8 @@
+import { IDBFolder } from "../repository/sql/models/folder.model.js";
 import {
     IEndpoint,
     IEndpointResponse,
+    IFolder,
     IHeader,
     ISchemaItem,
     IVariable,
@@ -13,3 +15,8 @@ export type ICreateEndpointResponseUseCase = (
     data: IEndpointResponse
 ) => IEndpointResponse;
 export type ICreateSchemaItemUseCase = (data: ISchemaItem) => ISchemaItem;
+
+export type IFolderUseCases = {
+    addFolder: (data: IFolder) => Promise<IDBFolder>;
+    getFolders: (data: { projectId: string }) => Promise<IDBFolder[]>;
+};

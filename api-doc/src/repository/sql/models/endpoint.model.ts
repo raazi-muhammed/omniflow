@@ -1,5 +1,5 @@
 import { DataTypes, ModelDefined, Sequelize } from "sequelize";
-import { IEndpoint } from "../../interfaces/entity.interface.js";
+import { IEndpoint } from "../../../interfaces/entity.interface.js";
 
 export function endpointModel(sequelize: Sequelize) {
     const EndpointModel: ModelDefined<IDBEndpoint, IEndpoint> =

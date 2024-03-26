@@ -45,7 +45,7 @@ export default function VideCall({
     return (
         <div>
             <div
-                className="w-screen-without-sidebar h-screen-without-navbar border border-red-500"
+                className="w-screen-without-sidebar h-screen-without-navbar"
                 //@ts-ignore
                 ref={myMeeting}
             />

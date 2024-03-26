@@ -9,6 +9,9 @@ import buildVariableRoutes from "./variable.routes.js";
 import buildHeaderRoutes from "./header.routes.js";
 import buildSchemaRoutes from "./schema.route.js";
 import buildResponseRoutes from "./response.route.js";
+import buildFolderRoutes from "./folder.routes.js";
+import { folderController } from "../controllers/index.js";
+
 const router = express.Router();
 
 export const endpointRoutes = buildEndpointRoutes({
@@ -40,4 +43,10 @@ export const responseRoutes = buildResponseRoutes({
     verifyUser: verifyUserMiddleware,
     verifyProject: verifyProjectMiddleware,
     endpointController: endpointController,
+});
+export const folderRoutes = buildFolderRoutes({
+    router,
+    verifyUser: verifyUserMiddleware,
+    verifyProject: verifyProjectMiddleware,
+    folderController,
 });

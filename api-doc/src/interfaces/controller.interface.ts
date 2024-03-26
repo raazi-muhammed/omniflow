@@ -16,3 +16,8 @@ export type IEndpointController = {
     removeEndpointHeader: (req: IRequest) => Promise<ResponseCreator>;
     removeEndpointResponse: (req: IRequest) => Promise<ResponseCreator>;
 };
+
+export type IFolderController = {
+    addFolder: (req: IRequest) => Promise<ResponseCreator>;
+    getFolders: (req: IRequest) => Promise<ResponseCreator>;
+};

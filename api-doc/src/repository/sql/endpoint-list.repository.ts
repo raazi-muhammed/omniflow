@@ -1,20 +1,25 @@
 import { ModelDefined, Sequelize } from "sequelize";
-import { IDBEndpoint, endpointModel } from "./endpoint.model.js";
+import { IDBEndpoint, endpointModel } from "./models/endpoint.model.js";
 import {
     IEndpoint,
     IEndpointResponse,
+    IFolder,
     IHeader,
     ISchemaItem,
     IVariable,
 } from "../../interfaces/entity.interface.js";
-import { IDBVariable, variableModel } from "./endpoint-variable.model.js";
-import { IDBHeader, headerModel } from "./endpoint-header.mode.js";
-import { IDBSchemaItem, schemaModel } from "./endpoint-schema.model.js";
+import {
+    IDBVariable,
+    variableModel,
+} from "./models/endpoint-variable.model.js";
+import { IDBHeader, headerModel } from "./models/endpoint-header.mode.js";
+import { IDBSchemaItem, schemaModel } from "./models/endpoint-schema.model.js";
 import {
     IDBEndpointResponse,
     endpointResponseModel,
-} from "./endpoint-response.model.js";
+} from "./models/endpoint-response.model.js";
 import { logger } from "@omniflow/common";
+import { IDBFolder, folderModel } from "./models/folder.model.js";
 
 export class BuildEndpointRepository {
     client: Sequelize;
@@ -24,41 +29,43 @@ export class BuildEndpointRepository {
         Headers: ModelDefined<IDBHeader, IHeader>;
         Schema: ModelDefined<IDBSchemaItem, ISchemaItem>;
         EndpointResponse: ModelDefined<IDBEndpointResponse, IEndpointResponse>;
+        Folder: ModelDefined<IDBFolder, IFolder>;
     };
 
     constructor(sequelize: Sequelize) {
-        const EndpointModel = endpointModel(sequelize);
-        const VariableModel = variableModel(sequelize);
-        const HeaderModel = headerModel(sequelize);
+        const Endpoint = endpointModel(sequelize);
+        const Variable = variableModel(sequelize);
+        const Header = headerModel(sequelize);
         const Schema = schemaModel(sequelize);
         const EndpointResponse = endpointResponseModel(sequelize);
+        const Folder = folderModel(sequelize);
 
-        EndpointModel.hasMany(VariableModel, {
+        Endpoint.hasMany(Variable, {
             as: "variables",
             foreignKey: "endpointId",
         });
-        VariableModel.belongsTo(EndpointModel, {
+        Variable.belongsTo(Endpoint, {
             foreignKey: "endpointId",
         });
-        EndpointModel.hasMany(HeaderModel, {
+        Endpoint.hasMany(Header, {
             as: "headers",
             foreignKey: "endpointId",
         });
-        HeaderModel.belongsTo(EndpointModel, {
+        Header.belongsTo(Endpoint, {
             foreignKey: "endpointId",
         });
-        EndpointModel.hasMany(Schema, {
+        Endpoint.hasMany(Schema, {
             as: "schema",
             foreignKey: "endpointId",
         });
-        Schema.belongsTo(EndpointModel, {
+        Schema.belongsTo(Endpoint, {
             foreignKey: "endpointId",
         });
-        EndpointModel.hasMany(EndpointResponse, {
+        Endpoint.hasMany(EndpointResponse, {
             as: "requests",
             foreignKey: "endpointId",
         });
-        EndpointResponse.belongsTo(EndpointModel, {
+        EndpointResponse.belongsTo(Endpoint, {
             foreignKey: "endpointId",
         });
 
@@ -169,5 +176,15 @@ export class BuildEndpointRepository {
             where: { id: requestId },
         });
         return deleted > 0;
+    }
+    async addFolder(data: IFolder) {
+        const folder = await this.models.Folder.create(data);
+        return folder?.dataValues as IDBFolder;
+    }
+    async getFolders({ projectId }: { projectId: string }) {
+        const folders = await this.models.Folder.findAll({
+            where: { projectId },
+        });
+        return folders.map((e) => e.dataValues) as IDBFolder[];
     }
 }

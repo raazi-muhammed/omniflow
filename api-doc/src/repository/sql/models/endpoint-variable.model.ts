@@ -1,10 +1,10 @@
 import { DataTypes, ModelDefined, Sequelize } from "sequelize";
-import { ISchemaItem } from "../../interfaces/entity.interface.js";
+import { IVariable } from "../../../interfaces/entity.interface.js";
 
-export function schemaModel(sequelize: Sequelize) {
-    const SchemaModel: ModelDefined<IDBSchemaItem, ISchemaItem> =
+export function variableModel(sequelize: Sequelize) {
+    const VariableModel: ModelDefined<IDBVariable, IVariable> =
         sequelize.define(
-            "Schema",
+            "Variables",
             {
                 id: {
                     type: DataTypes.UUID,
@@ -15,7 +15,7 @@ export function schemaModel(sequelize: Sequelize) {
                     type: DataTypes.UUID,
                     allowNull: false,
                 },
-                key: {
+                name: {
                     type: DataTypes.STRING,
                     allowNull: false,
                 },
@@ -23,20 +23,16 @@ export function schemaModel(sequelize: Sequelize) {
                     type: DataTypes.STRING,
                     allowNull: false,
                 },
-                options: {
-                    type: DataTypes.ARRAY(DataTypes.STRING),
+                description: {
+                    type: DataTypes.STRING,
                 },
             },
-            {
-                timestamps: true,
-                paranoid: true,
-            }
+            { timestamps: true, paranoid: true }
         );
 
-    // sequelize.sync({ alter: true });
-    return SchemaModel;
+    return VariableModel;
 }
 
-export type IDBSchemaItem = ISchemaItem & {
+export type IDBVariable = IVariable & {
     id: string;
 };

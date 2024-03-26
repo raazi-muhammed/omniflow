@@ -82,3 +82,10 @@ export interface IEndpointResponseEntity extends IEndpointResponse {
 export interface IEndpointResponseEntityConstructor {
     new (data: IEndpointResponse): IEndpointResponseEntity;
 }
+
+/* Folder */
+export type IFolder = {
+    name: string;
+    parentFolder?: string;
+    projectId: string;
+};

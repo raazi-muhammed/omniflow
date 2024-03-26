@@ -1,11 +1,13 @@
-import { IDBHeader } from "../repository/sql/endpoint-header.mode.js";
-import { IDBEndpointResponse } from "../repository/sql/endpoint-response.model.js";
-import { IDBSchemaItem } from "../repository/sql/endpoint-schema.model.js";
-import { IDBVariable } from "../repository/sql/endpoint-variable.model.js";
-import { IDBEndpoint } from "../repository/sql/endpoint.model.js";
+import { IDBHeader } from "../repository/sql/models/endpoint-header.mode.js";
+import { IDBEndpointResponse } from "../repository/sql/models/endpoint-response.model.js";
+import { IDBSchemaItem } from "../repository/sql/models/endpoint-schema.model.js";
+import { IDBVariable } from "../repository/sql/models/endpoint-variable.model.js";
+import { IDBEndpoint } from "../repository/sql/models/endpoint.model.js";
+import { IDBFolder } from "../repository/sql/models/folder.model.js";
 import {
     IEndpoint,
     IEndpointResponse,
+    IFolder,
     IHeader,
     ISchemaItem,
     IVariable,
@@ -37,4 +39,6 @@ export type IEndpointsRepository = {
         data: IEndpointResponse
     ) => Promise<IDBEndpointResponse>;
     removeEndpointResponse: (requestId: string) => Promise<boolean>;
+    addFolder: (data: IFolder) => Promise<IDBFolder>;
+    getFolders: (data: { projectId: string }) => Promise<IDBFolder[]>;
 };

@@ -1,4 +1,7 @@
-import { IEndpointController } from "../interfaces/controller.interface.js";
+import {
+    IEndpointController,
+    IFolderController,
+} from "../interfaces/controller.interface.js";
 import buildAddEndpointController from "./endpoint/add-endpoint.controller.js";
 import { endPointsRepository } from "../repository/sql/index.js";
 import buildGetEndpointsController from "./endpoint/get-endpoints.controller.js";
@@ -20,6 +23,9 @@ import buildRemoveEndpointSchemaController from "./body/remove-endpoint-schema.c
 import buildRemoveEndpointResponseController from "./response/remove-endpoint-response.controller.js";
 import buildEditEndpointController from "./endpoint/edit-endpoint.controller.js";
 import buildRemoveEndpointController from "./endpoint/remove-endpoint.controller.js";
+import { folderUseCases } from "../use-cases/index.js";
+import buildGetFoldersController from "./folder/get-folders.controller.js";
+import buildAddFolderController from "./folder/add-folder.controller.js";
 
 const addEndpoint = buildAddEndpointController({
     createEndpointUseCase,
@@ -89,4 +95,12 @@ export const endpointController: IEndpointController = Object.freeze({
     removeEndpointHeader,
     removeEndpointSchema,
     removeEndpointResponse,
+});
+
+const addFolder = buildAddFolderController({ folderUseCases });
+const getFolders = buildGetFoldersController({ folderUseCases });
+
+export const folderController: IFolderController = Object.freeze({
+    addFolder,
+    getFolders,
 });

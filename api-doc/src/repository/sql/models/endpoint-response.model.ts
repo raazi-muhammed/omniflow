@@ -1,5 +1,5 @@
 import { DataTypes, ModelDefined, Sequelize } from "sequelize";
-import { IEndpointResponse } from "../../interfaces/entity.interface.js";
+import { IEndpointResponse } from "../../../interfaces/entity.interface.js";
 
 export function endpointResponseModel(sequelize: Sequelize) {
     const EndpointRequestModel: ModelDefined<

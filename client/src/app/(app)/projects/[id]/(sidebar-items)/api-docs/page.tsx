@@ -4,8 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { PROJECT_TOKEN_COOKIE, USER_TOKEN_COOKIE } from "@/constants/cookies";
 import { AddIcon } from "@/lib/icons";
-import { getEndpoints } from "@/services/endpoints.service";
-import { IEndpoint } from "@/types/database";
+import { getEndpoints, getFolders } from "@/services/endpoints.service";
+import { IEndpoint, IFolder } from "@/types/database";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import { Label } from "@/components/ui/label";
@@ -30,13 +30,33 @@ async function loadEndpoints() {
     return response.data;
 }
 
+async function loadFolders() {
+    const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
+    const projectToken = cookies().get(PROJECT_TOKEN_COOKIE)?.value;
+
+    const response = await getFolders({
+        headers: {
+            Authorization: `Bearer ${userToken}`,
+            Project: `Bearer ${projectToken}`,
+        },
+    });
+    return response.data;
+}
+
 export default async function page() {
     const endpoints: IEndpoint[] = await loadEndpoints();
+    const folders: IFolder[] = await loadFolders();
     return (
         <Container>
             <SectionSplitter>
                 <SectionAside className="mt-0 space-y-4">
                     <ActionItemsContainer>
+                        <Link href="api-docs/add-folder">
+                            <Button size="sm" variant="muted">
+                                <AddIcon />
+                                Add folder
+                            </Button>
+                        </Link>
                         <Link href="api-docs/add-endpoint">
                             <Button size="sm">
                                 <AddIcon />
@@ -44,6 +64,13 @@ export default async function page() {
                             </Button>
                         </Link>
                     </ActionItemsContainer>
+
+                    {folders.map((folder) => (
+                        <Card className="p-3">
+                            <p>{folder.name}</p>
+                        </Card>
+                    ))}
+
                     {endpoints.map((point) => (
                         <Card key={point.id} className="flex">
                             <div className="flex min-w-20 rounded-l-lg border-r bg-muted px-3">

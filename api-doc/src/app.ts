@@ -6,6 +6,7 @@ import morgan from "morgan";
 import { ErrorHandlingMiddleware, loadEnv, logger } from "@omniflow/common";
 import {
     endpointRoutes,
+    folderRoutes,
     headerRoutes,
     responseRoutes,
     schemaRoutes,
@@ -42,6 +43,7 @@ app.use("/api/api-doc", headerRoutes);
 app.use("/api/api-doc", variableRoutes);
 app.use("/api/api-doc", schemaRoutes);
 app.use("/api/api-doc", responseRoutes);
+app.use("/api/api-doc", folderRoutes);
 
 app.use(ErrorHandlingMiddleware);
 
