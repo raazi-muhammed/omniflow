@@ -6,7 +6,7 @@ import ActionItemsContainer from "@/components/layout/ActionItemsContainer";
 import Container from "@/components/layout/Container";
 import { Button } from "@/components/ui/button";
 import { EditIcon } from "@/lib/icons";
-import { getProject } from "@/services/project.service";
+import { ProjectService } from "@/services/api/project.service";
 import { IProject } from "@/types/database";
 import moment from "moment";
 import Link from "next/link";
@@ -22,10 +22,14 @@ export default function Page({ params }: { params: { id: string } }) {
 
     const dispatch = useDispatch<AppDispatch>();
     useEffect(() => {
-        getProject({ id: params.id }).then((response) => {
-            setProject(response.data);
-            dispatch(setProjectOnRedux(response.data as IProject));
-        });
+        const service = new ProjectService();
+        service
+            .getProjectById(params.id)
+            .exec()
+            .then((response) => {
+                setProject(response.data);
+                dispatch(setProjectOnRedux(response.data as IProject));
+            });
     }, [dispatch, params.id]);
 
     return (

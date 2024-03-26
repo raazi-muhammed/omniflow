@@ -24,8 +24,10 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { IAllMemberList } from "@/types/database";
-import { changeProjectLead } from "@/services/project.service";
+import { ProjectService } from "@/services/api/project.service";
 import { useRouter } from "next/navigation";
+import { logger } from "@/lib/logger";
+import { makeApiCall } from "@/lib/apicaller";
 
 const formSchema = z.object({
     lead: z.string().min(3, "Invalid"),
@@ -51,20 +53,15 @@ export default function ChangeProjectLeadForm() {
     }, []);
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values);
-        changeProjectLead(values)
-            .then((response) => {
-                toast({
-                    description: response?.message || "Success",
-                });
+        logger.debug(values);
+        const service = new ProjectService();
+        makeApiCall(() => service.changeProjectLead(values).exec(), {
+            toast,
+            afterSuccess: () => {
                 router.back();
                 router.refresh();
-            })
-            .catch((error) => {
-                toast({
-                    description: error || "Error",
-                });
-            });
+            },
+        });
     }
 
     return (

@@ -6,7 +6,7 @@ import AppLogo from "../custom/AppLogo";
 import { AppDispatch, useAppSelector } from "@/redux/store";
 import Link from "next/link";
 import { useEffect } from "react";
-import { getCurrentProject } from "@/services/project.service";
+import { ProjectService } from "@/services/api/project.service";
 import { useDispatch } from "react-redux";
 import { setProject } from "@/redux/features/projectSlice";
 import { IProject } from "@/types/database";
@@ -42,9 +42,13 @@ export default function Sidebar() {
     );
 
     useEffect(() => {
-        getCurrentProject().then((response) => {
-            dispatch(setProject(response.data as IProject));
-        });
+        const service = new ProjectService();
+        service
+            .getCurrentProject()
+            .exec()
+            .then((response) => {
+                dispatch(setProject(response.data as IProject));
+            });
     }, [dispatch]);
 
     const options: Option[] = [

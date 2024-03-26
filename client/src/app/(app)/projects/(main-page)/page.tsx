@@ -7,7 +7,7 @@ import { AddIcon } from "@/lib/icons";
 import { IProject } from "@/types/database";
 import Link from "next/link";
 import { cookies } from "next/headers";
-import { getProjects } from "@/services/project.service";
+import { ProjectService } from "@/services/api/project.service";
 import ResponsiveGridContainer from "@/components/layout/ResponsiveGridContainer";
 import ErrorMessage from "@/components/custom/ErrorMessage";
 import { USER_TOKEN_COOKIE } from "@/constants/cookies";
@@ -16,15 +16,15 @@ import { Label } from "@/components/ui/label";
 async function getProjectsData() {
     const token = cookies().get(USER_TOKEN_COOKIE)?.value;
 
-    const response = await getProjects({
+    const service = new ProjectService({
         headers: {
             Authorization: `Bearer ${token}`,
         },
     });
 
-    console.log({ response });
+    const response = await service.getProjects().exec();
 
-    return response?.data as IProject[];
+    return response.data as IProject[];
 }
 
 export default async function page() {

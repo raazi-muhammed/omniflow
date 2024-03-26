@@ -25,9 +25,10 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 import { useToast } from "@/components/ui/use-toast";
-import { editProject, getCurrentProject } from "@/services/project.service";
+import { ProjectService } from "@/services/api/project.service";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { logger } from "@/lib/logger";
+import { makeApiCall } from "@/lib/apicaller";
 
 const formSchema = z.object({
     title: z.string().min(3, "Invalid"),
@@ -44,7 +45,8 @@ export default function EditProjectForm() {
         resolver: zodResolver(formSchema),
         defaultValues: async () => {
             try {
-                const response = await getCurrentProject();
+                const service = new ProjectService();
+                const response = await service.getCurrentProject().exec();
                 const project = response.data;
                 return {
                     title: project.title,
@@ -64,26 +66,16 @@ export default function EditProjectForm() {
         mode: "onTouched",
     });
 
-    useEffect(() => {
-        getCurrentProject().then((response) => {
-            console.log(response.data);
-        });
-    }, []);
-
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values);
-        editProject(values)
-            .then((response) => {
-                toast({
-                    description: response?.message || "Project updated",
-                });
+        logger.debug(values);
+
+        const service = new ProjectService();
+        makeApiCall(() => service.editProject(values).exec(), {
+            toast,
+            afterSuccess: () => {
                 router.refresh();
-            })
-            .catch((error) => {
-                toast({
-                    description: error || "Project updating failed",
-                });
-            });
+            },
+        });
     }
 
     return (

@@ -32,9 +32,11 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 import { useToast } from "@/components/ui/use-toast";
-import { addProject } from "@/services/project.service";
+import { ProjectService } from "@/services/api/project.service";
 import { useAppSelector } from "@/redux/store";
 import { useRouter } from "next/navigation";
+import { makeApiCall } from "@/lib/apicaller";
+import { logger } from "@/lib/logger";
 
 const formSchema = z.object({
     title: z.string().min(3, "Invalid"),
@@ -66,20 +68,15 @@ export default function AddProjectForm() {
     });
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values);
-        addProject(values)
-            .then((response) => {
-                toast({
-                    description: response.message,
-                });
+        logger.debug(values);
+        const service = new ProjectService();
+        makeApiCall(() => service.addProject(values).exec(), {
+            toast,
+            afterSuccess: () => {
                 router.push("/projects");
                 router.refresh();
-            })
-            .catch((error) => {
-                toast({
-                    description: error,
-                });
-            });
+            },
+        });
     }
 
     return (
