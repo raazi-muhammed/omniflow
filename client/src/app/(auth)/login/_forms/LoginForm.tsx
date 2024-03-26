@@ -24,7 +24,9 @@ import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import { logUser } from "@/redux/features/authSlice";
-import { userLogin } from "@/services/auth.service";
+import { AuthService } from "@/services/api/auth.service";
+import { makeApiCall } from "@/lib/apicaller";
+import { IResponse } from "@/services/utils";
 
 const formSchema = z.object({
     email: z.string().email(),
@@ -49,27 +51,25 @@ export default function LoginForm() {
     });
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        userLogin(values)
-            .then((response) => {
-                toast({
-                    description: response?.message,
-                });
+        const service = new AuthService();
+        makeApiCall;
+
+        makeApiCall(() => service.userLogin(values).exec(), {
+            toast,
+            afterSuccess: (response: IResponse) => {
                 dispatch(logUser(response.data));
                 router.push("/projects");
                 router.refresh();
-            })
-            .catch((error) => {
+            },
+            afterError: (error: any) => {
                 const sanitizedError: string = error.toLowerCase();
                 if (sanitizedError.includes("user")) {
                     form.setError("email", { message: error });
                 } else if (sanitizedError.includes("password")) {
                     form.setError("password", { message: error });
-                } else {
-                    toast({
-                        description: error,
-                    });
                 }
-            });
+            },
+        });
     }
 
     return (

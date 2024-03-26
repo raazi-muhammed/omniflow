@@ -24,21 +24,21 @@ export class Service {
                 withCredentials: true,
             });
     }
-    axiosPost(data?: Object) {
+    axiosPost(data: Object) {
         this.apiCall = () =>
             axios.post(this.url, data, {
                 ...this.config,
                 withCredentials: true,
             });
     }
-    axiosPut(data?: Object) {
+    axiosPut(data: Object) {
         this.apiCall = () =>
             axios.put(this.url, data, {
                 ...this.config,
                 withCredentials: true,
             });
     }
-    axiosPatch(data?: Object) {
+    axiosPatch(data: Object) {
         this.apiCall = () =>
             axios.patch(this.url, data, {
                 ...this.config,

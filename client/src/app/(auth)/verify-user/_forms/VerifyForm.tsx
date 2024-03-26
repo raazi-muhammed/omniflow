@@ -20,7 +20,7 @@ import { AppDispatch } from "@/redux/store";
 import { logUser } from "@/redux/features/authSlice";
 import { CardContent, CardDescription, CardFooter } from "@/components/ui/card";
 import { ResendCode } from "../_components/ResendCode";
-import { verifyUser } from "@/services/auth.service";
+import { AuthService } from "@/services/api/auth.service";
 import {
     InputOTP,
     InputOTPGroup,
@@ -28,6 +28,8 @@ import {
     InputOTPSlot,
 } from "@/components/ui/input-otp";
 import React from "react";
+import { makeApiCall } from "@/lib/apicaller";
+import { IResponse } from "@/services/utils";
 
 const formSchema = z.object({
     code: z
@@ -50,19 +52,16 @@ export default function VerifyForm() {
     });
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        verifyUser({ code: Number(values.code), email: userEmail || "" })
-            .then((response) => {
-                toast({
-                    description: response.message,
-                });
+        const data = { code: Number(values.code), email: userEmail || "" };
+
+        const service = new AuthService();
+        makeApiCall(() => service.verifyUser(data).exec(), {
+            toast,
+            afterSuccess: (response: IResponse) => {
                 dispatch(logUser(response.data));
                 router.push("/login");
-            })
-            .catch((error) => {
-                toast({
-                    description: error,
-                });
-            });
+            },
+        });
     }
 
     return (

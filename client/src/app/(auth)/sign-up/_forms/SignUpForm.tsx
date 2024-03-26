@@ -22,7 +22,8 @@ import {
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
-import { userSignUp } from "@/services/auth.service";
+import { AuthService } from "@/services/api/auth.service";
+import { makeApiCall } from "@/lib/apicaller";
 
 const formSchema = z
     .object({
@@ -73,15 +74,13 @@ export default function SignUpForm() {
     });
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        userSignUp(values)
-            .then((response) => {
-                toast({
-                    title: response.message,
-                    description: "Now verify user account",
-                });
+        const service = new AuthService();
+        makeApiCall(() => service.userSignUp(values).exec(), {
+            toast,
+            afterSuccess: () => {
                 router.push(`/verify-user?email=${values.email}`);
-            })
-            .catch((error) => {
+            },
+            afterError: (error: any) => {
                 const sanitizedError: string = error.toLowerCase();
                 if (sanitizedError.includes("email")) {
                     form.setError("email", { message: error });
@@ -92,7 +91,8 @@ export default function SignUpForm() {
                         description: error,
                     });
                 }
-            });
+            },
+        });
     }
 
     return (

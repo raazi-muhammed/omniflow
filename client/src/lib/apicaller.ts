@@ -3,11 +3,15 @@ import { logger } from "./logger";
 
 export function makeApiCall(
     serverCall: Function,
-    { toast, afterSuccess }: { toast?: any; afterSuccess?: Function }
+    {
+        toast,
+        afterSuccess,
+        afterError,
+    }: { toast?: any; afterSuccess?: Function; afterError?: Function }
 ) {
     serverCall()
         .then((response: IResponse) => {
-            if (afterSuccess) afterSuccess();
+            if (afterSuccess) afterSuccess(response);
             if (toast) {
                 toast({
                     description: response.message,
@@ -17,6 +21,7 @@ export function makeApiCall(
             }
         })
         .catch((error: any) => {
+            if (afterError) afterError(error);
             if (toast) {
                 toast({
                     description: error,

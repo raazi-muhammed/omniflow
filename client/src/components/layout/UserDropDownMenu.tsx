@@ -2,7 +2,6 @@ import { ChevronDown as ChevronDownIcon } from "lucide-react";
 import {
     DropdownMenu,
     DropdownMenuContent,
-    DropdownMenuGroup,
     DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuSeparator,
@@ -13,7 +12,8 @@ import { useRouter } from "next/navigation";
 import { AppDispatch } from "@/redux/store";
 import { useDispatch } from "react-redux";
 import { logout } from "@/redux/features/authSlice";
-import { userLogOut } from "@/services/auth.service";
+import { AuthService } from "@/services/api/auth.service";
+import { makeApiCall } from "@/lib/apicaller";
 
 export function UserDropDownMenu({ username }: { username: string }) {
     const { toast } = useToast();
@@ -21,19 +21,14 @@ export function UserDropDownMenu({ username }: { username: string }) {
     const dispatch = useDispatch<AppDispatch>();
 
     function handleLogout() {
-        userLogOut()
-            .then((response) => {
-                toast({
-                    description: response.message || "User logged out",
-                });
+        const service = new AuthService();
+        makeApiCall(() => service.userLogOut().exec(), {
+            toast,
+            afterSuccess: () => {
                 dispatch(logout());
                 router.push("/login");
-            })
-            .catch((error) => {
-                toast({
-                    description: error || "User logged out failed",
-                });
-            });
+            },
+        });
     }
     return (
         <DropdownMenu>

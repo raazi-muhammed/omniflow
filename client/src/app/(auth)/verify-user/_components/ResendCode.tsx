@@ -10,22 +10,16 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useToast } from "@/components/ui/use-toast";
-import { resendCode } from "@/services/auth.service";
+import { makeApiCall } from "@/lib/apicaller";
+import { AuthService } from "@/services/api/auth.service";
 
 export function ResendCode({ email }: { email: string }) {
     const { toast } = useToast();
     function handleResend() {
-        resendCode({ email })
-            .then((response) => {
-                toast({
-                    description: response.message,
-                });
-            })
-            .catch((error) => {
-                toast({
-                    description: error,
-                });
-            });
+        const service = new AuthService();
+        makeApiCall(() => service.resendCode({ email }).exec(), {
+            toast,
+        });
     }
     return (
         <AlertDialog>
