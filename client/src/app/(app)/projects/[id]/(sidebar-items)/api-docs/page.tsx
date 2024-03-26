@@ -66,7 +66,7 @@ export default async function page() {
                     </ActionItemsContainer>
 
                     {folders.map((folder) => (
-                        <Card className="p-3">
+                        <Card key={folder.id} className="p-3">
                             <p>{folder.name}</p>
                         </Card>
                     ))}

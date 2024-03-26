@@ -97,6 +97,7 @@ export default function DBDesign() {
 
                 {relations.map((rel, index) => (
                     <LinkConnector
+                        key={index}
                         container=".db-design"
                         data={data}
                         from={`.s${rel.from}`}

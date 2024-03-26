@@ -43,6 +43,7 @@ export default function TaskBoard({
             <Heading variant="sm"> {formatConstants(header.value)}</Heading>
             {tasks.map((task) => (
                 <div
+                    key={task.id}
                     draggable
                     onDragStart={(e) => {
                         e.dataTransfer.setData("id", task.id);

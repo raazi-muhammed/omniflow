@@ -80,7 +80,7 @@ export default function LinkConnector({
         } catch (error) {
             console.log(error);
         }
-    }, [data]);
+    }, [data, container, to, from]);
 
     return (
         <>
