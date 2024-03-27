@@ -37,10 +37,10 @@ import { IAllMemberList, IModule } from "@/types/database";
 import { logger } from "@/lib/logger";
 import { makeApiCall } from "@/lib/apicaller";
 import Heading from "@/components/custom/Heading";
-import { addTask } from "@/services/task.service";
 import { useAppSelector } from "@/redux/store";
 import { ModuleService } from "@/services/api/module.service";
 import { TeamService } from "@/services/api/team.service";
+import { TaskService } from "@/services/api/task.service";
 
 const formSchema = z.object({
     name: z.string().min(3, "Invalid"),
@@ -125,7 +125,9 @@ export default function AddTaskForm() {
             return;
         }
 
-        makeApiCall(() => addTask({ ...values, assignee }), {
+        const service = new TaskService();
+
+        makeApiCall(() => service.addTask({ ...values, assignee }).exec(), {
             toast,
             afterSuccess: () => {
                 router.back();

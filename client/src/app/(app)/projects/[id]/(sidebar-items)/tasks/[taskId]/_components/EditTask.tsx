@@ -14,7 +14,8 @@ import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import EditTaskForm from "../_forms/EditTaskFrom";
-import { deleteTask } from "@/services/task.service";
+import { TaskService } from "@/services/api/task.service";
+import { makeApiCall } from "@/lib/apicaller";
 
 export default function EditTask({ task }: { task: ITask }) {
     const [open, setOpen] = useState(false);
@@ -22,20 +23,15 @@ export default function EditTask({ task }: { task: ITask }) {
     const router = useRouter();
 
     function handleDelete() {
-        deleteTask({ id: task.id })
-            .then((response) => {
-                toast({
-                    description: response.message,
-                });
+        const service = new TaskService();
+        makeApiCall(() => service.deleteTask(task.id).exec(), {
+            toast,
+            afterSuccess: () => {
                 router.refresh();
                 setOpen(false);
                 router.back();
-            })
-            .catch((error) => {
-                toast({
-                    description: error,
-                });
-            });
+            },
+        });
     }
 
     return (

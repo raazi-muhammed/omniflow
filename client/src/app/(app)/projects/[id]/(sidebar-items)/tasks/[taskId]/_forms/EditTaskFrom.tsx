@@ -37,9 +37,9 @@ import { IModule, ITask } from "@/types/database";
 import { logger } from "@/lib/logger";
 import { makeApiCall } from "@/lib/apicaller";
 import Heading from "@/components/custom/Heading";
-import { editTask } from "@/services/task.service";
 import { DeleteAlert } from "@/components/custom/DeleteAlert";
 import { ModuleService } from "@/services/api/module.service";
+import { TaskService } from "@/services/api/task.service";
 
 const formSchema = z.object({
     name: z.string().min(3, "Invalid"),
@@ -92,9 +92,8 @@ export default function EditTaskForm({
     }, []);
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        logger.debug(values);
-
-        makeApiCall(() => editTask({ id: task.id }, values), {
+        const service = new TaskService();
+        makeApiCall(() => service.editTask(task.id, values).exec(), {
             toast,
             afterSuccess: () => {
                 router.refresh();

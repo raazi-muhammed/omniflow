@@ -5,11 +5,11 @@ import Heading from "@/components/custom/Heading";
 import { ITask } from "@/types/database";
 import TaskCard from "./TaskCard";
 import { DragEvent } from "react";
-import { changeTaskStatus } from "@/services/task.service";
 import { makeApiCall } from "@/lib/apicaller";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { formatConstants } from "@/lib/formaters";
+import { TaskService } from "@/services/api/task.service";
 
 export default function TaskBoard({
     tasks,
@@ -22,10 +22,14 @@ export default function TaskBoard({
     const router = useRouter();
     function handleOnDrop(e: DragEvent<HTMLElement>) {
         const data = e.dataTransfer.getData("id");
-        console.log(data, header.value);
+
+        const service = new TaskService();
 
         makeApiCall(
-            () => changeTaskStatus({ taskId: data, status: header.value }),
+            () =>
+                service
+                    .changeTaskStatus({ taskId: data, status: header.value })
+                    .exec(),
             {
                 toast,
                 afterSuccess: () => {

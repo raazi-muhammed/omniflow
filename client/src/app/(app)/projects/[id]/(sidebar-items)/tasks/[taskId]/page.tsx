@@ -1,9 +1,7 @@
 import Heading from "@/components/custom/Heading";
-import Container from "@/components/layout/Container";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { PROJECT_TOKEN_COOKIE, USER_TOKEN_COOKIE } from "@/constants/cookies";
-import { getTask } from "@/services/task.service";
 import { ITask } from "@/types/database";
 import moment from "moment";
 import { cookies } from "next/headers";
@@ -17,22 +15,21 @@ import {
 } from "@/components/layout/PreviewHeader";
 import { Card } from "@/components/ui/card";
 import { formatConstants } from "@/lib/formaters";
-import Image from "next/image";
 import Avatar from "@/components/custom/Avatar";
+import { TaskService } from "@/services/api/task.service";
 
 async function loadTask(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
     const projectToken = cookies().get(PROJECT_TOKEN_COOKIE)?.value;
 
-    const response = await getTask(
-        { id },
-        {
-            headers: {
-                Authorization: `Bearer ${userToken}`,
-                Project: `Bearer ${projectToken}`,
-            },
-        }
-    );
+    const service = new TaskService({
+        headers: {
+            Authorization: `Bearer ${userToken}`,
+            Project: `Bearer ${projectToken}`,
+        },
+    });
+
+    const response = await service.getTask(id).exec();
     return response.data as ITask;
 }
 

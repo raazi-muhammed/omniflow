@@ -3,23 +3,25 @@ import Container from "@/components/layout/Container";
 import { Button } from "@/components/ui/button";
 import { PROJECT_TOKEN_COOKIE, USER_TOKEN_COOKIE } from "@/constants/cookies";
 import { AddIcon } from "@/lib/icons";
-import { getTasks } from "@/services/task.service";
 import { ITask } from "@/types/database";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import React from "react";
 import TaskBoard from "./_components/TaskBoard";
+import { TaskService } from "@/services/api/task.service";
 
 async function loadTasks() {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
     const projectToken = cookies().get(PROJECT_TOKEN_COOKIE)?.value;
 
-    const response = await getTasks({
+    const service = new TaskService({
         headers: {
             Authorization: `Bearer ${userToken}`,
             Project: `Bearer ${projectToken}`,
         },
     });
+
+    const response = await service.getTasks().exec();
     return response.data as ITask[];
 }
 
