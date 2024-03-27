@@ -29,7 +29,7 @@ import {
 } from "@/components/ui/input-otp";
 import React from "react";
 import { makeApiCall } from "@/lib/apicaller";
-import { IResponse } from "@/services/utils";
+import { IResponse } from "@/services/api/utils";
 
 const formSchema = z.object({
     code: z

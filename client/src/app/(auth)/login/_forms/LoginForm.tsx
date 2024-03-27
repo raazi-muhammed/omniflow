@@ -26,7 +26,7 @@ import { AppDispatch } from "@/redux/store";
 import { logUser } from "@/redux/features/authSlice";
 import { AuthService } from "@/services/api/auth.service";
 import { makeApiCall } from "@/lib/apicaller";
-import { IResponse } from "@/services/utils";
+import { IResponse } from "@/services/api/utils";
 
 const formSchema = z.object({
     email: z.string().email(),

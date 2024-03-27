@@ -1,4 +1,4 @@
-import { IResponse } from "@/services/utils";
+import { IResponse } from "@/services/api/utils";
 import { logger } from "./logger";
 
 export function makeApiCall(
