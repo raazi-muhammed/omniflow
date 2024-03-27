@@ -3,7 +3,7 @@
 import ErrorMessage from "@/components/custom/ErrorMessage";
 import { Card } from "@/components/ui/card";
 import { IEndpoint, IFolder } from "@/types/database";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
     Accordion,
     AccordionContent,
@@ -55,7 +55,7 @@ export default function FolderCard({ folder }: { folder: IFolder }) {
                     <section className="grid w-full gap-4">
                         <>
                             {folders?.map((folder) => (
-                                <FolderCard folder={folder} />
+                                <FolderCard key={folder.id} folder={folder} />
                             ))}
                             {loading ? (
                                 <div className="mx-auto my-2 w-fit">
@@ -73,7 +73,7 @@ export default function FolderCard({ folder }: { folder: IFolder }) {
                                 </>
                             )}
                             {endpoints?.map((point) => (
-                                <EndpointCard point={point} />
+                                <EndpointCard key={point.id} point={point} />
                             ))}
                         </>
                     </section>

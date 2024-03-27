@@ -50,6 +50,7 @@ async function loadFolders() {
 export default async function page() {
     const endpoints: IEndpoint[] = await loadEndpoints();
     const folders: IFolder[] = await loadFolders();
+
     return (
         <Container>
             <SectionSplitter>
@@ -70,11 +71,11 @@ export default async function page() {
                     </ActionItemsContainer>
 
                     {folders.map((folder) => (
-                        <FolderCard folder={folder} />
+                        <FolderCard key={folder.id} folder={folder} />
                     ))}
 
                     {endpoints.map((point) => (
-                        <EndpointCard point={point} />
+                        <EndpointCard key={point.id} point={point} />
                     ))}
                     {endpoints.length === 0 && (
                         <ErrorMessage message="Not endpoints yet" type="info" />

@@ -24,26 +24,22 @@ import {
 } from "@/components/ui/table";
 import ErrorMessage from "@/components/custom/ErrorMessage";
 import Container from "@/components/layout/Container";
-import { getTable } from "@/services/table.service";
 import AddTableFieldForm from "./_components/AddTableFieldForm";
 import { formatConstants } from "@/lib/formaters";
 import DeleteTable from "./_components/DeleteTable";
+import { TableService } from "@/services/api/table.service";
 
 async function getEndpointData(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
     const projectToken = cookies().get(PROJECT_TOKEN_COOKIE)?.value;
 
-    const response = await getTable(
-        { tableId: id },
-        {
-            headers: {
-                Authorization: `Bearer ${userToken}`,
-                Project: `Bearer ${projectToken}`,
-            },
-        }
-    );
-    console.log(response.data);
-
+    const service = new TableService({
+        headers: {
+            Authorization: `Bearer ${userToken}`,
+            Project: `Bearer ${projectToken}`,
+        },
+    });
+    const response = await service.getTable(id).exec();
     return response.data;
 }
 

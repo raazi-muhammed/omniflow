@@ -12,9 +12,9 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
-import { removeRelations } from "@/services/table.service";
+import { makeApiCall } from "@/lib/apicaller";
+import { TableService } from "@/services/api/table.service";
 import { Trash2 } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function RemoveRelation({
@@ -27,19 +27,14 @@ export default function RemoveRelation({
     const [open, setOpen] = useState<boolean>(false);
     const { toast } = useToast();
     function handleRemoveMember() {
-        removeRelations({ id: relationId })
-            .then((response) => {
-                toast({
-                    description: response.message,
-                });
+        const service = new TableService();
+        makeApiCall(() => service.removeRelation(relationId).exec(), {
+            toast,
+            afterSuccess: () => {
                 setOpen(false);
                 refreshRelations();
-            })
-            .catch((error) => {
-                toast({
-                    description: error,
-                });
-            });
+            },
+        });
     }
     return (
         <AlertDialog open={open} onOpenChange={(e) => setOpen(e)}>

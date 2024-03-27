@@ -1,5 +1,4 @@
 import { PROJECT_TOKEN_COOKIE, USER_TOKEN_COOKIE } from "@/constants/cookies";
-import { getRelations } from "@/services/table.service";
 import { IRelation } from "@/types/database";
 import { cookies } from "next/headers";
 import React from "react";
@@ -15,17 +14,20 @@ import Heading from "@/components/custom/Heading";
 import ErrorMessage from "@/components/custom/ErrorMessage";
 import Container from "@/components/layout/Container";
 import RemoveRelation from "./_component/RemoveRelation";
+import { TableService } from "@/services/api/table.service";
 
 async function loadRelations() {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
     const projectToken = cookies().get(PROJECT_TOKEN_COOKIE)?.value;
 
-    const response = await getRelations({
+    const service = new TableService({
         headers: {
             Authorization: `Bearer ${userToken}`,
             Project: `Bearer ${projectToken}`,
         },
     });
+
+    const response = await service.getRelations().exec();
     return response.data as IRelation[];
 }
 

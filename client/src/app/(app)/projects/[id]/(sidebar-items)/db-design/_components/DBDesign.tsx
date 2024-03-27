@@ -1,12 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import DatabaseTable from "./DatabaseTable";
-import {
-    addRelation,
-    changeTablePosition,
-    getRelations,
-    getTables,
-} from "@/services/table.service";
 import { IRelation, ITable } from "@/types/database";
 import { useToast } from "@/components/ui/use-toast";
 import { makeApiCall } from "@/lib/apicaller";
@@ -15,6 +9,7 @@ import ErrorMessage from "@/components/custom/ErrorMessage";
 import Container from "@/components/layout/Container";
 import RemoveRelation from "./RemoveRelation";
 import { IResponse } from "@/services/utils";
+import { TableService } from "@/services/api/table.service";
 
 export default function DBDesign() {
     const { toast } = useToast();
@@ -24,16 +19,22 @@ export default function DBDesign() {
     const refreshRelations = () => setRefresh((r) => !r);
 
     useEffect(() => {
-        getTables().then((res) => {
-            console.log(res.data);
-            setDate(res.data);
-        });
+        const service = new TableService();
+        service
+            .getTables()
+            .exec()
+            .then((res) => {
+                setDate(res.data);
+            });
     }, []);
     useEffect(() => {
-        getRelations().then((res) => {
-            console.log(res.data);
-            setRelations(res.data);
-        });
+        const service = new TableService();
+        service
+            .getRelations()
+            .exec()
+            .then((res) => {
+                setRelations(res.data);
+            });
     }, [refresh]);
 
     function handleOnDrop(e: React.DragEvent<HTMLElement>) {
@@ -63,9 +64,13 @@ export default function DBDesign() {
 
         setDate([...newDate]);
 
-        makeApiCall(() => changeTablePosition({ tableId }, newPositions), {
-            toast,
-        });
+        const service = new TableService();
+        makeApiCall(
+            () => service.changeTablePosition(tableId, newPositions).exec(),
+            {
+                toast,
+            }
+        );
     }
 
     function handleOnDropRelation(
@@ -76,7 +81,8 @@ export default function DBDesign() {
         const fromField = e.dataTransfer.getData("fromField");
         const dataToAdd = { from: fromField, to: onField };
 
-        makeApiCall(() => addRelation(dataToAdd), {
+        const service = new TableService();
+        makeApiCall(() => service.addRelation(dataToAdd).exec(), {
             toast,
             afterSuccess: (response: IResponse) => {
                 setRelations((rel) => [...rel, response.data]);

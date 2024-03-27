@@ -18,8 +18,8 @@ import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { Textarea } from "@/components/ui/textarea";
 import { logger } from "@/lib/logger";
-import { addTable } from "@/services/table.service";
 import { makeApiCall } from "@/lib/apicaller";
+import { TableService } from "@/services/api/table.service";
 
 const formSchema = z.object({
     name: z.string().min(3, "Invalid"),
@@ -40,7 +40,8 @@ export default function AddTableForm() {
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         logger.debug(values);
-        makeApiCall(() => addTable(values), {
+        const service = new TableService();
+        makeApiCall(() => service.addTable(values).exec(), {
             toast,
             afterSuccess: () => {
                 router.back();
