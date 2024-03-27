@@ -1,26 +1,20 @@
-import {
-    AnErrorOccurredError,
-    BadRequestError,
-    IRequest,
-    ResponseCreator,
-} from "@omniflow/common";
-import { IEndpointsRepository } from "../../interfaces/repository.interface.js";
+import { BadRequestError, IRequest, ResponseCreator } from "@omniflow/common";
+import { IBodyUseCases } from "../../interfaces/use-cases.interface.js";
 
 export default function buildRemoveEndpointSchemaController({
-    endPointsRepository,
+    bodyUseCases,
 }: {
-    endPointsRepository: IEndpointsRepository;
+    bodyUseCases: IBodyUseCases;
 }) {
     return async (req: IRequest) => {
         const schemaId = req.params.schemaId;
         if (!schemaId) throw new BadRequestError();
 
-        const isUpdated = await endPointsRepository.removeEndpointSchema(
-            schemaId
-        );
-        if (!isUpdated) throw new AnErrorOccurredError();
+        await bodyUseCases.removeSchema({ schemaId });
 
         const response = new ResponseCreator();
-        return response.setMessage("Item removed from schema");
+        return response
+            .setMessage("Item removed from schema")
+            .setStatusCode(204);
     };
 }

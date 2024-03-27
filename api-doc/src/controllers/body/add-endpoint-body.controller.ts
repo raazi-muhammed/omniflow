@@ -1,17 +1,17 @@
 import { IRequest, ResponseCreator, validateBody } from "@omniflow/common";
-import { IEndpointsRepository } from "../../interfaces/repository.interface.js";
+import { IBodyUseCases } from "../../interfaces/use-cases.interface.js";
 
 export default function buildAddEndpointBodyController({
-    endPointsRepository,
+    bodyUseCases,
 }: {
-    endPointsRepository: IEndpointsRepository;
+    bodyUseCases: IBodyUseCases;
 }) {
     return async (req: IRequest) => {
         const endpointId = req.params.id;
         const inputData = req.body;
         validateBody(inputData, ["body"]);
 
-        await endPointsRepository.addEndpointBody({
+        await bodyUseCases.addBody({
             endpointId,
             body: inputData.body,
         });

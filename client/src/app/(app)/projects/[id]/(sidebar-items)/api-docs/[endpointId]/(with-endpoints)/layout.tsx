@@ -28,7 +28,7 @@ async function loadEndpoints() {
         },
     });
 
-    const response = await service.getEndpoints().exec();
+    const response = await service.getEndpoints({}).exec();
     return response.data;
 }
 

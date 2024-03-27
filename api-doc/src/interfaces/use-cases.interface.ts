@@ -1,3 +1,5 @@
+import { IDBSchemaItem } from "../repository/sql/models/endpoint-schema.model.js";
+import { IDBEndpoint } from "../repository/sql/models/endpoint.model.js";
 import { IDBFolder } from "../repository/sql/models/folder.model.js";
 import {
     IEndpoint,
@@ -23,4 +25,18 @@ export type IFolderUseCases = {
         parentFolder?: string;
     }) => Promise<IDBFolder[]>;
     getFolderList: (data: { projectId: string }) => Promise<IDBFolder[]>;
+};
+
+export type IBodyUseCases = {
+    addBody: (data: { endpointId: string; body: string }) => Promise<void>;
+    removeSchema: (data: { schemaId: string }) => Promise<void>;
+    addSchema: (data: ISchemaItem) => Promise<IDBSchemaItem>;
+};
+
+export type IEndpointUseCases = {
+    addEndpoint: (data: IEndpoint) => Promise<IDBEndpoint>;
+    editEndpoint: (data: {
+        id: string;
+        endpointData: IEndpoint;
+    }) => Promise<void>;
 };

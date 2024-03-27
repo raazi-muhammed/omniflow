@@ -6,9 +6,7 @@ import buildAddEndpointController from "./endpoint/add-endpoint.controller.js";
 import { endPointsRepository } from "../repository/sql/index.js";
 import buildGetEndpointsController from "./endpoint/get-endpoints.controller.js";
 import {
-    createEndpointUseCase,
     createHeaderUseCase,
-    createSchemaItemUseCase,
     createVariableUseCase,
 } from "../use-cases/index.js";
 import getEndpointController from "./endpoint/get-endpoint.controller.js";
@@ -23,18 +21,20 @@ import buildRemoveEndpointSchemaController from "./body/remove-endpoint-schema.c
 import buildRemoveEndpointResponseController from "./response/remove-endpoint-response.controller.js";
 import buildEditEndpointController from "./endpoint/edit-endpoint.controller.js";
 import buildRemoveEndpointController from "./endpoint/remove-endpoint.controller.js";
-import { folderUseCases } from "../use-cases/index.js";
+import {
+    folderUseCases,
+    bodyUseCases,
+    endpointUseCases,
+} from "../use-cases/index.js";
 import buildGetFoldersController from "./folder/get-folders.controller.js";
 import buildAddFolderController from "./folder/add-folder.controller.js";
 import buildGetFolderListController from "./folder/get-folder-list.controller.js";
 
 const addEndpoint = buildAddEndpointController({
-    createEndpointUseCase,
-    endPointsRepository,
+    endpointUseCases,
 });
 const editEndpoint = buildEditEndpointController({
-    createEndpointUseCase,
-    endPointsRepository,
+    endpointUseCases,
 });
 const removeEndpoint = buildRemoveEndpointController({
     endPointsRepository,
@@ -58,11 +58,10 @@ const addEndpointHeader = buildEndpointHeaderController({
 });
 
 const addEndpointBody = buildAddEndpointBodyController({
-    endPointsRepository,
+    bodyUseCases,
 });
 const addEndpointSchema = buildAddEndpointSchemaController({
-    createSchemaItem: createSchemaItemUseCase,
-    endPointsRepository,
+    bodyUseCases,
 });
 const addEndpointResponse = buildAddEndpointResponse({
     endPointsRepository,
@@ -75,7 +74,7 @@ const removeEndpointHeader = buildRemoveEndpointHeaderController({
     endPointsRepository,
 });
 const removeEndpointSchema = buildRemoveEndpointSchemaController({
-    endPointsRepository,
+    bodyUseCases,
 });
 const removeEndpointResponse = buildRemoveEndpointResponseController({
     endPointsRepository,
