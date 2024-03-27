@@ -13,6 +13,7 @@ export type IDatabaseRepository = {
     }) => Promise<boolean>;
     removeTable: (data: { id: string }) => Promise<boolean>;
     addTableField: (data: ITableField) => Promise<IDBTableField>;
+    removeTableField: (data: { fieldId: string }) => Promise<boolean>;
     addRelation: (data: IRelation) => Promise<IDBRelation>;
     removeRelation: (data: { relationId: string }) => Promise<boolean>;
     getRelations: (data: { projectId: string }) => Promise<IDBRelation[]>;

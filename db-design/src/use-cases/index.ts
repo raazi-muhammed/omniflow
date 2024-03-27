@@ -13,12 +13,14 @@ import buildGetRelationsUseCase from "./relation/get-relations.use-case.js";
 import buildRemoveRelationUseCase from "./relation/remove-relation.use-case.js";
 import buildRemoveTableUseCase from "./table/remove-table.use-case.js";
 import buildEditTableFieldUseCase from "./table/edit-table.use-case.js";
+import buildRemoveTableFieldUseCase from "./table/remove-table-field.use-case.js";
 
 const addTable = buildAddTableUseCase({ databaseRepository });
 const getTables = buildGetTablesUseCase({ databaseRepository });
 const changeTablePosition = buildChangeTablePosition({ databaseRepository });
 const getTable = buildGetTableUseCase({ databaseRepository });
 const addTableField = buildAddTableFieldUseCase({ databaseRepository });
+const removeTableField = buildRemoveTableFieldUseCase({ databaseRepository });
 const removeTable = buildRemoveTableUseCase({ databaseRepository });
 const editTable = buildEditTableFieldUseCase({ databaseRepository });
 
@@ -34,6 +36,7 @@ export const tableUseCases: ITableUseCases = Object.freeze({
     addTableField,
     removeTable,
     editTable,
+    removeTableField,
 });
 
 export const relationUseCases: IRelationUseCases = Object.freeze({

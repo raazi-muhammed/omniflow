@@ -59,6 +59,12 @@ export default function buildTableRoutes({
         verifyProject,
         makeCallback(tableController.addTableField)
     );
+    router.delete(
+        "/tables/:tableId/fields/:fieldId",
+        verifyUser,
+        verifyProject,
+        makeCallback(tableController.removeTableField)
+    );
 
     return router;
 }

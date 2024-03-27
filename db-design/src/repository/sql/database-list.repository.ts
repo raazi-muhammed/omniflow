@@ -116,6 +116,12 @@ export class BuildDatabaseRepository {
         });
         return deleted > 0;
     }
+    async removeTableField({ fieldId }: { fieldId: string }) {
+        const deleted = await this.models.TableField.destroy({
+            where: { id: fieldId },
+        });
+        return deleted > 0;
+    }
     async getRelation({ projectId, to, from }: IRelation) {
         const relations = await this.models.Relation.findOne({
             where: { projectId, to, from },

@@ -1,9 +1,4 @@
-import {
-    BadRequestError,
-    IRequest,
-    ResponseCreator,
-    validateBody,
-} from "@omniflow/common";
+import { BadRequestError, IRequest, ResponseCreator } from "@omniflow/common";
 import { ITableUseCases } from "../../interfaces/use-cases.interface.js";
 
 export default function buildRemoveTableController({

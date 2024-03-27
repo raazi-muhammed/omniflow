@@ -8,6 +8,7 @@ export type ITableController = {
     removeTable: (req: IRequest) => Promise<ResponseCreator>;
     changeTablePosition: (req: IRequest) => Promise<ResponseCreator>;
     addTableField: (req: IRequest) => Promise<ResponseCreator>;
+    removeTableField: (req: IRequest) => Promise<ResponseCreator>;
 };
 
 export type IRelationController = {

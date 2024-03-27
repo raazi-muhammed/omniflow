@@ -57,6 +57,14 @@ export class TableService extends Service {
         return this;
     }
 
+    removeTableField(tableId: string, fieldId: string) {
+        this.url = new BuildUrl().dbDesign(
+            `/tables/${tableId}/fields/${fieldId}`
+        );
+        this.axiosDelete();
+        return this;
+    }
+
     addRelation(values: { to: string; from: string }) {
         this.url = new BuildUrl().dbDesign("/relations");
         this.axiosPost(values);

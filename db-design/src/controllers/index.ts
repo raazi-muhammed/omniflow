@@ -14,6 +14,7 @@ import buildGetRelationsController from "./relation/get-relations.controller.js"
 import buildRemoveRelationController from "./relation/remove-relation.controller.js";
 import buildRemoveTableController from "./table/remove-table.controller.js";
 import buildEditTableController from "./table/edit-table.controller.js";
+import buildRemoveTableFieldController from "./table/remove-table-filed.controller.js";
 
 const addTable = buildAddTableController({ tableUseCases });
 const getTables = buildGetTablesController({ tableUseCases });
@@ -22,6 +23,9 @@ const removeTable = buildRemoveTableController({ tableUseCases });
 const addTableField = buildAddTableFieldController({ tableUseCases });
 const editTable = buildEditTableController({ tableUseCases });
 const changeTablePosition = buildChangeTablePositionController({
+    tableUseCases,
+});
+const removeTableField = buildRemoveTableFieldController({
     tableUseCases,
 });
 
@@ -37,6 +41,7 @@ export const tableController: ITableController = Object.freeze({
     addTableField,
     removeTable,
     editTable,
+    removeTableField,
 });
 
 export const relationController: IRelationController = Object.freeze({

@@ -13,6 +13,7 @@ export type ITableUseCases = {
     getTable: (data: { tableId: string }) => Promise<IDBTable>;
     removeTable: (data: { tableId: string }) => Promise<void>;
     addTableField: (data: ITableField) => Promise<IDBTableField>;
+    removeTableField: (data: { id: string }) => Promise<void>;
     changeTablePosition: (data: {
         tableId: string;
         x: number;

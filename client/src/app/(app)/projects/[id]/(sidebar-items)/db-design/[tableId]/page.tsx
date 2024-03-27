@@ -35,6 +35,7 @@ import { TableService } from "@/services/api/table.service";
 import EditTableForm from "./_components/EditTableForm";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import DeleteTableField from "./_components/DeleteTableField";
 
 async function getEndpointData(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -78,14 +79,20 @@ export default async function page({
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {tableData.fields.map((response) => (
-                                    <TableRow key={response.id}>
-                                        <TableCell>{response.name}</TableCell>
+                                {tableData.fields.map((field) => (
+                                    <TableRow key={field.id}>
+                                        <TableCell>{field.name}</TableCell>
                                         <TableCell>
-                                            {formatConstants(response.type)}
+                                            {formatConstants(field.type)}
                                         </TableCell>
                                         <TableCell>
-                                            {response.description}
+                                            {field.description}
+                                        </TableCell>
+                                        <TableCell className="flex justify-end">
+                                            <DeleteTableField
+                                                tableId={params.tableId}
+                                                fieldId={field.id}
+                                            />
                                         </TableCell>
                                     </TableRow>
                                 ))}
