@@ -1,5 +1,5 @@
 import { AxiosRequestConfig } from "axios";
-import { BuildUrl } from "../utils";
+import { BuildUrl } from "./utils";
 import "../interceptor";
 import { Service } from ".";
 
@@ -50,7 +50,12 @@ export class TableService extends Service {
 
     addTableField(
         tableId: string,
-        values: { name: string; description: string; type: string }
+        values: {
+            name: string;
+            description: string;
+            type: string;
+            options?: string[];
+        }
     ) {
         this.url = new BuildUrl().dbDesign(`/tables/${tableId}/fields`);
         this.axiosPost(values);

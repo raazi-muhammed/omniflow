@@ -12,7 +12,7 @@ import { useToast } from "../ui/use-toast";
 import { UserDropDownMenu } from "./UserDropDownMenu";
 import { UserService } from "@/services/api/user.service";
 import { makeApiCall } from "@/lib/apicaller";
-import { IResponse } from "@/services/utils";
+import { IResponse } from "@/services/api/utils";
 
 function Navbar() {
     const { toast } = useToast();

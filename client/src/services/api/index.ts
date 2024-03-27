@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
-import { IResponse, adaptErrorResponse, adaptSuccessResponse } from "../utils";
+import { IResponse, adaptErrorResponse, adaptSuccessResponse } from "./utils";
 
 export class Service {
     config: AxiosRequestConfig | undefined;

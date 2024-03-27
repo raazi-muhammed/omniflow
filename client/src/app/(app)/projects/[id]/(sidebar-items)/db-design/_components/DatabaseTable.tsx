@@ -63,7 +63,13 @@ export default function DatabaseTable({
                                 <div>
                                     <p>{field.name}</p>
                                     <Label className="flex">
-                                        {field.description}
+                                        {field?.options
+                                            ? field.options
+                                                  .map((a) =>
+                                                      formatConstants(a)
+                                                  )
+                                                  .join(", ")
+                                            : null}
                                     </Label>
                                 </div>
                             </div>

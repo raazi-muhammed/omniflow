@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from "axios";
 import { Service } from ".";
-import { BuildUrl } from "../utils";
+import { BuildUrl } from "./utils";
 
 export class MeetingService extends Service {
     constructor(config?: AxiosRequestConfig) {

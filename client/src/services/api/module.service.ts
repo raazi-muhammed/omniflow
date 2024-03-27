@@ -1,5 +1,5 @@
 import { AxiosRequestConfig } from "axios";
-import { BuildUrl } from "../utils";
+import { BuildUrl } from "./utils";
 import { Service } from ".";
 
 export class ModuleService extends Service {

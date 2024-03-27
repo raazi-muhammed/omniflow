@@ -8,7 +8,7 @@ import LinkConnector from "./LineConnector";
 import ErrorMessage from "@/components/custom/ErrorMessage";
 import Container from "@/components/layout/Container";
 import RemoveRelation from "./RemoveRelation";
-import { IResponse } from "@/services/utils";
+import { IResponse } from "@/services/api/utils";
 import { TableService } from "@/services/api/table.service";
 
 export default function DBDesign() {

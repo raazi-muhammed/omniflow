@@ -70,9 +70,10 @@ export default async function page({
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Status code</TableHead>
-                                    <TableHead>Content Type</TableHead>
+                                    <TableHead>Name</TableHead>
+                                    <TableHead>Type</TableHead>
                                     <TableHead>Description</TableHead>
+                                    <TableHead>Options</TableHead>
                                     <TableHead className="w-20">
                                         Actions
                                     </TableHead>
@@ -87,6 +88,15 @@ export default async function page({
                                         </TableCell>
                                         <TableCell>
                                             {field.description}
+                                        </TableCell>
+                                        <TableCell>
+                                            {field?.options
+                                                ? field.options
+                                                      .map((a) =>
+                                                          formatConstants(a)
+                                                      )
+                                                      .join(", ")
+                                                : null}
                                         </TableCell>
                                         <TableCell className="flex justify-end">
                                             <DeleteTableField

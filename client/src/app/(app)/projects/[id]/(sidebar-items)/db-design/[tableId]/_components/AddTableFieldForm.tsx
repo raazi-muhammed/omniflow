@@ -24,9 +24,12 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { dataValueTypes } from "@/types/database";
+import { EDataTypes, dataValueTypes } from "@/types/database";
 import { TableService } from "@/services/api/table.service";
 import { makeApiCall } from "@/lib/apicaller";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { useState } from "react";
+import { HelpCircle, Key, Sparkles } from "lucide-react";
 
 const formSchema = z.object({
     name: z.string().min(1, "Invalid"),
@@ -36,11 +39,13 @@ const formSchema = z.object({
         })
         .min(1, "Invalid"),
     description: z.string().min(1, "Invalid"),
+    options: z.array(z.string()).optional().default([]),
 });
 
 export default function AddTableFieldForm({ tableId }: { tableId: string }) {
     const { toast } = useToast();
     const router = useRouter();
+    const [value, setValue] = useState<string[]>([]);
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -59,6 +64,7 @@ export default function AddTableFieldForm({ tableId }: { tableId: string }) {
             afterSuccess: () => {
                 router.refresh();
                 form.reset();
+                setValue([]);
             },
         });
     }
@@ -123,6 +129,45 @@ export default function AddTableFieldForm({ tableId }: { tableId: string }) {
                         </FormItem>
                     )}
                 />
+                <div>
+                    <FormLabel>Options</FormLabel>
+                    <ToggleGroup
+                        value={value}
+                        onValueChange={(v) => {
+                            if (v) {
+                                form.setValue("options", v);
+                                setValue(v);
+                            }
+                        }}
+                        type="multiple"
+                        variant="outline"
+                        className="mt-1 grid grid-cols-3 gap-4">
+                        <ToggleGroupItem
+                            className="h-11"
+                            value={EDataTypes.OPTIONAL}>
+                            <HelpCircle
+                                size="1em"
+                                className="me-2 text-secondary"
+                            />
+                            Optional
+                        </ToggleGroupItem>
+                        <ToggleGroupItem
+                            className="h-11"
+                            value={EDataTypes.UNIQUE}>
+                            <Sparkles
+                                size="1em"
+                                className="me-2 text-secondary"
+                            />
+                            Unique
+                        </ToggleGroupItem>
+                        <ToggleGroupItem
+                            className="h-11"
+                            value={EDataTypes.KEY}>
+                            <Key size="1em" className="me-2 text-secondary" />
+                            Key
+                        </ToggleGroupItem>
+                    </ToggleGroup>
+                </div>
                 <Button
                     disabled={!form.formState.isValid}
                     type="submit"

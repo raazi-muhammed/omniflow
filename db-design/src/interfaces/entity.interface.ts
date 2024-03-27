@@ -11,6 +11,7 @@ export type ITableField = {
     type: string;
     description: string;
     tableId: string;
+    options?: string[];
 };
 
 export type IRelation = {

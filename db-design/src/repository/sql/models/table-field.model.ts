@@ -23,6 +23,10 @@ export function tableFieldModel(sequelize: Sequelize) {
                     type: DataTypes.STRING,
                     allowNull: false,
                 },
+                options: {
+                    type: DataTypes.ARRAY(DataTypes.STRING),
+                    defaultValue: [],
+                },
                 description: {
                     type: DataTypes.STRING,
                 },

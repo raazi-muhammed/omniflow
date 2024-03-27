@@ -23,6 +23,7 @@ export default function buildAddTableFieldController({
             name: tableData.name,
             description: tableData.description,
             type: tableData.type,
+            options: tableData.options,
         });
 
         const response = new ResponseCreator();
