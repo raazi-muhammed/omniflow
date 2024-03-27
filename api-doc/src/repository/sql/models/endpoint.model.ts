@@ -32,6 +32,9 @@ export function endpointModel(sequelize: Sequelize) {
                 projectId: {
                     type: DataTypes.STRING,
                 },
+                parentFolder: {
+                    type: DataTypes.STRING,
+                },
             },
             {
                 timestamps: true,

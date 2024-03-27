@@ -7,15 +7,15 @@ import { AddIcon } from "@/lib/icons";
 import { IEndpoint, IFolder } from "@/types/database";
 import { cookies } from "next/headers";
 import Link from "next/link";
-import { Label } from "@/components/ui/label";
 import ErrorMessage from "@/components/custom/ErrorMessage";
 import {
     SectionAside,
     SectionContent,
     SectionSplitter,
 } from "@/components/layout/SectinSplitter";
-import CustomLink from "@/components/custom/CustomLink";
 import { ApiDocService } from "@/services/api/api-doc.service";
+import EndpointCard from "./_components/EndpointCard";
+import FolderCard from "./_components/FolderCard";
 
 async function loadEndpoints() {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -28,7 +28,7 @@ async function loadEndpoints() {
         },
     });
 
-    const response = await service.getEndpoints().exec();
+    const response = await service.getEndpoints({}).exec();
     return response.data;
 }
 
@@ -43,7 +43,7 @@ async function loadFolders() {
         },
     });
 
-    const response = await service.getFolders().exec();
+    const response = await service.getFolders({}).exec();
     return response.data;
 }
 
@@ -70,23 +70,11 @@ export default async function page() {
                     </ActionItemsContainer>
 
                     {folders.map((folder) => (
-                        <Card key={folder.id} className="p-3">
-                            <p>{folder.name}</p>
-                        </Card>
+                        <FolderCard folder={folder} />
                     ))}
 
                     {endpoints.map((point) => (
-                        <Card key={point.id} className="flex">
-                            <div className="flex min-w-20 rounded-l-lg border-r bg-muted px-3">
-                                <p className="my-auto">{point.method}</p>
-                            </div>
-                            <div className="mx-4 my-2 flex flex-col gap-0">
-                                <CustomLink href={`api-docs/${point.id}`}>
-                                    {point.name}
-                                </CustomLink>
-                                <Label>{point.route}</Label>
-                            </div>
-                        </Card>
+                        <EndpointCard point={point} />
                     ))}
                     {endpoints.length === 0 && (
                         <ErrorMessage message="Not endpoints yet" type="info" />

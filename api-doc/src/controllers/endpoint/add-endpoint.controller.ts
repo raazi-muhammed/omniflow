@@ -20,6 +20,7 @@ export default function buildAddEndpointController({
             method: endPointInput.method,
             summary: endPointInput.summary,
             route: endPointInput.route,
+            parentFolder: endPointInput.parentFolder,
             projectId: currentProject.id,
         });
 

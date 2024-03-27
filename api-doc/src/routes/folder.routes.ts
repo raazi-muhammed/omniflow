@@ -23,6 +23,12 @@ export default function buildFolderRoutes({
         verifyProject,
         makeCallback(folderController.getFolders)
     );
+    router.get(
+        "/folders/list",
+        verifyUser,
+        verifyProject,
+        makeCallback(folderController.getFolderList)
+    );
 
     router.post(
         "/folders",

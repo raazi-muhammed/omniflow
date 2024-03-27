@@ -20,4 +20,5 @@ export type IEndpointController = {
 export type IFolderController = {
     addFolder: (req: IRequest) => Promise<ResponseCreator>;
     getFolders: (req: IRequest) => Promise<ResponseCreator>;
+    getFolderList: (req: IRequest) => Promise<ResponseCreator>;
 };

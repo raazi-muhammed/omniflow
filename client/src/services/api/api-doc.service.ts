@@ -19,8 +19,10 @@ export class ApiDocService extends Service {
         return this;
     }
 
-    getEndpoints() {
-        this.url = new BuildUrl().apiDoc("/endpoints");
+    getEndpoints({ parentFolder }: { parentFolder?: string }) {
+        this.url = new BuildUrl().apiDoc(
+            `/endpoints?parentFolder=${parentFolder}`
+        );
         this.axiosGet();
         return this;
     }
@@ -131,8 +133,15 @@ export class ApiDocService extends Service {
         return this;
     }
 
-    getFolders() {
-        this.url = new BuildUrl().apiDoc(`/folders`);
+    getFolders({ parentFolder }: { parentFolder?: string }) {
+        this.url = new BuildUrl().apiDoc(
+            `/folders?parentFolder=${parentFolder}`
+        );
+        this.axiosGet();
+        return this;
+    }
+    getFolderList() {
+        this.url = new BuildUrl().apiDoc(`/folders/list`);
         this.axiosGet();
         return this;
     }

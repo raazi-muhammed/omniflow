@@ -26,6 +26,7 @@ import buildRemoveEndpointController from "./endpoint/remove-endpoint.controller
 import { folderUseCases } from "../use-cases/index.js";
 import buildGetFoldersController from "./folder/get-folders.controller.js";
 import buildAddFolderController from "./folder/add-folder.controller.js";
+import buildGetFolderListController from "./folder/get-folder-list.controller.js";
 
 const addEndpoint = buildAddEndpointController({
     createEndpointUseCase,
@@ -99,8 +100,10 @@ export const endpointController: IEndpointController = Object.freeze({
 
 const addFolder = buildAddFolderController({ folderUseCases });
 const getFolders = buildGetFoldersController({ folderUseCases });
+const getFolderList = buildGetFolderListController({ folderUseCases });
 
 export const folderController: IFolderController = Object.freeze({
     addFolder,
     getFolders,
+    getFolderList,
 });

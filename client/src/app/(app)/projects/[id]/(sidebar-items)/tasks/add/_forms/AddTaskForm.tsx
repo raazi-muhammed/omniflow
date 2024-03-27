@@ -99,7 +99,6 @@ export default function AddTaskForm() {
 
     useEffect(() => {
         const service = new TeamService();
-
         service
             .getMembersList()
             .exec()

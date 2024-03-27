@@ -18,5 +18,9 @@ export type ICreateSchemaItemUseCase = (data: ISchemaItem) => ISchemaItem;
 
 export type IFolderUseCases = {
     addFolder: (data: IFolder) => Promise<IDBFolder>;
-    getFolders: (data: { projectId: string }) => Promise<IDBFolder[]>;
+    getFolders: (data: {
+        projectId: string;
+        parentFolder?: string;
+    }) => Promise<IDBFolder[]>;
+    getFolderList: (data: { projectId: string }) => Promise<IDBFolder[]>;
 };

@@ -20,7 +20,10 @@ export type IEndpointsRepository = {
         id: string;
     }) => Promise<boolean>;
     removeEndpoint: (endpointId: string) => Promise<boolean>;
-    getEndpoints: (data: { projectId: string }) => Promise<IDBEndpoint[]>;
+    getEndpoints: (data: {
+        projectId: string;
+        parentFolder?: string;
+    }) => Promise<IDBEndpoint[]>;
     getEndpoint: (data: {
         projectId: string;
         endpointId: string;
@@ -40,5 +43,9 @@ export type IEndpointsRepository = {
     ) => Promise<IDBEndpointResponse>;
     removeEndpointResponse: (requestId: string) => Promise<boolean>;
     addFolder: (data: IFolder) => Promise<IDBFolder>;
-    getFolders: (data: { projectId: string }) => Promise<IDBFolder[]>;
+    getFolders: (data: {
+        projectId: string;
+        parentFolder?: string;
+    }) => Promise<IDBFolder[]>;
+    getFolderList: (data: { projectId: string }) => Promise<IDBFolder[]>;
 };

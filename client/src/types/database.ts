@@ -115,6 +115,7 @@ export type IEndpoint = {
     method: string;
     summary?: string;
     body?: string;
+    parentFolder?: string;
     projectId: string;
     variables: IVariable[];
     schema: ISchemaItem[];

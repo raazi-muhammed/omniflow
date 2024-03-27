@@ -27,16 +27,21 @@ import { useRouter } from "next/navigation";
 import { AddIcon } from "@/lib/icons";
 import { ApiDocService } from "@/services/api/api-doc.service";
 import { makeApiCall } from "@/lib/apicaller";
+import { useEffect, useState } from "react";
+import { IFolder } from "@/types/database";
 
 const formSchema = z.object({
     name: z.string().min(3, "Invalid"),
     summary: z.string().min(3, "Invalid"),
     route: z.string().min(3, "Invalid"),
     method: z.string(),
+    parentFolder: z.string().optional(),
 });
 
 export default function AddEndpointForm() {
     const { toast } = useToast();
+    const [folderList, setFolderList] = useState<IFolder[]>([]);
+
     const router = useRouter();
     const currentDate = new Date();
     currentDate.setMonth(currentDate.getMonth() + 1);
@@ -47,10 +52,21 @@ export default function AddEndpointForm() {
             name: "",
             summary: "",
             route: "",
+            parentFolder: "",
             method: "GET",
         },
         mode: "onTouched",
     });
+
+    useEffect(() => {
+        const service = new ApiDocService();
+        service
+            .getFolderList()
+            .exec()
+            .then((res) => {
+                setFolderList(res.data);
+            });
+    }, []);
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         console.log(values);
@@ -101,17 +117,28 @@ export default function AddEndpointForm() {
                 <div className="grid grid-cols-2 gap-4">
                     <FormField
                         control={form.control}
-                        name="method"
+                        name="parentFolder"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Module</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        disabled={true}
-                                        placeholder="module"
-                                        {...field}
-                                    />
-                                </FormControl>
+                                <FormLabel>Parent folder</FormLabel>
+                                <Select
+                                    onValueChange={field.onChange}
+                                    defaultValue={field.value}>
+                                    <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select a parent folder" />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        {folderList.map((folder) => (
+                                            <SelectItem
+                                                key={folder.id}
+                                                value={folder.id}>
+                                                {folder.name}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
                                 <FormMessage />
                             </FormItem>
                         )}

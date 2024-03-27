@@ -8,10 +8,21 @@ export default function buildGetFoldersController({
 }) {
     return async (req: IRequest) => {
         const currentProject = req.currentProject;
+        const parentFolder = req.query.parentFolder;
+        console.log({ parentFolder });
 
-        const folders = await folderUseCases.getFolders({
-            projectId: currentProject.id,
-        });
+        let folders = [];
+        if (typeof parentFolder === "string" && parentFolder != "undefined") {
+            folders = await folderUseCases.getFolders({
+                projectId: currentProject.id,
+                parentFolder,
+            });
+        } else {
+            folders = await folderUseCases.getFolders({
+                projectId: currentProject.id,
+                parentFolder: null,
+            });
+        }
 
         const response = new ResponseCreator();
         return response.setData(folders);

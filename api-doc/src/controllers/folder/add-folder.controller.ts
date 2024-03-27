@@ -13,6 +13,7 @@ export default function buildAddFolderController({
 
         const folder = await folderUseCases.addFolder({
             projectId: currentProject.id,
+            parentFolder: folderData?.parentFolder,
             name: folderData.name,
         });
 

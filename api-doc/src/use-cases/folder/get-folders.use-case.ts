@@ -5,8 +5,17 @@ export default function buildGetFoldersUseCase({
 }: {
     endPointsRepository: IEndpointsRepository;
 }) {
-    return async ({ projectId }: { projectId: string }) => {
-        const folders = await endPointsRepository.getFolders({ projectId });
+    return async ({
+        projectId,
+        parentFolder,
+    }: {
+        projectId: string;
+        parentFolder?: string;
+    }) => {
+        const folders = await endPointsRepository.getFolders({
+            projectId,
+            parentFolder,
+        });
         return folders;
     };
 }

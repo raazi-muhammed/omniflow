@@ -99,9 +99,15 @@ export class BuildEndpointRepository {
         });
         return deleted > 0;
     }
-    async getEndpoints({ projectId }: { projectId: string }) {
+    async getEndpoints({
+        projectId,
+        parentFolder = null,
+    }: {
+        projectId: string;
+        parentFolder?: string;
+    }) {
         const endpoint = await this.models.Endpoint.findAll({
-            where: { projectId },
+            where: { projectId, parentFolder },
         });
         return endpoint.map((e) => e.dataValues) as IDBEndpoint[];
     }
@@ -181,9 +187,21 @@ export class BuildEndpointRepository {
         const folder = await this.models.Folder.create(data);
         return folder?.dataValues as IDBFolder;
     }
-    async getFolders({ projectId }: { projectId: string }) {
+    async getFolderList({ projectId }: { projectId: string }) {
         const folders = await this.models.Folder.findAll({
             where: { projectId },
+        });
+        return folders.map((e) => e.dataValues) as IDBFolder[];
+    }
+    async getFolders({
+        projectId,
+        parentFolder = null,
+    }: {
+        projectId: string;
+        parentFolder?: string;
+    }) {
+        const folders = await this.models.Folder.findAll({
+            where: { projectId, parentFolder },
         });
         return folders.map((e) => e.dataValues) as IDBFolder[];
     }

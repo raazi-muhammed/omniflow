@@ -4,6 +4,7 @@ import { IEndpoint, IEndpointEntity } from "../interfaces/entity.interface.js";
 export default class Endpoint implements IEndpointEntity {
     name: string;
     route?: string;
+    parentFolder?: string;
     method: string;
     summary: string;
     projectId: string;
@@ -14,6 +15,7 @@ export default class Endpoint implements IEndpointEntity {
         this.method = data.method;
         this.summary = data.summary;
         this.projectId = data.projectId;
+        this.parentFolder = data.parentFolder;
     }
 
     validate() {
@@ -29,6 +31,7 @@ export default class Endpoint implements IEndpointEntity {
             method: this.method,
             summary: this.summary,
             projectId: this.projectId,
+            parentFolder: this.parentFolder,
         });
     }
 }
