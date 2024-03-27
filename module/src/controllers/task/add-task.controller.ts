@@ -7,7 +7,7 @@ export default function buildAddTaskController({
     taskUseCases: ITaskUseCases;
 }) {
     return async (req: IRequest) => {
-        const { currentProject } = req;
+        const { currentProject, currentUser } = req;
         const data = req.body;
         validateBody(data, [
             "name",
@@ -20,6 +20,7 @@ export default function buildAddTaskController({
         await taskUseCases.addTask({
             ...data,
             projectId: currentProject.id,
+            reporter: currentUser,
         });
 
         const response = new ResponseCreator();

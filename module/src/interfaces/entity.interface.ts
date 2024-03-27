@@ -32,6 +32,8 @@ export interface ITask {
     startDate: Date;
     dueDate: Date;
     module?: Types.ObjectId;
+    assignee?: Types.ObjectId;
+    reporter: Types.ObjectId;
     deletedAt: Date | null;
 }
 
@@ -48,4 +50,11 @@ export enum TaskStatus {
     TO_DO = "TO_DO",
     ON_PROGRESS = "ON_PROGRESS",
     COMPLETED = "COMPLETED",
+}
+
+export interface IMember {
+    name: string;
+    username: string;
+    email: string;
+    avatar?: string;
 }

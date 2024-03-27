@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { CalendarIcon, X as XIcon } from "lucide-react";
+import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -41,13 +41,6 @@ import { addTask } from "@/services/task.service";
 import { useAppSelector } from "@/redux/store";
 import { ModuleService } from "@/services/api/module.service";
 import { TeamService } from "@/services/api/team.service";
-
-function getLabelFromId(modules: IModule[], id: string): string {
-    return modules.reduce((a, e) => {
-        if (e.id === id) return e.name;
-        return a;
-    }, "No dpe");
-}
 
 const formSchema = z.object({
     name: z.string().min(3, "Invalid"),
@@ -82,9 +75,25 @@ export default function AddTaskForm() {
             startDate: new Date(),
             dueDate: currentDate,
             status: "TO_DO",
+            reporter: user?.email,
         },
         mode: "onTouched",
     });
+
+    function getMemberDetails({ email }: { email: string }) {
+        const data = membersList.find((a) => a.info.email == email);
+
+        if (data?.info) {
+            return {
+                email: data.info.email,
+                username: data.info.username,
+                name: data.info.name,
+                avatar: data.info.avatar,
+            };
+        } else {
+            return null;
+        }
+    }
 
     useEffect(() => {
         const service = new ModuleService();
@@ -110,7 +119,13 @@ export default function AddTaskForm() {
     async function onSubmit(values: z.infer<typeof formSchema>) {
         logger.debug(values);
 
-        makeApiCall(() => addTask(values), {
+        const assignee = getMemberDetails({ email: values.assignee });
+        if (!assignee) {
+            toast({ description: "Assignee not found" });
+            return;
+        }
+
+        makeApiCall(() => addTask({ ...values, assignee }), {
             toast,
             afterSuccess: () => {
                 router.back();
@@ -374,6 +389,12 @@ export default function AddTaskForm() {
                                             />
                                         </SelectTrigger>
                                     </FormControl>
+                                    <SelectContent>
+                                        <SelectItem
+                                            value={user?.email || "you"}>
+                                            {user?.email || "You"}
+                                        </SelectItem>
+                                    </SelectContent>
                                 </Select>
                                 <FormMessage />
                             </FormItem>

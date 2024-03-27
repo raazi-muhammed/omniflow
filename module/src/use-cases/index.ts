@@ -1,6 +1,10 @@
 import Module from "../entities/module.entity.js";
 import buildAddModuleUseCase from "./module/add-module.use-case.js";
-import { moduleRepository, taskRepository } from "../repository/mongo/index.js";
+import {
+    moduleRepository,
+    taskRepository,
+    memberRepository,
+} from "../repository/mongo/index.js";
 import {
     IModuleUseCases,
     ITaskUseCases,
@@ -32,7 +36,11 @@ const editModule = buildEditModuleUseCase({
     ModuleCreator: Module,
 });
 
-const addTask = buildAddTaskUseCase({ taskRepository, TaskCreator: Task });
+const addTask = buildAddTaskUseCase({
+    taskRepository,
+    TaskCreator: Task,
+    memberRepository,
+});
 const getTasks = buildGetTasksUseCase({ taskRepository });
 const getTask = buildGetTaskUseCase({ taskRepository });
 const editTask = buildEditTaskUseCase({ taskRepository });

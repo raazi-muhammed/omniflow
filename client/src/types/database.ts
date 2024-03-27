@@ -152,6 +152,8 @@ export interface ITask {
     dueDate: Date;
     module?: string;
     deletedAt: Date | null;
+    assignee?: IUser;
+    reporter: IUser;
 }
 
 export enum TaskStatus {

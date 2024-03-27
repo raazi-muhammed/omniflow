@@ -1,6 +1,7 @@
+import { IDBMember } from "../repository/mongo/models/member.model.js";
 import { IDBModule } from "../repository/mongo/models/module.model.js";
 import { IDBTask } from "../repository/mongo/models/task.model.js";
-import { IModule, ITask } from "./entity.interface.js";
+import { IMember, IModule, ITask } from "./entity.interface.js";
 
 export type IModuleRepository = {
     add: (data: IModule) => Promise<IDBModule>;
@@ -24,4 +25,12 @@ export type ITaskRepository = {
     deleteById: (taskId: string) => Promise<boolean>;
     getAll: (data: { projectId: string }) => Promise<IDBTask[]>;
     getById: (id: string) => Promise<IDBTask>;
+};
+
+export type IMemberRepository = {
+    add: (data: IMember) => Promise<IDBMember | null>;
+    upsert: (data: IMember) => Promise<IDBMember | null>;
+    getByUsername: (username: string) => Promise<IDBMember | null>;
+    getByEmail: (email: string) => Promise<IDBMember | null>;
+    getById: (id: string) => Promise<IDBMember | null>;
 };

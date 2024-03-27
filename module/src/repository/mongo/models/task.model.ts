@@ -35,6 +35,14 @@ const taskSchema = new mongoose.Schema<ITask>(
             type: mongoose.Schema.Types.ObjectId,
             ref: "Module",
         },
+        assignee: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Member",
+        },
+        reporter: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Member",
+        },
         status: {
             type: String,
             enum: TaskStatus,

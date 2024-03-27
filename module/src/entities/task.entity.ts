@@ -17,6 +17,8 @@ export default class Task implements ITaskEntity {
     module?: Types.ObjectId;
     deletedAt: Date | null;
     status: TaskStatus;
+    assignee?: Types.ObjectId;
+    reporter: Types.ObjectId;
 
     constructor(data: ITask) {
         this.name = data.name;
@@ -28,6 +30,8 @@ export default class Task implements ITaskEntity {
         this.deletedAt = data.deletedAt;
         this.module = data.module;
         this.status = data.status;
+        this.reporter = data.reporter;
+        this.assignee = data.assignee;
     }
 
     validate() {
@@ -47,6 +51,8 @@ export default class Task implements ITaskEntity {
             deletedAt: this.deletedAt,
             module: this.module,
             status: this.status,
+            assignee: this.assignee,
+            reporter: this.reporter,
         });
     }
 }

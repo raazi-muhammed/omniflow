@@ -51,7 +51,10 @@ export default function buildTaskRepository({
             })) as IDBTask[];
         },
         getById: async (id: string) => {
-            return (await database.findOne({ _id: id })) as IDBTask;
+            return (await database
+                .findOne({ _id: id })
+                .populate("assignee")
+                .populate("reporter")) as IDBTask;
         },
     });
 }
