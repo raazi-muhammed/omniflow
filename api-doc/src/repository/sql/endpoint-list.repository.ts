@@ -111,15 +111,9 @@ export class BuildEndpointRepository {
         });
         return endpoint.map((e) => e.dataValues) as IDBEndpoint[];
     }
-    async getEndpoint({
-        projectId,
-        endpointId,
-    }: {
-        projectId: string;
-        endpointId: string;
-    }) {
+    async getEndpointById(endpointId: string) {
         const endpoint = await this.models.Endpoint.findOne({
-            where: { projectId, id: endpointId },
+            where: { id: endpointId },
             include: [
                 { model: this.models.Variables, as: "variables" },
                 { model: this.models.Headers, as: "headers" },

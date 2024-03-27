@@ -1,10 +1,10 @@
 import { IRequest, ResponseCreator } from "@omniflow/common";
-import { IEndpointsRepository } from "../../interfaces/repository.interface.js";
+import { IEndpointUseCases } from "../../interfaces/use-cases.interface.js";
 
 export default function buildGetEndpointsController({
-    endPointsRepository,
+    endpointUseCases,
 }: {
-    endPointsRepository: IEndpointsRepository;
+    endpointUseCases: IEndpointUseCases;
 }) {
     return async (req: IRequest) => {
         const { currentProject } = req;
@@ -12,12 +12,12 @@ export default function buildGetEndpointsController({
 
         let endpoints = [];
         if (typeof parentFolder === "string" && parentFolder != "undefined") {
-            endpoints = await endPointsRepository.getEndpoints({
+            endpoints = await endpointUseCases.getEndpoints({
                 projectId: currentProject.id,
                 parentFolder,
             });
         } else {
-            endpoints = await endPointsRepository.getEndpoints({
+            endpoints = await endpointUseCases.getEndpoints({
                 projectId: currentProject.id,
             });
         }

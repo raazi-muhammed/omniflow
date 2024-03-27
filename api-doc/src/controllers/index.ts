@@ -3,12 +3,7 @@ import {
     IFolderController,
 } from "../interfaces/controller.interface.js";
 import buildAddEndpointController from "./endpoint/add-endpoint.controller.js";
-import { endPointsRepository } from "../repository/sql/index.js";
 import buildGetEndpointsController from "./endpoint/get-endpoints.controller.js";
-import {
-    createHeaderUseCase,
-    createVariableUseCase,
-} from "../use-cases/index.js";
 import getEndpointController from "./endpoint/get-endpoint.controller.js";
 import buildEndpointVariableController from "./variable/add-endpoint-variable.controller.js";
 import buildEndpointHeaderController from "./header/add-endpoint-header.controller.js";
@@ -25,6 +20,9 @@ import {
     folderUseCases,
     bodyUseCases,
     endpointUseCases,
+    headerUseCases,
+    variableUseCases,
+    responseUseCases,
 } from "../use-cases/index.js";
 import buildGetFoldersController from "./folder/get-folders.controller.js";
 import buildAddFolderController from "./folder/add-folder.controller.js";
@@ -37,24 +35,22 @@ const editEndpoint = buildEditEndpointController({
     endpointUseCases,
 });
 const removeEndpoint = buildRemoveEndpointController({
-    endPointsRepository,
+    endpointUseCases,
 });
 const getEndpoints = buildGetEndpointsController({
-    endPointsRepository,
+    endpointUseCases,
 });
 
 const getEndpoint = getEndpointController({
-    endPointsRepository,
+    endpointUseCases,
 });
 
 const addEndpointVariable = buildEndpointVariableController({
-    createVariable: createVariableUseCase,
-    endPointsRepository,
+    variableUseCases,
 });
 
 const addEndpointHeader = buildEndpointHeaderController({
-    createHeader: createHeaderUseCase,
-    endPointsRepository,
+    headerUseCases,
 });
 
 const addEndpointBody = buildAddEndpointBodyController({
@@ -64,20 +60,20 @@ const addEndpointSchema = buildAddEndpointSchemaController({
     bodyUseCases,
 });
 const addEndpointResponse = buildAddEndpointResponse({
-    endPointsRepository,
+    responseUseCases,
 });
 const removeEndpointVariable = buildRemoveEndpointVariableController({
-    endPointsRepository,
+    variableUseCases,
 });
 
 const removeEndpointHeader = buildRemoveEndpointHeaderController({
-    endPointsRepository,
+    headerUseCases,
 });
 const removeEndpointSchema = buildRemoveEndpointSchemaController({
     bodyUseCases,
 });
 const removeEndpointResponse = buildRemoveEndpointResponseController({
-    endPointsRepository,
+    responseUseCases,
 });
 
 export const endpointController: IEndpointController = Object.freeze({

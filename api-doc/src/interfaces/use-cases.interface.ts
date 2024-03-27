@@ -1,4 +1,7 @@
+import { IDBHeader } from "../repository/sql/models/endpoint-header.mode.js";
+import { IDBEndpointResponse } from "../repository/sql/models/endpoint-response.model.js";
 import { IDBSchemaItem } from "../repository/sql/models/endpoint-schema.model.js";
+import { IDBVariable } from "../repository/sql/models/endpoint-variable.model.js";
 import { IDBEndpoint } from "../repository/sql/models/endpoint.model.js";
 import { IDBFolder } from "../repository/sql/models/folder.model.js";
 import {
@@ -35,8 +38,29 @@ export type IBodyUseCases = {
 
 export type IEndpointUseCases = {
     addEndpoint: (data: IEndpoint) => Promise<IDBEndpoint>;
+    getEndpoint: (data: { endpointId: string }) => Promise<IDBEndpoint>;
+    getEndpoints: (data: {
+        projectId: string;
+        parentFolder?: string;
+    }) => Promise<IDBEndpoint[]>;
+    removeEndpoint: (data: { id: string }) => Promise<void>;
     editEndpoint: (data: {
         id: string;
         endpointData: IEndpoint;
     }) => Promise<void>;
+};
+
+export type IHeaderUseCases = {
+    addHeader: (data: IHeader) => Promise<IDBHeader>;
+    removeHeader: (data: { id: string }) => Promise<void>;
+};
+
+export type IVariableUseCases = {
+    addVariable: (data: IVariable) => Promise<IDBVariable>;
+    removeVariable: (data: { id: string }) => Promise<void>;
+};
+
+export type IResponseUseCases = {
+    addResponse: (data: IEndpointResponse) => Promise<IDBEndpointResponse>;
+    removeResponse: (data: { id: string }) => Promise<void>;
 };

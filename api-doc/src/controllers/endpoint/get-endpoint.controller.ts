@@ -1,21 +1,17 @@
-import { IRequest, NotFoundError, ResponseCreator } from "@omniflow/common";
-import { IEndpointsRepository } from "../../interfaces/repository.interface.js";
+import { IRequest, ResponseCreator } from "@omniflow/common";
+import { IEndpointUseCases } from "../../interfaces/use-cases.interface.js";
 
 export default function getEndpointController({
-    endPointsRepository,
+    endpointUseCases,
 }: {
-    endPointsRepository: IEndpointsRepository;
+    endpointUseCases: IEndpointUseCases;
 }) {
     return async (req: IRequest) => {
         const endpointId = req.params.id;
-        const currentProject = req.currentProject;
 
-        const endpointData = await endPointsRepository.getEndpoint({
-            projectId: currentProject.id,
+        const endpointData = await endpointUseCases.getEndpoint({
             endpointId,
         });
-
-        if (!endpointData) throw new NotFoundError("Endpoint not found");
 
         const response = new ResponseCreator();
         return response.setData(endpointData);

@@ -1,20 +1,15 @@
-import {
-    AnErrorOccurredError,
-    IRequest,
-    ResponseCreator,
-} from "@omniflow/common";
-import { IEndpointsRepository } from "../../interfaces/repository.interface.js";
+import { IRequest, ResponseCreator } from "@omniflow/common";
+import { IEndpointUseCases } from "../../interfaces/use-cases.interface.js";
 
 export default function buildRemoveEndpointController({
-    endPointsRepository,
+    endpointUseCases,
 }: {
-    endPointsRepository: IEndpointsRepository;
+    endpointUseCases: IEndpointUseCases;
 }) {
     return async (req: IRequest) => {
         const endpointId = req.params.id;
 
-        const deleted = await endPointsRepository.removeEndpoint(endpointId);
-        if (!deleted) throw new AnErrorOccurredError();
+        await endpointUseCases.removeEndpoint({ id: endpointId });
 
         const response = new ResponseCreator();
         return response.setMessage("Endpoint removed");

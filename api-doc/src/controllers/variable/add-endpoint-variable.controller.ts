@@ -1,29 +1,27 @@
 import { IRequest, ResponseCreator, validateBody } from "@omniflow/common";
-import { IEndpointsRepository } from "../../interfaces/repository.interface.js";
-import { ICreateVariableUseCase } from "../../interfaces/use-cases.interface.js";
+import { IVariableUseCases } from "../../interfaces/use-cases.interface.js";
 
 export default function buildEndpointVariableController({
-    endPointsRepository,
-    createVariable,
+    variableUseCases,
 }: {
-    endPointsRepository: IEndpointsRepository;
-    createVariable: ICreateVariableUseCase;
+    variableUseCases: IVariableUseCases;
 }) {
     return async (req: IRequest) => {
         const inputData = req.body;
         const endpointId = req.params.id;
         validateBody(inputData, ["name", "type"]);
 
-        const variableToAdd = createVariable({
+        const variable = variableUseCases.addVariable({
             name: inputData.name,
             type: inputData.type,
             endpointId,
             description: inputData?.description,
         });
 
-        await endPointsRepository.addEndpointVariable(variableToAdd);
-
         const response = new ResponseCreator();
-        return response.setMessage("Variable created");
+        return response
+            .setMessage("Variable created")
+            .setData(variable)
+            .setStatusCode(201);
     };
 }

@@ -24,10 +24,7 @@ export type IEndpointsRepository = {
         projectId: string;
         parentFolder?: string;
     }) => Promise<IDBEndpoint[]>;
-    getEndpoint: (data: {
-        projectId: string;
-        endpointId: string;
-    }) => Promise<IDBEndpoint>;
+    getEndpointById: (endpointId: string) => Promise<IDBEndpoint>;
     addEndpointVariable: (data: IVariable) => Promise<IDBVariable>;
     removeEndpointVariable: (variableId: string) => Promise<boolean>;
     addEndpointHeader: (data: IHeader) => Promise<IDBHeader>;

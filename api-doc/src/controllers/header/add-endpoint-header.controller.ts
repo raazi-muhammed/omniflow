@@ -1,31 +1,27 @@
 import { IRequest, ResponseCreator, validateBody } from "@omniflow/common";
-import { IEndpointsRepository } from "../../interfaces/repository.interface.js";
-import { ICreateHeaderUseCase } from "../../interfaces/use-cases.interface.js";
+import { IHeaderUseCases } from "../../interfaces/use-cases.interface.js";
 
 export default function buildEndpointHeaderController({
-    endPointsRepository,
-    createHeader,
+    headerUseCases,
 }: {
-    endPointsRepository: IEndpointsRepository;
-    createHeader: ICreateHeaderUseCase;
+    headerUseCases: IHeaderUseCases;
 }) {
     return async (req: IRequest) => {
         const inputData = req.body;
         const endpointId = req.params.id;
         validateBody(inputData, ["key", "value"]);
 
-        const headerToAdd = createHeader({
+        const header = await headerUseCases.addHeader({
             key: inputData.key,
             value: inputData.value,
             endpointId,
             description: inputData?.description,
         });
 
-        const data = await endPointsRepository.addEndpointHeader(headerToAdd);
-
         const response = new ResponseCreator();
         return response
             .setMessage("Header added to endpoint")
+            .setData(header)
             .setStatusCode(201);
     };
 }

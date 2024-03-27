@@ -1,24 +1,16 @@
-import {
-    AnErrorOccurredError,
-    BadRequestError,
-    IRequest,
-    ResponseCreator,
-} from "@omniflow/common";
-import { IEndpointsRepository } from "../../interfaces/repository.interface.js";
+import { BadRequestError, IRequest, ResponseCreator } from "@omniflow/common";
+import { IResponseUseCases } from "../../interfaces/use-cases.interface.js";
 
 export default function buildRemoveEndpointResponseController({
-    endPointsRepository,
+    responseUseCases,
 }: {
-    endPointsRepository: IEndpointsRepository;
+    responseUseCases: IResponseUseCases;
 }) {
     return async (req: IRequest) => {
         const responseId = req.params.responseId;
         if (!responseId) throw new BadRequestError();
 
-        const isUpdated = await endPointsRepository.removeEndpointResponse(
-            responseId
-        );
-        if (!isUpdated) throw new AnErrorOccurredError();
+        await responseUseCases.removeResponse({ id: responseId });
 
         const response = new ResponseCreator();
         return response.setMessage("Response remove from endpoint");

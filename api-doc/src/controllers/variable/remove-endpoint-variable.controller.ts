@@ -1,26 +1,20 @@
-import {
-    AnErrorOccurredError,
-    BadRequestError,
-    IRequest,
-    ResponseCreator,
-} from "@omniflow/common";
-import { IEndpointsRepository } from "../../interfaces/repository.interface.js";
+import { BadRequestError, IRequest, ResponseCreator } from "@omniflow/common";
+import { IVariableUseCases } from "../../interfaces/use-cases.interface.js";
 
 export default function buildRemoveEndpointVariableController({
-    endPointsRepository,
+    variableUseCases,
 }: {
-    endPointsRepository: IEndpointsRepository;
+    variableUseCases: IVariableUseCases;
 }) {
     return async (req: IRequest) => {
         const variableId = req.params.variableId;
         if (!variableId) throw new BadRequestError();
 
-        const isUpdated = await endPointsRepository.removeEndpointVariable(
-            variableId
-        );
-        if (!isUpdated) throw new AnErrorOccurredError();
+        await variableUseCases.removeVariable({
+            id: variableId,
+        });
 
         const response = new ResponseCreator();
-        return response.setData(req.body);
+        return response.setData(req.body).setStatusCode(204);
     };
 }
