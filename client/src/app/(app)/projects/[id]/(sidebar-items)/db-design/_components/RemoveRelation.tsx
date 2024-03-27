@@ -17,10 +17,15 @@ import { Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function RemoveRelation({ relationId }: { relationId: string }) {
+export default function RemoveRelation({
+    relationId,
+    refreshRelations,
+}: {
+    relationId: string;
+    refreshRelations: () => void;
+}) {
     const [open, setOpen] = useState<boolean>(false);
     const { toast } = useToast();
-    const router = useRouter();
     function handleRemoveMember() {
         removeRelations({ id: relationId })
             .then((response) => {
@@ -28,7 +33,7 @@ export default function RemoveRelation({ relationId }: { relationId: string }) {
                     description: response.message,
                 });
                 setOpen(false);
-                router.refresh();
+                refreshRelations();
             })
             .catch((error) => {
                 toast({
@@ -39,7 +44,10 @@ export default function RemoveRelation({ relationId }: { relationId: string }) {
     return (
         <AlertDialog open={open} onOpenChange={(e) => setOpen(e)}>
             <AlertDialogTrigger asChild>
-                <Button size="actionIcon" variant="destructiveFlat">
+                <Button
+                    size="actionIcon"
+                    variant="destructiveFlat"
+                    className="pointer-events-auto opacity-5 hover:opacity-100">
                     <Trash2 size="1em" />
                 </Button>
             </AlertDialogTrigger>

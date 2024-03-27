@@ -18,15 +18,15 @@ export class BuildDatabaseRepository {
     };
 
     constructor(sequelize: Sequelize) {
-        const TableModel = tableModel(sequelize);
-        const TableFieldModel = tableFieldModel(sequelize);
-        relationModel(sequelize);
+        const Table = tableModel(sequelize);
+        const TableField = tableFieldModel(sequelize);
+        const Relation = relationModel(sequelize);
 
-        TableModel.hasMany(TableFieldModel, {
+        Table.hasMany(TableField, {
             as: "fields",
             foreignKey: "tableId",
         });
-        TableFieldModel.belongsTo(TableModel, {
+        TableField.belongsTo(Table, {
             foreignKey: "tableId",
         });
 
@@ -91,6 +91,7 @@ export class BuildDatabaseRepository {
         const relations = await this.models.Relation.findAll({
             where: { projectId },
         });
+
         return relations.map((e) => e.dataValues) as IDBRelation[];
     }
     async removeRelation({ relationId }: { relationId: string }) {

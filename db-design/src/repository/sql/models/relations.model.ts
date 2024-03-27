@@ -16,11 +16,11 @@ export function relationModel(sequelize: Sequelize) {
                     allowNull: false,
                 },
                 to: {
-                    type: DataTypes.STRING,
+                    type: DataTypes.UUID,
                     allowNull: false,
                 },
                 from: {
-                    type: DataTypes.STRING,
+                    type: DataTypes.UUID,
                     allowNull: false,
                 },
             },

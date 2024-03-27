@@ -1,24 +1,27 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import DatabaseTable from "./DatabaseTable";
-import { SteppedLineTo } from "react-lineto";
 import {
     addRelation,
     changeTablePosition,
     getRelations,
     getTables,
 } from "@/services/table.service";
-import { ITable } from "@/types/database";
+import { IRelation, ITable } from "@/types/database";
 import { useToast } from "@/components/ui/use-toast";
 import { makeApiCall } from "@/lib/apicaller";
 import LinkConnector from "./LineConnector";
+import ErrorMessage from "@/components/custom/ErrorMessage";
+import Container from "@/components/layout/Container";
+import RemoveRelation from "./RemoveRelation";
+import { IResponse } from "@/services/utils";
 
 export default function DBDesign() {
     const { toast } = useToast();
     const [data, setDate] = useState<ITable[]>([]);
-    const [relations, setRelations] = useState<{ from: string; to: string }[]>(
-        []
-    );
+    const [relations, setRelations] = useState<IRelation[]>([]);
+    const [refresh, setRefresh] = useState(false);
+    const refreshRelations = () => setRefresh((r) => !r);
 
     useEffect(() => {
         getTables().then((res) => {
@@ -31,7 +34,7 @@ export default function DBDesign() {
             console.log(res.data);
             setRelations(res.data);
         });
-    }, []);
+    }, [refresh]);
 
     function handleOnDrop(e: React.DragEvent<HTMLElement>) {
         e.preventDefault();
@@ -73,10 +76,11 @@ export default function DBDesign() {
         const fromField = e.dataTransfer.getData("fromField");
         const dataToAdd = { from: fromField, to: onField };
 
-        setRelations((rel) => [...rel, dataToAdd]);
-
         makeApiCall(() => addRelation(dataToAdd), {
             toast,
+            afterSuccess: (response: IResponse) => {
+                setRelations((rel) => [...rel, response.data]);
+            },
         });
     }
 
@@ -86,14 +90,24 @@ export default function DBDesign() {
                 className="db-design relative h-full overflow-x-auto overflow-y-auto"
                 onDragOver={(e) => e.preventDefault()}
                 onDrop={handleOnDrop}>
-                {data.map((table, index) => (
-                    <DatabaseTable
-                        handleOnDropRelation={handleOnDropRelation}
-                        key={table.id}
-                        index={index}
-                        table={table}
-                    />
-                ))}
+                {data.length > 0 ? (
+                    data.map((table, index) => (
+                        <DatabaseTable
+                            handleOnDropRelation={handleOnDropRelation}
+                            key={table.id}
+                            index={index}
+                            table={table}
+                        />
+                    ))
+                ) : (
+                    <Container>
+                        <ErrorMessage
+                            type="info"
+                            message="No tables"
+                            className="-ms-2"
+                        />
+                    </Container>
+                )}
 
                 {relations.map((rel, index) => (
                     <LinkConnector
@@ -101,8 +115,14 @@ export default function DBDesign() {
                         container=".db-design"
                         data={data}
                         from={`.s${rel.from}`}
-                        to={`.s${rel.to}`}
-                    />
+                        to={`.s${rel.to}`}>
+                        <div className="grid h-full w-full place-items-center">
+                            <RemoveRelation
+                                refreshRelations={refreshRelations}
+                                relationId={rel.id}
+                            />
+                        </div>
+                    </LinkConnector>
                 ))}
             </section>
         </main>

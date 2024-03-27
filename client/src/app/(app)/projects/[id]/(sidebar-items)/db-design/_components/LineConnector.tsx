@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 
 enum OriginTypes {
     TOP_LEFT = "TOP_LEFT",
@@ -12,11 +12,13 @@ export default function LinkConnector({
     from,
     data,
     container,
+    children,
 }: {
     to: string;
     from: string;
     container?: string;
     data?: any;
+    children?: ReactNode;
 }) {
     const [position, setPosition] = useState({
         x: 0,
@@ -90,9 +92,10 @@ export default function LinkConnector({
                         top: `${position.y - position.height}px`,
                         left: `${position.x}px`,
                         position: "absolute",
-                    }}
-                    className="pointer-events-none">
+                        pointerEvents: "none",
+                    }}>
                     <svg
+                        style={{ pointerEvents: "none" }}
                         width={position.width}
                         height={position.height}
                         viewBox={`0 0 100% 100%`}>
@@ -108,6 +111,16 @@ export default function LinkConnector({
                             fill="none"
                         />
                     </svg>
+                    <div
+                        style={{
+                            bottom: 0,
+                            right: 0,
+                            left: 0,
+                            top: 0,
+                            position: "absolute",
+                        }}>
+                        {children}
+                    </div>
                 </div>
             ) : origin == OriginTypes.TOP_RIGHT ? (
                 <div
@@ -133,6 +146,16 @@ export default function LinkConnector({
                             fill="none"
                         />
                     </svg>
+                    <div
+                        style={{
+                            bottom: 0,
+                            right: 0,
+                            left: 0,
+                            top: 0,
+                            position: "absolute",
+                        }}>
+                        {children}
+                    </div>
                 </div>
             ) : origin == OriginTypes.BOTTOM_RIGHT ? (
                 <div
@@ -157,6 +180,16 @@ export default function LinkConnector({
                             fill="none"
                         />
                     </svg>
+                    <div
+                        style={{
+                            bottom: 0,
+                            right: 0,
+                            left: 0,
+                            top: 0,
+                            position: "absolute",
+                        }}>
+                        {children}
+                    </div>
                 </div>
             ) : (
                 <div
@@ -181,6 +214,16 @@ export default function LinkConnector({
                             fill="none"
                         />
                     </svg>
+                    <div
+                        style={{
+                            bottom: 0,
+                            right: 0,
+                            left: 0,
+                            top: 0,
+                            position: "absolute",
+                        }}>
+                        {children}
+                    </div>
                 </div>
             )}
         </>

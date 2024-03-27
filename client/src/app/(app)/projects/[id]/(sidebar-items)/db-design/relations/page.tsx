@@ -35,7 +35,7 @@ export default async function Relations() {
     return (
         <main>
             <Container>
-                <Heading variant="sm">Relations</Heading>
+                <Heading variant="spaced">Relations</Heading>
                 <br />
                 {relations.length > 0 ? (
                     <Table>

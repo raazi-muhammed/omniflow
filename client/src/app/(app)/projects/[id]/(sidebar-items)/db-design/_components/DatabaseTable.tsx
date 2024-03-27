@@ -1,6 +1,7 @@
 "use client";
 
 import CustomLink from "@/components/custom/CustomLink";
+import ErrorMessage from "@/components/custom/ErrorMessage";
 import Heading from "@/components/custom/Heading";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -41,35 +42,43 @@ export default function DatabaseTable({
                     <Heading variant="sm">{table.name}</Heading>
                 </CustomLink>
                 <Separator />
-                {table.fields.map((field) => (
-                    <section key={field.id} className="grid grid-cols-2">
-                        <div className="flex gap-2">
-                            <section
-                                draggable
-                                onDragStart={(e) => {
-                                    e.stopPropagation();
-                                    e.dataTransfer.setData(
-                                        "fromField",
-                                        field.id
-                                    );
-                                }}
-                                onDragOver={(e) => e.preventDefault()}
-                                onDrop={(e) =>
-                                    handleOnDropRelation(e, field.id)
-                                }
-                                className={`bg-muted rounded-full p-2 s${field.id} w-4 h-4 my-auto z-50`}></section>
-                            <div>
-                                <p>{field.name}</p>
-                                <Label className="flex">
-                                    {field.description}
-                                </Label>
+                {table.fields.length > 0 ? (
+                    table.fields.map((field) => (
+                        <section key={field.id} className="grid grid-cols-2">
+                            <div className="flex gap-2">
+                                <section
+                                    draggable
+                                    onDragStart={(e) => {
+                                        e.stopPropagation();
+                                        e.dataTransfer.setData(
+                                            "fromField",
+                                            field.id
+                                        );
+                                    }}
+                                    onDragOver={(e) => e.preventDefault()}
+                                    onDrop={(e) =>
+                                        handleOnDropRelation(e, field.id)
+                                    }
+                                    className={`bg-muted rounded-full p-2 s${field.id} w-4 h-4 my-auto z-50`}></section>
+                                <div>
+                                    <p>{field.name}</p>
+                                    <Label className="flex">
+                                        {field.description}
+                                    </Label>
+                                </div>
                             </div>
-                        </div>
-                        <p className="text-end">
-                            {formatConstants(field.type)}
-                        </p>
-                    </section>
-                ))}
+                            <p className="text-end">
+                                {formatConstants(field.type)}
+                            </p>
+                        </section>
+                    ))
+                ) : (
+                    <ErrorMessage
+                        type="info"
+                        message="No files"
+                        className="-ms-2"
+                    />
+                )}
             </Card>
         </div>
     );
