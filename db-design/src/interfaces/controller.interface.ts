@@ -2,6 +2,7 @@ import { IRequest, ResponseCreator } from "@omniflow/common";
 
 export type ITableController = {
     addTable: (req: IRequest) => Promise<ResponseCreator>;
+    editTable: (req: IRequest) => Promise<ResponseCreator>;
     getTables: (req: IRequest) => Promise<ResponseCreator>;
     getTable: (req: IRequest) => Promise<ResponseCreator>;
     removeTable: (req: IRequest) => Promise<ResponseCreator>;

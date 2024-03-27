@@ -31,6 +31,14 @@ export class TableService extends Service {
         this.axiosGet();
         return this;
     }
+    editTable(
+        tableId: string,
+        tableData: { name: string; description: string }
+    ) {
+        this.url = new BuildUrl().dbDesign(`/tables/${tableId}`);
+        this.axiosPut(tableData);
+        return this;
+    }
     changeTablePosition(
         tableId: string,
         newPosition: { x: number; y: number }

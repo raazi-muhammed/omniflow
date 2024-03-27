@@ -19,30 +19,31 @@ import { useRouter } from "next/navigation";
 import { Textarea } from "@/components/ui/textarea";
 import { makeApiCall } from "@/lib/apicaller";
 import { TableService } from "@/services/api/table.service";
+import { AddIcon } from "@/lib/icons";
+import { ITable } from "@/types/database";
 
 const formSchema = z.object({
     name: z.string().min(3, "Invalid"),
     description: z.string().min(3, "Invalid"),
 });
 
-export default function AddTableForm() {
+export default function EditTableForm({ table }: { table: ITable }) {
     const { toast } = useToast();
     const router = useRouter();
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            name: "",
-            description: "",
+            name: table.name,
+            description: table.description,
         },
         mode: "onTouched",
     });
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         const service = new TableService();
-        makeApiCall(() => service.addTable(values).exec(), {
+        makeApiCall(() => service.editTable(table.id, values).exec(), {
             toast,
             afterSuccess: () => {
-                router.back();
                 router.refresh();
             },
         });
@@ -82,7 +83,7 @@ export default function AddTableForm() {
                 />
 
                 <Button className="w-full" type="submit">
-                    Add table
+                    Save
                 </Button>
             </form>
         </Form>

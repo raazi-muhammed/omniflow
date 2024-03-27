@@ -35,6 +35,12 @@ export default function buildTableRoutes({
         verifyProject,
         makeCallback(tableController.getTable)
     );
+    router.put(
+        "/tables/:tableId",
+        verifyUser,
+        verifyProject,
+        makeCallback(tableController.editTable)
+    );
     router.delete(
         "/tables/:tableId",
         verifyUser,

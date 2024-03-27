@@ -13,7 +13,11 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion";
-import { DeleteIcon } from "lucide-react";
+import {
+    Trash2 as DeleteIcon,
+    ListPlus as AddFieldIcon,
+    SquarePen as EditIcon,
+} from "lucide-react";
 import {
     Table,
     TableBody,
@@ -28,6 +32,9 @@ import AddTableFieldForm from "./_components/AddTableFieldForm";
 import { formatConstants } from "@/lib/formaters";
 import DeleteTable from "./_components/DeleteTable";
 import { TableService } from "@/services/api/table.service";
+import EditTableForm from "./_components/EditTableForm";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
 
 async function getEndpointData(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -54,6 +61,10 @@ export default async function page({
             <SectionSplitter>
                 <SectionContent>
                     <Heading variant="spaced">{tableData.name}</Heading>
+                    <Label className="-mt-1 flex">
+                        {tableData.description}
+                    </Label>
+                    <Separator className="my-4" />
                     {tableData.fields.length > 0 ? (
                         <Table>
                             <TableHeader>
@@ -112,10 +123,24 @@ export default async function page({
                                 <DeleteTable tableId={tableData.id} />
                             </AccordionContent>
                         </AccordionItem>
+                        <AccordionItem value="edit-table">
+                            <AccordionTrigger>
+                                <div className="flex gap-2">
+                                    <EditIcon
+                                        size="1.2em"
+                                        className="my-auto"
+                                    />
+                                    Edit table
+                                </div>
+                            </AccordionTrigger>
+                            <AccordionContent className="mx-2">
+                                <EditTableForm table={tableData} />
+                            </AccordionContent>
+                        </AccordionItem>
                         <AccordionItem value="add-a-field">
                             <AccordionTrigger>
                                 <div className="flex gap-2">
-                                    <DeleteIcon
+                                    <AddFieldIcon
                                         size="1.2em"
                                         className="my-auto"
                                     />

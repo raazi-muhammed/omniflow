@@ -5,6 +5,10 @@ import { IRelation, ITable, ITableField } from "./entity.interface.js";
 
 export type ITableUseCases = {
     addTable: (data: ITable) => Promise<IDBTable>;
+    editTable: (data: {
+        tableId: string;
+        tableData: { name: string; description: string };
+    }) => Promise<boolean>;
     getTables: (data: { projectId: string }) => Promise<IDBTable[]>;
     getTable: (data: { tableId: string }) => Promise<IDBTable>;
     removeTable: (data: { tableId: string }) => Promise<void>;
