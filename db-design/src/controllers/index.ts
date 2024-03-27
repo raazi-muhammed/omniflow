@@ -12,10 +12,12 @@ import buildGetTablesController from "./table/get-tables.controller.js";
 import { relationUseCases } from "../use-cases/index.js";
 import buildGetRelationsController from "./relation/get-relations.controller.js";
 import buildRemoveRelationController from "./relation/remove-relation.controller.js";
+import buildRemoveTableController from "./table/remove-table.controller.js";
 
 const addTable = buildAddTableController({ tableUseCases });
 const getTables = buildGetTablesController({ tableUseCases });
 const getTable = buildGetTableController({ tableUseCases });
+const removeTable = buildRemoveTableController({ tableUseCases });
 const addTableField = buildAddTableFieldController({ tableUseCases });
 const changeTablePosition = buildChangeTablePositionController({
     tableUseCases,
@@ -31,6 +33,7 @@ export const tableController: ITableController = Object.freeze({
     getTable,
     changeTablePosition,
     addTableField,
+    removeTable,
 });
 
 export const relationController: IRelationController = Object.freeze({

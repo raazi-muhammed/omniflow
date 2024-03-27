@@ -42,18 +42,14 @@ export async function getTables(
     });
 }
 
-export async function changeTablePosition(
+export async function removeTable(
     { tableId }: { tableId: string },
-    values: {
-        x: number;
-        y: number;
-    },
     config?: AxiosRequestConfig
 ): Promise<IResponse> {
     const url = new BuildUrl().dbDesign(`/tables/${tableId}`);
     return new Promise((resolve, reject) => {
         axios
-            .patch(url, values, { ...config, withCredentials: true })
+            .delete(url, { ...config, withCredentials: true })
             .then((response) => {
                 resolve(adaptSuccessResponse(response));
             })

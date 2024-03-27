@@ -27,6 +27,7 @@ import Container from "@/components/layout/Container";
 import { getTable } from "@/services/table.service";
 import AddTableFieldForm from "./_components/AddTableFieldForm";
 import { formatConstants } from "@/lib/formaters";
+import DeleteTable from "./_components/DeleteTable";
 
 async function getEndpointData(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -96,7 +97,26 @@ export default async function page({
                         type="single"
                         collapsible
                         className="rounded-xl border bg-card p-1">
-                        <AccordionItem value="delete-team">
+                        <AccordionItem value="delete-table">
+                            <AccordionTrigger>
+                                <div className="flex gap-2">
+                                    <DeleteIcon
+                                        size="1.2em"
+                                        className="my-auto"
+                                    />
+                                    Delete table
+                                </div>
+                            </AccordionTrigger>
+                            <AccordionContent className="px-4">
+                                <p className="mb-4">
+                                    Deleting this project will remove it from
+                                    your workspace. Make sure you won&apos;t
+                                    need it anymore
+                                </p>
+                                <DeleteTable tableId={tableData.id} />
+                            </AccordionContent>
+                        </AccordionItem>
+                        <AccordionItem value="add-a-field">
                             <AccordionTrigger>
                                 <div className="flex gap-2">
                                     <DeleteIcon

@@ -48,6 +48,10 @@ export class BuildDatabaseRepository {
         const table = await this.models.Table.create(data);
         return table.dataValues as IDBTable;
     }
+    async removeTable({ id }: { id: string }) {
+        const deleted = await this.models.Table.destroy({ where: { id } });
+        return deleted > 0;
+    }
     async changeTablePosition({
         x,
         y,

@@ -1,6 +1,7 @@
+"use client";
+
 import {
     AlertDialog,
-    AlertDialogAction,
     AlertDialogCancel,
     AlertDialogContent,
     AlertDialogDescription,
@@ -10,10 +11,12 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
 export function DeleteAlert({ handleDelete }: { handleDelete: () => void }) {
+    const [open, setOpen] = useState<boolean>(false);
     return (
-        <AlertDialog>
+        <AlertDialog open={open} onOpenChange={(e) => setOpen(e)}>
             <AlertDialogTrigger asChild>
                 <Button variant="destructiveFlat">Delete</Button>
             </AlertDialogTrigger>
@@ -31,7 +34,10 @@ export function DeleteAlert({ handleDelete }: { handleDelete: () => void }) {
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
                     <Button
-                        onClick={handleDelete}
+                        onClick={() => {
+                            handleDelete();
+                            setOpen(false);
+                        }}
                         type="button"
                         variant="destructive">
                         Delete

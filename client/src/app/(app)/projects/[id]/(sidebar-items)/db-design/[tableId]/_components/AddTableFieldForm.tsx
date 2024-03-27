@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/select";
 import { dataValueTypes } from "@/types/database";
 import { addTableField } from "@/services/table.service";
+import { logger } from "@/lib/logger";
 
 const formSchema = z.object({
     name: z.string().min(1, "Invalid"),
@@ -52,16 +53,16 @@ export default function AddTableFieldForm({ tableId }: { tableId: string }) {
     });
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log({ values });
+        logger.debug({ values });
         addTableField({ tableId }, values)
             .then((response) => {
-                console.log(response);
+                logger.debug(response);
                 router.refresh();
                 form.reset();
                 toast({ description: response.message });
             })
             .catch((err) => {
-                console.log(err);
+                logger.debug(err);
                 toast({ description: err });
             });
     }
