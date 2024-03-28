@@ -10,8 +10,6 @@ export default function buildRemoveTableFieldController({
         const fieldId = req.params.fieldId;
         if (!fieldId) throw new BadRequestError("Field id not found");
 
-        console.log({ fieldId });
-
         await tableUseCases.removeTableField({
             id: fieldId,
         });

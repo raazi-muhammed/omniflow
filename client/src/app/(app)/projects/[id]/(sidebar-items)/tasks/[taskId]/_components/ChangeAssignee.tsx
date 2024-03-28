@@ -46,7 +46,6 @@ export default function ChangeAssignee({ taskId }: { taskId: string }) {
     function getMemberDetails({ email }: { email: string }) {
         if (!membersList) return null;
         const data = membersList.find((a) => a.info.email == email);
-
         if (data?.info) {
             return {
                 email: data.info.email,
@@ -59,13 +58,14 @@ export default function ChangeAssignee({ taskId }: { taskId: string }) {
         }
     }
 
-    function loadModuleList() {
+    function loadMembersList() {
         const service = new TeamService();
         service
             .getMembersList()
             .exec()
             .then((response) => {
                 setMembersList(response.data as IAllMemberList[]);
+                console.log(response.data);
             });
     }
 
@@ -98,7 +98,7 @@ export default function ChangeAssignee({ taskId }: { taskId: string }) {
         <Popover
             onOpenChange={(e) => {
                 if (!membersList) {
-                    loadModuleList();
+                    loadMembersList();
                 }
             }}>
             <PopoverTrigger asChild>

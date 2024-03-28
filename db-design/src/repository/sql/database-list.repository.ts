@@ -99,6 +99,12 @@ export class BuildDatabaseRepository {
         const table = await this.models.TableField.create(data);
         return table.dataValues as IDBTableField;
     }
+    async getTableFields({ tableId }: { tableId: string }) {
+        const tables = await this.models.TableField.findAll({
+            where: { tableId },
+        });
+        return tables.map((a) => a.dataValues) as IDBTableField[];
+    }
     async addRelation(data: IRelation) {
         const relation = await this.models.Relation.create(data);
         return relation.dataValues as IDBRelation;
@@ -115,6 +121,15 @@ export class BuildDatabaseRepository {
             where: { id: relationId },
         });
         return deleted > 0;
+    }
+    async removeRelationsByField({ fieldId }: { fieldId: string }) {
+        await this.models.Relation.destroy({
+            where: { to: fieldId },
+        });
+        await this.models.Relation.destroy({
+            where: { from: fieldId },
+        });
+        return true;
     }
     async removeTableField({ fieldId }: { fieldId: string }) {
         const deleted = await this.models.TableField.destroy({

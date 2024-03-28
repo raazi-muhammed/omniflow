@@ -10,6 +10,9 @@ export default function buildRemoveTableFieldUseCase({
         const deleted = await databaseRepository.removeTableField({
             fieldId: id,
         });
+
+        databaseRepository.removeRelationsByField({ fieldId: id });
+
         if (!deleted) throw new AnErrorOccurredError();
     };
 }

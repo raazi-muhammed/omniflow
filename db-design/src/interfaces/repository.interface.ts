@@ -18,6 +18,8 @@ export type IDatabaseRepository = {
     removeRelation: (data: { relationId: string }) => Promise<boolean>;
     getRelations: (data: { projectId: string }) => Promise<IDBRelation[]>;
     getRelation: (data: IRelation) => Promise<IDBRelation | null>;
+    removeRelationsByField: (data: { fieldId: string }) => Promise<boolean>;
+    getTableFields: (data: { tableId: string }) => Promise<IDBTableField[]>;
     changeTablePosition: (data: {
         x: number;
         y: number;

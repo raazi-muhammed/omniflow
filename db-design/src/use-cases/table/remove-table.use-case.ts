@@ -8,6 +8,14 @@ export default function buildRemoveTableUseCase({
 }) {
     return async ({ tableId }: { tableId: string }) => {
         const deleted = await databaseRepository.removeTable({ id: tableId });
+
+        const fields = await databaseRepository.getTableFields({ tableId });
+        fields.map((a) => {
+            databaseRepository.removeRelationsByField({
+                fieldId: a.id,
+            });
+        });
+
         if (!deleted) throw new AnErrorOccurredError();
     };
 }
