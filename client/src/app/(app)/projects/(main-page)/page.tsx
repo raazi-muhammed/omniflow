@@ -52,7 +52,7 @@ export default async function page() {
                                 <p className="text-xl font-semibold text-foreground">
                                     {project.title}
                                 </p>
-                                <Label className="line-clamp-3">
+                                <Label className="leading-2 line-clamp-3">
                                     {project.description}
                                 </Label>
                             </CardHeader>

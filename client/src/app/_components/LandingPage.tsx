@@ -7,96 +7,81 @@ export function LandingPage() {
 }
 export const products = [
     {
-        title: "Moonbeam",
+        title: "API Docs",
         link: "https://gomoonbeam.com",
-        thumbnail:
-            "https://aceternity.com/images/products/thumbnails/new/moonbeam.png",
+        thumbnail: "/landing-page/images/api-doc.png",
     },
     {
-        title: "Cursor",
+        title: "DB Design",
         link: "https://cursor.so",
-        thumbnail:
-            "https://aceternity.com/images/products/thumbnails/new/cursor.png",
+        thumbnail: "/landing-page/images/db-design.png",
     },
     {
-        title: "Rogue",
+        title: "Project",
         link: "https://userogue.com",
-        thumbnail:
-            "https://aceternity.com/images/products/thumbnails/new/rogue.png",
+        thumbnail: "/landing-page/images/projects.png",
     },
 
     {
-        title: "Editorially",
+        title: "DB Design",
         link: "https://editorially.org",
-        thumbnail:
-            "https://aceternity.com/images/products/thumbnails/new/editorially.png",
+        thumbnail: "/landing-page/images/db-design.png",
     },
     {
-        title: "Editrix AI",
+        title: "DB Design",
         link: "https://editrix.ai",
-        thumbnail:
-            "https://aceternity.com/images/products/thumbnails/new/editrix.png",
+        thumbnail: "/landing-page/images/db-table.png",
     },
     {
-        title: "Pixel Perfect",
+        title: "Meetings",
         link: "https://app.pixelperfect.quest",
-        thumbnail:
-            "https://aceternity.com/images/products/thumbnails/new/pixelperfect.png",
+        thumbnail: "/landing-page/images/meetings.png",
     },
 
     {
-        title: "Algochurn",
+        title: "Meetings",
         link: "https://algochurn.com",
-        thumbnail:
-            "https://aceternity.com/images/products/thumbnails/new/algochurn.png",
+        thumbnail: "/landing-page/images/response.png",
     },
     {
-        title: "Aceternity UI",
+        title: "Modules",
         link: "https://ui.aceternity.com",
-        thumbnail:
-            "https://aceternity.com/images/products/thumbnails/new/aceternityui.png",
+        thumbnail: "/landing-page/images/module.png",
     },
     {
-        title: "Tailwind Master Kit",
+        title: "Project",
         link: "https://tailwindmasterkit.com",
-        thumbnail:
-            "https://aceternity.com/images/products/thumbnails/new/tailwindmasterkit.png",
+        thumbnail: "/landing-page/images/overview.png",
     },
     {
-        title: "SmartBridge",
+        title: "Project",
         link: "https://smartbridgetech.com",
-        thumbnail:
-            "https://aceternity.com/images/products/thumbnails/new/smartbridge.png",
+        thumbnail: "/landing-page/images/projects.png",
     },
     {
-        title: "Renderwork Studio",
+        title: "Response",
         link: "https://renderwork.studio",
-        thumbnail:
-            "https://aceternity.com/images/products/thumbnails/new/renderwork.png",
+        thumbnail: "/landing-page/images/response.png",
     },
 
     {
-        title: "Creme Digital",
+        title: "Tasks",
         link: "https://cremedigital.com",
-        thumbnail:
-            "https://aceternity.com/images/products/thumbnails/new/cremedigital.png",
+        thumbnail: "/landing-page/images/task-view.png",
     },
     {
-        title: "Golden Bells Academy",
+        title: "Tasks",
         link: "https://goldenbellsacademy.com",
-        thumbnail:
-            "https://aceternity.com/images/products/thumbnails/new/goldenbellsacademy.png",
+        thumbnail: "/landing-page/images/task.png",
     },
     {
-        title: "Invoker Labs",
+        title: "Teams",
         link: "https://invoker.lol",
-        thumbnail:
-            "https://aceternity.com/images/products/thumbnails/new/invoker.png",
+        thumbnail: "/landing-page/images/team.png",
     },
     {
-        title: "E Free Invoice",
+        title: "Meetings",
         link: "https://efreeinvoice.com",
-        thumbnail:
-            "https://aceternity.com/images/products/thumbnails/new/efreeinvoice.png",
+        thumbnail: "/landing-page/images/meeting-join.png",
     },
 ];

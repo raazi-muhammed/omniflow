@@ -141,7 +141,7 @@ export const ProductCard = ({
                 y: -20,
             }}
             key={product.title}
-            className="group/product relative h-96 w-[30rem] flex-shrink-0">
+            className="group/product relative h-96 w-[32.8rem] flex-shrink-0">
             <div className="block group-hover/product:shadow-2xl">
                 <Image
                     src={product.thumbnail}
