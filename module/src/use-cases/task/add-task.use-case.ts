@@ -1,5 +1,6 @@
 import { Types } from "mongoose";
 import {
+    IMember,
     ITask,
     ITaskEntityConstructor,
 } from "../../interfaces/entity.interface.js";
@@ -18,37 +19,20 @@ export default function buildAddTaskUseCase({
     memberRepository: IMemberRepository;
 }) {
     return async (moduleData: ITask) => {
-        console.log(
-            "----------------------------------------------------------------"
-        );
-
-        let reporter = await memberRepository.getByEmail(
-            // @ts-ignore
-            moduleData.reporter.email
-            // @ts-ignore
-        );
-        // @ts-ignore
+        const inputReporter = moduleData.reporter as IMember;
+        let reporter = await memberRepository.getByEmail(inputReporter.email);
         if (!reporter) {
             reporter = await memberRepository.add({
-                // @ts-ignore
-                username: moduleData.reporter.username,
-                // @ts-ignore
-                name: moduleData.reporter.name,
-                // @ts-ignore
-                avatar: moduleData.reporter.avatar,
-                // @ts-ignore
-                email: moduleData.reporter.email,
-                // @ts-ignore
+                username: inputReporter.username,
+                name: inputReporter.name,
+                avatar: inputReporter.avatar,
+                email: inputReporter.email,
             });
         }
 
-        let assignee = await memberRepository.getByEmail(
-            // @ts-ignore
-            moduleData.assignee.email
-        );
-        if (!assignee)
-            // @ts-ignore
-            assignee = await memberRepository.add(moduleData.assignee);
+        const inputAssignee = moduleData.assignee as IMember;
+        let assignee = await memberRepository.getByEmail(inputAssignee.email);
+        if (!assignee) assignee = await memberRepository.add(inputAssignee);
 
         const entity = new TaskCreator({
             ...moduleData,

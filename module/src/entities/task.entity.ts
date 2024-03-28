@@ -1,5 +1,6 @@
 import { BadRequestError } from "@omniflow/common";
 import {
+    IMember,
     ITask,
     ITaskEntity,
     TaskStatus,
@@ -17,8 +18,8 @@ export default class Task implements ITaskEntity {
     module?: Types.ObjectId;
     deletedAt: Date | null;
     status: TaskStatus;
-    assignee?: Types.ObjectId;
-    reporter: Types.ObjectId;
+    assignee?: Types.ObjectId | IMember;
+    reporter: Types.ObjectId | IMember;
 
     constructor(data: ITask) {
         this.name = data.name;

@@ -44,7 +44,7 @@ export default function EditTask({ task }: { task: ITask }) {
             </DialogTrigger>
             <DialogContent className="max-w-xl bg-card">
                 <DialogHeader>
-                    <DialogTitle>Edit endpoint</DialogTitle>
+                    <DialogTitle>Edit task</DialogTitle>
                 </DialogHeader>
                 <EditTaskForm
                     handleDelete={handleDelete}

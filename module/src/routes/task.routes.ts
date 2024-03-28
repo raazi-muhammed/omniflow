@@ -183,7 +183,7 @@ export default function buildTaskRoutes({
      * @openapi
      * /tasks:
      *   patch:
-     *     summary: Updates a task
+     *     summary: Update task status
      *     parameters:
      *       - name: taskId
      *         in: path
@@ -213,6 +213,42 @@ export default function buildTaskRoutes({
         verifyUser,
         verifyProject,
         makeCallback(taskController.changeTaskStatus)
+    );
+
+    /**
+     * @openapi
+     * /tasks:
+     *   patch:
+     *     summary: Change assignee of an task
+     *     parameters:
+     *       - name: taskId
+     *         in: path
+     *         required: true
+     *         description: id to find the task
+     *         schema:
+     *           type: string
+     *     requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             type: object
+     *             properties:
+     *               assignee:
+     *                 type: Object
+     *             required:
+     *               - assignee
+     *     responses:
+     *       '204':
+     *         description: Assignee changed
+     *       '500':
+     *         description: An error occurred
+     */
+    router.patch(
+        "/tasks/:taskId/assignee",
+        verifyUser,
+        verifyProject,
+        makeCallback(taskController.changeTaskAssignee)
     );
 
     return router;

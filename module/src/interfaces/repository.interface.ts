@@ -25,6 +25,10 @@ export type ITaskRepository = {
     deleteById: (taskId: string) => Promise<boolean>;
     getAll: (data: { projectId: string }) => Promise<IDBTask[]>;
     getById: (id: string) => Promise<IDBTask>;
+    changeAssignee: (data: {
+        taskId: string;
+        assignee: string;
+    }) => Promise<boolean>;
 };
 
 export type IMemberRepository = {

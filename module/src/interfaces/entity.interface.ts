@@ -32,8 +32,8 @@ export interface ITask {
     startDate: Date;
     dueDate: Date;
     module?: Types.ObjectId;
-    assignee?: Types.ObjectId;
-    reporter: Types.ObjectId;
+    assignee?: Types.ObjectId | IMember;
+    reporter: Types.ObjectId | IMember;
     deletedAt: Date | null;
 }
 

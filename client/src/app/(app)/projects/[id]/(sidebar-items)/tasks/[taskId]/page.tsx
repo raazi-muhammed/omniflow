@@ -17,6 +17,8 @@ import { Card } from "@/components/ui/card";
 import { formatConstants } from "@/lib/formaters";
 import Avatar from "@/components/custom/Avatar";
 import { TaskService } from "@/services/api/task.service";
+import { Button } from "@/components/ui/button";
+import ChangeAssignee from "./_components/ChangeAssignee";
 
 async function loadTask(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -75,6 +77,7 @@ export default async function Task({ params }: { params: { taskId: string } }) {
                                 <p>{task.assignee.name}</p>
                                 <Label>{task.assignee.email}</Label>
                             </div>
+                            <ChangeAssignee taskId={task.id} />
                         </Card>
                         <br />
                     </>

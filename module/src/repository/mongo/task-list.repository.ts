@@ -37,6 +37,19 @@ export default function buildTaskRepository({
             );
             return response.modifiedCount > 0;
         },
+        changeAssignee: async ({
+            taskId,
+            assignee,
+        }: {
+            taskId: string;
+            assignee: string;
+        }) => {
+            const response = await database.updateOne(
+                { _id: taskId },
+                { assignee }
+            );
+            return response.modifiedCount > 0;
+        },
         deleteById: async (taskId: string) => {
             const response = await database.updateOne(
                 { _id: taskId },

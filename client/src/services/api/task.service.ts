@@ -60,4 +60,9 @@ export class TaskService extends Service {
         this.axiosPatch({ status: values.status });
         return this;
     }
+    changeTaskAssignee(values: { taskId: string; assignee: object }) {
+        this.url = new BuildUrl().module(`/tasks/${values.taskId}/assignee`);
+        this.axiosPatch(values);
+        return this;
+    }
 }

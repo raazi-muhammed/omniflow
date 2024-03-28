@@ -307,17 +307,18 @@ export default function EditTaskForm({
                         </FormItem>
                     )}
                 />
-                <div className="ms-auto flex gap-4">
+                <section className="flex justify-between">
                     <DeleteAlert handleDelete={handleDelete} />
-                    <Button
-                        onClick={() => setOpen(false)}
-                        type="button"
-                        variant="outline">
-                        Cancel
-                    </Button>
-
-                    <Button type="submit">Add</Button>
-                </div>
+                    <div className="space-x-4">
+                        <Button
+                            onClick={() => setOpen(false)}
+                            type="button"
+                            variant="outline">
+                            Cancel
+                        </Button>
+                        <Button type="submit">Add</Button>
+                    </div>
+                </section>
             </form>
         </Form>
     );
