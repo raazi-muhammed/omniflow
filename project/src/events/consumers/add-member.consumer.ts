@@ -23,7 +23,7 @@ export async function addMemberToProjectConsumer({
                 logger.debug(`consumer: ${topic}`);
                 const data = JSON.parse(message.value.toString());
                 validateBody(data, ["userData", "projectId"]);
-                projectController.addProjectMember(data);
+                await projectController.addProjectMember(data);
             } catch (error) {
                 logger.error(error);
             }

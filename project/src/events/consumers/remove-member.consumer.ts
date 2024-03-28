@@ -23,7 +23,7 @@ export async function removeMemberFromProjectConsumer({
                 logger.debug(`consumer: ${topic}`);
                 const data = JSON.parse(message.value.toString());
                 validateBody(data, ["userEmail", "projectId"]);
-                projectController.removeProjectMember(data);
+                await projectController.removeProjectMember(data);
             } catch (error) {
                 logger.error(error);
             }
