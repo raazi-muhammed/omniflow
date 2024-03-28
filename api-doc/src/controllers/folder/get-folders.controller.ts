@@ -9,7 +9,6 @@ export default function buildGetFoldersController({
     return async (req: IRequest) => {
         const currentProject = req.currentProject;
         const parentFolder = req.query.parentFolder;
-        console.log({ parentFolder });
 
         let folders = [];
         if (typeof parentFolder === "string" && parentFolder != "undefined") {
