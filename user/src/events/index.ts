@@ -1,9 +1,6 @@
 import { Kafka } from "kafkajs";
 import projectController from "../controllers/index.js";
 import { loadEnv, logger } from "@omniflow/common";
-import { removeMemberFromProjectConsumer } from "./consumers/remove-member.consumer.js";
-import { addMemberToProjectConsumer } from "./consumers/add-member.consumer.js";
-import { editMemberConsumer } from "./consumers/edit-member.consumer.js";
 
 const { KAFKA_BROKER, KAFKA_CLIENT_ID } = loadEnv([
     "KAFKA_BROKER",
@@ -21,10 +18,6 @@ producer
     .connect()
     .then(() => {
         logger.info("Producer status\t: Connected");
-
-        removeMemberFromProjectConsumer({ kafka, projectController });
-        addMemberToProjectConsumer({ kafka, projectController });
-        editMemberConsumer({ kafka, projectController });
     })
     .catch((err) => {
         logger.error("Producer status\t: Not connected", err);

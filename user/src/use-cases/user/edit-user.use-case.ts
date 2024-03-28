@@ -6,13 +6,16 @@ import {
 import { IUserRepository } from "../../interfaces/repository.interface.js";
 import { IUploadImage } from "../../interfaces/lib.interface.js";
 import _ from "lodash";
+import { IUserProducers } from "../../interfaces/broker.interface.js";
 
 export default function buildEditProfileUseCase({
     userRepository,
     imageUpload,
+    userProducers,
 }: {
     userRepository: IUserRepository;
     imageUpload: IUploadImage;
+    userProducers: IUserProducers;
 }) {
     return async ({
         email,
@@ -40,8 +43,14 @@ export default function buildEditProfileUseCase({
             name,
             avatar,
         });
-
         if (!updatedUser) throw new AnErrorOccurredError();
+
+        await userProducers.editUser({
+            name,
+            avatar,
+            email: updatedUser.email,
+            username: updatedUser.username,
+        });
 
         return updatedUser;
     };

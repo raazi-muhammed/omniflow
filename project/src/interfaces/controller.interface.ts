@@ -17,4 +17,9 @@ export type IProjectController = {
         userEmail: string;
         projectId: string;
     }) => Promise<void>;
+    editMember: (data: {
+        avatar?: string;
+        username: string;
+        name: string;
+    }) => Promise<void>;
 };

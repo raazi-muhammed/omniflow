@@ -13,6 +13,11 @@ export type IMemberUseCase = {
         userEmail: string;
         projectId: string;
     }) => Promise<void>;
+    editMember: (data: {
+        name: string;
+        avatar?: string;
+        username: string;
+    }) => Promise<void>;
 };
 export type IProjectUseCase = {
     changeProjectLead: (data: {

@@ -21,6 +21,7 @@ services:
         container_name: omniflow-user
         depends_on:
             - db-user
+            - redpanda
         ports:
             - 4000:4000
         env_file:
@@ -28,6 +29,8 @@ services:
               required: true
         environment:
             DB_URL: mongodb://root:example@db-user:27017
+            KAFKA_BROKER: redpanda:29092
+            KAFKA_CLIENT_ID: my-app
         develop:
             watch:
                 - action: sync

@@ -33,4 +33,9 @@ export type IMemberRepository = {
     upsert: (data: IMember) => Promise<IDBMember | null>;
     getByUsername: (username: string) => Promise<IDBMember | null>;
     getByEmail: (email: string) => Promise<IDBMember | null>;
+    editUser: (data: {
+        avatar?: string;
+        username: string;
+        name: string;
+    }) => Promise<boolean>;
 };

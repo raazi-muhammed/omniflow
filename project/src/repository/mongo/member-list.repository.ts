@@ -29,5 +29,20 @@ export default function buildMemberRepository({
         getByEmail: async (email: string) => {
             return (await database.findOne({ email })) as IDBMember;
         },
+        editUser: async ({
+            username,
+            name,
+            avatar,
+        }: {
+            avatar?: string;
+            username: string;
+            name: string;
+        }) => {
+            const updated = await database.updateOne(
+                { username },
+                { name, avatar }
+            );
+            return updated.modifiedCount > 0;
+        },
     });
 }

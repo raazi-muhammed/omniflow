@@ -21,6 +21,7 @@ import buildEditProfileUseCase from "./user/edit-user.use-case.js";
 import { uploadImageToS3 } from "../lib/file-bucket.js";
 import buildGetPublicUserUseCase from "./user/get-public-user.use-case.js";
 import buildGetProfileUseCase from "./user/get-user.use-case.js";
+import { userProducers } from "../events/products/index.js";
 
 const signIn = buildSignIn({
     userRepository,
@@ -56,6 +57,7 @@ const getPublicUser = buildGetPublicUserUseCase({
 const editProfile = buildEditProfileUseCase({
     userRepository,
     imageUpload: uploadImageToS3,
+    userProducers,
 });
 const getProfile = buildGetProfileUseCase({
     userRepository,
