@@ -1,11 +1,12 @@
 import { Types } from "mongoose";
+import { IDBMember } from "../repository/mongo/models/member.model.js";
+import { IDBMemberStatus } from "../repository/mongo/models/member-status.model.js";
 
 export type IDType = Types.ObjectId;
 
 export enum Role {
     TEAM_LEAD = "TEAM_LEAD",
     PROJECT_LEAD = "PROJECT_LEAD",
-    MAIN_TEAM_LEAD = "MAIN_TEAM_LEAD",
     DEFAULT = "DEFAULT",
 }
 export enum InviteStatus {
@@ -19,18 +20,16 @@ export interface ITeam {
     avatar?: string;
     project: string;
     isDeleted?: boolean;
-    members: {
-        role: Role;
-        inviteStatus: InviteStatus;
-        info: IDType;
-    }[];
+    members?: IDBMemberStatus[];
     lead?: IDType;
 }
 
-export interface IMemberInProject {
+export interface IMemberStatus {
+    team: string;
     role: Role;
     inviteStatus: InviteStatus;
     info: IDType;
+    deletedAt: Date | null;
 }
 
 export interface IMember {
@@ -41,25 +40,10 @@ export interface IMember {
 }
 
 export interface ITeamEntity extends ITeam {
-    name: string;
-    avatar?: string;
-    project: string;
-    members: {
-        role: Role;
-        inviteStatus: InviteStatus;
-        info: IDType;
-    }[];
-    lead?: IDType;
-
     get: () => ITeam;
 }
 
 export interface IMemberEntity extends IMember {
-    name: string;
-    username: string;
-    email: string;
-    avatar?: string;
-
     get: () => IMember;
 }
 

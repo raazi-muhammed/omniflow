@@ -1,4 +1,5 @@
-import { IDBTeam } from "../repository/mongo/team.model.js";
+import { IDBMemberStatus } from "../repository/mongo/models/member-status.model.js";
+import { IDBTeam } from "../repository/mongo/models/team.model.js";
 import { IAllMemberList } from "./repository.interface.js";
 
 export type ITeamUseCases = {
@@ -12,7 +13,7 @@ export type ITeamUseCases = {
         teamName: string;
         projectId: string;
     }) => Promise<void>;
-    getTeamMembers: (data: {
+    getTeam: (data: {
         teamName: string;
         projectId: string;
     }) => Promise<IDBTeam>;
@@ -57,5 +58,5 @@ export type IMemberUseCases = {
         };
         projectId: string;
     }) => Promise<void>;
-    getMembersList: (data: { projectId: string }) => Promise<IAllMemberList[]>;
+    getMembersList: (data: { projectId: string }) => Promise<IDBMemberStatus[]>;
 };

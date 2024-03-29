@@ -1,17 +1,9 @@
-import { IDBMember } from "../repository/mongo/members.model.js";
-import { IMember, IMemberInProject, ITeam } from "./entity.interface.js";
-import { IDBTeam } from "../repository/mongo/team.model.js";
+import { IDBMember } from "../repository/mongo/models/member.model.js";
+import { IMember, IMemberStatus, ITeam } from "./entity.interface.js";
+import { IDBTeam } from "../repository/mongo/models/team.model.js";
+import { IDBMemberStatus } from "../repository/mongo/models/member-status.model.js";
 
 export type ITeamRepository = {
-    addMember: (data: {
-        teamId: string;
-        member: IMemberInProject;
-    }) => Promise<IDBTeam | null>;
-    addMemberToTeam: (data: {
-        member: IMemberInProject;
-        teamName: string;
-        projectId: string;
-    }) => Promise<boolean | null>;
     getDefaultTeam: (data: { projectId: string }) => Promise<IDBTeam | null>;
     getTeams: (data: { projectId: string }) => Promise<IDBTeam[] | null>;
     getTeam: (data: {
@@ -28,23 +20,18 @@ export type ITeamRepository = {
         userId: string;
     }) => Promise<boolean | null>;
     add: (data: ITeam) => Promise<IDBTeam | null>;
-    getAllMembers: (data: {
-        projectId: string;
-    }) => Promise<IAllMemberList[] | null>;
-    invitationAccepted: (data: {
-        projectId: string;
-        memberId: string;
-    }) => Promise<boolean | null>;
-    invitationRejected: (data: {
-        projectId: string;
-        memberId: string;
-    }) => Promise<boolean | null>;
+};
+
+export type IMemberStatusRepository = {
+    addMember: (data: IMemberStatus) => Promise<IDBMemberStatus>;
+    getAllMembers: (data: { projectId: string }) => Promise<IDBMemberStatus[]>;
     removeMemberFromTeam: (data: {
         projectId: string;
         teamName: string;
         memberId: string;
-    }) => Promise<boolean | null>;
+    }) => Promise<boolean>;
 };
+
 export type IMemberRepository = {
     add: (data: IMember) => Promise<IDBMember | null>;
     upsert: (data: IMember) => Promise<IDBMember | null>;

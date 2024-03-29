@@ -1,6 +1,6 @@
 import { IMember } from "../../interfaces/entity.interface.js";
 import { IMemberRepository } from "../../interfaces/repository.interface.js";
-import { IDBMember, IMemberModel } from "./members.model.js";
+import { IDBMember, IMemberModel } from "./models/member.model.js";
 
 export default function buildMemberRepository({
     database,

@@ -26,7 +26,7 @@ export default function buildRemoveMemberFromTeamUseCase({
         const user = await memberRepository.getByEmail(memberEmail);
         if (!user) throw new UserNotFoundError();
 
-        await teamRepository.removeMemberFromTeam({
+        /* await teamRepository.removeMemberFromTeam({
             projectId,
             teamName,
             memberId: user.id,
@@ -35,6 +35,6 @@ export default function buildRemoveMemberFromTeamUseCase({
         await memberProducers.removeMemberToProject({
             userEmail: memberEmail,
             projectId: projectId,
-        });
+        }); */
     };
 }

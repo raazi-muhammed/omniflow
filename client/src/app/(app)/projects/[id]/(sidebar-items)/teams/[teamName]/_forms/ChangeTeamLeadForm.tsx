@@ -21,7 +21,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { ITeamMember, InviteStatus } from "@/types/database";
+import { IMemberStatus, ITeamMember, InviteStatus } from "@/types/database";
 import { useRouter } from "next/navigation";
 import { TeamService } from "@/services/api/team.service";
 import { makeApiCall } from "@/lib/apicaller";
@@ -34,9 +34,11 @@ export default function ChangeTeamLeadForm({
     membersList,
     teamName,
 }: {
-    membersList: ITeamMember[];
+    membersList: IMemberStatus[];
     teamName: string;
 }) {
+    console.log({ membersList });
+
     const { toast } = useToast();
     const router = useRouter();
     const form = useForm<z.infer<typeof formSchema>>({
@@ -49,7 +51,6 @@ export default function ChangeTeamLeadForm({
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         const service = new TeamService();
-
         makeApiCall(
             () =>
                 service.changeTeamLead({ lead: values.lead, teamName }).exec(),

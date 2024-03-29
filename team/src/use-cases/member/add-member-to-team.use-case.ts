@@ -1,15 +1,19 @@
 import { InviteStatus, Role } from "../../interfaces/entity.interface.js";
 import {
     IMemberRepository,
+    IMemberStatusRepository,
     ITeamRepository,
 } from "../../interfaces/repository.interface.js";
+import { memberStatusRepository } from "../../repository/mongo/index.js";
 
 export default function buildAddMemberToTeamUseCase({
     teamRepository,
     memberRepository,
+    memberStatusRepository,
 }: {
     teamRepository: ITeamRepository;
     memberRepository: IMemberRepository;
+    memberStatusRepository: IMemberStatusRepository;
 }) {
     return async ({
         member,
@@ -33,14 +37,12 @@ export default function buildAddMemberToTeamUseCase({
 
         const team = await teamRepository.getDefaultTeam({ projectId });
 
-        await teamRepository.addMemberToTeam({
-            member: {
-                role: Role.PROJECT_LEAD,
-                info: leadUser.id,
-                inviteStatus: InviteStatus.ACCEPTED,
-            },
-            teamName: team.name,
-            projectId,
+        await memberStatusRepository.addMember({
+            role: Role.DEFAULT,
+            deletedAt: null,
+            team: team.id,
+            inviteStatus: InviteStatus.PENDING,
+            info: leadUser.id,
         });
     };
 }

@@ -1,7 +1,7 @@
 import { IRequest, ResponseCreator, logger } from "@omniflow/common";
 import { IMemberUseCases } from "../../interfaces/use-case.interface.js";
 
-export default function buildGetMembersListController({
+export default function buildGetMembersController({
     memberUseCases,
 }: {
     memberUseCases: IMemberUseCases;

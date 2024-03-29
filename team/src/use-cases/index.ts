@@ -5,12 +5,15 @@ import {
     IMemberUseCases,
     ITeamUseCases,
 } from "../interfaces/use-case.interface.js";
-import { teamRepository, memberRepository } from "../repository/mongo/index.js";
+import {
+    teamRepository,
+    memberRepository,
+    memberStatusRepository,
+} from "../repository/mongo/index.js";
 import buildInviteMemberUseCase from "./member/invite-member.use-case.js";
 import { mailService } from "../lib/send-invitation-mail.js";
 import { token } from "@omniflow/common";
 import buildChangeTeamLeadUseCase from "./team/change-team-lead.use-case.js";
-import buildGetMembersFromTeamUseCase from "./team/get-team-members.use-case.js";
 import buildGetTeamsUseCase from "./team/get-teams.use-case.js";
 import buildRemoveTeamUseCase from "./team/remove-team.use-case.js";
 import buildChangeInvitationStatusUseCase from "./member/change-invitation-status.use-case.js";
@@ -19,6 +22,7 @@ import buildMoveMemberToTeamUseCase from "./member/move-team-member.use-case.js"
 import buildRemoveMemberFromTeamUseCase from "./member/remove-team-member.use-case.js";
 import { memberProducers } from "../events/producers/index.js";
 import buildAddMemberToTeamUseCase from "./member/add-member-to-team.use-case.js";
+import buildGetTeamUseCase from "./team/get-team.use-case.js";
 
 const addTeam = buildAddTeamUseCase({
     TeamEntity: Team,
@@ -31,13 +35,15 @@ const inviteMember = buildInviteMemberUseCase({
     teamRepository,
     mailService,
     memberRepository,
+    memberStatusRepository,
 });
 const changeTeamLead = buildChangeTeamLeadUseCase({
     teamRepository,
     memberRepository,
 });
-const getTeamMembers = buildGetMembersFromTeamUseCase({
+const getTeam = buildGetTeamUseCase({
     teamRepository,
+    memberStatusRepository,
 });
 const getTeams = buildGetTeamsUseCase({
     teamRepository,
@@ -49,10 +55,12 @@ const changeInvitationStatus = buildChangeInvitationStatusUseCase({
     memberRepository,
     teamRepository,
     memberProducers,
+    memberStatusRepository,
 });
 
 const getMembersList = buildGetMembersListUseCase({
     teamRepository,
+    memberStatusRepository,
 });
 
 const moveMemberToTeam = buildMoveMemberToTeamUseCase({
@@ -69,12 +77,13 @@ const removeMemberFromTeam = buildRemoveMemberFromTeamUseCase({
 const addMemberToTeam = buildAddMemberToTeamUseCase({
     teamRepository,
     memberRepository,
+    memberStatusRepository,
 });
 
 export const teamUseCases: ITeamUseCases = Object.freeze({
     addTeam,
     changeTeamLead,
-    getTeamMembers,
+    getTeam,
     getTeams,
     removeTeam,
 });

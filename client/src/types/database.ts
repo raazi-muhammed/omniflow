@@ -43,6 +43,12 @@ export interface ITeamMember {
     info: IUser;
 }
 
+export type IMemberStatus = {
+    role: Role;
+    inviteStatus: InviteStatus;
+    info: IUser;
+};
+
 export type IAllMemberList = {
     project: string;
     team: string;

@@ -2,7 +2,7 @@ import Heading from "@/components/custom/Heading";
 import Container from "@/components/layout/Container";
 import { Button } from "@/components/ui/button";
 import { AddIcon, EditIcon } from "@/lib/icons";
-import { ITeam } from "@/types/database";
+import { IAllMemberList, IMemberStatus, ITeam } from "@/types/database";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
@@ -11,6 +11,7 @@ import ErrorMessage from "@/components/custom/ErrorMessage";
 import { PROJECT_TOKEN_COOKIE, USER_TOKEN_COOKIE } from "@/constants/cookies";
 import { Fragment } from "react";
 import { TeamService } from "@/services/api/team.service";
+import { Card } from "@/components/ui/card";
 
 async function loadTeams() {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -22,13 +23,13 @@ async function loadTeams() {
             Project: `Bearer ${projectToken}`,
         },
     });
-    const response = await service.getTeams().exec();
+    const response = await service.getMembersList().exec();
 
     return response.data;
 }
 
 export default async function page() {
-    const teams: ITeam[] = await loadTeams();
+    const members: IMemberStatus[] = await loadTeams();
     return (
         <div className="w-full">
             <Container>
@@ -46,21 +47,13 @@ export default async function page() {
                         </Button>
                     </Link>
                 </ActionItemsContainer>
-                {teams.length <= 0 && (
-                    <ErrorMessage message="Not teams yet" type="info" />
-                )}
-                {teams.map((team, index) => (
-                    <Fragment key={index}>
-                        <section className="flex justify-between">
-                            <Heading variant="sm">{team.name}</Heading>
-                            <Link href={`teams/${team.name}`}>
-                                <Button size="sm" variant="muted">
-                                    <EditIcon /> Edit team
-                                </Button>
-                            </Link>
-                        </section>
-                        <Separator className="my-4" />
-                    </Fragment>
+                {members.map((m) => (
+                    <Card className="p-2">
+                        <p>{m.info.name}</p>
+                        <p>{m.info.email}</p>
+                        <p>{m.role}</p>
+                        <p>{m.inviteStatus}</p>
+                    </Card>
                 ))}
             </Container>
         </div>

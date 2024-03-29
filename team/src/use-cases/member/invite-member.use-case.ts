@@ -1,6 +1,7 @@
 import { AnErrorOccurredError, IToken, loadEnv } from "@omniflow/common";
 import {
     IMemberRepository,
+    IMemberStatusRepository,
     ITeamRepository,
 } from "../../interfaces/repository.interface.js";
 import {
@@ -19,12 +20,14 @@ export default function buildInviteMemberUseCase({
     token,
     mailService,
     MemberCreator,
+    memberStatusRepository,
 }: {
     teamRepository: ITeamRepository;
     memberRepository: IMemberRepository;
     token: IToken<InvitationTokenData>;
     mailService: IMailService;
     MemberCreator: IMemberEntityConstructor;
+    memberStatusRepository: IMemberStatusRepository;
 }) {
     return async ({
         email,
@@ -62,14 +65,14 @@ export default function buildInviteMemberUseCase({
             projectId,
         });
 
-        await teamRepository.addMember({
-            teamId: team.id,
-            member: {
-                role: Role.DEFAULT,
-                inviteStatus: InviteStatus.PENDING,
-                info: userToInvite.id,
-            },
+        const memberData = await memberStatusRepository.addMember({
+            team: team.id,
+            role: Role.DEFAULT,
+            inviteStatus: InviteStatus.PENDING,
+            info: userToInvite.id,
+            deletedAt: null,
         });
+        console.log({ memberData });
 
         const tokenData: InvitationTokenData = {
             projectId,

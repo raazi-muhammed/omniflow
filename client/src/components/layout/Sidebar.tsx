@@ -75,6 +75,12 @@ export default function Sidebar() {
             icon: <TeamsIcon className="me-2" size="1.3em" />,
         },
         {
+            title: "Members",
+            url: `/projects/${projectInfo?.id}/members`,
+            identifier: "members",
+            icon: <TeamsIcon className="me-2" size="1.3em" />,
+        },
+        {
             title: "API Docs",
             url: `/projects/${projectInfo?.id}/api-docs`,
             identifier: "api-docs",

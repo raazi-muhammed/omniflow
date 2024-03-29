@@ -5,13 +5,13 @@ import buildGetTeamsController from "./team/get-teams.controller.js";
 import buildAddTeamController from "./team/add-team.controller.js";
 import { token } from "@omniflow/common";
 import buildChangeInvitationStatusController from "./member/change-invitation-status.controller.js";
-import buildGetMembersListController from "./member/get-members.controller.js";
-import buildGetMembersFromTeamController from "./team/get-team-members.controller.js";
 import buildChangeTeamLeadController from "./team/change-team-lead.controller.js";
 import buildMoveMemberToTeamController from "./member/move-team-member.controller.js";
 import buildRemoveMemberFromTeamController from "./member/remove-team-member.controller.js";
 import buildRemoveTeamController from "./team/remove-team.controller.js";
 import buildAddMemberToTeamController from "./member/add-member-to-team.controller.js";
+import buildGetTeamController from "./team/get-team.controller.js";
+import buildGetMembersController from "./member/get-members.controller.js";
 
 const addTeam = buildAddTeamController({
     teamUseCases,
@@ -23,7 +23,7 @@ const inviteMember = buildInviteMemberController({
 const getTeams = buildGetTeamsController({
     teamUseCases,
 });
-const getMembers = buildGetMembersListController({
+const getMembers = buildGetMembersController({
     memberUseCases,
 });
 
@@ -36,7 +36,7 @@ const changeTeamLead = buildChangeTeamLeadController({
     teamUseCases,
 });
 
-const getTeamMembers = buildGetMembersFromTeamController({ teamUseCases });
+const getTeam = buildGetTeamController({ teamUseCases });
 
 const moveTeamMember = buildMoveMemberToTeamController({
     memberUseCases,
@@ -56,7 +56,7 @@ const teamController: ITeamController = Object.freeze({
     getTeams,
     changeMemberInvitationStatus,
     getMembers,
-    getTeamMembers,
+    getTeam,
     changeTeamLead,
     moveTeamMember,
     removeTeamMember,

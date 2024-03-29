@@ -26,7 +26,7 @@ export default function buildMoveMemberToTeamUseCase({
         const user = await memberRepository.getByEmail(memberEmail);
         if (!user) throw new UserNotFoundError();
 
-        await teamRepository.addMemberToTeam({
+        /* await teamRepository.addMem({
             projectId,
             teamName: toTeamName,
             member: {
@@ -39,6 +39,6 @@ export default function buildMoveMemberToTeamUseCase({
             projectId,
             teamName: formTeamName,
             memberId: user.id,
-        });
+        }); */
     };
 }

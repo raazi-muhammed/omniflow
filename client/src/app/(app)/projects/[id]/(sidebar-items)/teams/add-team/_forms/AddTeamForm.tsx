@@ -53,8 +53,11 @@ export default function AddTeamForm() {
             .getMembersList()
             .exec()
             .then((response) => {
+                console.log(response.data);
+
                 setMembersList(response.data as IAllMemberList[]);
-            });
+            })
+            .catch((err) => console.log(err));
     }, []);
 
     async function onSubmit(values: z.infer<typeof formSchema>) {

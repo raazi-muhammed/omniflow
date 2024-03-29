@@ -1,9 +1,12 @@
-import Avatar from "@/components/custom/Avatar";
 import Heading from "@/components/custom/Heading";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
 import { TeamService } from "@/services/api/team.service";
-import { ITeam, ITeamMember, InviteStatus, Role } from "@/types/database";
+import {
+    IMemberStatus,
+    ITeam,
+    ITeamMember,
+    InviteStatus,
+    Role,
+} from "@/types/database";
 import { Trash2 as DeleteIcon, RefreshCw as ChangeIcon } from "lucide-react";
 import { cookies } from "next/headers";
 import {
@@ -20,14 +23,17 @@ import {
     SectionContent,
     SectionSplitter,
 } from "@/components/layout/SectinSplitter";
-import MemberActionDropDown from "./_components/MemberActionDropDown";
-import ErrorMessage from "@/components/custom/ErrorMessage";
 import { PROJECT_TOKEN_COOKIE, USER_TOKEN_COOKIE } from "@/constants/cookies";
-import { Label } from "@/components/ui/label";
 import Container from "@/components/layout/Container";
+import ErrorMessage from "@/components/custom/ErrorMessage";
+import { Card, CardContent } from "@/components/ui/card";
+import Avatar from "@/components/custom/Avatar";
+import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
 import { formatConstants } from "@/lib/formaters";
+import MemberActionDropDown from "./_components/MemberActionDropDown";
 
-async function getTeamsData(teamName: string) {
+async function getTeamData(teamName: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
     const projectToken = cookies().get(PROJECT_TOKEN_COOKIE)?.value;
 
@@ -38,10 +44,12 @@ async function getTeamsData(teamName: string) {
         },
     });
     const response = await service
-        .getTeamMembers({
-            teamName,
+        .getTeam({
+            name: teamName,
         })
         .exec();
+    console.log(response.data);
+
     return response.data as ITeam;
 }
 
@@ -50,7 +58,7 @@ export default async function page({
 }: {
     params: { teamName: string };
 }) {
-    const team = await getTeamsData(params.teamName);
+    const team = await getTeamData(params.teamName);
     return (
         <main className="w-full">
             <Container>
@@ -104,7 +112,7 @@ export default async function page({
                                     </CardContent>
                                 </Card>
                             ))}
-                            {team.members.length <= 0 && (
+                            {team.members?.length <= 0 && (
                                 <ErrorMessage
                                     type="info"
                                     message={`There are no members on ${team.name}`}
@@ -150,7 +158,7 @@ export default async function page({
                                     <ChangeTeamLeadForm
                                         teamName={team.name}
                                         membersList={
-                                            team.members as ITeamMember[]
+                                            team.members as IMemberStatus[]
                                         }
                                     />
                                 </AccordionContent>

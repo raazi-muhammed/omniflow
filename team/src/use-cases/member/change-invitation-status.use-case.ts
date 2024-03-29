@@ -5,6 +5,7 @@ import {
 } from "@omniflow/common";
 import {
     IMemberRepository,
+    IMemberStatusRepository,
     ITeamRepository,
 } from "../../interfaces/repository.interface.js";
 import { IMemberProducers } from "../../interfaces/broker.interface.js";
@@ -13,10 +14,12 @@ export default function buildChangeInvitationStatusUseCase({
     memberRepository,
     teamRepository,
     memberProducers,
+    memberStatusRepository,
 }: {
     memberRepository: IMemberRepository;
     teamRepository: ITeamRepository;
     memberProducers: IMemberProducers;
+    memberStatusRepository: IMemberStatusRepository;
 }) {
     return async ({
         memberId,
@@ -36,8 +39,8 @@ export default function buildChangeInvitationStatusUseCase({
             throw new UnauthorizedError("please login, unauthorized");
         }
 
-        if (invitationAccepted) {
-            const isUpdated = await teamRepository.invitationAccepted({
+        /* if (invitationAccepted) {
+            const isUpdated = await memberStatusRepository.invitationAccepted({
                 projectId,
                 memberId: memberDetails.id,
             });
@@ -49,11 +52,11 @@ export default function buildChangeInvitationStatusUseCase({
                 projectId,
             });
         } else {
-            const isUpdated = await teamRepository.invitationRejected({
+            const isUpdated = await memberStatusRepository.invitationRejected({
                 projectId,
                 memberId: memberDetails.id,
             });
             if (!isUpdated) throw new AnErrorOccurredError();
-        }
+        } */
     };
 }

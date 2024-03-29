@@ -54,10 +54,10 @@ export default function buildTeamRoutes({
         makeCallback(controllers.changeMemberInvitationStatus)
     );
     router.get(
-        "/teams/:name/members",
+        "/teams/:name",
         verifyUser,
         verifyProject,
-        makeCallback(controllers.getTeamMembers)
+        makeCallback(controllers.getTeam)
     );
     router.patch(
         "/teams/:name/members/change-lead",

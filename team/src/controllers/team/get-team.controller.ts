@@ -1,7 +1,7 @@
 import { BadRequestError, IRequest, ResponseCreator } from "@omniflow/common";
 import { ITeamUseCases } from "../../interfaces/use-case.interface.js";
 
-export default function buildGetMembersFromTeamController({
+export default function buildGetTeamController({
     teamUseCases,
 }: {
     teamUseCases: ITeamUseCases;
@@ -14,7 +14,7 @@ export default function buildGetMembersFromTeamController({
             throw new BadRequestError("Invalid team data");
         }
 
-        const data = await teamUseCases.getTeamMembers({
+        const data = await teamUseCases.getTeam({
             projectId: currentProject.id,
             teamName: team,
         });

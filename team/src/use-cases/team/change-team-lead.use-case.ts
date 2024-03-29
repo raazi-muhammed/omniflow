@@ -40,11 +40,11 @@ export default function buildChangeTeamLeadUseCase({
             userId: userFound.id,
         });
 
-        await teamRepository.removeMemberFromTeam({
+        /* await teamRepository.removeMemberFromTeam({
             projectId,
             teamName,
             memberId: userFound.id,
-        });
+        }); */
 
         if (!teamLeadChanged) {
             throw new AnErrorOccurredError("Changing team lead failed");

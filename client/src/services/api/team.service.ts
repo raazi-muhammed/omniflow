@@ -37,6 +37,11 @@ export class TeamService extends Service {
         this.axiosGet();
         return this;
     }
+    getTeam({ name }: { name: string }) {
+        this.url = new BuildUrl().team(`/teams/${name}`);
+        this.axiosGet();
+        return this;
+    }
 
     changeInvitationStatus(values: {
         token: string;
