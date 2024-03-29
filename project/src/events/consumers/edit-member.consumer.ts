@@ -18,6 +18,12 @@ export async function editMemberConsumer({
     });
 
     consumer.run({
+        /**
+         * Consumer to add a member to project
+         * @param {string} message.username
+         * @param {string} message.name
+         * @param {string} [message.avatar]
+         */
         eachMessage: async ({ topic, message }) => {
             try {
                 logger.debug(`consumer: ${topic}`);

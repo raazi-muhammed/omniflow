@@ -1,6 +1,6 @@
 import { Kafka } from "kafkajs";
 import { IProjectController } from "../../interfaces/controller.interface.js";
-import { logger, validateBody } from "@omniflow/common";
+import { logger } from "@omniflow/common";
 
 export async function addMemberToProjectConsumer({
     kafka,
@@ -18,11 +18,17 @@ export async function addMemberToProjectConsumer({
     });
 
     consumer.run({
+        /**
+         * Consumer to add a member to project
+         * @param {string} message.projectId
+         * @param {string} message.userData.username
+         * @param {string} message.userData.email
+         * @param {string} [message.userData.avatar]
+         */
         eachMessage: async ({ topic, message }) => {
             try {
                 logger.debug(`consumer: ${topic}`);
                 const data = JSON.parse(message.value.toString());
-                validateBody(data, ["userData", "projectId"]);
                 await projectController.addProjectMember(data);
             } catch (error) {
                 logger.error(error);
