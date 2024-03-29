@@ -60,7 +60,7 @@ export default function buildTeamRepository({
                 if (val?.lead) {
                     val.members.push({
                         inviteStatus: InviteStatus.ACCEPTED,
-                        role: Role.MAIN_TEAM_LEAD,
+                        role: Role.TEAM_LEAD,
                         info: val.lead,
                     });
                 }
@@ -90,7 +90,7 @@ export default function buildTeamRepository({
             if (data?.lead) {
                 data.members.push({
                     inviteStatus: InviteStatus.ACCEPTED,
-                    role: Role.MAIN_TEAM_LEAD,
+                    role: Role.TEAM_LEAD,
                     info: data.lead,
                 });
             }
@@ -248,9 +248,27 @@ export default function buildTeamRepository({
                     },
                 },
             ]);
+
+            const users = await database
+                .find({
+                    project: projectId,
+                })
+                .populate("lead");
+
+            users.map((u) => {
+                if (u.lead) {
+                    data.push({
+                        project: "asdfsd",
+                        team: "ho",
+                        info: u.lead,
+                    });
+                }
+            });
+
             const uniqueData = _.uniqBy(data, function (e) {
                 return e.info.email;
             });
+
             return uniqueData as IAllMemberList[];
         },
     });

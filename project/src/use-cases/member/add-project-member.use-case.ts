@@ -33,7 +33,8 @@ export default function buildAddMemberToProjectUseCase({
         const member = new MemberCreator(userData);
         const user = member.get();
 
-        const userFound = await memberRepository.upsert(user);
+        let userFound = await memberRepository.getByUsername(user.username);
+        if (!userFound) userFound = await memberRepository.add(user);
 
         await projectRepository.addMember({
             projectId,

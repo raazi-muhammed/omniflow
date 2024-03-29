@@ -1,5 +1,9 @@
 import mongoose, { HydratedDocument, Model } from "mongoose";
-import { ITeam } from "../../interfaces/entity.interface.js";
+import {
+    ITeam,
+    InviteStatus,
+    Role,
+} from "../../interfaces/entity.interface.js";
 
 const teamSchema = new mongoose.Schema<ITeam>(
     {
@@ -27,13 +31,13 @@ const teamSchema = new mongoose.Schema<ITeam>(
                 _id: false,
                 role: {
                     type: String,
-                    enum: ["TEAM_LEAD", "DEFAULT"],
-                    default: "DEFAULT",
+                    enum: Role,
+                    default: Role.DEFAULT,
                 },
                 inviteStatus: {
                     type: String,
-                    enum: ["ACCEPTED", "REJECTED", "PENDING"],
-                    default: "PENDING",
+                    enum: InviteStatus,
+                    default: InviteStatus.PENDING,
                 },
                 info: {
                     type: mongoose.Schema.Types.ObjectId,
