@@ -28,3 +28,11 @@ export type ITaskUseCases = {
         assignee: IMember;
     }) => Promise<void>;
 };
+
+export type IMemberUseCase = {
+    editMember: (data: {
+        name: string;
+        avatar?: string;
+        username: string;
+    }) => Promise<void>;
+};

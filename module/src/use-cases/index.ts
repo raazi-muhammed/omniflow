@@ -6,6 +6,7 @@ import {
     memberRepository,
 } from "../repository/mongo/index.js";
 import {
+    IMemberUseCase,
     IModuleUseCases,
     ITaskUseCases,
 } from "../interfaces/use-case.interface.js";
@@ -22,6 +23,7 @@ import buildDeleteModuleUseCase from "./module/delete-module.use-case.js";
 import buildEditModuleUseCase from "./module/edit-module.use-case.js";
 import buildChangeTaskStatusUseCase from "./task/change-task-status.use-case.js";
 import buildChangeTaskAssigneeUseCase from "./task/change-task-assignee.use-case.js";
+import buildEditMemberUseCase from "./member/edit-member.use-case.js";
 
 const addModule = buildAddModuleUseCase({
     moduleRepository,
@@ -69,4 +71,10 @@ export const taskUseCases: ITaskUseCases = Object.freeze({
     deleteTask,
     changeTaskStatus,
     changeTaskAssignee,
+});
+
+const editMember = buildEditMemberUseCase({ memberRepository });
+
+export const memberUseCases: IMemberUseCase = Object.freeze({
+    editMember,
 });

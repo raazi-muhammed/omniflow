@@ -18,3 +18,10 @@ export type ITaskController = {
     changeTaskStatus: (req: IRequest) => Promise<ResponseCreator>;
     changeTaskAssignee: (req: IRequest) => Promise<ResponseCreator>;
 };
+export type IMemberController = {
+    editMember: (data: {
+        avatar?: string;
+        username: string;
+        name: string;
+    }) => Promise<void>;
+};

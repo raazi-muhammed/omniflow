@@ -1,10 +1,15 @@
 import {
+    IMemberController,
     IModuleController,
     ITaskController,
 } from "../interfaces/controller.interface.js";
 import buildAddModuleController from "./module/add-module.controller.js";
 import buildGetModulesController from "./module/get-modules.controller.js";
-import { moduleUseCases, taskUseCases } from "../use-cases/index.js";
+import {
+    moduleUseCases,
+    taskUseCases,
+    memberUseCases,
+} from "../use-cases/index.js";
 import buildGetModuleListController from "./module/get-module-list.controller.js";
 import buildGetModuleController from "./module/get-module.controller.js";
 import buildAddTaskController from "./task/add-task.controller.js";
@@ -16,6 +21,7 @@ import buildEditModuleController from "./module/edit-module.controller.js";
 import buildDeleteModuleController from "./module/delete-module.controller.js";
 import buildChangeTaskStatusController from "./task/change-task-status.controller.js";
 import buildChangeTaskAssigneeController from "./task/change-assignee.controller.js";
+import buildEditMemberController from "./member/edit-member.controller.js";
 
 const addModule = buildAddModuleController({ moduleUseCases });
 const getModules = buildGetModulesController({ moduleUseCases });
@@ -32,6 +38,11 @@ const deleteTask = buildDeleteTaskController({ taskUseCases });
 const changeTaskStatus = buildChangeTaskStatusController({ taskUseCases });
 const changeTaskAssignee = buildChangeTaskAssigneeController({ taskUseCases });
 
+const editMember = buildEditMemberController({ memberUseCases });
+
+export const memberController: IMemberController = Object.freeze({
+    editMember,
+});
 export const moduleController: IModuleController = Object.freeze({
     addModule,
     getModules,
