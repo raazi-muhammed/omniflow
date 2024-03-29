@@ -62,9 +62,10 @@ export default function buildProjectRoute({
      *               priority:
      *                 type: number
      *             required:
-     *               - name
-     *               - method
-     *               - route
+     *               - title
+     *               - startDate
+     *               - dueDate
+     *               - priority
      *     responses:
      *       '201':
      *         description: Project created
