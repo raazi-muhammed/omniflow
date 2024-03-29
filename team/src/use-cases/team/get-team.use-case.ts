@@ -25,8 +25,9 @@ export default function buildGetTeamUseCase({
         });
         if (!teamData) throw new AnErrorOccurredError();
 
-        const members = await memberStatusRepository.getAllMembers({
+        const members = await memberStatusRepository.getMembersFromTeam({
             projectId,
+            teamId: teamData.id,
         });
 
         return { ...teamData, members } as IDBTeam;

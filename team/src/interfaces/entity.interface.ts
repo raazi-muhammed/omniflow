@@ -26,6 +26,7 @@ export interface ITeam {
 
 export interface IMemberStatus {
     team: string;
+    project: string;
     role: Role;
     inviteStatus: InviteStatus;
     info: IDType;

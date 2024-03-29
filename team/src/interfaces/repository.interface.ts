@@ -25,9 +25,21 @@ export type ITeamRepository = {
 export type IMemberStatusRepository = {
     addMember: (data: IMemberStatus) => Promise<IDBMemberStatus>;
     getAllMembers: (data: { projectId: string }) => Promise<IDBMemberStatus[]>;
+    getMembersFromTeam: (data: {
+        projectId: string;
+        teamId: string;
+    }) => Promise<IDBMemberStatus[]>;
     removeMemberFromTeam: (data: {
         projectId: string;
         teamName: string;
+        memberId: string;
+    }) => Promise<boolean>;
+    invitationAccepted: (data: {
+        projectId: string;
+        memberId: string;
+    }) => Promise<boolean>;
+    invitationRejected: (data: {
+        projectId: string;
         memberId: string;
     }) => Promise<boolean>;
 };

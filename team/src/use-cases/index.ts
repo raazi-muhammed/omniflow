@@ -23,6 +23,7 @@ import buildRemoveMemberFromTeamUseCase from "./member/remove-team-member.use-ca
 import { memberProducers } from "../events/producers/index.js";
 import buildAddMemberToTeamUseCase from "./member/add-member-to-team.use-case.js";
 import buildGetTeamUseCase from "./team/get-team.use-case.js";
+import buildGetMembersFromTeamUseCase from "./member/get-members-from-team.use-case.js";
 
 const addTeam = buildAddTeamUseCase({
     TeamEntity: Team,
@@ -59,6 +60,9 @@ const changeInvitationStatus = buildChangeInvitationStatusUseCase({
 });
 
 const getMembersList = buildGetMembersListUseCase({
+    memberStatusRepository,
+});
+const getMembersFromTeam = buildGetMembersFromTeamUseCase({
     teamRepository,
     memberStatusRepository,
 });
@@ -95,4 +99,5 @@ export const memberUseCases: IMemberUseCases = Object.freeze({
     addMemberToTeam,
     moveMemberToTeam,
     removeMemberFromTeam,
+    getMembersFromTeam,
 });

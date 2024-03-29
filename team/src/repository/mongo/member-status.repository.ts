@@ -1,4 +1,7 @@
-import { IMemberStatus } from "../../interfaces/entity.interface.js";
+import {
+    IMemberStatus,
+    InviteStatus,
+} from "../../interfaces/entity.interface.js";
 import { IMemberStatusRepository } from "../../interfaces/repository.interface.js";
 import {
     IDBMemberStatus,
@@ -38,8 +41,55 @@ export default function buildMemberStatusRepository({
         },
         getAllMembers: async ({ projectId }: { projectId: string }) => {
             return (await database
-                .find()
+                .find({ project: projectId })
                 .populate("info")) as IDBMemberStatus[];
+        },
+        getMembersFromTeam: async ({
+            projectId,
+            teamId,
+        }: {
+            projectId: string;
+            teamId: string;
+        }) => {
+            return (await database
+                .find({ project: projectId, team: teamId })
+                .populate("info")) as IDBMemberStatus[];
+        },
+        invitationAccepted: async ({
+            projectId,
+            memberId,
+        }: {
+            projectId: string;
+            memberId: string;
+        }) => {
+            const updated = await database.updateOne(
+                {
+                    project: projectId,
+                    info: memberId,
+                },
+                {
+                    inviteStatus: InviteStatus.ACCEPTED,
+                }
+            );
+            return updated.modifiedCount > 0;
+        },
+        invitationRejected: async ({
+            projectId,
+            memberId,
+        }: {
+            projectId: string;
+            memberId: string;
+        }) => {
+            const updated = await database.updateOne(
+                {
+                    project: projectId,
+                    info: memberId,
+                },
+                {
+                    inviteStatus: InviteStatus.REJECTED,
+                }
+            );
+            return updated.modifiedCount > 0;
         },
     });
 }

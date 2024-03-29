@@ -59,4 +59,8 @@ export type IMemberUseCases = {
         projectId: string;
     }) => Promise<void>;
     getMembersList: (data: { projectId: string }) => Promise<IDBMemberStatus[]>;
+    getMembersFromTeam: (data: {
+        projectId: string;
+        teamName: string;
+    }) => Promise<IDBMemberStatus[]>;
 };

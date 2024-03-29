@@ -21,6 +21,10 @@ const memberStatusSchema = new mongoose.Schema<IMemberStatus>(
             type: String,
             required: true,
         },
+        project: {
+            type: String,
+            required: true,
+        },
         info: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Member",

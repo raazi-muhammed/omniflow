@@ -43,12 +43,6 @@ export default function buildAddTeamUseCase({
             lead: leadUser.id,
         });
 
-        /* await teamRepository.removeMemberFromTeam({
-            teamName: "Default",
-            projectId,
-            memberId: leadUser.id,
-        }); */
-
         const teamAdded = await teamRepository.add(teamEntity);
         if (!teamAdded) throw new AnErrorOccurredError();
 

@@ -48,7 +48,7 @@ export default async function page() {
                     </Link>
                 </ActionItemsContainer>
                 {members.map((m) => (
-                    <Card className="p-2">
+                    <Card className="p-2" key={m.info.id}>
                         <p>{m.info.name}</p>
                         <p>{m.info.email}</p>
                         <p>{m.role}</p>

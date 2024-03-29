@@ -12,6 +12,7 @@ import buildRemoveTeamController from "./team/remove-team.controller.js";
 import buildAddMemberToTeamController from "./member/add-member-to-team.controller.js";
 import buildGetTeamController from "./team/get-team.controller.js";
 import buildGetMembersController from "./member/get-members.controller.js";
+import buildGetMembersFromTeamController from "./member/get-members-from-team.controller.js";
 
 const addTeam = buildAddTeamController({
     teamUseCases,
@@ -49,6 +50,9 @@ const removeTeamMember = buildRemoveMemberFromTeamController({
 const removeTeam = buildRemoveTeamController({ teamUseCases });
 
 const addMemberToTeam = buildAddMemberToTeamController({ memberUseCases });
+const getMembersFromTeam = buildGetMembersFromTeamController({
+    memberUseCases,
+});
 
 const teamController: ITeamController = Object.freeze({
     addTeam,
@@ -62,6 +66,7 @@ const teamController: ITeamController = Object.freeze({
     removeTeamMember,
     removeTeam,
     addMemberToTeam,
+    getMembersFromTeam,
 });
 
 export default teamController;

@@ -67,6 +67,7 @@ export default function buildInviteMemberUseCase({
 
         const memberData = await memberStatusRepository.addMember({
             team: team.id,
+            project: projectId,
             role: Role.DEFAULT,
             inviteStatus: InviteStatus.PENDING,
             info: userToInvite.id,

@@ -1,13 +1,8 @@
-import {
-    IMemberStatusRepository,
-    ITeamRepository,
-} from "../../interfaces/repository.interface.js";
+import { IMemberStatusRepository } from "../../interfaces/repository.interface.js";
 
 export default function buildGetMembersListUseCase({
-    teamRepository,
     memberStatusRepository,
 }: {
-    teamRepository: ITeamRepository;
     memberStatusRepository: IMemberStatusRepository;
 }) {
     return async ({ projectId }: { projectId: string }) => {

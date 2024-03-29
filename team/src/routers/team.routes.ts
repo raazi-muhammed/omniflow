@@ -65,6 +65,12 @@ export default function buildTeamRoutes({
         verifyProject,
         makeCallback(controllers.changeTeamLead)
     );
+    router.get(
+        "/teams/:name/members",
+        verifyUser,
+        verifyProject,
+        makeCallback(controllers.getMembersFromTeam)
+    );
     router.patch(
         "/teams/:name/members/move",
         verifyUser,

@@ -41,6 +41,7 @@ export default function buildAddMemberToTeamUseCase({
             role: Role.DEFAULT,
             deletedAt: null,
             team: team.id,
+            project: projectId,
             inviteStatus: InviteStatus.PENDING,
             info: leadUser.id,
         });

@@ -39,7 +39,7 @@ export default function buildChangeInvitationStatusUseCase({
             throw new UnauthorizedError("please login, unauthorized");
         }
 
-        /* if (invitationAccepted) {
+        if (invitationAccepted) {
             const isUpdated = await memberStatusRepository.invitationAccepted({
                 projectId,
                 memberId: memberDetails.id,
@@ -57,6 +57,6 @@ export default function buildChangeInvitationStatusUseCase({
                 memberId: memberDetails.id,
             });
             if (!isUpdated) throw new AnErrorOccurredError();
-        } */
+        }
     };
 }
