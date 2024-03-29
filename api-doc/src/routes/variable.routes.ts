@@ -22,6 +22,8 @@ export default function buildVariableRoutes({
      * /endpoints/{id}/variables:
      *   post:
      *     summary: Create a new variable
+     *     tags:
+     *       - Variables
      *     parameters:
      *       - name: id
      *         in: path
@@ -63,6 +65,8 @@ export default function buildVariableRoutes({
      * /endpoints/{id}/variables/{variableId}:
      *   delete:
      *     summary: Remove a variable
+     *     tags:
+     *       - Variables
      *     parameters:
      *       - name: id
      *         in: path

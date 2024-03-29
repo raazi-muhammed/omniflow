@@ -22,6 +22,8 @@ export default function buildSchemaRoutes({
      * /endpoints/{id}/schema:
      *   post:
      *     summary: Create a new schema item
+     *     tags:
+     *       - Schema
      *     parameters:
      *       - name: id
      *         in: path
@@ -63,6 +65,8 @@ export default function buildSchemaRoutes({
      * /endpoints/{id}/schema/{schemaId}:
      *   delete:
      *     summary: Remove an item from schema
+     *     tags:
+     *       - Schema
      *     parameters:
      *       - name: id
      *         in: path

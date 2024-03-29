@@ -22,6 +22,8 @@ export default function buildResponseRoutes({
      * /endpoints/{id}/responses:
      *   post:
      *     summary: Create a new response
+     *     tags:
+     *       - Response
      *     parameters:
      *       - name: id
      *         in: path
@@ -65,6 +67,8 @@ export default function buildResponseRoutes({
      * /endpoints/{id}/responses/{responseId}:
      *   delete:
      *     summary: Remove a response
+     *     tags:
+     *       - Response
      *     parameters:
      *       - name: id
      *         in: path

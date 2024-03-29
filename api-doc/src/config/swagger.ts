@@ -49,6 +49,26 @@ const options: Options = {
                         },
                     },
                 },
+                folder: {
+                    properties: {
+                        id: {
+                            type: "string",
+                            require: true,
+                        },
+                        name: {
+                            type: "string",
+                            require: true,
+                        },
+                        parentFolder: {
+                            type: "string",
+                            required: true,
+                        },
+                        projectId: {
+                            type: "string",
+                            required: true,
+                        },
+                    },
+                },
             },
             securitySchemes: {
                 userAuth: {

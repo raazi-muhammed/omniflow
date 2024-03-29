@@ -22,6 +22,8 @@ export default function buildEndpointRoutes({
      * /endpoints:
      *   get:
      *     summary: Get details of all endpoints
+     *     tags:
+     *       - Endpoint
      *     responses:
      *       '200':
      *         description: A array of all endpoints
@@ -45,6 +47,8 @@ export default function buildEndpointRoutes({
      * /endpoints:
      *   post:
      *     summary: Create a new endpoint
+     *     tags:
+     *       - Endpoint
      *     requestBody:
      *       required: true
      *       content:
@@ -82,6 +86,8 @@ export default function buildEndpointRoutes({
      * /endpoints/{id}:
      *   get:
      *     summary: Get details on one endpoint
+     *     tags:
+     *       - Endpoint
      *     parameters:
      *       - name: id
      *         in: path
@@ -111,6 +117,8 @@ export default function buildEndpointRoutes({
      * /endpoints:
      *   put:
      *     summary: Updates an endpoint
+     *     tags:
+     *       - Endpoint
      *     requestBody:
      *       required: true
      *       content:
@@ -148,6 +156,8 @@ export default function buildEndpointRoutes({
      * /endpoints/{id}:
      *   delete:
      *     summary: Delete an endpoint
+     *     tags:
+     *       - Endpoint
      *     parameters:
      *       - name: id
      *         in: path
@@ -173,6 +183,8 @@ export default function buildEndpointRoutes({
      * /endpoints/{id}/body:
      *   post:
      *     summary: Adds body to the endpoint
+     *     tags:
+     *       - Endpoint
      *     parameters:
      *       - name: id
      *         in: path

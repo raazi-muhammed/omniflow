@@ -7,8 +7,8 @@ import express from "express";
 import { endpointController } from "../controllers/index.js";
 import buildVariableRoutes from "./variable.routes.js";
 import buildHeaderRoutes from "./header.routes.js";
-import buildSchemaRoutes from "./schema.route.js";
-import buildResponseRoutes from "./response.route.js";
+import buildSchemaRoutes from "./schema.routes.js";
+import buildResponseRoutes from "./response.routes.js";
 import buildFolderRoutes from "./folder.routes.js";
 import { folderController } from "../controllers/index.js";
 

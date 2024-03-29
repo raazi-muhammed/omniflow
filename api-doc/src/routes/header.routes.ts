@@ -22,6 +22,8 @@ export default function buildHeaderRoutes({
      * /endpoints/{id}/headers:
      *   post:
      *     summary: Create a new headers
+     *     tags:
+     *       - Header
      *     parameters:
      *       - name: id
      *         in: path
@@ -63,6 +65,8 @@ export default function buildHeaderRoutes({
      * /endpoints/{id}/headers/{headerId}:
      *   delete:
      *     summary: Remove a headers
+     *     tags:
+     *       - Header
      *     parameters:
      *       - name: id
      *         in: path
