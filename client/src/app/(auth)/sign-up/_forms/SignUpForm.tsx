@@ -38,8 +38,14 @@ const formSchema = z
         password: z
             .string()
             .min(7, "Password should be at least 7 characters")
-            .refine((s) => /[a-zA-Z]/.test(s) && /\d/.test(s), {
-                message: "Password must contain both letters and numbers.",
+            .refine((s) => /[a-zA-Z]/.test(s), {
+                message: "Password must contain letters.",
+            })
+            .refine((s) => /\d/.test(s), {
+                message: "Password must contain numbers.",
+            })
+            .refine((s) => /[!@#$%^&*(),.?":{}|<>]/.test(s), {
+                message: "Password must contain special characters.",
             }),
         confirmPassword: z
             .string()
