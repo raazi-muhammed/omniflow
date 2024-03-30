@@ -1,4 +1,9 @@
-import { AnErrorOccurredError, IToken, loadEnv } from "@omniflow/common";
+import {
+    AnErrorOccurredError,
+    ConflictError,
+    IToken,
+    loadEnv,
+} from "@omniflow/common";
 import {
     IMemberRepository,
     IMemberStatusRepository,
@@ -64,6 +69,14 @@ export default function buildInviteMemberUseCase({
         const team = await teamRepository.getDefaultTeam({
             projectId,
         });
+
+        const memberAlready = await memberStatusRepository.getMember({
+            projectId,
+            memberId: userToInvite.id,
+        });
+        if (memberAlready) {
+            throw new ConflictError("User is already invited");
+        }
 
         const memberData = await memberStatusRepository.addMember({
             team: team.id,

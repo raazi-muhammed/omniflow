@@ -41,8 +41,23 @@ export default function buildMemberStatusRepository({
         },
         getAllMembers: async ({ projectId }: { projectId: string }) => {
             return (await database
-                .find({ project: projectId })
+                .find({ project: projectId, deletedAt: null })
                 .populate("info")) as IDBMemberStatus[];
+        },
+        getMember: async ({
+            projectId,
+            memberId,
+        }: {
+            projectId: string;
+            memberId: string;
+        }) => {
+            return (await database
+                .findOne({
+                    project: projectId,
+                    info: memberId,
+                    deletedAt: null,
+                })
+                .populate("info")) as IDBMemberStatus;
         },
         getMembersFromTeam: async ({
             projectId,
@@ -55,6 +70,26 @@ export default function buildMemberStatusRepository({
                 .find({ project: projectId, team: teamId })
                 .populate("info")) as IDBMemberStatus[];
         },
+        changeTeamName: async ({}) => {},
+        removeMemberFromProject: async ({
+            projectId,
+            memberId,
+        }: {
+            projectId: string;
+            memberId: string;
+        }) => {
+            const deleted = await database.updateOne(
+                {
+                    project: projectId,
+                    info: memberId,
+                    deletedAt: null,
+                },
+                {
+                    deletedAt: new Date(),
+                }
+            );
+            return deleted.matchedCount > 0;
+        },
         invitationAccepted: async ({
             projectId,
             memberId,
@@ -66,6 +101,7 @@ export default function buildMemberStatusRepository({
                 {
                     project: projectId,
                     info: memberId,
+                    deletedAt: null,
                 },
                 {
                     inviteStatus: InviteStatus.ACCEPTED,
@@ -84,6 +120,7 @@ export default function buildMemberStatusRepository({
                 {
                     project: projectId,
                     info: memberId,
+                    deletedAt: null,
                 },
                 {
                     inviteStatus: InviteStatus.REJECTED,

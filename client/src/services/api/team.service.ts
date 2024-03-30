@@ -85,4 +85,9 @@ export class TeamService extends Service {
         this.axiosDelete();
         return this;
     }
+    removeMemberFromProject(values: { memberId: string }) {
+        this.url = new BuildUrl().team(`/members/${values.memberId}`);
+        this.axiosDelete();
+        return this;
+    }
 }

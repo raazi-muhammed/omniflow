@@ -9,7 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import ActionItemsContainer from "@/components/layout/ActionItemsContainer";
 import ErrorMessage from "@/components/custom/ErrorMessage";
 import { PROJECT_TOKEN_COOKIE, USER_TOKEN_COOKIE } from "@/constants/cookies";
-import { Fragment } from "react";
+import { Fragment, ReactNode } from "react";
 import { TeamService } from "@/services/api/team.service";
 import {
     SectionAside,
@@ -34,20 +34,20 @@ async function loadTeams() {
     return response.data;
 }
 
-export default async function page() {
+export default async function page({ children }: { children: ReactNode }) {
     const teams: ITeam[] = await loadTeams();
     return (
         <Container>
             <SectionSplitter>
                 <SectionAside className="mt-0">
                     <ActionItemsContainer>
-                        <Link href="teams/invite-member">
+                        <Link href="invite-member">
                             <Button size="sm" variant="muted">
                                 <AddIcon />
                                 Invite an member
                             </Button>
                         </Link>
-                        <Link href="teams/add-team">
+                        <Link href="add-team">
                             <Button size="sm">
                                 <AddIcon />
                                 Add a team
@@ -61,7 +61,7 @@ export default async function page() {
                         {teams.map((team) => (
                             <Card className="p-4">
                                 <section className="flex justify-between">
-                                    <CustomLink href={`teams/${team.name}`}>
+                                    <CustomLink href={`${team.name}`}>
                                         {team.name}
                                     </CustomLink>
                                 </section>
@@ -69,14 +69,7 @@ export default async function page() {
                         ))}
                     </section>
                 </SectionAside>
-                <SectionContent>
-                    <div className="h-screen-without-navbar mx-8 flex align-middle">
-                        <ErrorMessage
-                            type="info"
-                            message="Please select an point"
-                        />
-                    </div>
-                </SectionContent>
+                <SectionContent>{children}</SectionContent>
             </SectionSplitter>
         </Container>
     );

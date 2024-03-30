@@ -30,6 +30,11 @@ export default function buildGetTeamUseCase({
             teamId: teamData.id,
         });
 
-        return { ...teamData, members } as IDBTeam;
+        return {
+            ...teamData,
+            name: teamData.name,
+            lead: teamData.lead,
+            members,
+        } as IDBTeam;
     };
 }

@@ -42,6 +42,14 @@ export type IMemberStatusRepository = {
         projectId: string;
         memberId: string;
     }) => Promise<boolean>;
+    getMember: (data: {
+        projectId: string;
+        memberId: string;
+    }) => Promise<IDBMemberStatus | null>;
+    removeMemberFromProject: (data: {
+        projectId: string;
+        memberId: string;
+    }) => Promise<boolean>;
 };
 
 export type IMemberRepository = {

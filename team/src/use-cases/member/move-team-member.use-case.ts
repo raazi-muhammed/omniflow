@@ -1,16 +1,19 @@
 import { UserNotFoundError } from "@omniflow/common";
 import {
     IMemberRepository,
+    IMemberStatusRepository,
     ITeamRepository,
 } from "../../interfaces/repository.interface.js";
 import { InviteStatus, Role } from "../../interfaces/entity.interface.js";
 
 export default function buildMoveMemberToTeamUseCase({
-    teamRepository,
     memberRepository,
+    memberStatusRepository,
+    teamRepository,
 }: {
-    teamRepository: ITeamRepository;
     memberRepository: IMemberRepository;
+    memberStatusRepository: IMemberStatusRepository;
+    teamRepository: ITeamRepository;
 }) {
     return async ({
         projectId,
@@ -26,19 +29,18 @@ export default function buildMoveMemberToTeamUseCase({
         const user = await memberRepository.getByEmail(memberEmail);
         if (!user) throw new UserNotFoundError();
 
-        /* await teamRepository.addMem({
+        const team = await teamRepository.getTeam({
             projectId,
             teamName: toTeamName,
-            member: {
-                inviteStatus: InviteStatus.ACCEPTED,
-                role: Role.DEFAULT,
-                info: user.id,
-            },
         });
-        await teamRepository.removeMemberFromTeam({
-            projectId,
-            teamName: formTeamName,
-            memberId: user.id,
-        }); */
+
+        await memberStatusRepository.addMember({
+            deletedAt: null,
+            info: user.id,
+            inviteStatus: InviteStatus.ACCEPTED,
+            project: projectId,
+            role: Role.DEFAULT,
+            team: team.id,
+        });
     };
 }

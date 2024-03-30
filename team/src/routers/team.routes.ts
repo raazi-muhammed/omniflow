@@ -83,6 +83,12 @@ export default function buildTeamRoutes({
         verifyProject,
         makeCallback(controllers.removeTeamMember)
     );
+    router.delete(
+        "/members/:memberId",
+        verifyUser,
+        verifyProject,
+        makeCallback(controllers.removeMemberFromProject)
+    );
 
     return router;
 }

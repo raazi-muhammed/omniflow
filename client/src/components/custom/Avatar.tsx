@@ -13,7 +13,7 @@ import { generateFallbackAvatar } from "@/lib/utils";
 import Image from "next/image";
 
 type Props = {
-    size?: "sm" | "default" | "lg";
+    size?: "sm" | "default" | "lg" | "md";
     src: string;
     name: string;
     email?: string;
@@ -82,6 +82,21 @@ export default function Avatar({
                         alt="Profile picture"
                     />
                     <AvatarFallback className="z-1 -ml-36">
+                        {generateFallbackAvatar(name)}
+                    </AvatarFallback>
+                </AvatarMain>
+            );
+        case "md":
+            return (
+                <AvatarMain className="my-auto h-16 w-16 border text-3xl">
+                    <Image
+                        className="z-10 aspect-square h-full w-full object-cover"
+                        src={src}
+                        width={144}
+                        height={144}
+                        alt="Profile picture"
+                    />
+                    <AvatarFallback className="z-1 -ml-[3.85rem]">
                         {generateFallbackAvatar(name)}
                     </AvatarFallback>
                 </AvatarMain>
