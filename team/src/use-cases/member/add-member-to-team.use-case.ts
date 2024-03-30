@@ -4,6 +4,7 @@ import {
     IMemberStatusRepository,
     ITeamRepository,
 } from "../../interfaces/repository.interface.js";
+import { ConflictError } from "@omniflow/common";
 
 export default function buildAddMemberToTeamUseCase({
     teamRepository,
@@ -22,6 +23,13 @@ export default function buildAddMemberToTeamUseCase({
         projectId: string;
     }) => {
         const team = await teamRepository.getTeam({ projectId, teamName });
+
+        const member = await memberStatusRepository.getMemberFromTeam({
+            projectId,
+            teamId: team.id,
+            memberId,
+        });
+        if (member) throw new ConflictError("Member already exists on team");
 
         await memberStatusRepository.addMember({
             role: Role.DEFAULT,

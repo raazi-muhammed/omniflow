@@ -1,15 +1,13 @@
-import Heading from "@/components/custom/Heading";
 import Container from "@/components/layout/Container";
 import { Button } from "@/components/ui/button";
-import { AddIcon, EditIcon } from "@/lib/icons";
+import { AddIcon } from "@/lib/icons";
 import { ITeam } from "@/types/database";
 import { cookies } from "next/headers";
 import Link from "next/link";
-import { Separator } from "@/components/ui/separator";
 import ActionItemsContainer from "@/components/layout/ActionItemsContainer";
 import ErrorMessage from "@/components/custom/ErrorMessage";
 import { PROJECT_TOKEN_COOKIE, USER_TOKEN_COOKIE } from "@/constants/cookies";
-import { Fragment, ReactNode } from "react";
+import { ReactNode } from "react";
 import { TeamService } from "@/services/api/team.service";
 import {
     SectionAside,
@@ -41,12 +39,6 @@ export default async function page({ children }: { children: ReactNode }) {
             <SectionSplitter>
                 <SectionAside className="mt-0">
                     <ActionItemsContainer>
-                        <Link href="invite-member">
-                            <Button size="sm" variant="muted">
-                                <AddIcon />
-                                Invite an member
-                            </Button>
-                        </Link>
                         <Link href="add-team">
                             <Button size="sm">
                                 <AddIcon />

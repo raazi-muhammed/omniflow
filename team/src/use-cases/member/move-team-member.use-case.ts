@@ -1,4 +1,4 @@
-import { UserNotFoundError } from "@omniflow/common";
+import { ConflictError, UserNotFoundError } from "@omniflow/common";
 import {
     IMemberRepository,
     IMemberStatusRepository,
@@ -38,6 +38,15 @@ export default function buildMoveMemberToTeamUseCase({
             projectId,
             teamName: formTeamName,
         });
+
+        const memberAlreadyExists =
+            await memberStatusRepository.getMemberFromTeam({
+                memberId: user.id,
+                projectId,
+                teamId: toTeam.id,
+            });
+        if (memberAlreadyExists)
+            throw new ConflictError("Member already on that team");
 
         await memberStatusRepository.moveMemberFromTeam({
             projectId,

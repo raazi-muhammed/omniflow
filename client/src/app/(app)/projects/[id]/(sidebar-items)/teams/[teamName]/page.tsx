@@ -84,8 +84,8 @@ export default async function page({
             ) : (
                 <ErrorMessage type="info" message="No team lead" />
             )}
-            <section className="flex justify-between">
-                <Heading variant="sm" className="mt-6">
+            <section className="mt-4 flex justify-between">
+                <Heading variant="sm" className="mt-auto">
                     Members
                 </Heading>
                 <AddMemberToTeam teamName={team.name} />

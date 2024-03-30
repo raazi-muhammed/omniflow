@@ -41,9 +41,15 @@ export default function buildMemberStatusRepository({
             return response.modifiedCount > 0;
         },
         getAllMembers: async ({ projectId }: { projectId: string }) => {
-            return (await database
+            let members = await database
                 .find({ project: projectId, deletedAt: null })
-                .populate("info")) as IDBMemberStatus[];
+                .populate("info");
+
+            members = _.uniqBy(members, function (e) {
+                return e.info;
+            });
+
+            return members as IDBMemberStatus[];
         },
         getMember: async ({
             projectId,
@@ -57,6 +63,24 @@ export default function buildMemberStatusRepository({
                     project: projectId,
                     info: memberId,
                     deletedAt: null,
+                })
+                .populate("info")) as IDBMemberStatus;
+        },
+        getMemberFromTeam: async ({
+            projectId,
+            teamId,
+            memberId,
+        }: {
+            projectId: string;
+            teamId: string;
+            memberId: string;
+        }) => {
+            return (await database
+                .findOne({
+                    project: projectId,
+                    team: teamId,
+                    deletedAt: null,
+                    info: memberId,
                 })
                 .populate("info")) as IDBMemberStatus;
         },
