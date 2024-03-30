@@ -25,6 +25,7 @@ import {
 } from "@/components/layout/PreviewHeader";
 import ChangeTeamLead from "./_components/ChangeTeamLead";
 import EditTeam from "./_components/EditTeam";
+import AddMemberToTeam from "./_components/AddMemberToTeam";
 
 async function getTeamData(teamName: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -83,9 +84,12 @@ export default async function page({
             ) : (
                 <ErrorMessage type="info" message="No team lead" />
             )}
-            <Heading variant="sm" className="mt-6">
-                Members
-            </Heading>
+            <section className="flex justify-between">
+                <Heading variant="sm" className="mt-6">
+                    Members
+                </Heading>
+                <AddMemberToTeam teamName={team.name} />
+            </section>
             <section className="mt-2 grid grid-cols-2 gap-4">
                 {team.members.map((member) => (
                     <Card key={member.info.id}>
@@ -118,6 +122,7 @@ export default async function page({
                                         member.inviteStatus !=
                                         InviteStatus.ACCEPTED
                                     }
+                                    memberId={member.info.id}
                                     teamName={team.name}
                                     memberEmail={member.info.email}
                                 />

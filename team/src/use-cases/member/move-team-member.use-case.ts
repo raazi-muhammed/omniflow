@@ -29,18 +29,21 @@ export default function buildMoveMemberToTeamUseCase({
         const user = await memberRepository.getByEmail(memberEmail);
         if (!user) throw new UserNotFoundError();
 
-        const team = await teamRepository.getTeam({
+        const toTeam = await teamRepository.getTeam({
             projectId,
             teamName: toTeamName,
         });
 
-        await memberStatusRepository.addMember({
-            deletedAt: null,
-            info: user.id,
-            inviteStatus: InviteStatus.ACCEPTED,
-            project: projectId,
-            role: Role.DEFAULT,
-            team: team.id,
+        const fromTeam = await teamRepository.getTeam({
+            projectId,
+            teamName: formTeamName,
+        });
+
+        await memberStatusRepository.moveMemberFromTeam({
+            projectId,
+            fromTeamId: fromTeam.id,
+            toTeamId: toTeam.id,
+            memberId: user.id,
         });
     };
 }

@@ -19,11 +19,11 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function RemoveMember({
-    email,
+    memberId,
     team,
     disableRemove = false,
 }: {
-    email: string;
+    memberId: string;
     team: string;
     disableRemove?: boolean;
 }) {
@@ -32,13 +32,16 @@ export default function RemoveMember({
     const router = useRouter();
     function handleRemoveMember() {
         const service = new TeamService();
-        makeApiCall(() => service.removeMember({ email, team }).exec(), {
-            toast,
-            afterSuccess: () => {
-                setOpen(false);
-                router.refresh();
-            },
-        });
+        makeApiCall(
+            () => service.removeMember({ email: memberId, team }).exec(),
+            {
+                toast,
+                afterSuccess: () => {
+                    setOpen(false);
+                    router.refresh();
+                },
+            }
+        );
     }
     return (
         <AlertDialog open={open} onOpenChange={(e) => setOpen(e)}>

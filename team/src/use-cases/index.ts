@@ -19,7 +19,7 @@ import buildRemoveTeamUseCase from "./team/remove-team.use-case.js";
 import buildChangeInvitationStatusUseCase from "./member/change-invitation-status.use-case.js";
 import buildGetMembersListUseCase from "./member/get-members.use-case.js";
 import buildMoveMemberToTeamUseCase from "./member/move-team-member.use-case.js";
-import buildRemoveMemberFromTeamUseCase from "./member/remove-team-member.use-case.js";
+import buildRemoveMemberFromTeamUseCase from "./member/remove-member-from-team.use-case.js";
 import { memberProducers } from "../events/producers/index.js";
 import buildAddMemberToTeamUseCase from "./member/add-member-to-team.use-case.js";
 import buildGetTeamUseCase from "./team/get-team.use-case.js";
@@ -75,14 +75,11 @@ const moveMemberToTeam = buildMoveMemberToTeamUseCase({
 });
 
 const removeMemberFromTeam = buildRemoveMemberFromTeamUseCase({
-    teamRepository,
-    memberRepository,
-    memberProducers,
+    memberStatusRepository,
 });
 
 const addMemberToTeam = buildAddMemberToTeamUseCase({
     teamRepository,
-    memberRepository,
     memberStatusRepository,
 });
 

@@ -31,7 +31,7 @@ export type IMemberStatusRepository = {
     }) => Promise<IDBMemberStatus[]>;
     removeMemberFromTeam: (data: {
         projectId: string;
-        teamName: string;
+        teamId: string;
         memberId: string;
     }) => Promise<boolean>;
     invitationAccepted: (data: {
@@ -48,6 +48,12 @@ export type IMemberStatusRepository = {
     }) => Promise<IDBMemberStatus | null>;
     removeMemberFromProject: (data: {
         projectId: string;
+        memberId: string;
+    }) => Promise<boolean>;
+    moveMemberFromTeam: (data: {
+        projectId: string;
+        fromTeamId: string;
+        toTeamId: string;
         memberId: string;
     }) => Promise<boolean>;
 };

@@ -46,16 +46,13 @@ export type IMemberUseCases = {
         memberEmail: string;
     }) => Promise<void>;
     removeMemberFromTeam: (data: {
-        memberEmail: string;
+        memberId: string;
         teamName: string;
         projectId: string;
     }) => Promise<void>;
     addMemberToTeam: (data: {
-        member: {
-            username: string;
-            email: string;
-            avatar?: string;
-        };
+        memberId: string;
+        teamName: string;
         projectId: string;
     }) => Promise<void>;
     getMembersList: (data: { projectId: string }) => Promise<IDBMemberStatus[]>;

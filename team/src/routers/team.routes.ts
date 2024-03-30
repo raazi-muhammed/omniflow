@@ -71,18 +71,31 @@ export default function buildTeamRoutes({
         verifyProject,
         makeCallback(controllers.getMembersFromTeam)
     );
+    router.get(
+        "/teams/:name/members",
+        verifyUser,
+        verifyProject,
+        makeCallback(controllers.getMembersFromTeam)
+    );
+    router.post(
+        "/teams/:name/members",
+        verifyUser,
+        verifyProject,
+        makeCallback(controllers.addMemberToTeam)
+    );
+    router.delete(
+        "/teams/:name/members/:memberId",
+        verifyUser,
+        verifyProject,
+        makeCallback(controllers.removeMemberFromTeam)
+    );
     router.patch(
         "/teams/:name/members/move",
         verifyUser,
         verifyProject,
         makeCallback(controllers.moveTeamMember)
     );
-    router.delete(
-        "/teams/:name/members/:email",
-        verifyUser,
-        verifyProject,
-        makeCallback(controllers.removeTeamMember)
-    );
+
     router.delete(
         "/members/:memberId",
         verifyUser,

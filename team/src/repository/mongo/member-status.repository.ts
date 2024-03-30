@@ -20,21 +20,22 @@ export default function buildMemberStatusRepository({
         },
         removeMemberFromTeam: async ({
             memberId,
-            teamName,
+            teamId,
             projectId,
         }: {
             memberId: string;
-            teamName: string;
+            teamId: string;
             projectId: string;
         }) => {
             const response = await database.updateOne(
-                { project: projectId, name: teamName, isDeleted: false },
                 {
-                    $pull: {
-                        members: {
-                            info: memberId,
-                        },
-                    },
+                    project: projectId,
+                    team: teamId,
+                    deletedAt: null,
+                    info: memberId,
+                },
+                {
+                    team: null,
                 }
             );
             return response.modifiedCount > 0;
@@ -67,10 +68,33 @@ export default function buildMemberStatusRepository({
             teamId: string;
         }) => {
             return (await database
-                .find({ project: projectId, team: teamId })
+                .find({ project: projectId, team: teamId, deletedAt: null })
                 .populate("info")) as IDBMemberStatus[];
         },
-        changeTeamName: async ({}) => {},
+        moveMemberFromTeam: async ({
+            projectId,
+            fromTeamId,
+            toTeamId,
+            memberId,
+        }: {
+            projectId: string;
+            fromTeamId: string;
+            toTeamId: string;
+            memberId: string;
+        }) => {
+            const updated = await database.updateOne(
+                {
+                    project: projectId,
+                    team: fromTeamId,
+                    deletedAt: null,
+                    info: memberId,
+                },
+                {
+                    team: toTeamId,
+                }
+            );
+            return updated.modifiedCount > 0;
+        },
         removeMemberFromProject: async ({
             projectId,
             memberId,
@@ -78,7 +102,7 @@ export default function buildMemberStatusRepository({
             projectId: string;
             memberId: string;
         }) => {
-            const deleted = await database.updateOne(
+            const deleted = await database.updateMany(
                 {
                     project: projectId,
                     info: memberId,

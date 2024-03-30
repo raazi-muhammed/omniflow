@@ -25,7 +25,6 @@ export class TeamService extends Service {
         this.axiosPost(values);
         return this;
     }
-
     removeTeam(value: { name: string }) {
         this.url = new BuildUrl().team(`/teams/${value.name}`);
         this.axiosDelete();
@@ -78,6 +77,11 @@ export class TeamService extends Service {
         return this;
     }
 
+    addMemberToTeam(values: { teamName: string; memberId: string }) {
+        this.url = new BuildUrl().team(`/teams/${values.teamName}/members`);
+        this.axiosPost({ memberId: values.memberId });
+        return this;
+    }
     removeMember(values: { team: string; email: string }) {
         this.url = new BuildUrl().team(
             `/teams/${values.team}/members/${values.email}`

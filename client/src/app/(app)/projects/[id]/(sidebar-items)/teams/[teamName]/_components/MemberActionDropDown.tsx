@@ -1,5 +1,5 @@
 import React from "react";
-import RemoveMember from "./RemoveMember";
+import RemoveMember from "./RemoveMemberFromTeam";
 import MoveToTeamSelector from "./MoveToTeamSelector";
 import {
     DropdownMenu,
@@ -15,11 +15,13 @@ import { Settings2 as EdtiIcon } from "lucide-react";
 export default function MemberActionDropDown({
     teamName,
     memberEmail,
+    memberId,
     disableMoveTo = false,
     disableRemove = false,
 }: {
     teamName: string;
     memberEmail: string;
+    memberId: string;
     disableMoveTo?: boolean;
     disableRemove?: boolean;
 }) {
@@ -34,7 +36,7 @@ export default function MemberActionDropDown({
                 <RemoveMember
                     disableRemove={disableRemove}
                     team={teamName}
-                    email={memberEmail}
+                    memberId={memberId}
                 />
                 <DropdownMenuSub>
                     <DropdownMenuSubTrigger
