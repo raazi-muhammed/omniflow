@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/table";
 import RemoveMember from "./_components/RemoveMemberFromProject";
 import RemoveMemberFromProject from "./_components/RemoveMemberFromProject";
+import EditMemberAccess from "./_components/EditMemberAccess";
 
 async function loadTeams() {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -96,9 +97,12 @@ export default async function page() {
                                         {formatConstants(member.role)}
                                     </TableCell>
                                     <TableCell>
-                                        <RemoveMemberFromProject
-                                            memberId={member.info.id}
-                                        />
+                                        <div className="flex gap-2">
+                                            <EditMemberAccess />
+                                            <RemoveMemberFromProject
+                                                memberId={member.info.id}
+                                            />
+                                        </div>
                                     </TableCell>
                                 </TableRow>
                             ))}
