@@ -11,6 +11,5 @@ server.on("connection", (socket) => {
         server.clients.forEach((client) => {
             client.send(`from client ${message}`);
         });
-        socket.send(`from server ${message}`);
     });
 });
