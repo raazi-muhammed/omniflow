@@ -175,6 +175,7 @@ services:
               required: true
         environment:
             DB_URL: mongodb://root:example@db-comunication:27017
+            REDIS_URL: redis://redis:6379
         develop:
             watch:
                 - action: sync
@@ -273,6 +274,15 @@ services:
             - --advertise-kafka-addr PLAINTEXT://redpanda:29092
         ports:
             - 29092:29092
+    redis:
+        image: redis
+        restart: always
+        ports:
+            - 6379:6379
+        environment:
+            REDIS_PASSWORD: password
+            REDIS_PORT: 6379
+            REDIS_DATABASES: 16
 
 volumes:
     db_user:

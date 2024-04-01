@@ -8,10 +8,6 @@ export default function buildAddMessageUseCase({
 }) {
     return async (message: IMessage) => {
         const msg = await messageRepository.addMessage(message);
-        console.log(
-            await messageRepository.getMessages({ roomId: message.roomId })
-        );
-
         return msg;
     };
 }
