@@ -1,5 +1,6 @@
 import { IDBMeeting } from "../repository/mongo/models/meeting.model.js";
-import { IMeeting } from "./entity.interfaces.js";
+import { IDBMessage } from "../repository/mongo/models/message.model.js";
+import { IMeeting, IMessage } from "./entity.interfaces.js";
 
 export type IMeetingUseCases = {
     addMeeting: (data: IMeeting) => Promise<IDBMeeting>;
@@ -19,4 +20,9 @@ export type IMeetingUseCases = {
         notes: string;
     }) => Promise<void>;
     removeMeetingNotes: (data: { meetingId: string }) => Promise<void>;
+};
+
+export type IMessageUseCases = {
+    addMessage: (data: IMessage) => Promise<IDBMessage>;
+    getMessages: (data: { roomId: string }) => Promise<IDBMessage[]>;
 };

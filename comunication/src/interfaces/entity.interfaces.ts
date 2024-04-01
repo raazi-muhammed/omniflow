@@ -8,3 +8,9 @@ export type IMeeting = {
     deletedAt?: Date | null;
     meetingLink?: string;
 };
+
+export type IMessage = {
+    roomId: string;
+    from: object;
+    content: string;
+};

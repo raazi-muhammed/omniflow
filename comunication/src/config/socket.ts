@@ -1,5 +1,6 @@
-import { logger } from "@omniflow/common";
+import { logger, validateBody } from "@omniflow/common";
 import { WebSocketServer } from "ws";
+import { messageUseCases } from "../use-cases/index.js";
 
 const server = new WebSocketServer({ port: 4040 });
 
@@ -33,6 +34,9 @@ server.on("connection", (socket) => {
                     logger.error("no room id");
                     return;
                 }
+                validateBody(data, ["roomId", "content", "from"]);
+                messageUseCases.addMessage(data);
+
                 rooms.get(data.roomId).forEach((client) => {
                     client.send(JSON.stringify(data));
                 });

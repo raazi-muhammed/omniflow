@@ -30,6 +30,9 @@ import { useAppSelector } from "@/redux/store";
 import { Label } from "@/components/ui/label";
 import { IUser } from "@/types/database";
 import Avatar from "@/components/custom/Avatar";
+import { ChatService } from "@/services/api/chat.service";
+import { makeApiCall } from "@/lib/apicaller";
+import { IResponse } from "@/services/api/utils";
 const socket = new WebSocket("ws://localhost:4040");
 
 enum EventTypes {
@@ -70,6 +73,17 @@ export default function Chats() {
         );
         form.reset();
     }
+
+    useEffect(() => {
+        const service = new ChatService();
+        if (!projectId) return;
+        makeApiCall(() => service.getMessages({ roomId: projectId }).exec(), {
+            toast,
+            afterSuccess: (response: IResponse) => {
+                setMessages(response.data);
+            },
+        });
+    }, [projectId]);
 
     useEffect(() => {
         console.log("joing room");

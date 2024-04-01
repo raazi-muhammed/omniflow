@@ -11,3 +11,7 @@ export type IMeetingController = {
     removeMeeting: (req: IRequest) => Promise<ResponseCreator>;
     joinMeeting: (req: IRequest) => Promise<ResponseCreator>;
 };
+
+export type IChatController = {
+    getMessages: (req: IRequest) => Promise<ResponseCreator>;
+};
