@@ -6,25 +6,12 @@ import {
     IMemberRepository,
     IProjectRepository,
 } from "../../interfaces/repository.interface.js";
-import {
-    memberRepositoryMock,
-    projectRepositoryMock,
-} from "../__mocks__/index.js";
 
-const isOnTestingEnv = (process.env.NODE_ENV = "test");
+export const projectRepositoryMongo: IProjectRepository =
+    buildProjectRepository({
+        database: projectModel,
+    });
 
-const projectRepositoryMongo: IProjectRepository = buildProjectRepository({
-    database: projectModel,
-});
-
-const memberRepositoryMongo: IMemberRepository = buildMemberRepository({
+export const memberRepositoryMongo: IMemberRepository = buildMemberRepository({
     database: memberModel,
 });
-
-export const projectRepository = isOnTestingEnv
-    ? projectRepositoryMock
-    : projectRepositoryMongo;
-
-export const memberRepository = isOnTestingEnv
-    ? memberRepositoryMock
-    : memberRepositoryMongo;

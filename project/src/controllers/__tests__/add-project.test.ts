@@ -4,6 +4,9 @@ import { projectUseCases } from "../../use-cases/index.js";
 import { BadRequestError, IRequest } from "@omniflow/common";
 import buildAddProjectController from "../project/add-project.controller.js";
 
+jest.mock("../../repository/index.js");
+jest.mock("../../events/index.js");
+
 const getProjects = buildGetAllProjectsController({
     projectUseCases,
 });

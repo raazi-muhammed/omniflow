@@ -17,7 +17,7 @@ const config: Config = {
 
     // Automatically clear mock calls, instances, contexts and results before every test
     clearMocks: true,
-
+    verbose: true,
     // Indicates whether the coverage information should be collected while executing the test
     collectCoverage: true,
     transform: {
@@ -27,7 +27,6 @@ const config: Config = {
         "(.+)\\.js": "$1",
     },
     setupFiles: ["<rootDir>/.jest/setEnvVars.js"],
-
     // An array of glob patterns indicating a set of files for which coverage information should be collected
     // collectCoverageFrom: undefined,
 
