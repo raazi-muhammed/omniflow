@@ -162,29 +162,29 @@ services:
                       - dist/
                 - action: rebuild
                   path: ./module/package.json
-    comunication:
-        build: ./comunication
-        container_name: omniflow-comunication
+    communication:
+        build: ./communication
+        container_name: omniflow-communication
         depends_on:
-            - db-comunication
+            - db-communication
         ports:
             - 4025:4025
             - 4040:4040
         env_file:
-            - path: ./comunication/.env.development
+            - path: ./communication/.env.development
               required: true
         environment:
-            DB_URL: mongodb://root:example@db-comunication:27017
+            DB_URL: mongodb://root:example@db-communication:27017
         develop:
             watch:
                 - action: sync
-                  path: ./comunication
-                  target: /comunication
+                  path: ./communication
+                  target: /communication
                   ignore:
                       - node_modules/
                       - dist/
                 - action: rebuild
-                  path: ./comunication/package.json
+                  path: ./communication/package.json
     db-user:
         build: ./db-user
         image: mongo
@@ -229,14 +229,14 @@ services:
         environment:
             MONGO_INITDB_ROOT_USERNAME: root
             MONGO_INITDB_ROOT_PASSWORD: example
-    db-comunication:
-        build: ./db-comunication
+    db-communication:
+        build: ./db-communication
         image: mongo
         restart: always
         ports:
             - 27021:27017
         volumes:
-            - db_comunication:/data/db
+            - db_communication:/data/db
         environment:
             MONGO_INITDB_ROOT_USERNAME: root
             MONGO_INITDB_ROOT_PASSWORD: example
@@ -285,7 +285,7 @@ volumes:
         name: omni_db_api_doc_data
     db_module:
         name: omni_db_module_data
-    db_comunication:
-        name: omni_db_comunication_data
+    db_communication:
+        name: omni_db_communication_data
     db_db_design:
         name: omni_db_db_design_data
