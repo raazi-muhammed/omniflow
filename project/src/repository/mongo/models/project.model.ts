@@ -1,5 +1,5 @@
 import mongoose, { HydratedDocument, Model } from "mongoose";
-import { IProject } from "../../interfaces/entity.interface.js";
+import { IProject } from "../../../interfaces/entity.interface.js";
 
 const projectSchema = new mongoose.Schema<IProject>(
     {

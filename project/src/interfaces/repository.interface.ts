@@ -1,5 +1,5 @@
-import { IDBMember } from "../repository/mongo/members.model.js";
-import { IDBProject } from "../repository/mongo/project.model.js";
+import { IDBMember } from "../repository/mongo/models/members.model.js";
+import { IDBProject } from "../repository/mongo/models/project.model.js";
 import { IMember, IMemberInProject, IProject } from "./entity.interface.js";
 
 export type IProjectRepository = {

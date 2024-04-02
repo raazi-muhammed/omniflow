@@ -1,4 +1,4 @@
-import { IDBProject } from "../repository/mongo/project.model.js";
+import { IDBProject } from "../repository/mongo/models/project.model.js";
 import { IMember, IProject } from "./entity.interface.js";
 
 export type IAddProjectUseCase = (userData: IProject) => IProject;

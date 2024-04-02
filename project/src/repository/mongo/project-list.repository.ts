@@ -4,7 +4,7 @@ import {
     IProject,
 } from "../../interfaces/entity.interface.js";
 import { IProjectRepository } from "../../interfaces/repository.interface.js";
-import { IDBProject, IProjectModel } from "./project.model.js";
+import { IDBProject, IProjectModel } from "./models/project.model.js";
 
 export default function buildProjectRepository({
     database,
