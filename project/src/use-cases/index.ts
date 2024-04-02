@@ -1,6 +1,4 @@
-import buildCreateProject from "./create-project.use-case.js";
 import projectEntities from "../entities/index.js";
-import buildCreateMemberUseCases from "./create-member.use-case.js";
 import buildAddMemberToProjectUseCase from "./member/add-project-member.use-case.js";
 import {
     projectRepository,
@@ -21,9 +19,6 @@ import buildEditProjectUseCase from "./project/edit-project.use-case.js";
 import buildRemoveMemberFromProjectUseCase from "./member/remove-project-member.use-case.js";
 import { teamProducers } from "../events/producer/index.js";
 import buildEditMemberUseCase from "./member/edit-member.use-case.js";
-
-const createProject = buildCreateProject(projectEntities.Project);
-const createMember = buildCreateMemberUseCases(projectEntities.Member);
 
 const addMemberToProject = buildAddMemberToProjectUseCase({
     projectRepository,
@@ -71,9 +66,4 @@ export const projectUseCases: IProjectUseCase = Object.freeze({
     getAllProjects,
     getProject,
     editProject,
-});
-
-export default Object.freeze({
-    createProject,
-    createMember,
 });
