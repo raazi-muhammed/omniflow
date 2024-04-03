@@ -1,6 +1,6 @@
 FROM node:21-alpine3.18
 
-WORKDIR /comunication
+WORKDIR /communication
 
 COPY package*.json .
 
