@@ -14,7 +14,10 @@ export type IMessage = {
     from: object;
     content: string;
     type: MessageType;
-    url?: string;
+    file?: {
+        url: string;
+        name: string;
+    };
 };
 
 export enum MessageType {

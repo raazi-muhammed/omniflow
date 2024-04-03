@@ -29,7 +29,7 @@ export type IMessageUseCases = {
         from: IUser;
         content: string;
         roomId: string;
-        imageInput: Express.Multer.File & IFile;
+        fileInput: Express.Multer.File & IFile;
     }) => Promise<IDBMessage>;
     getMessages: (data: { roomId: string }) => Promise<IDBMessage[]>;
 };

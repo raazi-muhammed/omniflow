@@ -23,8 +23,13 @@ const messageSchema = new mongoose.Schema<IMessage>(
             enum: MessageType,
             default: MessageType.TEXT_ONLY,
         },
-        url: {
-            type: String,
+        file: {
+            url: {
+                type: String,
+            },
+            name: {
+                type: String,
+            },
         },
     },
     {

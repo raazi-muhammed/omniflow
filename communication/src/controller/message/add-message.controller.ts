@@ -13,7 +13,7 @@ export default function buildAddMessageController({
 }) {
     return async (req: IRequest) => {
         const user = req.currentUser;
-        const imageInput = req.file;
+        const fileInput = req.file;
         const roomId = req.params.roomId;
         const input = req.body;
         if (!roomId) throw new BadRequestError("No room id");
@@ -24,7 +24,7 @@ export default function buildAddMessageController({
             roomId,
             from: user,
             content: input.content,
-            imageInput,
+            fileInput,
         });
 
         const response = new ResponseCreator();

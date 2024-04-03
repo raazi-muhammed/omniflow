@@ -1,16 +1,17 @@
 import Avatar from "@/components/custom/Avatar";
 import { Label } from "@/components/ui/label";
-import { IMessage } from "@/types/database";
-import { Loader2 } from "lucide-react";
+import { IMessage, MessageType } from "@/types/database";
+import { File, Loader2 } from "lucide-react";
 import moment from "moment";
+import Link from "next/link";
 import React, { useEffect } from "react";
 
 export default function Messages({
     messages,
-    userId,
+    userName,
 }: {
     messages: IMessage[];
-    userId: string;
+    userName: string;
 }) {
     useEffect(() => {
         const divRef = document.querySelector("#messages-chat");
@@ -24,15 +25,28 @@ export default function Messages({
     return (
         <section className="flex flex-col gap-2">
             {messages.map((message) =>
-                userId == message.from.id ? (
+                userName == message.from.username ? (
                     <section className="me-0 ms-auto grid w-fit">
                         <section className="ms-auto w-fit rounded-lg border border-primary-border bg-gradient-to-br from-primary-from to-primary-to p-2 text-primary-foreground">
-                            {message.url ? (
-                                <img
-                                    className="h-56 rounded"
-                                    src={message.url}
-                                    alt=""
-                                />
+                            {message.file ? (
+                                <>
+                                    {message.type == MessageType.IMAGE ? (
+                                        <img
+                                            className="mb-2 h-56 rounded"
+                                            src={message.file.url}
+                                            alt={message.file.name}
+                                        />
+                                    ) : (
+                                        <Link href={message.file.url}>
+                                            <div className="mb-2 flex max-w-80 place-items-center gap-2 overflow-hidden rounded bg-black bg-opacity-30 p-3">
+                                                <File size="1.3em" />
+                                                <p className="my-auto w-full truncate">
+                                                    {message.file.name}
+                                                </p>
+                                            </div>
+                                        </Link>
+                                    )}
+                                </>
                             ) : null}
                             <p>{message.content}</p>
                         </section>
@@ -59,12 +73,25 @@ export default function Messages({
                         />
                         <div>
                             <section className="w-fit rounded-lg border border-muted-foreground/10 bg-muted p-2">
-                                {message.url ? (
-                                    <img
-                                        className="h-56 rounded"
-                                        src={message.url}
-                                        alt=""
-                                    />
+                                {message.file ? (
+                                    <>
+                                        {message.type == MessageType.IMAGE ? (
+                                            <img
+                                                className="mb-2 h-56 rounded"
+                                                src={message.file.url}
+                                                alt={message.file.name}
+                                            />
+                                        ) : (
+                                            <Link href={message.file.url}>
+                                                <div className="mb-2 flex max-w-80 place-items-center gap-2 overflow-hidden rounded bg-black bg-opacity-30 p-3">
+                                                    <File size="1.3em" />
+                                                    <p className="my-auto w-full truncate">
+                                                        {message.file.name}
+                                                    </p>
+                                                </div>
+                                            </Link>
+                                        )}
+                                    </>
                                 ) : null}
                                 <p>{message.content}</p>
                             </section>

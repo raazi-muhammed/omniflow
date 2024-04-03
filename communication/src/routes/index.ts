@@ -24,5 +24,5 @@ export const chatRoutes = buildChatRoutes({
     verifyUser: verifyUserMiddleware,
     verifyProject: verifyProjectMiddleware,
     controllers: chatController,
-    updateImageMiddleware: upload.single("avatar"),
+    updateImageMiddleware: upload.single("file"),
 });

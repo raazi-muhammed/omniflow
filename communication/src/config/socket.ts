@@ -38,6 +38,9 @@ server.on("connection", (socket) => {
                     client.send(JSON.stringify(data));
                 });
                 break;
+            default:
+                logger.error("Socket error: Invalid event type");
+                break;
         }
     });
 });

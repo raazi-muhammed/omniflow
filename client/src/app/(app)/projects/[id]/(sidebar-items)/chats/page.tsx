@@ -68,14 +68,9 @@ export default function Chats() {
 
     socket.addEventListener("message", ({ data }) => {
         const message = JSON.parse(data);
-        setMessages([
-            ...messages,
-            {
-                from: message.from || "unknown",
-                content: message.content,
-                createdAt: new Date(),
-            },
-        ]);
+        console.log("message recived", message);
+
+        setMessages([...messages, message.content]);
     });
 
     return (
@@ -83,7 +78,10 @@ export default function Chats() {
             <main className="h-screen-without-navbar w-full overflow-auto">
                 <Container>
                     <Heading>{project ? project.title : "Chats"}</Heading>
-                    <Messages messages={messages} userId={user?.id || "as"} />
+                    <Messages
+                        messages={messages}
+                        userName={user?.username || ""}
+                    />
                     <section className="absolute bottom-4 left-0 right-0 w-full">
                         <Container>
                             {project && user ? (

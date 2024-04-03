@@ -218,5 +218,15 @@ export type IMessage = {
     content: string;
     createdAt: Date;
     isLoading?: boolean;
-    url?: string;
+    type: MessageType;
+    file?: {
+        url: string;
+        name: string;
+    };
 };
+
+export enum MessageType {
+    TEXT_ONLY = "TEXT_ONLY",
+    IMAGE = "IMAGE",
+    FILE = "FILE",
+}

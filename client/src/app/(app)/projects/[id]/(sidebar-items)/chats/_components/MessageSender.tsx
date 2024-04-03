@@ -14,7 +14,7 @@ import { ChatService } from "@/services/api/chat.service";
 import { makeApiCall } from "@/lib/apicaller";
 import { EventTypes } from "../page";
 import { z } from "zod";
-import { IMessage, IUser } from "@/types/database";
+import { IMessage, IUser, MessageType } from "@/types/database";
 import { toast } from "@/components/ui/use-toast";
 import { SendIcon } from "lucide-react";
 import {
@@ -23,6 +23,7 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 import { Label } from "@/components/ui/label";
+import { IResponse } from "@/services/api/utils";
 
 const FormSchema = z.object({
     message: z.string().min(1, {
@@ -69,7 +70,7 @@ export default function MessageSender({
 
         if (values.image) {
             console.log(values.image[0]);
-            data.append("avatar", values.image[0]);
+            data.append("file", values.image[0]);
         }
 
         setMessages([
@@ -77,6 +78,7 @@ export default function MessageSender({
             {
                 from: user || "unknown",
                 content: values.message,
+                type: MessageType.TEXT_ONLY,
                 createdAt: new Date(),
                 isLoading: true,
             },
@@ -85,19 +87,21 @@ export default function MessageSender({
         makeApiCall(
             () => service.addMessage({ roomId: projectId, data }).exec(),
             {
-                afterSuccess: () => {
-                    socket.send(
-                        JSON.stringify({
-                            type: EventTypes.MESSAGE,
-                            content: values.message,
-                            roomId: projectId,
-                            from: user,
-                        })
-                    );
+                toast,
+                afterSuccess: (response: IResponse) => {
+                    console.log({ response });
+
                     setMessages((m) => {
                         m.pop();
                         return m;
                     });
+                    socket.send(
+                        JSON.stringify({
+                            type: EventTypes.MESSAGE,
+                            roomId: response.data.roomId,
+                            content: response.data,
+                        })
+                    );
                 },
             }
         );

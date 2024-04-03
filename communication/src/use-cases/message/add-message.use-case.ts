@@ -17,7 +17,7 @@ export default function buildAddMessageUseCase({
     imageUpload: IUploadImage;
 }) {
     return async ({
-        imageInput,
+        fileInput,
         from,
         content,
         roomId,
@@ -25,7 +25,7 @@ export default function buildAddMessageUseCase({
         from: IUser;
         content: string;
         roomId: string;
-        imageInput: Express.Multer.File & IFile;
+        fileInput: Express.Multer.File & IFile;
     }) => {
         let data: IMessage = {
             content,
@@ -34,13 +34,20 @@ export default function buildAddMessageUseCase({
             type: MessageType.TEXT_ONLY,
         };
 
-        if (!_.isNil(imageInput)) {
+        if (!_.isNil(fileInput)) {
             const image = await imageUpload({
-                mimetype: imageInput.mimetype,
-                imageBuffer: imageInput.buffer,
+                mimetype: fileInput.mimetype,
+                imageBuffer: fileInput.buffer,
             });
-            data.url = image;
-            data.type = MessageType.IMAGE;
+            data.file = {
+                url: image,
+                name: `${fileInput.originalname}`,
+            };
+            if (fileInput.mimetype.includes("image")) {
+                data.type = MessageType.IMAGE;
+            } else {
+                data.type = MessageType.FILE;
+            }
         }
 
         const msg = await messageRepository.addMessage(data);
