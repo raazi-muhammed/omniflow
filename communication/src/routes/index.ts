@@ -6,6 +6,10 @@ import {
 import buildMeetingRoutes from "./meeting.routes.js";
 import { chatController, meetingController } from "../controller/index.js";
 import buildChatRoutes from "./chat.routes.js";
+import multer from "multer";
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 const router = express.Router();
 
@@ -20,4 +24,5 @@ export const chatRoutes = buildChatRoutes({
     verifyUser: verifyUserMiddleware,
     verifyProject: verifyProjectMiddleware,
     controllers: chatController,
+    updateImageMiddleware: upload.single("avatar"),
 });

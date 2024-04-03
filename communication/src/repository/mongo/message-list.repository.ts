@@ -11,8 +11,8 @@ export default function buildMessageRepository({
         getMessages: async ({ roomId }: { roomId: string }) => {
             return (await database.find({ roomId })) as IDBMessage[];
         },
-        addMessage: async (meetingData: IMessage) => {
-            return (await database.create(meetingData)) as IDBMessage;
+        addMessage: async (messageData: IMessage) => {
+            return (await database.create(messageData)) as IDBMessage;
         },
     });
 }

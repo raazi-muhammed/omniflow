@@ -8,7 +8,7 @@ export interface IUser {
 }
 
 export interface IProject {
-    id?: string;
+    id: string;
     title: string;
     description: string;
     priority: number;
@@ -218,4 +218,5 @@ export type IMessage = {
     content: string;
     createdAt: Date;
     isLoading?: boolean;
+    url?: string;
 };

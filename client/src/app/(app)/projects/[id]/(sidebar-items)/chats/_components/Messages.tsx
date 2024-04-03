@@ -27,6 +27,13 @@ export default function Messages({
                 userId == message.from.id ? (
                     <section className="me-0 ms-auto grid w-fit">
                         <section className="ms-auto w-fit rounded-lg border border-primary-border bg-gradient-to-br from-primary-from to-primary-to p-2 text-primary-foreground">
+                            {message.url ? (
+                                <img
+                                    className="h-56 rounded"
+                                    src={message.url}
+                                    alt=""
+                                />
+                            ) : null}
                             <p>{message.content}</p>
                         </section>
                         <div className="me-0 ms-auto mt-1 flex gap-1 align-middle text-muted-foreground">
@@ -52,6 +59,13 @@ export default function Messages({
                         />
                         <div>
                             <section className="w-fit rounded-lg border border-muted-foreground/10 bg-muted p-2">
+                                {message.url ? (
+                                    <img
+                                        className="h-56 rounded"
+                                        src={message.url}
+                                        alt=""
+                                    />
+                                ) : null}
                                 <p>{message.content}</p>
                             </section>
                             <Label className="mt-1 flex text-[.6em]">

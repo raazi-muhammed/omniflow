@@ -1,6 +1,8 @@
+import { IUser } from "@omniflow/common/dist/interfaces/entity.interface.js";
 import { IDBMeeting } from "../repository/mongo/models/meeting.model.js";
 import { IDBMessage } from "../repository/mongo/models/message.model.js";
 import { IMeeting, IMessage } from "./entity.interfaces.js";
+import { IFile } from "@omniflow/common";
 
 export type IMeetingUseCases = {
     addMeeting: (data: IMeeting) => Promise<IDBMeeting>;
@@ -23,6 +25,11 @@ export type IMeetingUseCases = {
 };
 
 export type IMessageUseCases = {
-    addMessage: (data: IMessage) => Promise<IDBMessage>;
+    addMessage: (data: {
+        from: IUser;
+        content: string;
+        roomId: string;
+        imageInput: Express.Multer.File & IFile;
+    }) => Promise<IDBMessage>;
     getMessages: (data: { roomId: string }) => Promise<IDBMessage[]>;
 };

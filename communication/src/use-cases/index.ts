@@ -16,6 +16,7 @@ import buildRemoveMeetingUseCase from "./meeting/remove-meeting.use-case.js";
 import buildEditMeetingUseCase from "./meeting/edit-meeting.use-case.js";
 import buildAddMessageUseCase from "./message/add-message.use-case.js";
 import buildGetMessagesUseCase from "./message/get-messages.use-case.js";
+import { uploadImageToS3 } from "../lib/file-bucket.js";
 
 const addMeeting = buildAddMeetingUseCase({ meetingRepository });
 const getMeetings = buildGetMeetingsUseCase({ meetingRepository });
@@ -29,7 +30,10 @@ const removeMeetingNotes = buildRemoveMeetingNotesUseCase({
 });
 const editMeetingNotes = buildEditMeetingNotesUseCase({ meetingRepository });
 
-const addMessage = buildAddMessageUseCase({ messageRepository });
+const addMessage = buildAddMessageUseCase({
+    messageRepository,
+    imageUpload: uploadImageToS3,
+});
 const getMessages = buildGetMessagesUseCase({ messageRepository });
 
 export const messageUseCases: IMessageUseCases = Object.freeze({

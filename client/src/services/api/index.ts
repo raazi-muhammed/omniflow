@@ -24,7 +24,7 @@ export class Service {
                 withCredentials: true,
             });
     }
-    axiosPost(data: Object) {
+    axiosPost(data: Object | FormData) {
         this.apiCall = () =>
             axios.post(this.url, data, {
                 ...this.config,

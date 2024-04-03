@@ -13,4 +13,12 @@ export type IMessage = {
     roomId: string;
     from: object;
     content: string;
+    type: MessageType;
+    url?: string;
 };
+
+export enum MessageType {
+    TEXT_ONLY = "TEXT_ONLY",
+    IMAGE = "IMAGE",
+    FILE = "FILE",
+}

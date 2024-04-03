@@ -12,9 +12,9 @@ export class ChatService extends Service {
         this.axiosGet();
         return this;
     }
-    addMessage({ roomId, content }: { roomId: string; content: string }) {
+    addMessage({ roomId, data }: { roomId: string; data: FormData }) {
         this.url = new BuildUrl().communication(`/rooms/${roomId}/messages`);
-        this.axiosPost({ content });
+        this.axiosPost(data);
         return this;
     }
 }

@@ -11,11 +11,13 @@ export default function buildChatRoutes({
     verifyUser,
     verifyProject,
     controllers,
+    updateImageMiddleware,
 }: {
     router: Router;
     verifyUser: IVerifyUserMiddleware;
     verifyProject: IVerifyProjectMiddleware;
     controllers: IChatController;
+    updateImageMiddleware: any;
 }) {
     /**
      * @openapi
@@ -73,6 +75,7 @@ export default function buildChatRoutes({
         "/rooms/:roomId/messages",
         verifyUser,
         verifyProject,
+        updateImageMiddleware,
         makeCallback(controllers.addMessage)
     );
 

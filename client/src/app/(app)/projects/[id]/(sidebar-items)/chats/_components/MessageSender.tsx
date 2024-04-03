@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -17,11 +17,18 @@ import { z } from "zod";
 import { IMessage, IUser } from "@/types/database";
 import { toast } from "@/components/ui/use-toast";
 import { SendIcon } from "lucide-react";
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover";
+import { Label } from "@/components/ui/label";
 
 const FormSchema = z.object({
     message: z.string().min(1, {
         message: "message must be at least 2 characters.",
     }),
+    image: z.any(),
 });
 
 export default function MessageSender({
@@ -44,8 +51,8 @@ export default function MessageSender({
         },
     });
 
-    function onSubmit(data: z.infer<typeof FormSchema>) {
-        console.log(data.message);
+    function onSubmit(values: z.infer<typeof FormSchema>) {
+        console.log(values.message);
         if (!user) {
             toast({ description: "user detail not found" });
             return;
@@ -57,27 +64,32 @@ export default function MessageSender({
             return;
         }
 
+        const data = new FormData();
+        data.append("content", values.message);
+
+        if (values.image) {
+            console.log(values.image[0]);
+            data.append("avatar", values.image[0]);
+        }
+
         setMessages([
             ...messages,
             {
                 from: user || "unknown",
-                content: data.message,
+                content: values.message,
                 createdAt: new Date(),
                 isLoading: true,
             },
         ]);
         const service = new ChatService();
         makeApiCall(
-            () =>
-                service
-                    .addMessage({ roomId: projectId, content: data.message })
-                    .exec(),
+            () => service.addMessage({ roomId: projectId, data }).exec(),
             {
                 afterSuccess: () => {
                     socket.send(
                         JSON.stringify({
                             type: EventTypes.MESSAGE,
-                            content: data.message,
+                            content: values.message,
                             roomId: projectId,
                             from: user,
                         })
@@ -97,12 +109,37 @@ export default function MessageSender({
         <Form {...form}>
             <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="relative mt-4">
+                className="relative mt-4 flex gap-2">
+                <Popover>
+                    <PopoverTrigger asChild>
+                        <Button size="sm" variant="muted" className="my-auto">
+                            +
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent>
+                        <FormField
+                            control={form.control}
+                            name="image"
+                            render={({}) => (
+                                <FormItem>
+                                    <FormLabel>Image</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            {...form.register("image")}
+                                            type="file"
+                                            accept="images/*"
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+                    </PopoverContent>
+                </Popover>
                 <FormField
                     control={form.control}
                     name="message"
                     render={({ field }) => (
-                        <FormItem>
+                        <FormItem className="w-full">
                             <FormLabel className="sr-only">Message</FormLabel>
                             <FormControl>
                                 <Input

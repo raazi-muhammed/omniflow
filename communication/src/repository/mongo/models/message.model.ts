@@ -1,5 +1,8 @@
 import mongoose, { HydratedDocument, Model } from "mongoose";
-import { IMessage } from "../../../interfaces/entity.interfaces.js";
+import {
+    IMessage,
+    MessageType,
+} from "../../../interfaces/entity.interfaces.js";
 
 const messageSchema = new mongoose.Schema<IMessage>(
     {
@@ -14,6 +17,14 @@ const messageSchema = new mongoose.Schema<IMessage>(
         content: {
             type: String,
             required: true,
+        },
+        type: {
+            type: String,
+            enum: MessageType,
+            default: MessageType.TEXT_ONLY,
+        },
+        url: {
+            type: String,
         },
     },
     {
