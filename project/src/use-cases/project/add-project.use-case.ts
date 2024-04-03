@@ -34,22 +34,25 @@ export default function buildAddProjectUseCase({
             priority: number;
         };
     }) => {
-        const projectLead = await memberRepository.upsert({
-            email: member.email,
-            avatar: member.avatar,
-            name: member.name,
-            username: member.username,
-            role: Role.TEAM_LEAD,
-        } as IMember);
+        let projectLead = await memberRepository.getByEmail(member.email);
+        if (!projectLead) {
+            projectLead = await memberRepository.add({
+                email: member.email,
+                avatar: member.avatar,
+                name: member.name,
+                username: member.username,
+                role: Role.TEAM_LEAD,
+            } as IMember);
+        }
 
         const projectEntity = new ProjectCreator({
             ...projectData,
-            lead: projectLead._id,
+            lead: projectLead.id,
             members: [
                 {
                     role: Role.DEFAULT,
                     inviteStatus: InviteStatus.ACCEPTED,
-                    info: projectLead._id,
+                    info: projectLead.id,
                 },
             ],
             isDeleted: false,

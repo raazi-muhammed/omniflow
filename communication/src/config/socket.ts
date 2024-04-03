@@ -1,6 +1,5 @@
-import { loadEnv, logger, validateBody } from "@omniflow/common";
+import { loadEnv, logger } from "@omniflow/common";
 import { WebSocketServer } from "ws";
-import { messageUseCases } from "../use-cases/index.js";
 
 const { SOCKET_PORT } = loadEnv(["SOCKET_PORT"]);
 
@@ -18,7 +17,6 @@ server.on("connection", (socket) => {
     logger.info("socket connected");
     socket.on("message", async (message) => {
         const data = JSON.parse(message.toString());
-        console.log("room", await data.roomId);
 
         switch (data.type) {
             case EventTypes.JOIN_ROOM:
@@ -36,9 +34,6 @@ server.on("connection", (socket) => {
                     logger.error("no room id");
                     return;
                 }
-                validateBody(data, ["roomId", "content", "from"]);
-                messageUseCases.addMessage(data);
-
                 rooms.get(data.roomId).forEach((client) => {
                     client.send(JSON.stringify(data));
                 });

@@ -14,4 +14,5 @@ export type IMeetingController = {
 
 export type IChatController = {
     getMessages: (req: IRequest) => Promise<ResponseCreator>;
+    addMessage: (req: IRequest) => Promise<ResponseCreator>;
 };

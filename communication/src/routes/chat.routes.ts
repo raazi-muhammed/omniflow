@@ -49,5 +49,32 @@ export default function buildChatRoutes({
         makeCallback(controllers.getMessages)
     );
 
+    /**
+     * @openapi
+     * /rooms/{roomId}/message:
+     *   post:
+     *     summary: Get messages from a room
+     *     tags:
+     *       - Meeting
+     *     parameters:
+     *       - name: roomId
+     *         in: path
+     *         required: true
+     *         description: id to find the room
+     *         schema:
+     *           type: string
+     *     responses:
+     *       '200':
+     *         description: Message sent
+     *       '500':
+     *         description: An error occurred
+     */
+    router.post(
+        "/rooms/:roomId/messages",
+        verifyUser,
+        verifyProject,
+        makeCallback(controllers.addMessage)
+    );
+
     return router;
 }

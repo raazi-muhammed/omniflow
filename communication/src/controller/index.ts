@@ -13,6 +13,7 @@ import buildRemoveMeetingController from "./meeting/remove-meeting.controller.js
 import buildEditMeetingController from "./meeting/edit-meeting.controller.js";
 import buildJoinMeetingController from "./meeting/join-meeting.controller.js";
 import buildGetMessagesController from "./message/get-messages.controller.js";
+import buildAddMessageController from "./message/add-message.controller.js";
 
 const addMeeting = buildAddMeetingController({ meetingUseCases });
 const getMeetings = buildGetMeetingsController({ meetingUseCases });
@@ -28,9 +29,11 @@ const removeMeetingNotes = buildRemoveMeetingNotesController({
 });
 
 const getMessages = buildGetMessagesController({ messageUseCases });
+const addMessage = buildAddMessageController({ messageUseCases });
 
 export const chatController: IChatController = Object.freeze({
     getMessages,
+    addMessage,
 });
 
 export const meetingController: IMeetingController = Object.freeze({

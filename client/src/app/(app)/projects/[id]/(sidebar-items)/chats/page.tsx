@@ -63,14 +63,34 @@ export default function Chats() {
             toast({ description: "user detail not found" });
             return;
         }
-        socket.send(
-            JSON.stringify({
-                type: EventTypes.MESSAGE,
-                content: data.message,
-                from: user,
-                roomId: projectId,
-            })
+        if (!projectId) {
+            toast({
+                description: "Invalid room",
+            });
+            return;
+        }
+
+        const service = new ChatService();
+        makeApiCall(
+            () =>
+                service
+                    .addMessage({ roomId: projectId, content: data.message })
+                    .exec(),
+            {
+                toast,
+                afterSuccess: () => {
+                    socket.send(
+                        JSON.stringify({
+                            type: EventTypes.MESSAGE,
+                            content: data.message,
+                            from: user,
+                            roomId: projectId,
+                        })
+                    );
+                },
+            }
         );
+
         form.reset();
     }
 
