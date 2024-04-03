@@ -7,7 +7,7 @@ import { Button } from "../ui/button";
 import Link from "next/link";
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { logUser } from "@/redux/features/authSlice";
+import { logUser, logout } from "@/redux/features/authSlice";
 import { useToast } from "../ui/use-toast";
 import { UserService } from "@/services/api/user.service";
 import { makeApiCall } from "@/lib/apicaller";
@@ -25,9 +25,12 @@ import {
     WalletCards as ProjectIcon,
     LogOut as LogOutIcon,
 } from "lucide-react";
+import { AuthService } from "@/services/api/auth.service";
+import { useRouter } from "next/navigation";
 
 function Navbar() {
     const { toast } = useToast();
+    const router = useRouter();
     const userData = useAppSelector((state) => state.authReducer);
     const dispatch = useDispatch<AppDispatch>();
     useEffect(() => {
@@ -40,6 +43,18 @@ function Navbar() {
             },
         });
     }, [dispatch, toast]);
+
+    function handleLogout() {
+        const service = new AuthService();
+        makeApiCall(() => service.userLogOut().exec(), {
+            toast,
+            afterSuccess: () => {
+                dispatch(logout());
+                router.push("/login");
+            },
+        });
+    }
+
     return (
         <section
             className={`sticky top-0 z-40 flex min-h-20 rounded-none border bg-black/50 backdrop-blur-lg`}>
@@ -71,37 +86,46 @@ function Navbar() {
                                         </NavigationMenuTrigger>
                                         <NavigationMenuContent className="w-full p-2">
                                             <section className="w-full rounded-sm p-2 hover:bg-muted">
-                                                <div className="flex gap-2">
-                                                    <ProfileIcon
-                                                        size="1.2rem"
-                                                        className="my-auto"
-                                                    />
-                                                    <p className="my-auto">
-                                                        Profile
-                                                    </p>
-                                                </div>
-                                                <Label>
-                                                    Edit and view your profile
-                                                    details effortlessly
-                                                </Label>
+                                                <Link
+                                                    href={`/profile/${userData.userData.username}`}>
+                                                    <div className="flex gap-2">
+                                                        <ProfileIcon
+                                                            size="1.2rem"
+                                                            className="my-auto"
+                                                        />
+                                                        <p className="my-auto">
+                                                            Profile
+                                                        </p>
+                                                    </div>
+                                                    <Label>
+                                                        Edit and view your
+                                                        profile details
+                                                        effortlessly
+                                                    </Label>
+                                                </Link>
                                             </section>
                                             <section className="w-44 rounded-sm p-2 hover:bg-muted">
-                                                <div className="flex gap-2">
-                                                    <ProjectIcon
-                                                        size="1.2rem"
-                                                        className="my-auto"
-                                                    />
-                                                    <p className="my-auto">
-                                                        Projects
-                                                    </p>
-                                                </div>
-                                                <Label>
-                                                    Access and review all your
-                                                    projects in one place
-                                                </Label>
+                                                <Link href={`/projects`}>
+                                                    <div className="flex gap-2">
+                                                        <ProjectIcon
+                                                            size="1.2rem"
+                                                            className="my-auto"
+                                                        />
+                                                        <p className="my-auto">
+                                                            Projects
+                                                        </p>
+                                                    </div>
+                                                    <Label>
+                                                        Access and review all
+                                                        your projects in one
+                                                        place
+                                                    </Label>
+                                                </Link>
                                             </section>
                                             <section className="w-44 rounded-sm border-destructive-border p-2 hover:border hover:bg-destructive-to">
-                                                <div className="flex gap-2">
+                                                <div
+                                                    className="flex gap-2"
+                                                    onClick={handleLogout}>
                                                     <LogOutIcon
                                                         size="1.2rem"
                                                         className="my-auto"
