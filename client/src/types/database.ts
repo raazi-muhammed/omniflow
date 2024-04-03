@@ -212,3 +212,10 @@ export type IFolder = {
     parentFolder?: string;
     projectId: string;
 };
+
+export type IMessage = {
+    from: IUser;
+    content: string;
+    createdAt: Date;
+    isLoading?: boolean;
+};
