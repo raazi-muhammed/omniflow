@@ -31,7 +31,7 @@ server.on("connection", (socket) => {
                 break;
             case EventTypes.MESSAGE:
                 if (!rooms.has(data.roomId)) {
-                    logger.error("no room id");
+                    logger.error("socket: no room id");
                     return;
                 }
                 rooms.get(data.roomId).forEach((client) => {
