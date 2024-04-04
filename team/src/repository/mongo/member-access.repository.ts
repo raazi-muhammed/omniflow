@@ -21,5 +21,11 @@ export default function buildMemberAccessRepository({
                 { upsert: true, new: true }
             )) as IDBMemberAccess;
         },
+        getAccess: async (memberData: { project: string; member: string }) => {
+            return (await database.findOne({
+                member: memberData.member,
+                project: memberData.project,
+            })) as IDBMemberAccess;
+        },
     });
 }

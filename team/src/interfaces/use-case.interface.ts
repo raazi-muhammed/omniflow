@@ -71,4 +71,8 @@ export type IMemberUseCases = {
         projectId: string;
         access: IAccess;
     }) => Promise<IDBMemberAccess>;
+    getMemberAccess: (data: {
+        userName: string;
+        projectId: string;
+    }) => Promise<IDBMemberAccess | null>;
 };

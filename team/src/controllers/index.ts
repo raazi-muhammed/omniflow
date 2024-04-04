@@ -15,6 +15,7 @@ import buildGetMembersFromTeamController from "./member/get-members-from-team.co
 import buildRemoveMemberFromProjectController from "./member/remove-member-from-project.js";
 import buildAddMemberToTeamController from "./member/add-member-to-team.controller.js";
 import buildChangeMemberAccessController from "./member/change-member-access.controller.js";
+import buildGetMemberAccessController from "./member/get-member-access.controller.js";
 
 const addTeam = buildAddTeamController({
     teamUseCases,
@@ -62,6 +63,9 @@ const removeMemberFromProject = buildRemoveMemberFromProjectController({
 const changeMemberAccess = buildChangeMemberAccessController({
     memberUseCases,
 });
+const getMemberAccess = buildGetMemberAccessController({
+    memberUseCases,
+});
 
 const teamController: ITeamController = Object.freeze({
     addTeam,
@@ -78,6 +82,7 @@ const teamController: ITeamController = Object.freeze({
     getMembersFromTeam,
     removeMemberFromProject,
     changeMemberAccess,
+    getMemberAccess,
 });
 
 export default teamController;

@@ -27,6 +27,7 @@ import buildGetTeamUseCase from "./team/get-team.use-case.js";
 import buildGetMembersFromTeamUseCase from "./member/get-members-from-team.use-case.js";
 import buildRemoveMemberFromProjectUseCase from "./member/remove-member-from-project.js";
 import buildChangeMemberAccessUseCase from "./member/change-member-access.use-case.js";
+import buildGetMemberAccessUseCase from "./member/get-member-access.use-case.js";
 
 const addTeam = buildAddTeamUseCase({
     TeamEntity: Team,
@@ -93,6 +94,10 @@ const changeMemberAccess = buildChangeMemberAccessUseCase({
     memberAccessRepository,
     memberRepository,
 });
+const getMemberAccess = buildGetMemberAccessUseCase({
+    memberAccessRepository,
+    memberRepository,
+});
 
 export const teamUseCases: ITeamUseCases = Object.freeze({
     addTeam,
@@ -112,4 +117,5 @@ export const memberUseCases: IMemberUseCases = Object.freeze({
     getMembersFromTeam,
     removeMemberFromProject,
     changeMemberAccess,
+    getMemberAccess,
 });

@@ -108,6 +108,12 @@ export default function buildTeamRoutes({
         verifyProject,
         makeCallback(controllers.changeMemberAccess)
     );
+    router.get(
+        "/members/:memberUsername/access",
+        verifyUser,
+        verifyProject,
+        makeCallback(controllers.getMemberAccess)
+    );
 
     return router;
 }

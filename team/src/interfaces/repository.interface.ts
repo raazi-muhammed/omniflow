@@ -79,6 +79,10 @@ export type IMemberRepository = {
 
 export type IMemberAccessRepository = {
     upsertAccess: (data: IMemberAccess) => Promise<IDBMemberAccess | null>;
+    getAccess: (data: {
+        project: string;
+        member: string;
+    }) => Promise<IDBMemberAccess | null>;
 };
 
 export type IAllMemberList = {

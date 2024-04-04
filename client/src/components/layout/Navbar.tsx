@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import { AuthService } from "@/services/api/auth.service";
 import { useRouter } from "next/navigation";
+import { TeamService } from "@/services/api/team.service";
 
 function Navbar() {
     const { toast } = useToast();
@@ -35,6 +36,7 @@ function Navbar() {
     const dispatch = useDispatch<AppDispatch>();
     useEffect(() => {
         const service = new UserService();
+        const teamService = new TeamService();
 
         makeApiCall(() => service.getCurrentUser().exec(), {
             toast,
@@ -42,6 +44,21 @@ function Navbar() {
                 dispatch(logUser(response.data));
             },
         });
+
+        makeApiCall(
+            () =>
+                teamService
+                    .getMemberAccess({
+                        username: userData.userData?.username || "asdf",
+                    })
+                    .exec(),
+            {
+                toast,
+                afterSuccess: (response: IResponse) => {
+                    console.log(response.data);
+                },
+            }
+        );
     }, [dispatch, toast]);
 
     function handleLogout() {

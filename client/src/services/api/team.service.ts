@@ -100,4 +100,9 @@ export class TeamService extends Service {
         this.axiosPut(values.access);
         return this;
     }
+    getMemberAccess(values: { username: string }) {
+        this.url = new BuildUrl().team(`/members/${values.username}/access`);
+        this.axiosGet();
+        return this;
+    }
 }
