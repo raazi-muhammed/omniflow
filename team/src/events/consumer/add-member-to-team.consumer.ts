@@ -1,13 +1,13 @@
 import { Kafka } from "kafkajs";
 import { logger, validateBody } from "@omniflow/common";
-import { ITeamController } from "../../interfaces/controller.interface.js";
+import { IMemberUseCases } from "../../interfaces/use-case.interface.js";
 
 export async function addMemberToTeamConsumer({
     kafka,
-    teamController,
+    memberUseCases,
 }: {
     kafka: Kafka;
-    teamController: ITeamController;
+    memberUseCases: IMemberUseCases;
 }) {
     const consumer = kafka.consumer({ groupId: "add-member-to-team" });
 
@@ -23,7 +23,12 @@ export async function addMemberToTeamConsumer({
             try {
                 const data = JSON.parse(message.value.toString());
                 validateBody(data, ["userData", "projectId"]);
-                teamController.addMemberToTeam(data);
+                await memberUseCases.addProjectLead({
+                    email: data.userData.email,
+                    name: data.userData.name,
+                    projectId: data.projectId,
+                    username: data.userData.username,
+                });
             } catch (error) {
                 logger.error(error);
             }

@@ -19,7 +19,6 @@ const memberStatusSchema = new mongoose.Schema<IMemberStatus>(
         },
         team: {
             type: String,
-            required: true,
         },
         project: {
             type: String,

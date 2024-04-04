@@ -75,4 +75,11 @@ export type IMemberUseCases = {
         userName: string;
         projectId: string;
     }) => Promise<IDBMemberAccess | null>;
+    addProjectLead: (data: {
+        email: string;
+        username: string;
+        avatar?: string;
+        projectId: string;
+        name: string;
+    }) => Promise<IDBMemberStatus | null>;
 };

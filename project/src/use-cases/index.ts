@@ -38,7 +38,11 @@ const getAllProjects = buildGetAllProjectsUseCase({
     memberRepository,
 });
 
-const getProject = buildGetProjectUseCase({ projectRepository, token });
+const getProject = buildGetProjectUseCase({
+    projectRepository,
+    memberRepository,
+    token,
+});
 
 const removeMemberFromProject = buildRemoveMemberFromProjectUseCase({
     projectRepository,

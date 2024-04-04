@@ -1,3 +1,4 @@
+import { IUser } from "@omniflow/common/dist/interfaces/entity.interface.js";
 import { IDBProject } from "../repository/mongo/models/project.model.js";
 import { IMember, IProject } from "./entity.interface.js";
 
@@ -25,12 +26,13 @@ export type IProjectUseCase = {
         projectId: string;
     }) => Promise<void>;
     getProject: (data: {
+        user: IUser;
         projectId: string;
     }) => Promise<{ project: IDBProject; token: string }>;
     deleteProject: (data: { projectId: string }) => Promise<void>;
     getAllProjects: (data: { userEmail: string }) => Promise<IDBProject[]>;
     addProject: (data: {
-        member: IMember;
+        member: IUser;
         projectData: {
             title: string;
             description: string;

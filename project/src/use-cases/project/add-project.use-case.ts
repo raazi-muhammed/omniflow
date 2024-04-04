@@ -3,12 +3,14 @@ import {
     IProjectRepository,
 } from "../../interfaces/repository.interface.js";
 import {
+    AccessLevels,
     IMember,
     IProjectEntityConstructor,
     InviteStatus,
     Role,
 } from "../../interfaces/entity.interface.js";
 import { ITeamProducers } from "../../interfaces/broker.interface.js";
+import { IUser } from "@omniflow/common/dist/interfaces/entity.interface.js";
 
 export default function buildAddProjectUseCase({
     projectRepository,
@@ -25,7 +27,7 @@ export default function buildAddProjectUseCase({
         member,
         projectData,
     }: {
-        member: IMember;
+        member: IUser;
         projectData: {
             title: string;
             description: string;
@@ -42,6 +44,11 @@ export default function buildAddProjectUseCase({
                 name: member.name,
                 username: member.username,
                 role: Role.TEAM_LEAD,
+                access: {
+                    apiDoc: AccessLevels.CAN_EDIT,
+                    module: AccessLevels.CAN_EDIT,
+                    dbDesign: AccessLevels.CAN_EDIT,
+                },
             } as IMember);
         }
 

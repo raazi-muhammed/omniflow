@@ -1,5 +1,5 @@
 import mongoose, { HydratedDocument, Model } from "mongoose";
-import { IMember } from "../../../interfaces/entity.interface.js";
+import { AccessLevels, IMember } from "../../../interfaces/entity.interface.js";
 
 const membersSchema = new mongoose.Schema<IMember>(
     {
@@ -17,6 +17,23 @@ const membersSchema = new mongoose.Schema<IMember>(
         },
         avatar: {
             type: String,
+        },
+        access: {
+            apiDoc: {
+                type: Number,
+                enum: AccessLevels,
+                default: AccessLevels.NO_ACCESS,
+            },
+            dbDesign: {
+                type: Number,
+                enum: AccessLevels,
+                default: AccessLevels.NO_ACCESS,
+            },
+            module: {
+                type: Number,
+                enum: AccessLevels,
+                default: AccessLevels.NO_ACCESS,
+            },
         },
     },
     {

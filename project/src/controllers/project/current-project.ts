@@ -10,8 +10,10 @@ export default function buildGetCurrentProject({
 }) {
     return async (req: IRequest) => {
         const currentProject = req.currentProject;
+        const currentUser = req.currentUser;
 
         const { token, project } = await projectUseCases.getProject({
+            user: currentUser,
             projectId: currentProject.id,
         });
 

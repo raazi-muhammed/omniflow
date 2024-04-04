@@ -31,6 +31,19 @@ export interface IMember {
     username: string;
     email: string;
     avatar?: string;
+    access: IAccess;
+}
+
+export interface IAccess {
+    apiDoc: AccessLevels;
+    dbDesign: AccessLevels;
+    module: AccessLevels;
+}
+
+export enum AccessLevels {
+    NO_ACCESS = 0,
+    CAN_VIEW = 1,
+    CAN_EDIT = 2,
 }
 
 export interface IProjectEntity extends IProject {

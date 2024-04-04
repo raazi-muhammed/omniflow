@@ -1,4 +1,5 @@
 import {
+    IAccess,
     IMember,
     IMemberEntityConstructor,
     InviteStatus,
@@ -27,6 +28,7 @@ export default function buildAddMemberToProjectUseCase({
             avatar?: string;
             email: string;
             name: string;
+            access: IAccess;
         };
         projectId: string;
     }) => {
