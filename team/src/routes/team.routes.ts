@@ -102,6 +102,12 @@ export default function buildTeamRoutes({
         verifyProject,
         makeCallback(controllers.removeMemberFromProject)
     );
+    router.put(
+        "/members/:memberUsername/access",
+        verifyUser,
+        verifyProject,
+        makeCallback(controllers.changeMemberAccess)
+    );
 
     return router;
 }

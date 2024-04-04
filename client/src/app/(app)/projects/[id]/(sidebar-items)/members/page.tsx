@@ -1,19 +1,12 @@
-import Heading from "@/components/custom/Heading";
 import Container from "@/components/layout/Container";
 import { Button } from "@/components/ui/button";
-import { AddIcon, EditIcon } from "@/lib/icons";
-import { IAllMemberList, IMemberStatus, ITeam } from "@/types/database";
+import { AddIcon } from "@/lib/icons";
+import { IMemberStatus } from "@/types/database";
 import { cookies } from "next/headers";
 import Link from "next/link";
-import { Separator } from "@/components/ui/separator";
 import ActionItemsContainer from "@/components/layout/ActionItemsContainer";
-import ErrorMessage from "@/components/custom/ErrorMessage";
 import { PROJECT_TOKEN_COOKIE, USER_TOKEN_COOKIE } from "@/constants/cookies";
-import { Fragment } from "react";
 import { TeamService } from "@/services/api/team.service";
-import { Card } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
 import { formatConstants } from "@/lib/formaters";
 import Avatar from "@/components/custom/Avatar";
 import {
@@ -24,7 +17,6 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import RemoveMember from "./_components/RemoveMemberFromProject";
 import RemoveMemberFromProject from "./_components/RemoveMemberFromProject";
 import EditMemberAccess from "./_components/EditMemberAccess";
 
@@ -98,7 +90,9 @@ export default async function page() {
                                     </TableCell>
                                     <TableCell>
                                         <div className="flex gap-2">
-                                            <EditMemberAccess />
+                                            <EditMemberAccess
+                                                user={member.info}
+                                            />
                                             <RemoveMemberFromProject
                                                 memberId={member.info.id}
                                             />

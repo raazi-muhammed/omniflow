@@ -1,5 +1,7 @@
+import { IDBMemberAccess } from "../repository/mongo/models/member-access.model.js";
 import { IDBMemberStatus } from "../repository/mongo/models/member-status.model.js";
 import { IDBTeam } from "../repository/mongo/models/team.model.js";
+import { IAccess } from "./entity.interface.js";
 import { IAllMemberList } from "./repository.interface.js";
 
 export type ITeamUseCases = {
@@ -64,4 +66,9 @@ export type IMemberUseCases = {
         projectId: string;
         memberId: string;
     }) => Promise<void>;
+    changeMemberAccess: (data: {
+        userName: string;
+        projectId: string;
+        access: IAccess;
+    }) => Promise<IDBMemberAccess>;
 };

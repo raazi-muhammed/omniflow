@@ -40,6 +40,25 @@ export interface IMember {
     avatar?: string;
 }
 
+export interface IMemberAccess {
+    project: string;
+    member: IDType;
+    deletedAt: Date;
+    access: IAccess;
+}
+
+export interface IAccess {
+    apiDoc: AccessLevels;
+    dbDesign: AccessLevels;
+    module: AccessLevels;
+}
+
+export enum AccessLevels {
+    NO_ACCESS = 0,
+    CAN_VIEW = 1,
+    CAN_EDIT = 2,
+}
+
 export interface ITeamEntity extends ITeam {
     get: () => ITeam;
 }

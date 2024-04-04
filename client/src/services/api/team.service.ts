@@ -2,6 +2,7 @@ import { AxiosRequestConfig } from "axios";
 import { BuildUrl } from "./utils";
 import "../interceptor";
 import { Service } from ".";
+import { IAccess } from "@/types/database";
 
 export class TeamService extends Service {
     constructor(config?: AxiosRequestConfig) {
@@ -92,6 +93,11 @@ export class TeamService extends Service {
     removeMemberFromProject(values: { memberId: string }) {
         this.url = new BuildUrl().team(`/members/${values.memberId}`);
         this.axiosDelete();
+        return this;
+    }
+    changeMemberAccess(values: { username: string; access: IAccess }) {
+        this.url = new BuildUrl().team(`/members/${values.username}/access`);
+        this.axiosPut(values.access);
         return this;
     }
 }

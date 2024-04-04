@@ -9,6 +9,7 @@ import {
     teamRepository,
     memberRepository,
     memberStatusRepository,
+    memberAccessRepository,
 } from "../repository/mongo/index.js";
 import buildInviteMemberUseCase from "./member/invite-member.use-case.js";
 import { mailService } from "../lib/send-invitation-mail.js";
@@ -25,6 +26,7 @@ import buildAddMemberToTeamUseCase from "./member/add-member-to-team.use-case.js
 import buildGetTeamUseCase from "./team/get-team.use-case.js";
 import buildGetMembersFromTeamUseCase from "./member/get-members-from-team.use-case.js";
 import buildRemoveMemberFromProjectUseCase from "./member/remove-member-from-project.js";
+import buildChangeMemberAccessUseCase from "./member/change-member-access.use-case.js";
 
 const addTeam = buildAddTeamUseCase({
     TeamEntity: Team,
@@ -87,6 +89,11 @@ const removeMemberFromProject = buildRemoveMemberFromProjectUseCase({
     memberStatusRepository,
 });
 
+const changeMemberAccess = buildChangeMemberAccessUseCase({
+    memberAccessRepository,
+    memberRepository,
+});
+
 export const teamUseCases: ITeamUseCases = Object.freeze({
     addTeam,
     changeTeamLead,
@@ -104,4 +111,5 @@ export const memberUseCases: IMemberUseCases = Object.freeze({
     removeMemberFromTeam,
     getMembersFromTeam,
     removeMemberFromProject,
+    changeMemberAccess,
 });

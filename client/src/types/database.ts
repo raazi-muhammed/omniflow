@@ -230,3 +230,16 @@ export enum MessageType {
     IMAGE = "IMAGE",
     FILE = "FILE",
 }
+
+export interface IMemberAccess {
+    project: string;
+    member: IUser;
+    deletedAt: Date;
+    access: IAccess;
+}
+
+export interface IAccess {
+    apiDoc: number;
+    dbDesign: number;
+    module: number;
+}

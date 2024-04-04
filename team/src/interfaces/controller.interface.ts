@@ -14,4 +14,5 @@ export type ITeamController = {
     getMembersFromTeam: (req: IRequest) => Promise<ResponseCreator>;
     removeMemberFromProject: (req: IRequest) => Promise<ResponseCreator>;
     addMemberToTeam: (req: IRequest) => Promise<ResponseCreator>;
+    changeMemberAccess: (req: IRequest) => Promise<ResponseCreator>;
 };

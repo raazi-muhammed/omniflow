@@ -4,7 +4,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import morgan from "morgan";
 import { ErrorHandlingMiddleware, loadEnv, logger } from "@omniflow/common";
-import teamRoutes from "./routers/index.js";
+import teamRoutes from "./routes/index.js";
 
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 

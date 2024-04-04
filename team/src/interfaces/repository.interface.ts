@@ -1,7 +1,13 @@
 import { IDBMember } from "../repository/mongo/models/member.model.js";
-import { IMember, IMemberStatus, ITeam } from "./entity.interface.js";
+import {
+    IMember,
+    IMemberAccess,
+    IMemberStatus,
+    ITeam,
+} from "./entity.interface.js";
 import { IDBTeam } from "../repository/mongo/models/team.model.js";
 import { IDBMemberStatus } from "../repository/mongo/models/member-status.model.js";
+import { IDBMemberAccess } from "../repository/mongo/models/member-access.model.js";
 
 export type ITeamRepository = {
     getDefaultTeam: (data: { projectId: string }) => Promise<IDBTeam | null>;
@@ -69,6 +75,10 @@ export type IMemberRepository = {
     getByUsername: (username: string) => Promise<IDBMember | null>;
     getByEmail: (email: string) => Promise<IDBMember | null>;
     getById: (id: string) => Promise<IDBMember | null>;
+};
+
+export type IMemberAccessRepository = {
+    upsertAccess: (data: IMemberAccess) => Promise<IDBMemberAccess | null>;
 };
 
 export type IAllMemberList = {

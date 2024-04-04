@@ -13,7 +13,6 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import {
     Select,
     SelectContent,
@@ -23,24 +22,43 @@ import {
 } from "@/components/ui/select";
 import { logger } from "@/lib/logger";
 import { Label } from "@/components/ui/label";
+import { AlertDialogCancel } from "@/components/ui/alert-dialog";
+import { TeamService } from "@/services/api/team.service";
+import { makeApiCall } from "@/lib/apicaller";
+import { IUser } from "@/types/database";
+import { useToast } from "@/components/ui/use-toast";
 
 const formSchema = z.object({
     apiDoc: z.number(),
-    modules: z.number(),
+    module: z.number(),
+    dbDesign: z.number(),
 });
 
-export default function EditMemberAccessForm() {
+export default function EditMemberAccessForm({ user }: { user: IUser }) {
+    const { toast } = useToast();
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             apiDoc: 0,
-            modules: 0,
+            module: 0,
+            dbDesign: 0,
         },
         mode: "onTouched",
     });
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         logger.debug(values);
+        const service = new TeamService();
+        makeApiCall(
+            () =>
+                service
+                    .changeMemberAccess({
+                        access: values,
+                        username: user.username,
+                    })
+                    .exec(),
+            { toast }
+        );
     }
 
     return (
@@ -89,7 +107,7 @@ export default function EditMemberAccessForm() {
                 />
                 <FormField
                     control={form.control}
-                    name="modules"
+                    name="module"
                     render={({ field }) => (
                         <FormItem className="border-lg flex justify-between gap-4 rounded-lg bg-muted/50 p-2 align-middle">
                             <div className="my-auto">
@@ -128,9 +146,53 @@ export default function EditMemberAccessForm() {
                         </FormItem>
                     )}
                 />
-                <Button type="submit" className="ms-auto flex">
-                    Save changes
-                </Button>
+                <FormField
+                    control={form.control}
+                    name="dbDesign"
+                    render={({ field }) => (
+                        <FormItem className="border-lg flex justify-between gap-4 rounded-lg bg-muted/50 p-2 align-middle">
+                            <div className="my-auto">
+                                <FormLabel className="my-auto text-base font-normal text-foreground">
+                                    DB Design
+                                </FormLabel>
+                                <Label className="ms-2 block">
+                                    Change access to database design
+                                </Label>
+                            </div>
+                            <div>
+                                <Select
+                                    onValueChange={(e) => {
+                                        field.onChange(Number(e));
+                                    }}
+                                    defaultValue={String(field.value)}>
+                                    <FormControl>
+                                        <SelectTrigger className="h-10 w-32">
+                                            <SelectValue placeholder="Access" />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        <SelectItem value="0">
+                                            No access
+                                        </SelectItem>
+                                        <SelectItem value="1">
+                                            Can view
+                                        </SelectItem>
+                                        <SelectItem value="2">
+                                            Can edit
+                                        </SelectItem>
+                                    </SelectContent>
+                                </Select>
+                                <FormMessage />
+                            </div>
+                        </FormItem>
+                    )}
+                />
+                <section className="ms-auto flex gap-2">
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <Button type="submit" className="ms-auto flex">
+                        Save changes
+                    </Button>
+                </section>
             </form>
         </Form>
     );

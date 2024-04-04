@@ -2,7 +2,6 @@
 
 import {
     AlertDialog,
-    AlertDialogCancel,
     AlertDialogContent,
     AlertDialogHeader,
     AlertDialogTitle,
@@ -11,8 +10,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { Edit2Icon } from "lucide-react";
 import EditMemberAccessForm from "../_forms/EditMemberAccessForm";
+import { IUser } from "@/types/database";
 
-export default function EditMemberAccess() {
+export default function EditMemberAccess({ user }: { user: IUser }) {
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
@@ -27,7 +27,8 @@ export default function EditMemberAccess() {
                 <AlertDialogHeader>
                     <AlertDialogTitle>Edit member access</AlertDialogTitle>
                 </AlertDialogHeader>
-                <EditMemberAccessForm />
+                <p>{user.username}</p>
+                <EditMemberAccessForm user={user} />
             </AlertDialogContent>
         </AlertDialog>
     );
