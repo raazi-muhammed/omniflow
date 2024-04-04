@@ -11,29 +11,24 @@ import RemoveRelation from "./RemoveRelation";
 import { IResponse } from "@/services/api/utils";
 import { TableService } from "@/services/api/table.service";
 
-export default function DBDesign() {
+export default function DBDesign({ endpoints }: { endpoints: ITable[] }) {
     const { toast } = useToast();
-    const [data, setDate] = useState<ITable[]>([]);
+    const [data, setDate] = useState<ITable[]>(endpoints);
     const [relations, setRelations] = useState<IRelation[]>([]);
     const [refresh, setRefresh] = useState(false);
     const refreshRelations = () => setRefresh((r) => !r);
 
     useEffect(() => {
         const service = new TableService();
-        service
-            .getTables()
-            .exec()
-            .then((res) => {
-                setDate(res.data);
-            });
-    }, []);
-    useEffect(() => {
-        const service = new TableService();
+
         service
             .getRelations()
             .exec()
             .then((res) => {
                 setRelations(res.data);
+            })
+            .catch((err) => {
+                throw new Error(err);
             });
     }, [refresh]);
 

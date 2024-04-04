@@ -5,6 +5,10 @@ import {
 } from "@omniflow/common";
 import { Router } from "express";
 import { ITableController } from "../interfaces/controller.interface.js";
+import {
+    verifyEditAccess,
+    verifyViewAccess,
+} from "../lib/access-middlewares.js";
 
 export default function buildTableRoutes({
     router,
@@ -37,6 +41,7 @@ export default function buildTableRoutes({
         "/tables",
         verifyUser,
         verifyProject,
+        verifyViewAccess,
         makeCallback(tableController.getTables)
     );
 
@@ -74,6 +79,7 @@ export default function buildTableRoutes({
         "/tables",
         verifyUser,
         verifyProject,
+        verifyEditAccess,
         makeCallback(tableController.addTable)
     );
 
@@ -103,6 +109,7 @@ export default function buildTableRoutes({
         "/tables/:tableId",
         verifyUser,
         verifyProject,
+        verifyViewAccess,
         makeCallback(tableController.getTable)
     );
 
@@ -147,6 +154,7 @@ export default function buildTableRoutes({
         "/tables/:tableId",
         verifyUser,
         verifyProject,
+        verifyEditAccess,
         makeCallback(tableController.editTable)
     );
 
@@ -172,6 +180,7 @@ export default function buildTableRoutes({
         "/tables/:tableId",
         verifyUser,
         verifyProject,
+        verifyEditAccess,
         makeCallback(tableController.removeTable)
     );
 
@@ -211,6 +220,7 @@ export default function buildTableRoutes({
         "/tables/:tableId",
         verifyUser,
         verifyProject,
+        verifyEditAccess,
         makeCallback(tableController.changeTablePosition)
     );
 
@@ -250,6 +260,7 @@ export default function buildTableRoutes({
         "/tables/:tableId/fields",
         verifyUser,
         verifyProject,
+        verifyEditAccess,
         makeCallback(tableController.addTableField)
     );
 
@@ -275,6 +286,7 @@ export default function buildTableRoutes({
         "/tables/:tableId/fields/:fieldId",
         verifyUser,
         verifyProject,
+        verifyEditAccess,
         makeCallback(tableController.removeTableField)
     );
 

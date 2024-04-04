@@ -5,6 +5,10 @@ import {
 } from "@omniflow/common";
 import { Router } from "express";
 import { IRelationController } from "../interfaces/controller.interface.js";
+import {
+    verifyEditAccess,
+    verifyViewAccess,
+} from "../lib/access-middlewares.js";
 
 export default function buildRelationRoutes({
     router,
@@ -37,6 +41,7 @@ export default function buildRelationRoutes({
         "/relations",
         verifyUser,
         verifyProject,
+        verifyViewAccess,
         makeCallback(relationController.getRelations)
     );
 
@@ -69,6 +74,7 @@ export default function buildRelationRoutes({
         "/relations",
         verifyUser,
         verifyProject,
+        verifyEditAccess,
         makeCallback(relationController.addRelation)
     );
 
@@ -94,6 +100,7 @@ export default function buildRelationRoutes({
         "/relations/:relationId",
         verifyUser,
         verifyProject,
+        verifyEditAccess,
         makeCallback(relationController.removeRelation)
     );
 

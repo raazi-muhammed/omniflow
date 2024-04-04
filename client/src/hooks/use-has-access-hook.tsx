@@ -10,6 +10,11 @@ export default function useHasAccess() {
             (!!project && project.apiDoc < AccessLevels.CAN_EDIT) ||
             project == null,
     };
+    const hasAccessToDbDesign = {
+        edit:
+            (!!project && project.dbDesign < AccessLevels.CAN_EDIT) ||
+            project == null,
+    };
 
-    return { hasAccessToApiDoc };
+    return { hasAccessToApiDoc, hasAccessToDbDesign };
 }

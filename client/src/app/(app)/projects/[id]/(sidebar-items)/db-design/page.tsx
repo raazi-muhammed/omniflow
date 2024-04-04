@@ -6,8 +6,30 @@ import { Button } from "@/components/ui/button";
 import { AddIcon } from "@/lib/icons";
 import Link from "next/link";
 import { Unlink2 as RelationIcon } from "lucide-react";
+import { cookies } from "next/headers";
+import { PROJECT_TOKEN_COOKIE, USER_TOKEN_COOKIE } from "@/constants/cookies";
+import { TableService } from "@/services/api/table.service";
+import { ITable } from "@/types/database";
+import AddTable from "./_components/AddTable";
 
-export default function DbDesign() {
+async function loadTables() {
+    const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
+    const projectToken = cookies().get(PROJECT_TOKEN_COOKIE)?.value;
+
+    const service = new TableService({
+        headers: {
+            Authorization: `Bearer ${userToken}`,
+            Project: `Bearer ${projectToken}`,
+        },
+    });
+
+    const response = await service.getTables().exec();
+    return response.data;
+}
+
+export default async function DbDesign() {
+    const endpoints: ITable[] = await loadTables();
+
     return (
         <div>
             <Container className="mt-4 flex justify-between align-middle">
@@ -19,14 +41,10 @@ export default function DbDesign() {
                             Relations
                         </Button>
                     </Link>
-                    <Link href="db-design/add" legacyBehavior>
-                        <Button size="sm">
-                            <AddIcon /> Add Table
-                        </Button>
-                    </Link>
+                    <AddTable />
                 </div>
             </Container>
-            <DBDesign />
+            <DBDesign endpoints={endpoints} />
         </div>
     );
 }
