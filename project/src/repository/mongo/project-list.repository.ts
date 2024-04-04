@@ -1,5 +1,6 @@
 import { Types } from "mongoose";
 import {
+    IAccess,
     IMemberInProject,
     IProject,
 } from "../../interfaces/entity.interface.js";
@@ -110,6 +111,27 @@ export default function buildProjectRepository({
                 }
             );
             return response.acknowledged;
+        },
+        changeMemberAccess: async ({
+            userId,
+            access,
+            projectId,
+        }: {
+            projectId: string;
+            userId: string;
+            access: IAccess;
+        }) => {
+            const data = await database.findOne({
+                _id: new Types.ObjectId(projectId),
+            });
+            data.members = data.members.map((m) => {
+                if (String(m.info) == userId) {
+                    m.access = access;
+                }
+                return m;
+            });
+            data.save();
+            return null;
         },
     });
 }

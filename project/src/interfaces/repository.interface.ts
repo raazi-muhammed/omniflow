@@ -1,6 +1,11 @@
 import { IDBMember } from "../repository/mongo/models/members.model.js";
 import { IDBProject } from "../repository/mongo/models/project.model.js";
-import { IMember, IMemberInProject, IProject } from "./entity.interface.js";
+import {
+    IAccess,
+    IMember,
+    IMemberInProject,
+    IProject,
+} from "./entity.interface.js";
 
 export type IProjectRepository = {
     add: (data: IProject) => Promise<IDBProject | null>;
@@ -26,6 +31,11 @@ export type IProjectRepository = {
     changeTeamLead: (data: {
         projectId: string;
         userId: string;
+    }) => Promise<boolean | null>;
+    changeMemberAccess: (data: {
+        projectId: string;
+        userId: string;
+        access: IAccess;
     }) => Promise<boolean | null>;
 };
 export type IMemberRepository = {

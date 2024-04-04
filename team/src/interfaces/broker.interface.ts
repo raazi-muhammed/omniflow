@@ -1,4 +1,4 @@
-import { IMember } from "./entity.interface.js";
+import { IAccess, IMember } from "./entity.interface.js";
 
 export type IMemberProducers = {
     addMemberToProject: (data: {
@@ -8,5 +8,10 @@ export type IMemberProducers = {
     removeMemberToProject: (data: {
         userEmail: string;
         projectId: string;
+    }) => Promise<void>;
+    changeMemberAccess: (data: {
+        userName: string;
+        projectId: string;
+        access: IAccess;
     }) => Promise<void>;
 };

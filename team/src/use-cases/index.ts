@@ -94,6 +94,7 @@ const removeMemberFromProject = buildRemoveMemberFromProjectUseCase({
 const changeMemberAccess = buildChangeMemberAccessUseCase({
     memberAccessRepository,
     memberRepository,
+    memberProducers,
 });
 const getMemberAccess = buildGetMemberAccessUseCase({
     memberAccessRepository,

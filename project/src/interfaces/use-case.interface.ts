@@ -1,6 +1,6 @@
 import { IUser } from "@omniflow/common/dist/interfaces/entity.interface.js";
 import { IDBProject } from "../repository/mongo/models/project.model.js";
-import { IMember, IProject } from "./entity.interface.js";
+import { IAccess, IMember, IProject } from "./entity.interface.js";
 
 export type IAddProjectUseCase = (userData: IProject) => IProject;
 export type ICreateUserUseCase = (userData: IMember) => IMember;
@@ -18,6 +18,11 @@ export type IMemberUseCase = {
         name: string;
         avatar?: string;
         username: string;
+    }) => Promise<void>;
+    changeMemberAccess: (data: {
+        userName: string;
+        projectId: string;
+        access: IAccess;
     }) => Promise<void>;
 };
 export type IProjectUseCase = {
