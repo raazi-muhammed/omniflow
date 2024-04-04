@@ -5,6 +5,7 @@ import {
 } from "../../interfaces/repository.interface.js";
 import { IProject } from "../../interfaces/entity.interface.js";
 import { IUser } from "@omniflow/common/dist/interfaces/entity.interface.js";
+import { IDBProject } from "../../repository/mongo/models/project.model.js";
 
 export default function buildGetProjectUseCase({
     projectRepository,
@@ -44,8 +45,6 @@ export default function buildGetProjectUseCase({
             console.log({ m: m.info.id, o: memberInDb.id });
         });
 
-        console.log({ member, og: projectData.members });
-
         const projectToken = token.sign({
             ...data,
             access: member.access,
@@ -53,6 +52,7 @@ export default function buildGetProjectUseCase({
 
         return {
             project: projectData,
+            access: member.access,
             token: projectToken,
         };
     };

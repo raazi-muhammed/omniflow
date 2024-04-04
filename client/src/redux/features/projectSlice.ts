@@ -1,8 +1,8 @@
-import { IProject } from "@/types/database";
+import { IAccess, IProject } from "@/types/database";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 type InitialState = {
-    projectData: IProject | null;
+    projectData: (IProject & { access: IAccess }) | null;
 };
 
 const initialState: InitialState = {
@@ -13,7 +13,10 @@ export const project = createSlice({
     name: "project",
     initialState,
     reducers: {
-        setProject: (state, { payload }: PayloadAction<IProject>) => {
+        setProject: (
+            state,
+            { payload }: PayloadAction<IProject & { access: IAccess }>
+        ) => {
             state.projectData = payload;
         },
     },

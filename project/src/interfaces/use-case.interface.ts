@@ -33,7 +33,7 @@ export type IProjectUseCase = {
     getProject: (data: {
         user: IUser;
         projectId: string;
-    }) => Promise<{ project: IDBProject; token: string }>;
+    }) => Promise<{ project: IDBProject; access: IAccess; token: string }>;
     deleteProject: (data: { projectId: string }) => Promise<void>;
     getAllProjects: (data: { userEmail: string }) => Promise<IDBProject[]>;
     addProject: (data: {

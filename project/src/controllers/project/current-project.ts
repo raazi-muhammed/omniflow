@@ -12,13 +12,13 @@ export default function buildGetCurrentProject({
         const currentProject = req.currentProject;
         const currentUser = req.currentUser;
 
-        const { token, project } = await projectUseCases.getProject({
+        const { token, project, access } = await projectUseCases.getProject({
             user: currentUser,
             projectId: currentProject.id,
         });
 
         const response = new ResponseCreator();
-        return response.setData(project).setHeaders({
+        return response.setData({ ...project, access }).setHeaders({
             "Set-Cookie": `${TOKEN_COOKIE_NAME_PROJECT}=${token}; Path=/`,
         });
     };

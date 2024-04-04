@@ -16,6 +16,8 @@ import {
 import { ApiDocService } from "@/services/api/api-doc.service";
 import EndpointCard from "./_components/EndpointCard";
 import FolderCard from "./_components/FolderCard";
+import AddEndpoint from "./_components/AddEndpoint";
+import AddFolder from "./_components/AddFolder";
 
 async function loadEndpoints() {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -58,18 +60,8 @@ export default async function page() {
             <SectionSplitter>
                 <SectionAside className="mt-0 space-y-4">
                     <ActionItemsContainer>
-                        <Link href="api-docs/add-folder">
-                            <Button size="sm" variant="muted">
-                                <AddIcon />
-                                Add folder
-                            </Button>
-                        </Link>
-                        <Link href="api-docs/add-endpoint">
-                            <Button size="sm">
-                                <AddIcon />
-                                Add endpoint
-                            </Button>
-                        </Link>
+                        <AddFolder />
+                        <AddEndpoint />
                     </ActionItemsContainer>
 
                     {folders.map((folder) => (

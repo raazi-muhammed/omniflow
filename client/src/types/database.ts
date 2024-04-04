@@ -243,3 +243,9 @@ export interface IAccess {
     dbDesign: number;
     module: number;
 }
+
+export enum AccessLevels {
+    NO_ACCESS = 0,
+    CAN_VIEW = 1,
+    CAN_EDIT = 2,
+}

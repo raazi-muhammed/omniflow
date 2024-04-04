@@ -13,13 +13,13 @@ export default function buildGetProjectController({
         const currentUser = req.currentUser;
         if (!projectId) throw new Error("Id not passed");
 
-        const { project, token } = await projectUseCases.getProject({
+        const { project, token, access } = await projectUseCases.getProject({
             user: currentUser,
             projectId,
         });
 
         const response = new ResponseCreator();
-        return response.setData(project).setHeaders({
+        return response.setData({ ...project, access }).setHeaders({
             "Set-Cookie": `${TOKEN_COOKIE_NAME_PROJECT}=${token}; Path=/`,
         });
     };
