@@ -6,6 +6,7 @@ import {
 } from "@omniflow/common";
 import { Router } from "express";
 import { IEndpointController } from "../interfaces/controller.interface.js";
+import { verifyViewAccess } from "../lib/access-middlewares.js";
 
 export default function buildEndpointRoutes({
     router,
@@ -40,15 +41,7 @@ export default function buildEndpointRoutes({
         "/endpoints",
         verifyUser,
         verifyProject,
-        (req, res, next) => {
-            const hi = res;
-            // @ts-ignore
-            req.currentProject;
-            // @ts-ignore
-            console.log(req.currentProject);
-
-            next();
-        },
+        verifyViewAccess,
         makeCallback(endpointController.getEndpoints)
     );
 

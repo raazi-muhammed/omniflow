@@ -1,6 +1,8 @@
 import { Kafka } from "kafkajs";
 import { logger, validateBody } from "@omniflow/common";
 import { IMemberUseCases } from "../../interfaces/use-case.interface.js";
+import { memberAccessRepository } from "../../repository/mongo/index.js";
+import { AccessLevels } from "../../interfaces/entity.interface.js";
 
 export async function addMemberToTeamConsumer({
     kafka,
@@ -28,6 +30,15 @@ export async function addMemberToTeamConsumer({
                     name: data.userData.name,
                     projectId: data.projectId,
                     username: data.userData.username,
+                });
+                await memberUseCases.changeMemberAccess({
+                    access: {
+                        apiDoc: AccessLevels.CAN_EDIT,
+                        dbDesign: AccessLevels.CAN_EDIT,
+                        module: AccessLevels.CAN_EDIT,
+                    },
+                    projectId: data.projectId,
+                    userName: data.userData.username,
                 });
             } catch (error) {
                 logger.error(error);
