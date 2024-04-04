@@ -6,7 +6,10 @@ import {
 } from "@omniflow/common";
 import { Router } from "express";
 import { IEndpointController } from "../interfaces/controller.interface.js";
-import { verifyViewAccess } from "../lib/access-middlewares.js";
+import {
+    verifyEditAccess,
+    verifyViewAccess,
+} from "../lib/access-middlewares.js";
 
 export default function buildEndpointRoutes({
     router,
@@ -81,6 +84,7 @@ export default function buildEndpointRoutes({
         "/endpoints",
         verifyUser,
         verifyProject,
+        verifyEditAccess,
         makeCallback(endpointController.addEndpoint)
     );
 
@@ -112,6 +116,7 @@ export default function buildEndpointRoutes({
         "/endpoints/:id",
         verifyUser,
         verifyProject,
+        verifyViewAccess,
         makeCallback(endpointController.getEndpoint)
     );
 
@@ -151,6 +156,7 @@ export default function buildEndpointRoutes({
         "/endpoints/:id",
         verifyUser,
         verifyProject,
+        verifyEditAccess,
         makeCallback(endpointController.editEndpoint)
     );
 
@@ -178,6 +184,7 @@ export default function buildEndpointRoutes({
         "/endpoints/:id",
         verifyUser,
         verifyProject,
+        verifyEditAccess,
         makeCallback(endpointController.removeEndpoint)
     );
 
@@ -216,6 +223,7 @@ export default function buildEndpointRoutes({
         "/endpoints/:id/body",
         verifyUser,
         verifyProject,
+        verifyEditAccess,
         makeCallback(endpointController.addEndpointBody)
     );
 

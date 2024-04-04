@@ -5,6 +5,7 @@ import {
 } from "@omniflow/common";
 import { Router } from "express";
 import { IEndpointController } from "../interfaces/controller.interface.js";
+import { verifyEditAccess } from "../lib/access-middlewares.js";
 
 export default function buildSchemaRoutes({
     router,
@@ -57,6 +58,7 @@ export default function buildSchemaRoutes({
         "/endpoints/:id/schema",
         verifyUser,
         verifyProject,
+        verifyEditAccess,
         makeCallback(endpointController.addEndpointSchema)
     );
 
@@ -90,6 +92,7 @@ export default function buildSchemaRoutes({
         "/endpoints/:id/schema/:schemaId",
         verifyUser,
         verifyProject,
+        verifyEditAccess,
         makeCallback(endpointController.removeEndpointSchema)
     );
 

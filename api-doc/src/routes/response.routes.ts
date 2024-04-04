@@ -5,6 +5,7 @@ import {
 } from "@omniflow/common";
 import { Router } from "express";
 import { IEndpointController } from "../interfaces/controller.interface.js";
+import { verifyEditAccess } from "../lib/access-middlewares.js";
 
 export default function buildResponseRoutes({
     router,
@@ -59,6 +60,7 @@ export default function buildResponseRoutes({
         "/endpoints/:id/responses",
         verifyUser,
         verifyProject,
+        verifyEditAccess,
         makeCallback(endpointController.addEndpointResponse)
     );
 
@@ -92,6 +94,7 @@ export default function buildResponseRoutes({
         "/endpoints/:id/responses/:responseId",
         verifyUser,
         verifyProject,
+        verifyEditAccess,
         makeCallback(endpointController.removeEndpointResponse)
     );
 

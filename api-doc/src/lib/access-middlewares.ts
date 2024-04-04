@@ -13,3 +13,16 @@ export function verifyViewAccess(
             message: "You don't have access to this section",
         });
 }
+export function verifyEditAccess(
+    req: Request,
+    res: Response,
+    next: NextFunction
+) {
+    // @ts-ignore
+    const access = req.currentProject.access.apiDoc;
+    if (access > 1) next();
+    else
+        res.status(402).json({
+            message: "You don't have sufficient access",
+        });
+}

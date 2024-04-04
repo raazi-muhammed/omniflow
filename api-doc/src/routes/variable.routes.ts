@@ -5,6 +5,7 @@ import {
 } from "@omniflow/common";
 import { Router } from "express";
 import { IEndpointController } from "../interfaces/controller.interface.js";
+import { verifyEditAccess } from "../lib/access-middlewares.js";
 
 export default function buildVariableRoutes({
     router,
@@ -57,6 +58,7 @@ export default function buildVariableRoutes({
         "/endpoints/:id/variables",
         verifyUser,
         verifyProject,
+        verifyEditAccess,
         makeCallback(endpointController.addEndpointVariable)
     );
 
@@ -90,6 +92,7 @@ export default function buildVariableRoutes({
         "/endpoints/:id/variables/:variableId",
         verifyUser,
         verifyProject,
+        verifyEditAccess,
         makeCallback(endpointController.removeEndpointVariable)
     );
 

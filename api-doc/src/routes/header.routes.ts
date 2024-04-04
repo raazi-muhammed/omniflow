@@ -5,6 +5,7 @@ import {
 } from "@omniflow/common";
 import { Router } from "express";
 import { IEndpointController } from "../interfaces/controller.interface.js";
+import { verifyEditAccess } from "../lib/access-middlewares.js";
 
 export default function buildHeaderRoutes({
     router,
@@ -57,6 +58,7 @@ export default function buildHeaderRoutes({
         "/endpoints/:id/headers",
         verifyUser,
         verifyProject,
+        verifyEditAccess,
         makeCallback(endpointController.addEndpointHeader)
     );
 
@@ -90,6 +92,7 @@ export default function buildHeaderRoutes({
         "/endpoints/:id/headers/:headerId",
         verifyUser,
         verifyProject,
+        verifyEditAccess,
         makeCallback(endpointController.removeEndpointHeader)
     );
 

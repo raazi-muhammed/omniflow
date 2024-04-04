@@ -5,6 +5,10 @@ import {
 } from "@omniflow/common";
 import { Router } from "express";
 import { IFolderController } from "../interfaces/controller.interface.js";
+import {
+    verifyEditAccess,
+    verifyViewAccess,
+} from "../lib/access-middlewares.js";
 
 export default function buildFolderRoutes({
     router,
@@ -45,6 +49,7 @@ export default function buildFolderRoutes({
         "/folders",
         verifyUser,
         verifyProject,
+        verifyViewAccess,
         makeCallback(folderController.getFolders)
     );
 
@@ -70,6 +75,7 @@ export default function buildFolderRoutes({
         "/folders/list",
         verifyUser,
         verifyProject,
+        verifyViewAccess,
         makeCallback(folderController.getFolderList)
     );
 
@@ -103,6 +109,7 @@ export default function buildFolderRoutes({
         "/folders",
         verifyUser,
         verifyProject,
+        verifyEditAccess,
         makeCallback(folderController.addFolder)
     );
 
