@@ -1,4 +1,4 @@
-import { IToken } from "@omniflow/common";
+import { BadRequestError, IToken } from "@omniflow/common";
 import {
     IMemberRepository,
     IProjectRepository,
@@ -18,7 +18,7 @@ export default function buildGetProjectUseCase({
     return async ({ projectId, user }: { projectId: string; user: IUser }) => {
         const projectData = await projectRepository.get(projectId);
 
-        const member = await memberRepository.getByUsername(user.username);
+        const memberInDb = await memberRepository.getByUsername(user.username);
 
         const data: IProject = {
             description: projectData.description,
@@ -31,6 +31,20 @@ export default function buildGetProjectUseCase({
             title: projectData.title,
             id: projectData.id,
         };
+
+        let member = projectData.members.find(
+            (a) => a.info.id == memberInDb.id
+        );
+
+        if (!member) {
+            throw new BadRequestError("You are not a member in the team");
+        }
+
+        projectData.members.map((m) => {
+            console.log({ m: m.info.id, o: memberInDb.id });
+        });
+
+        console.log({ member, og: projectData.members });
 
         const projectToken = token.sign({
             ...data,

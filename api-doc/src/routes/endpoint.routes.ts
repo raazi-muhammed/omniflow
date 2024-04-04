@@ -1,4 +1,5 @@
 import {
+    IRequest,
     IVerifyProjectMiddleware,
     IVerifyUserMiddleware,
     makeCallback,
@@ -39,6 +40,15 @@ export default function buildEndpointRoutes({
         "/endpoints",
         verifyUser,
         verifyProject,
+        (req, res, next) => {
+            const hi = res;
+            // @ts-ignore
+            req.currentProject;
+            // @ts-ignore
+            console.log(req.currentProject);
+
+            next();
+        },
         makeCallback(endpointController.getEndpoints)
     );
 

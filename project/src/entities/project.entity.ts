@@ -1,5 +1,6 @@
 import { Types } from "mongoose";
 import {
+    IAccess,
     IProject,
     IProjectEntity,
     InviteStatus,
@@ -19,6 +20,7 @@ export default class Project implements IProjectEntity {
         role: Role;
         inviteStatus: InviteStatus;
         info: Types.ObjectId;
+        access: IAccess;
     }[];
 
     constructor(data: IProject) {

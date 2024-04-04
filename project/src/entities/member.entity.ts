@@ -9,14 +9,12 @@ export default class Member implements IMemberEntity {
     username: string;
     email: string;
     avatar?: string;
-    access: IAccess;
 
     constructor(data: IMember) {
         this.name = data.name;
         this.username = data.username;
         this.email = data.email;
         this.avatar = data.avatar;
-        this.access = data.access;
     }
 
     get() {
@@ -25,7 +23,6 @@ export default class Member implements IMemberEntity {
             username: this.username,
             email: this.email,
             avatar: this.avatar,
-            access: this.access,
         });
     }
 }

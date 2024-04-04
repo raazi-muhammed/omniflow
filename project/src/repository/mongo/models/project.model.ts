@@ -1,5 +1,8 @@
 import mongoose, { HydratedDocument, Model } from "mongoose";
-import { IProject } from "../../../interfaces/entity.interface.js";
+import {
+    AccessLevels,
+    IProject,
+} from "../../../interfaces/entity.interface.js";
 
 const projectSchema = new mongoose.Schema<IProject>(
     {
@@ -45,6 +48,23 @@ const projectSchema = new mongoose.Schema<IProject>(
                     type: mongoose.Schema.Types.ObjectId,
                     required: true,
                     ref: "Member",
+                },
+                access: {
+                    apiDoc: {
+                        type: Number,
+                        enum: AccessLevels,
+                        default: AccessLevels.NO_ACCESS,
+                    },
+                    dbDesign: {
+                        type: Number,
+                        enum: AccessLevels,
+                        default: AccessLevels.NO_ACCESS,
+                    },
+                    module: {
+                        type: Number,
+                        enum: AccessLevels,
+                        default: AccessLevels.NO_ACCESS,
+                    },
                 },
             },
         ],

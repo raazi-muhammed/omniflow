@@ -60,6 +60,11 @@ export default function buildAddProjectUseCase({
                     role: Role.DEFAULT,
                     inviteStatus: InviteStatus.ACCEPTED,
                     info: projectLead.id,
+                    access: {
+                        apiDoc: AccessLevels.CAN_EDIT,
+                        dbDesign: AccessLevels.CAN_EDIT,
+                        module: AccessLevels.CAN_EDIT,
+                    },
                 },
             ],
             isDeleted: false,

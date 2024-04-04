@@ -23,15 +23,8 @@ export interface IProject {
         role: Role;
         inviteStatus: InviteStatus;
         info: Types.ObjectId;
+        access: IAccess;
     }[];
-}
-
-export interface IMember {
-    name: string;
-    username: string;
-    email: string;
-    avatar?: string;
-    access: IAccess;
 }
 
 export interface IAccess {
@@ -46,6 +39,13 @@ export enum AccessLevels {
     CAN_EDIT = 2,
 }
 
+export interface IMember {
+    name: string;
+    username: string;
+    email: string;
+    avatar?: string;
+}
+
 export interface IProjectEntity extends IProject {
     title: string;
     description: string;
@@ -58,6 +58,7 @@ export interface IProjectEntity extends IProject {
         role: Role;
         inviteStatus: InviteStatus;
         info: Types.ObjectId;
+        access: IAccess;
     }[];
 
     validate: () => void;
@@ -85,4 +86,5 @@ export interface IMemberInProject {
     role: Role;
     inviteStatus: InviteStatus;
     info: Types.ObjectId;
+    access: IAccess;
 }

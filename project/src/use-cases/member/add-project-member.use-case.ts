@@ -1,6 +1,5 @@
 import {
     IAccess,
-    IMember,
     IMemberEntityConstructor,
     InviteStatus,
     Role,
@@ -44,6 +43,7 @@ export default function buildAddMemberToProjectUseCase({
                 role: Role.DEFAULT,
                 inviteStatus: InviteStatus.ACCEPTED,
                 info: userFound.id,
+                access: userData.access,
             },
         });
     };
