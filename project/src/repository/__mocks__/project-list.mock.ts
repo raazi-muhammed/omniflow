@@ -1,5 +1,6 @@
 import { IDBProject } from "../mongo/models/project.model.js";
 import {
+    IAccess,
     IMemberInProject,
     IProject,
 } from "../../interfaces/entity.interface.js";
@@ -40,5 +41,13 @@ export const projectRepositoryMock = {
                 projectId: string;
                 userId: string;
             }) => Promise<boolean | null>
+        >(),
+    changeMemberAccess:
+        jest.fn<
+            (data: {
+                projectId: string;
+                userId: string;
+                access: IAccess;
+            }) => Promise<null>
         >(),
 };

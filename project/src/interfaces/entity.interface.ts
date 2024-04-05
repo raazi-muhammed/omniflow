@@ -71,6 +71,7 @@ export interface IMemberEntity extends IMember {
     email: string;
     avatar?: string;
 
+    validate: () => void;
     get: () => IMember;
 }
 

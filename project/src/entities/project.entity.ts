@@ -35,11 +35,11 @@ export default class Project implements IProjectEntity {
     }
 
     validate() {
-        if (this.startDate > this.dueDate) throw new Error("Invalid due date");
+        if (this.startDate >= this.dueDate) throw new Error("Invalid due date");
     }
 
     get() {
-        return Object.freeze({
+        return {
             title: this.title,
             description: this.description,
             priority: this.priority,
@@ -48,6 +48,6 @@ export default class Project implements IProjectEntity {
             isDeleted: this.isDeleted,
             lead: this.lead,
             members: this.members,
-        });
+        };
     }
 }

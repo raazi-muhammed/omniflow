@@ -32,6 +32,7 @@ export default function buildAddMemberToProjectUseCase({
         projectId: string;
     }) => {
         const member = new MemberCreator(userData);
+        member.validate();
         const user = member.get();
 
         let userFound = await memberRepository.getByUsername(user.username);
