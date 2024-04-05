@@ -18,11 +18,7 @@ import { teamProducers } from "../events/index.js";
 import buildEditMemberUseCase from "./member/edit-member.use-case.js";
 import buildChangeProjectMemberUseCase from "./member/change-project-member-access.use-case.js";
 
-const addMemberToProject = buildAddMemberToProjectUseCase({
-    projectRepository,
-    memberRepository,
-    MemberCreator: Member,
-});
+/* Project */
 const changeProjectLead = buildChangeProjectLeadUseCase({
     memberRepository,
     projectRepository,
@@ -45,6 +41,27 @@ const getProject = buildGetProjectUseCase({
     token,
 });
 
+const deleteProject = buildDeleteProjectUseCase({ projectRepository });
+const editProject = buildEditProjectUseCase({
+    projectRepository,
+    ProjectCreator: projectEntities.Project,
+});
+
+export const projectUseCases: IProjectUseCase = Object.freeze({
+    changeProjectLead,
+    addProject,
+    deleteProject,
+    getAllProjects,
+    getProject,
+    editProject,
+});
+
+/* Member */
+const addMemberToProject = buildAddMemberToProjectUseCase({
+    projectRepository,
+    memberRepository,
+    MemberCreator: Member,
+});
 const removeMemberFromProject = buildRemoveMemberFromProjectUseCase({
     projectRepository,
     memberRepository,
@@ -52,9 +69,6 @@ const removeMemberFromProject = buildRemoveMemberFromProjectUseCase({
 const editMember = buildEditMemberUseCase({
     memberRepository,
 });
-
-const deleteProject = buildDeleteProjectUseCase({ projectRepository });
-const editProject = buildEditProjectUseCase({ projectRepository });
 
 const changeMemberAccess = buildChangeProjectMemberUseCase({
     projectRepository,
@@ -66,12 +80,4 @@ export const memberUseCases: IMemberUseCase = Object.freeze({
     removeMemberFromProject,
     editMember,
     changeMemberAccess,
-});
-export const projectUseCases: IProjectUseCase = Object.freeze({
-    changeProjectLead,
-    addProject,
-    deleteProject,
-    getAllProjects,
-    getProject,
-    editProject,
 });

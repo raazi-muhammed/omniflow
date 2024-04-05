@@ -5,7 +5,6 @@ import {
 } from "../../interfaces/repository.interface.js";
 import { IProject } from "../../interfaces/entity.interface.js";
 import { IUser } from "@omniflow/common/dist/interfaces/entity.interface.js";
-import { IDBProject } from "../../repository/mongo/models/project.model.js";
 
 export default function buildGetProjectUseCase({
     projectRepository,
