@@ -7,9 +7,8 @@ import { Button } from "../ui/button";
 import Link from "next/link";
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { logUser, logout } from "@/redux/features/authSlice";
+import { logout } from "@/redux/features/authSlice";
 import { useToast } from "../ui/use-toast";
-import { UserService } from "@/services/api/user.service";
 import { makeApiCall } from "@/lib/apicaller";
 import { IResponse } from "@/services/api/utils";
 import {
@@ -35,15 +34,7 @@ function Navbar() {
     const userData = useAppSelector((state) => state.authReducer);
     const dispatch = useDispatch<AppDispatch>();
     useEffect(() => {
-        const service = new UserService();
         const teamService = new TeamService();
-
-        makeApiCall(() => service.getCurrentUser().exec(), {
-            toast,
-            afterSuccess: (response: IResponse) => {
-                dispatch(logUser(response.data));
-            },
-        });
 
         makeApiCall(
             () =>

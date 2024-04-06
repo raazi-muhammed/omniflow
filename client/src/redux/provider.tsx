@@ -1,7 +1,9 @@
 "use client";
-import { useRef } from "react";
 import { Provider } from "react-redux";
 import { store } from "./store";
+import { fetchCurrentUser } from "./features/authSlice";
+
+store.dispatch(fetchCurrentUser());
 
 export default function ReduxProvider({
     children,
