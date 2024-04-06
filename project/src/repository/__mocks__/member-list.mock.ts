@@ -28,12 +28,17 @@ export const memberRepositoryMock = {
                 return Promise.resolve(sampleMember);
             } else return Promise.resolve(null);
         }),
-    editUser:
-        jest.fn<
+    editUser: jest
+        .fn<
             (data: {
                 avatar?: string;
                 username: string;
                 name: string;
             }) => Promise<boolean>
-        >(),
+        >()
+        .mockImplementation((data: { username: string }) => {
+            if (data.username === sampleMember.username) {
+                return Promise.resolve(sampleMember);
+            } else return Promise.resolve(null);
+        }),
 };

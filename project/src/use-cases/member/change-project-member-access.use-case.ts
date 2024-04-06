@@ -1,3 +1,4 @@
+import { NotFoundError } from "@omniflow/common";
 import { IAccess } from "../../interfaces/entity.interface.js";
 import {
     IMemberRepository,
@@ -20,7 +21,8 @@ export default function buildChangeProjectMemberUseCase({
         projectId: string;
         access: IAccess;
     }) => {
-        let user = await memberRepository.getByUsername(userName);
+        const user = await memberRepository.getByUsername(userName);
+        if (!user) throw new NotFoundError("User not found");
 
         await projectRepository.changeMemberAccess({
             projectId,
