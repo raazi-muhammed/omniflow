@@ -73,7 +73,6 @@ export default function buildAddProjectUseCase({
         const project = projectEntity.get();
 
         const projectAdded = await projectRepository.add(project);
-        if (!projectAdded) throw new Error("Cannot add project to db");
 
         await teamProducers.addMemberToTeam({
             userData: {

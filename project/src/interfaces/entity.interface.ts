@@ -1,4 +1,5 @@
 import { Types } from "mongoose";
+import { IDBMember } from "../repository/mongo/models/members.model.js";
 
 export enum Role {
     TEAM_LEAD = "TEAM_LEAD",
@@ -22,7 +23,7 @@ export interface IProject {
     members: {
         role: Role;
         inviteStatus: InviteStatus;
-        info: Types.ObjectId;
+        info: Types.ObjectId | IDBMember;
         access: IAccess;
     }[];
 }
@@ -57,7 +58,7 @@ export interface IProjectEntity extends IProject {
     members: {
         role: Role;
         inviteStatus: InviteStatus;
-        info: Types.ObjectId;
+        info: Types.ObjectId | IDBMember;
         access: IAccess;
     }[];
 

@@ -17,7 +17,6 @@ export default function buildGetProjectUseCase({
 }) {
     return async ({ projectId, user }: { projectId: string; user: IUser }) => {
         const projectData = await projectRepository.get(projectId);
-
         const memberInDb = await memberRepository.getByUsername(user.username);
 
         const data: IProject = {
@@ -33,16 +32,12 @@ export default function buildGetProjectUseCase({
         };
 
         let member = projectData.members.find(
-            (a) => a.info.id == memberInDb.id
+            (a) => a.info.id == memberInDb?.id
         );
 
         if (!member) {
             throw new BadRequestError("You are not a member in the team");
         }
-
-        projectData.members.map((m) => {
-            console.log({ m: m.info.id, o: memberInDb.id });
-        });
 
         const projectToken = token.sign({
             ...data,

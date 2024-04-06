@@ -1,13 +1,49 @@
 import { IDBProject } from "../mongo/models/project.model.js";
 import {
+    AccessLevels,
     IAccess,
+    IMember,
     IMemberInProject,
     IProject,
+    InviteStatus,
+    Role,
 } from "../../interfaces/entity.interface.js";
 import { jest } from "@jest/globals";
+import { Types } from "mongoose";
+import { IDBMember } from "../mongo/models/members.model.js";
+
+const sampleProjectData: IProject = {
+    id: "55153a8014829a865bbf700d",
+    title: "shop",
+    description: "simple project",
+    dueDate: new Date(),
+    isDeleted: false,
+    lead: new Types.ObjectId("55153a8014829a865bbf700d"),
+    members: [
+        {
+            access: {
+                apiDoc: AccessLevels.CAN_EDIT,
+                dbDesign: AccessLevels.CAN_EDIT,
+                module: AccessLevels.CAN_EDIT,
+            },
+            info: {
+                id: "55153a8014829a865bbf700d",
+                email: "raazi@gmail.com",
+                name: "raazi",
+                username: "raazi",
+            } as IDBMember,
+            inviteStatus: InviteStatus.ACCEPTED,
+            role: Role.TEAM_LEAD,
+        },
+    ],
+    priority: 1,
+    startDate: new Date(),
+};
 
 export const projectRepositoryMock = {
-    add: jest.fn<(data: IProject) => Promise<IDBProject | null>>(),
+    add: jest
+        .fn<(data: IProject) => Promise<IDBProject | null>>()
+        .mockResolvedValue(sampleProjectData as IDBProject),
     edit: jest.fn<
         (data: {
             id: string;
@@ -18,9 +54,18 @@ export const projectRepositoryMock = {
             priority: number;
         }) => Promise<boolean | null>
     >(),
-    getAll: jest.fn<(userId: string) => Promise<IDBProject[] | null>>(),
-    get: jest.fn<(id: string) => Promise<IDBProject | null>>(),
-    delete: jest.fn<(id: string) => Promise<boolean | null>>(),
+    getAll: jest
+        .fn<(userId: string) => Promise<IDBProject[] | null>>()
+        .mockResolvedValue([sampleProjectData] as IDBProject[]),
+    get: jest
+        .fn<(id: string) => Promise<IDBProject | null>>()
+        .mockResolvedValue(sampleProjectData as IDBProject),
+    delete: jest
+        .fn<(id: string) => Promise<boolean | null>>()
+        .mockImplementation((id: string) => {
+            if (id == sampleProjectData.id) return Promise.resolve(true);
+            else return Promise.resolve(false);
+        }),
     addMember:
         jest.fn<
             (data: {

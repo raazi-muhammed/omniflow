@@ -6,6 +6,7 @@ import {
     InviteStatus,
     Role,
 } from "../interfaces/entity.interface.js";
+import { IDBMember } from "../repository/mongo/models/members.model.js";
 
 export default class Project implements IProjectEntity {
     _id?: string;
@@ -19,7 +20,7 @@ export default class Project implements IProjectEntity {
     members: {
         role: Role;
         inviteStatus: InviteStatus;
-        info: Types.ObjectId;
+        info: Types.ObjectId | IDBMember;
         access: IAccess;
     }[];
 

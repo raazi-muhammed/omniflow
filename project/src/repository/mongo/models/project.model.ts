@@ -3,6 +3,7 @@ import {
     AccessLevels,
     IProject,
 } from "../../../interfaces/entity.interface.js";
+import { IDBMember } from "./members.model.js";
 
 const projectSchema = new mongoose.Schema<IProject>(
     {

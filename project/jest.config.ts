@@ -27,6 +27,7 @@ const config: Config = {
         "(.+)\\.js": "$1",
     },
     setupFiles: ["<rootDir>/.jest/setEnvVars.js"],
+    testPathIgnorePatterns: ["__tests__/index*"],
     // An array of glob patterns indicating a set of files for which coverage information should be collected
     // collectCoverageFrom: undefined,
 
