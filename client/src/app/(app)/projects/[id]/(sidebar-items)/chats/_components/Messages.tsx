@@ -5,6 +5,7 @@ import { File, Loader2 } from "lucide-react";
 import moment from "moment";
 import Link from "next/link";
 import React, { useEffect } from "react";
+import { motion } from "framer-motion";
 
 export default function Messages({
     messages,
@@ -26,7 +27,10 @@ export default function Messages({
         <section className="flex flex-col gap-2">
             {messages.map((message) =>
                 userName == message.from.username ? (
-                    <section className="me-0 ms-auto grid w-fit">
+                    <motion.section
+                        initial={{ scale: 0.5, x: 20 }}
+                        animate={{ scale: 1, x: 0 }}
+                        className="me-0 ms-auto grid w-fit">
                         <section className="ms-auto w-fit rounded-lg border border-primary-border bg-gradient-to-br from-primary-from to-primary-to p-2 text-primary-foreground">
                             {message.file ? (
                                 <>
@@ -62,9 +66,12 @@ export default function Messages({
                                 </Label>
                             )}
                         </div>
-                    </section>
+                    </motion.section>
                 ) : (
-                    <section className="me-auto ms-0 flex w-fit gap-2">
+                    <motion.section
+                        initial={{ scale: 0.5, x: -20 }}
+                        animate={{ scale: 1, x: 0 }}
+                        className="me-auto ms-0 flex w-fit gap-2">
                         <Avatar
                             size="sm"
                             tooltip={true}
@@ -99,7 +106,7 @@ export default function Messages({
                                 {moment(message.createdAt).fromNow()}
                             </Label>
                         </div>
-                    </section>
+                    </motion.section>
                 )
             )}
 

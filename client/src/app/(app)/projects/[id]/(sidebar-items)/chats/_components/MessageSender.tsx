@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/popover";
 import { IResponse } from "@/services/api/utils";
 import Link from "next/link";
+import AnimateButton from "@/components/animated/AnimateButton";
 
 const FormSchema = z.object({
     message: z.string().min(1, {
@@ -151,12 +152,14 @@ export default function MessageSender({
                             name="file"
                             render={({}) => (
                                 <FormItem className="flex gap-2 rounded px-2 py-1 hover:bg-muted">
-                                    <FormLabel className="flex gap-2">
-                                        <FileIcon className="my-auto" />
-                                        <span className="my-auto text-sm">
-                                            File
-                                        </span>
-                                    </FormLabel>
+                                    <AnimateButton>
+                                        <FormLabel className="flex gap-2">
+                                            <FileIcon className="my-auto" />
+                                            <span className="my-auto text-sm">
+                                                File
+                                            </span>
+                                        </FormLabel>
+                                    </AnimateButton>
                                     <FormControl>
                                         <Input
                                             className="sr-only"
@@ -189,12 +192,14 @@ export default function MessageSender({
                             name="image"
                             render={({}) => (
                                 <FormItem className="flex gap-2 rounded px-2 py-1 hover:bg-muted">
-                                    <FormLabel className="flex gap-2">
-                                        <ImageIcon className="my-auto" />
-                                        <span className="my-auto text-sm">
-                                            Image
-                                        </span>
-                                    </FormLabel>
+                                    <AnimateButton>
+                                        <FormLabel className="flex gap-2">
+                                            <ImageIcon className="my-auto" />
+                                            <span className="my-auto text-sm">
+                                                Image
+                                            </span>
+                                        </FormLabel>
+                                    </AnimateButton>
                                     <FormControl>
                                         <Input
                                             className="sr-only"
@@ -265,9 +270,14 @@ export default function MessageSender({
                         )}
                     />
                 </div>
-                <Button type="submit" size="sm" className="mb-1 mt-auto flex">
-                    <SendIcon size="1em" />
-                </Button>
+                <AnimateButton>
+                    <Button
+                        type="submit"
+                        size="sm"
+                        className="mb-1 mt-auto flex">
+                        <SendIcon size="1em" />
+                    </Button>
+                </AnimateButton>
             </form>
         </Form>
     );
