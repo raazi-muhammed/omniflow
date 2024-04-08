@@ -9,7 +9,7 @@ import { useEffect } from "react";
 import { ProjectService } from "@/services/api/project.service";
 import { useDispatch } from "react-redux";
 import { setProject } from "@/redux/features/projectSlice";
-import { IProject } from "@/types/database";
+import { IAccess, IProject } from "@/types/database";
 import {
     FileCode2 as APIDocsIcon,
     GanttChartSquare as ProjectIcon,
@@ -33,6 +33,7 @@ type Option = {
     icon?: JSX.Element;
 };
 import { cn } from "@/lib/utils";
+import AnimateButton from "../animated/AnimateButton";
 
 export default function Sidebar() {
     const dispatch = useDispatch<AppDispatch>();
@@ -47,7 +48,9 @@ export default function Sidebar() {
             .getCurrentProject()
             .exec()
             .then((response) => {
-                dispatch(setProject(response.data as IProject));
+                dispatch(
+                    setProject(response.data as IProject & { access: IAccess })
+                );
             });
     }, [dispatch]);
 
@@ -169,7 +172,7 @@ function SidebarItems({
             </div>
             <div className="grid gap-2">
                 {options.map((opt) => (
-                    <>
+                    <AnimateButton>
                         {opt.type !== "separator" ? (
                             <>
                                 {urls[0] === opt.identifier ? (
@@ -199,7 +202,7 @@ function SidebarItems({
                                 <Separator />
                             </div>
                         )}
-                    </>
+                    </AnimateButton>
                 ))}
             </div>
         </aside>
