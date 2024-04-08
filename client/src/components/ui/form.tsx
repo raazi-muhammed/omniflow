@@ -12,6 +12,7 @@ import {
 
 import { cn } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
+import { AnimatePresence, motion } from "framer-motion";
 
 const Form = FormProvider;
 
@@ -148,21 +149,27 @@ const FormMessage = React.forwardRef<
     const { error, formMessageId } = useFormField();
     const body = error ? String(error?.message) : children;
 
-    if (!body) {
-        return null;
-    }
-
     return (
-        <p
-            ref={ref}
-            id={formMessageId}
-            className={cn(
-                "text-xs ms-2 font-medium text-destructive",
-                className
-            )}
-            {...props}>
-            {body}
-        </p>
+        <AnimatePresence>
+            <motion.div
+                key={body?.toLocaleString()}
+                initial={{ y: -10, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: -10, opacity: 0, position: "absolute" }}>
+                {body ? (
+                    <p
+                        ref={ref}
+                        id={formMessageId}
+                        className={cn(
+                            "text-xs ms-2 font-medium text-destructive",
+                            className
+                        )}
+                        {...props}>
+                        {body}
+                    </p>
+                ) : null}
+            </motion.div>
+        </AnimatePresence>
     );
 });
 FormMessage.displayName = "FormMessage";

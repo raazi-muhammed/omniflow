@@ -24,6 +24,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { AuthService } from "@/services/api/auth.service";
 import { makeApiCall } from "@/lib/apicaller";
+import AnimateButton from "@/components/animated/AnimateButton";
 
 const formSchema = z
     .object({
@@ -233,12 +234,14 @@ export default function SignUpForm() {
                     )}
                 />
 
-                <Button
-                    className="w-full"
-                    type="submit"
-                    disabled={!form.formState.isValid}>
-                    Sign Up
-                </Button>
+                <AnimateButton className="w-full">
+                    <Button
+                        className="w-full"
+                        type="submit"
+                        disabled={!form.formState.isValid}>
+                        Sign Up
+                    </Button>
+                </AnimateButton>
             </form>
         </Form>
     );

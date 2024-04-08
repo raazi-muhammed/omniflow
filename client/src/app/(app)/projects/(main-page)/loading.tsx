@@ -3,9 +3,9 @@ import Container from "@/components/layout/Container";
 import { Skeleton } from "@/components/ui/skeleton";
 import ResponsiveGridContainer from "@/components/layout/ResponsiveGridContainer";
 import Heading from "@/components/custom/Heading";
-import { Link } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AddIcon } from "@/lib/icons";
+import Link from "next/link";
 
 export default function loading() {
     return (

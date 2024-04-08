@@ -27,6 +27,7 @@ import { logUser } from "@/redux/features/authSlice";
 import { AuthService } from "@/services/api/auth.service";
 import { makeApiCall } from "@/lib/apicaller";
 import { IResponse } from "@/services/api/utils";
+import AnimateButton from "@/components/animated/AnimateButton";
 
 const formSchema = z.object({
     email: z.string().email(),
@@ -137,13 +138,14 @@ export default function LoginForm() {
                         </FormItem>
                     )}
                 />
-
-                <Button
-                    disabled={!form.formState.isValid}
-                    className="w-full"
-                    type="submit">
-                    Login
-                </Button>
+                <AnimateButton className="w-full">
+                    <Button
+                        disabled={!form.formState.isValid}
+                        className="w-full"
+                        type="submit">
+                        Login
+                    </Button>
+                </AnimateButton>
             </form>
         </Form>
     );
