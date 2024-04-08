@@ -4,7 +4,7 @@ import DatabaseTable from "./DatabaseTable";
 import { IRelation, ITable } from "@/types/database";
 import { useToast } from "@/components/ui/use-toast";
 import { makeApiCall } from "@/lib/apicaller";
-import LinkConnector from "./LineConnector";
+import DivConnector from "react-connect-div";
 import ErrorMessage from "@/components/custom/ErrorMessage";
 import Container from "@/components/layout/Container";
 import RemoveRelation from "./RemoveRelation";
@@ -111,19 +111,20 @@ export default function DBDesign({ endpoints }: { endpoints: ITable[] }) {
                 )}
 
                 {relations.map((rel, index) => (
-                    <LinkConnector
+                    <DivConnector
                         key={index}
                         container=".db-design"
-                        data={data}
+                        refreshWhen={data}
+                        borderRadius={40}
+                        borderWidth={2}
+                        borderColor="#8951E1"
                         from={`.s${rel.from}`}
                         to={`.s${rel.to}`}>
-                        <div className="grid h-full w-full place-items-center">
-                            <RemoveRelation
-                                refreshRelations={refreshRelations}
-                                relationId={rel.id}
-                            />
-                        </div>
-                    </LinkConnector>
+                        <RemoveRelation
+                            refreshRelations={refreshRelations}
+                            relationId={rel.id}
+                        />
+                    </DivConnector>
                 ))}
             </section>
         </main>
