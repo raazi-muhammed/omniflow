@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/popover";
 import ChangeTeamLeadForm from "../_forms/ChangeTeamLeadForm";
 import { IMemberStatus } from "@/types/database";
+import AnimateButton from "@/components/animated/AnimateButton";
 
 export default function ChangeTeamLead({
     membersList,
@@ -18,10 +19,12 @@ export default function ChangeTeamLead({
 }) {
     return (
         <Popover>
-            <PopoverTrigger asChild>
-                <Button size="sm" variant="muted" className="ms-auto">
-                    Change team lead
-                </Button>
+            <PopoverTrigger className="ms-auto">
+                <AnimateButton>
+                    <Button size="sm" variant="muted" className="ms-auto">
+                        Change team lead
+                    </Button>
+                </AnimateButton>
             </PopoverTrigger>
             <PopoverContent>
                 <ChangeTeamLeadForm

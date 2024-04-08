@@ -14,6 +14,7 @@ import {
     SectionSplitter,
 } from "@/components/layout/SectinSplitter";
 import { TaskService } from "@/services/api/task.service";
+import AnimateButton from "@/components/animated/AnimateButton";
 
 async function loadTasks() {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -43,13 +44,15 @@ export default async function page({ children }: { children: ReactNode }) {
         <Container>
             <SectionSplitter className="w-full">
                 <SectionAside className="mt-8">
-                    <section className="flex justify-between">
-                        <Link href="add" legacyBehavior>
-                            <Button className="ms-auto" size="sm">
-                                <AddIcon />
-                                Add task
-                            </Button>
-                        </Link>
+                    <section className="flex justify-end">
+                        <AnimateButton>
+                            <Link href="add" legacyBehavior>
+                                <Button className="ms-auto" size="sm">
+                                    <AddIcon />
+                                    Add task
+                                </Button>
+                            </Link>
+                        </AnimateButton>
                     </section>
                     <main className="w-full space-y-6">
                         {tasks.toDo.length > 0 && (

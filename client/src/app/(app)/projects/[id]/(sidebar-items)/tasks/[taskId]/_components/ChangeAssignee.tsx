@@ -1,5 +1,6 @@
 "use client";
 
+import AnimateButton from "@/components/animated/AnimateButton";
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -101,10 +102,12 @@ export default function ChangeAssignee({ taskId }: { taskId: string }) {
                     loadMembersList();
                 }
             }}>
-            <PopoverTrigger asChild>
-                <Button size="sm" variant="muted" className="ms-auto">
-                    Change assignee
-                </Button>
+            <PopoverTrigger className="ms-auto">
+                <AnimateButton>
+                    <Button size="sm" variant="muted" className="ms-auto">
+                        Change assignee
+                    </Button>
+                </AnimateButton>
             </PopoverTrigger>
             <PopoverContent>
                 <Form {...form}>

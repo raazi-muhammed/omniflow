@@ -1,12 +1,8 @@
 import ActionItemsContainer from "@/components/layout/ActionItemsContainer";
 import Container from "@/components/layout/Container";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { PROJECT_TOKEN_COOKIE, USER_TOKEN_COOKIE } from "@/constants/cookies";
-import { AddIcon } from "@/lib/icons";
 import { IEndpoint, IFolder } from "@/types/database";
 import { cookies } from "next/headers";
-import Link from "next/link";
 import ErrorMessage from "@/components/custom/ErrorMessage";
 import {
     SectionAside,
@@ -66,7 +62,6 @@ export default async function page() {
                     {folders.map((folder) => (
                         <FolderCard key={folder.id} folder={folder} />
                     ))}
-
                     {endpoints.map((point) => (
                         <EndpointCard key={point.id} point={point} />
                     ))}

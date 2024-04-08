@@ -19,6 +19,7 @@ import {
     PreviewHeader,
 } from "@/components/layout/PreviewHeader";
 import Link from "next/link";
+import AnimateButton from "@/components/animated/AnimateButton";
 
 async function loadMeeting(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -45,9 +46,11 @@ export default async function MeetingPage({
         <main className="space-y-6">
             <PreviewActions>
                 <EditMeeting meeting={meeting} />
-                <Link href={`join/${meeting.id}`} legacyBehavior>
-                    <Button size="sm">Join meeting</Button>
-                </Link>
+                <AnimateButton>
+                    <Link href={`join/${meeting.id}`} legacyBehavior>
+                        <Button size="sm">Join meeting</Button>
+                    </Link>
+                </AnimateButton>
             </PreviewActions>
             <PreviewHeader>
                 <PreviewContent>

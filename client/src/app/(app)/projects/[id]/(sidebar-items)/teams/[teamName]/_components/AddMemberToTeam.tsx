@@ -13,6 +13,7 @@ import { TeamService } from "@/services/api/team.service";
 import { IResponse } from "@/services/api/utils";
 import AddMemberToTeamForm from "../_forms/AddMemberToTeamForm";
 import { AddIcon } from "@/lib/icons";
+import AnimateButton from "@/components/animated/AnimateButton";
 
 export default function AddMemberToTeam({ teamName }: { teamName: string }) {
     const [membersList, setMemberList] = useState<IMemberStatus[]>([]);
@@ -30,11 +31,13 @@ export default function AddMemberToTeam({ teamName }: { teamName: string }) {
 
     return (
         <Popover>
-            <PopoverTrigger asChild>
-                <Button size="sm" variant="muted" className="ms-auto">
-                    <AddIcon />
-                    Add Member
-                </Button>
+            <PopoverTrigger>
+                <AnimateButton>
+                    <Button size="sm" variant="muted" className="ms-auto">
+                        <AddIcon />
+                        Add Member
+                    </Button>
+                </AnimateButton>
             </PopoverTrigger>
             <PopoverContent>
                 <AddMemberToTeamForm

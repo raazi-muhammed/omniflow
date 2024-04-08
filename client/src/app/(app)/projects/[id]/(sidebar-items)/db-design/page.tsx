@@ -11,6 +11,7 @@ import { PROJECT_TOKEN_COOKIE, USER_TOKEN_COOKIE } from "@/constants/cookies";
 import { TableService } from "@/services/api/table.service";
 import { ITable } from "@/types/database";
 import AddTable from "./_components/AddTable";
+import AnimateButton from "@/components/animated/AnimateButton";
 
 async function loadTables() {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -35,12 +36,14 @@ export default async function DbDesign() {
             <Container className="mt-4 flex justify-between align-middle">
                 <Heading>Database Design</Heading>
                 <div className="flex-end flex gap-2">
-                    <Link href="db-design/relations" legacyBehavior>
-                        <Button size="sm" variant="muted">
-                            <RelationIcon size="1.3em" className="me-2" />
-                            Relations
-                        </Button>
-                    </Link>
+                    <AnimateButton>
+                        <Link href="db-design/relations" legacyBehavior>
+                            <Button size="sm" variant="muted">
+                                <RelationIcon size="1.3em" className="me-2" />
+                                Relations
+                            </Button>
+                        </Link>
+                    </AnimateButton>
                     <AddTable />
                 </div>
             </Container>

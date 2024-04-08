@@ -17,6 +17,7 @@ import { AddIcon } from "@/lib/icons";
 import Link from "next/link";
 import CustomLink from "@/components/custom/CustomLink";
 import { ModuleService } from "@/services/api/module.service";
+import AnimateCard from "@/components/animated/AnimateCard";
 
 export default function ModuleCard({
     module,
@@ -46,46 +47,52 @@ export default function ModuleCard({
                 if (!subModules) getSubModules();
             }}>
             <AccordionItem value="item-1 ">
-                <Card className="flex align-middle">
-                    <AccordionTrigger className="h-full w-fit rounded-r-none bg-muted hover:bg-muted/90"></AccordionTrigger>
-                    <section className="h-fit w-full p-3">
-                        <CustomLink
-                            href={`/projects/${projectId}/modules/${module.id}`}>
-                            {module.name}
-                        </CustomLink>
-                        <section>
-                            {module.dependencies.length > 0 ? (
-                                <>
-                                    <Label className="mb-0">Dependencies</Label>
-                                    <section className="-mt-1 flex h-fit flex-wrap gap-4">
-                                        {module.dependencies.map((dep) => (
-                                            <Link
-                                                key={dep.id}
-                                                href={`/projects/${projectId}/modules/${dep.id}`}>
-                                                <Label className="hover:underline">
-                                                    {dep.name}
-                                                </Label>
-                                            </Link>
-                                        ))}
-                                    </section>
-                                </>
-                            ) : (
-                                <Label>No dependencies</Label>
-                            )}
-                        </section>
-                    </section>
-                    <Link
-                        href={`/projects/${projectId}/modules/add?parentModule=${module.id}`}
-                        legacyBehavior>
-                        <Button
-                            size="sm"
-                            variant="ghost"
-                            className="my-auto me-2 text-secondary">
-                            <AddIcon />
-                            Add module
-                        </Button>
+                <AnimateCard type="subtle">
+                    <Link href={`/projects/${projectId}/modules/${module.id}`}>
+                        <Card className="flex align-middle">
+                            <AccordionTrigger className="h-full w-fit rounded-r-none bg-muted hover:bg-muted/90"></AccordionTrigger>
+                            <section className="h-fit w-full p-3">
+                                {module.name}
+
+                                <section>
+                                    {module.dependencies.length > 0 ? (
+                                        <>
+                                            <Label className="mb-0">
+                                                Dependencies
+                                            </Label>
+                                            <section className="-mt-1 flex h-fit flex-wrap gap-4">
+                                                {module.dependencies.map(
+                                                    (dep) => (
+                                                        <Link
+                                                            key={dep.id}
+                                                            href={`/projects/${projectId}/modules/${dep.id}`}>
+                                                            <Label className="hover:underline">
+                                                                {dep.name}
+                                                            </Label>
+                                                        </Link>
+                                                    )
+                                                )}
+                                            </section>
+                                        </>
+                                    ) : (
+                                        <Label>No dependencies</Label>
+                                    )}
+                                </section>
+                            </section>
+                            <Link
+                                href={`/projects/${projectId}/modules/add?parentModule=${module.id}`}
+                                legacyBehavior>
+                                <Button
+                                    size="sm"
+                                    variant="ghost"
+                                    className="my-auto me-2 text-secondary">
+                                    <AddIcon />
+                                    Add module
+                                </Button>
+                            </Link>
+                        </Card>
                     </Link>
-                </Card>
+                </AnimateCard>
                 <AccordionContent className="my-4 ms-4 py-0">
                     <section className="grid w-full gap-4">
                         <>

@@ -28,6 +28,7 @@ import {
     PreviewHeader,
 } from "@/components/layout/PreviewHeader";
 import { ApiDocService } from "@/services/api/api-doc.service";
+import AnimateButton from "@/components/animated/AnimateButton";
 
 async function getEndpointData(id: string) {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -88,11 +89,13 @@ export default async function Endpoint({
                         <Heading className="mt-auto" variant="sm">
                             Variables
                         </Heading>
-                        <Link href={`${params.endpointId}/variables`}>
-                            <Button size="sm" variant="muted">
-                                <EditIcon /> Edit variables
-                            </Button>
-                        </Link>
+                        <AnimateButton>
+                            <Link href={`${params.endpointId}/variables`}>
+                                <Button size="sm" variant="muted">
+                                    <EditIcon /> Edit variables
+                                </Button>
+                            </Link>
+                        </AnimateButton>
                     </section>
                     {endpoint.variables.length > 0 ? (
                         <Table>
@@ -130,11 +133,13 @@ export default async function Endpoint({
                         <Heading className="mt-auto" variant="sm">
                             Headers
                         </Heading>
-                        <Link href={`${params.endpointId}/headers`}>
-                            <Button size="sm" variant="muted">
-                                <EditIcon /> Edit headers
-                            </Button>
-                        </Link>
+                        <AnimateButton>
+                            <Link href={`${params.endpointId}/headers`}>
+                                <Button size="sm" variant="muted">
+                                    <EditIcon /> Edit headers
+                                </Button>
+                            </Link>
+                        </AnimateButton>
                     </section>
                     {endpoint.headers.length > 0 ? (
                         <Table>
@@ -170,11 +175,13 @@ export default async function Endpoint({
                         <Heading className="mt-auto" variant="sm">
                             Body
                         </Heading>
-                        <Link href={`${params.endpointId}/body`}>
-                            <Button size="sm" variant="muted">
-                                <EditIcon /> Edit body
-                            </Button>
-                        </Link>
+                        <AnimateButton>
+                            <Link href={`${params.endpointId}/body`}>
+                                <Button size="sm" variant="muted">
+                                    <EditIcon /> Edit body
+                                </Button>
+                            </Link>
+                        </AnimateButton>
                     </section>
                     {endpoint.body ? (
                         <JsonView className="m-0 border" data={endpoint.body} />
@@ -237,11 +244,13 @@ export default async function Endpoint({
                     <Heading className="mt-auto" variant="sm">
                         Responses
                     </Heading>
-                    <Link href={`${params.endpointId}/responses`}>
-                        <Button size="sm" variant="muted">
-                            <EditIcon /> Edit responses
-                        </Button>
-                    </Link>
+                    <AnimateButton>
+                        <Link href={`${params.endpointId}/responses`}>
+                            <Button size="sm" variant="muted">
+                                <EditIcon /> Edit responses
+                            </Button>
+                        </Link>
+                    </AnimateButton>
                 </section>
                 {endpoint.requests.length > 0 ? (
                     <Table>

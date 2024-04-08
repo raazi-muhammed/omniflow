@@ -17,6 +17,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { ApiDocService } from "@/services/api/api-doc.service";
 import { makeApiCall } from "@/lib/apicaller";
+import AnimateButton from "@/components/animated/AnimateButton";
 
 export default function EditEndpoint({ endpoint }: { endpoint: IEndpoint }) {
     const [open, setOpen] = useState(false);
@@ -37,11 +38,13 @@ export default function EditEndpoint({ endpoint }: { endpoint: IEndpoint }) {
 
     return (
         <Dialog open={open} onOpenChange={(e) => setOpen(e)}>
-            <DialogTrigger asChild>
-                <Button variant="muted" size="sm">
-                    <EditIcon />
-                    Edit endpoint
-                </Button>
+            <DialogTrigger>
+                <AnimateButton>
+                    <Button variant="muted" size="sm">
+                        <EditIcon />
+                        Edit endpoint
+                    </Button>
+                </AnimateButton>
             </DialogTrigger>
             <DialogContent className="max-w-xl bg-card">
                 <DialogHeader>

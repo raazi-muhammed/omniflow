@@ -1,3 +1,5 @@
+import AnimateButton from "@/components/animated/AnimateButton";
+import AnimateCard from "@/components/animated/AnimateCard";
 import CustomLink from "@/components/custom/CustomLink";
 import ErrorMessage from "@/components/custom/ErrorMessage";
 import Heading from "@/components/custom/Heading";
@@ -18,6 +20,7 @@ import moment from "moment";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import React, { ReactNode } from "react";
+import MeetingCard from "../_components/MeetingCard";
 
 async function loadMeetings() {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -54,26 +57,23 @@ export default async function page({
             <SectionSplitter>
                 <SectionAside className="mt-8">
                     <section className="space-y-4">
-                        <Link
-                            href={`/projects/${params.projectId}/meetings/add`}
-                            legacyBehavior>
-                            <Button size="sm" className="me-0 ms-auto flex">
-                                <AddIcon /> Add meeting
-                            </Button>
-                        </Link>
+                        <AnimateButton>
+                            <Link
+                                href={`/projects/${params.projectId}/meetings/add`}
+                                legacyBehavior>
+                                <Button
+                                    size="sm"
+                                    className="me-0 ms-auto flex w-fit">
+                                    <AddIcon /> Add meeting
+                                </Button>
+                            </Link>
+                        </AnimateButton>
                         <Heading variant="sm">Upcoming Meetings</Heading>
                         {upcomingMeetings.map((meeting) => (
-                            <Card key={meeting.id} className="p-4">
-                                <CustomLink
-                                    href={`/projects/${params.projectId}/meetings/${meeting.id}`}>
-                                    {meeting.name}
-                                </CustomLink>
-                                <Label>
-                                    {moment(meeting.startDate)
-                                        .startOf("day")
-                                        .fromNow()}
-                                </Label>
-                            </Card>
+                            <MeetingCard
+                                projectId={params.projectId}
+                                meeting={meeting}
+                            />
                         ))}
                         {upcomingMeetings.length < 1 && (
                             <ErrorMessage
@@ -88,17 +88,10 @@ export default async function page({
                                     Previous Meetings
                                 </Heading>
                                 {previousMeetings.map((meeting) => (
-                                    <Card key={meeting.id} className="p-4">
-                                        <CustomLink
-                                            href={`/projects/${params.projectId}/meetings/${meeting.id}`}>
-                                            {meeting.name}
-                                        </CustomLink>
-                                        <Label>
-                                            {moment(meeting.startDate)
-                                                .startOf("day")
-                                                .fromNow()}
-                                        </Label>
-                                    </Card>
+                                    <MeetingCard
+                                        projectId={params.projectId}
+                                        meeting={meeting}
+                                    />
                                 ))}
                             </>
                         )}

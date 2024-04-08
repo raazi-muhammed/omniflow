@@ -9,6 +9,7 @@ import Link from "next/link";
 import React from "react";
 import TaskBoard from "./_components/TaskBoard";
 import { TaskService } from "@/services/api/task.service";
+import AnimateButton from "@/components/animated/AnimateButton";
 
 async function loadTasks() {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -38,12 +39,14 @@ export default async function page() {
             <section className="mt-8">
                 <Container className="flex justify-between">
                     <Heading>Tasks</Heading>
-                    <Link href="tasks/add" legacyBehavior>
-                        <Button size="sm">
-                            <AddIcon />
-                            Add task
-                        </Button>
-                    </Link>
+                    <AnimateButton>
+                        <Link href="tasks/add" legacyBehavior>
+                            <Button size="sm">
+                                <AddIcon />
+                                Add task
+                            </Button>
+                        </Link>
+                    </AnimateButton>
                 </Container>
             </section>
             <main className="w-screen-without-sidebar min-h-screen overflow-auto">

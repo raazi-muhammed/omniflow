@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 import EditModuleForm from "../_forms/EditModuleForm";
 import { ModuleService } from "@/services/api/module.service";
 import { makeApiCall } from "@/lib/apicaller";
+import AnimateButton from "@/components/animated/AnimateButton";
 
 export default function EditModule({ module }: { module: IModule }) {
     const [open, setOpen] = useState(false);
@@ -37,15 +38,17 @@ export default function EditModule({ module }: { module: IModule }) {
 
     return (
         <Dialog open={open} onOpenChange={(e) => setOpen(e)}>
-            <DialogTrigger asChild>
-                <Button variant="muted" size="sm">
-                    <EditIcon />
-                    Edit task
-                </Button>
+            <DialogTrigger>
+                <AnimateButton>
+                    <Button variant="muted" size="sm">
+                        <EditIcon />
+                        Edit module
+                    </Button>
+                </AnimateButton>
             </DialogTrigger>
             <DialogContent className="max-w-xl bg-card">
                 <DialogHeader>
-                    <DialogTitle>Edit endpoint</DialogTitle>
+                    <DialogTitle>Edit module</DialogTitle>
                 </DialogHeader>
                 <EditModuleForm
                     module={module}

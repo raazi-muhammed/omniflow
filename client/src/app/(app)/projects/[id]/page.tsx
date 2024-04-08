@@ -7,7 +7,7 @@ import Container from "@/components/layout/Container";
 import { Button } from "@/components/ui/button";
 import { EditIcon } from "@/lib/icons";
 import { ProjectService } from "@/services/api/project.service";
-import { IProject } from "@/types/database";
+import { IAccess, IProject } from "@/types/database";
 import moment from "moment";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -16,6 +16,7 @@ import { useDispatch } from "react-redux";
 import { setProject as setProjectOnRedux } from "@/redux/features/projectSlice";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Label } from "@/components/ui/label";
+import AnimateButton from "@/components/animated/AnimateButton";
 
 export default function Page({ params }: { params: { id: string } }) {
     const [project, setProject] = useState<IProject | null>(null);
@@ -28,7 +29,11 @@ export default function Page({ params }: { params: { id: string } }) {
             .exec()
             .then((response) => {
                 setProject(response.data);
-                dispatch(setProjectOnRedux(response.data as IProject));
+                dispatch(
+                    setProjectOnRedux(
+                        response.data as IProject & { access: IAccess }
+                    )
+                );
             });
     }, [dispatch, params.id]);
 
@@ -36,11 +41,13 @@ export default function Page({ params }: { params: { id: string } }) {
         <main className="w-full">
             <Container>
                 <ActionItemsContainer>
-                    <Link href={`${project?.id}/edit-project`}>
-                        <Button size="sm" variant="muted">
-                            <EditIcon /> Edit Project
-                        </Button>
-                    </Link>
+                    <AnimateButton>
+                        <Link href={`${project?.id}/edit-project`}>
+                            <Button size="sm" variant="muted">
+                                <EditIcon /> Edit Project
+                            </Button>
+                        </Link>
+                    </AnimateButton>
                 </ActionItemsContainer>
 
                 {project ? (

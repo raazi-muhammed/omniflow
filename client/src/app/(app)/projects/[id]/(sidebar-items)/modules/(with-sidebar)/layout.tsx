@@ -15,6 +15,7 @@ import {
 } from "@/components/layout/SectinSplitter";
 import ModuleCard from "../_components/ModuleCard";
 import { ModuleService } from "@/services/api/module.service";
+import AnimateButton from "@/components/animated/AnimateButton";
 
 async function loadModules() {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -45,14 +46,16 @@ export default async function page({
             <SectionSplitter>
                 <SectionAside className="mt-0">
                     <ActionItemsContainer>
-                        <Link
-                            href={`/projects/${params.projectId}/modules/add`}
-                            legacyBehavior>
-                            <Button size="sm">
-                                <AddIcon />
-                                Add module
-                            </Button>
-                        </Link>
+                        <AnimateButton>
+                            <Link
+                                href={`/projects/${params.projectId}/modules/add`}
+                                legacyBehavior>
+                                <Button size="sm">
+                                    <AddIcon />
+                                    Add module
+                                </Button>
+                            </Link>
+                        </AnimateButton>
                     </ActionItemsContainer>
                     <section className="grid gap-4">
                         {modules.map((module) => (

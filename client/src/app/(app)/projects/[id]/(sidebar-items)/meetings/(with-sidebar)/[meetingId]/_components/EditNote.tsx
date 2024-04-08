@@ -11,6 +11,7 @@ import {
 import { EditIcon } from "@/lib/icons";
 import EditNoteForm from "../_forms/EditNoteForm";
 import { useState } from "react";
+import AnimateButton from "@/components/animated/AnimateButton";
 
 export function EditNote({
     meetingId,
@@ -23,11 +24,13 @@ export function EditNote({
     const closeDialog = () => setOpen(false);
     return (
         <Dialog open={open} onOpenChange={(e) => setOpen(e)}>
-            <DialogTrigger asChild>
-                <Button size="sm" variant="muted">
-                    <EditIcon />
-                    Edit note
-                </Button>
+            <DialogTrigger>
+                <AnimateButton>
+                    <Button size="sm" variant="muted">
+                        <EditIcon />
+                        Edit note
+                    </Button>
+                </AnimateButton>
             </DialogTrigger>
             <DialogContent className="max-w-lg">
                 <DialogHeader>

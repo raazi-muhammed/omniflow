@@ -15,6 +15,8 @@ import {
 } from "@/components/layout/SectinSplitter";
 import { Card } from "@/components/ui/card";
 import CustomLink from "@/components/custom/CustomLink";
+import AnimateButton from "@/components/animated/AnimateButton";
+import AnimateCard from "@/components/animated/AnimateCard";
 
 async function loadTeams() {
     const userToken = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -38,25 +40,29 @@ export default async function page() {
             <SectionSplitter>
                 <SectionAside className="mt-0">
                     <ActionItemsContainer>
-                        <Link href="teams/add-team">
-                            <Button size="sm">
-                                <AddIcon />
-                                Add a team
-                            </Button>
-                        </Link>
+                        <AnimateButton>
+                            <Link href="teams/add-team">
+                                <Button size="sm">
+                                    <AddIcon />
+                                    Add a team
+                                </Button>
+                            </Link>
+                        </AnimateButton>
                     </ActionItemsContainer>
                     {teams.length <= 0 && (
                         <ErrorMessage message="Not teams yet" type="info" />
                     )}
                     <section className="space-y-4">
                         {teams.map((team) => (
-                            <Card className="p-4">
-                                <section className="flex justify-between">
-                                    <CustomLink href={`teams/${team.name}`}>
-                                        {team.name}
-                                    </CustomLink>
-                                </section>
-                            </Card>
+                            <AnimateCard type="subtle">
+                                <Link href={`teams/${team.name}`}>
+                                    <Card className="p-4">
+                                        <section className="flex justify-between">
+                                            {team.name}
+                                        </section>
+                                    </Card>
+                                </Link>
+                            </AnimateCard>
                         ))}
                     </section>
                 </SectionAside>

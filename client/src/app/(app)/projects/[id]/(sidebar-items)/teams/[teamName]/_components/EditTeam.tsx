@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 import { TeamService } from "@/services/api/team.service";
 import { makeApiCall } from "@/lib/apicaller";
 import { DeleteAlert } from "@/components/custom/DeleteAlert";
+import AnimateButton from "@/components/animated/AnimateButton";
 
 export default function EditTeam({ teamName }: { teamName: string }) {
     const [open, setOpen] = useState(false);
@@ -34,11 +35,13 @@ export default function EditTeam({ teamName }: { teamName: string }) {
 
     return (
         <Dialog open={open} onOpenChange={(e) => setOpen(e)}>
-            <DialogTrigger asChild>
-                <Button variant="muted" size="sm">
-                    <EditIcon />
-                    Edit task
-                </Button>
+            <DialogTrigger>
+                <AnimateButton>
+                    <Button variant="muted" size="sm">
+                        <EditIcon />
+                        Edit task
+                    </Button>
+                </AnimateButton>
             </DialogTrigger>
             <DialogContent className="max-w-xl bg-card">
                 <DialogHeader>

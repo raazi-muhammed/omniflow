@@ -13,17 +13,20 @@ import EditNoteForm from "../_forms/EditNoteForm";
 import { useState } from "react";
 import { IMeeting } from "@/types/database";
 import EditMeetingForm from "../_forms/EditMeetingFrom";
+import AnimateButton from "@/components/animated/AnimateButton";
 
 export function EditMeeting({ meeting }: { meeting: IMeeting }) {
     const [open, setOpen] = useState(false);
     const closeDialog = () => setOpen(false);
     return (
         <Dialog open={open} onOpenChange={(e) => setOpen(e)}>
-            <DialogTrigger asChild>
-                <Button size="sm" variant="muted">
-                    <EditIcon />
-                    Edit meetings
-                </Button>
+            <DialogTrigger>
+                <AnimateButton>
+                    <Button size="sm" variant="muted">
+                        <EditIcon />
+                        Edit meetings
+                    </Button>
+                </AnimateButton>
             </DialogTrigger>
             <DialogContent className="max-w-lg">
                 <DialogHeader>

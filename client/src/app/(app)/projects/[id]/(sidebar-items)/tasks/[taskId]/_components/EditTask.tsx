@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 import EditTaskForm from "../_forms/EditTaskFrom";
 import { TaskService } from "@/services/api/task.service";
 import { makeApiCall } from "@/lib/apicaller";
+import AnimateButton from "@/components/animated/AnimateButton";
 
 export default function EditTask({ task }: { task: ITask }) {
     const [open, setOpen] = useState(false);
@@ -36,11 +37,13 @@ export default function EditTask({ task }: { task: ITask }) {
 
     return (
         <Dialog open={open} onOpenChange={(e) => setOpen(e)}>
-            <DialogTrigger asChild>
-                <Button variant="muted" size="sm">
-                    <EditIcon />
-                    Edit task
-                </Button>
+            <DialogTrigger>
+                <AnimateButton>
+                    <Button variant="muted" size="sm">
+                        <EditIcon />
+                        Edit task
+                    </Button>
+                </AnimateButton>
             </DialogTrigger>
             <DialogContent className="max-w-xl bg-card">
                 <DialogHeader>

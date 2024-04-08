@@ -13,6 +13,7 @@ import ErrorMessage from "@/components/custom/ErrorMessage";
 import { USER_TOKEN_COOKIE } from "@/constants/cookies";
 import { Label } from "@/components/ui/label";
 import AnimateCard from "@/components/animated/AnimateCard";
+import AnimateButton from "@/components/animated/AnimateButton";
 
 async function getProjectsData() {
     const token = cookies().get(USER_TOKEN_COOKIE)?.value;
@@ -35,10 +36,12 @@ export default async function page() {
         <Container>
             <section className="my-8 ms-auto flex w-fit gap-2">
                 <Link href="/projects/add-project">
-                    <Button size="sm">
-                        <AddIcon />
-                        Add a project
-                    </Button>
+                    <AnimateButton>
+                        <Button size="sm">
+                            <AddIcon />
+                            Add a project
+                        </Button>
+                    </AnimateButton>
                 </Link>
             </section>
             <Heading>Projects</Heading>
