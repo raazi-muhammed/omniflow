@@ -2,7 +2,7 @@ import { IVerificationCodeRepository } from "../../interfaces/repository.interfa
 import {
     IDBVerificationCode,
     IVerificationCodeModel,
-} from "./verification-code.model.js";
+} from "./models/verification-code.model.js";
 
 export default function makeVerificationCodeRepository({
     database,

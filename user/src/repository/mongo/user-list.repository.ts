@@ -1,6 +1,6 @@
 import { IUser } from "../../interfaces/entity.interface.js";
 import { IUserRepository } from "../../interfaces/repository.interface.js";
-import { IDBUser, IUserModel } from "./user.model.js";
+import { IDBUser, IUserModel } from "./models/user.model.js";
 
 export default function makeUserRepository({
     database,

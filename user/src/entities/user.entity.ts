@@ -1,5 +1,6 @@
-import { ErrorHandler } from "@omniflow/common";
+import { BadRequestError } from "@omniflow/common";
 import { IUser, IUserEntity } from "../interfaces/entity.interface.js";
+import { z } from "zod";
 
 export default class User implements IUserEntity {
     name: string;
@@ -20,13 +21,14 @@ export default class User implements IUserEntity {
 
     validate() {
         if (this.password.length < 7) {
-            throw new ErrorHandler(
-                "Password should be great than 7 characters",
-                400
+            throw new BadRequestError(
+                "Password should be great than 7 characters"
             );
         }
-        if (!this.email) {
-            throw new ErrorHandler("Invalid email", 400);
+        try {
+            z.string().email().parse(this.email);
+        } catch (error) {
+            throw new BadRequestError("Invalid email");
         }
     }
 

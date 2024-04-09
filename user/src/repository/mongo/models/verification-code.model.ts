@@ -1,5 +1,5 @@
 import mongoose, { HydratedDocument, Model } from "mongoose";
-import { IVerificationCode } from "../../interfaces/entity.interface.js";
+import { IVerificationCode } from "../../../interfaces/entity.interface.js";
 
 const verificationCodeSchema = new mongoose.Schema<IVerificationCode>(
     {

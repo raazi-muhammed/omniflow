@@ -1,5 +1,5 @@
 import mongoose, { HydratedDocument, Model } from "mongoose";
-import { IUser } from "../../interfaces/entity.interface.js";
+import { IUser } from "../../../interfaces/entity.interface.js";
 
 const userSchema = new mongoose.Schema<IUser>(
     {

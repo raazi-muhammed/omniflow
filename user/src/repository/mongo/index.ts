@@ -1,5 +1,5 @@
-import userModel from "./user.model.js";
-import verificationCodeModel from "./verification-code.model.js";
+import userModel from "./models/user.model.js";
+import verificationCodeModel from "./models/verification-code.model.js";
 import makeUserRepository from "./user-list.repository.js";
 import makeVerificationCodeRepository from "./verification-code-list.repository.js";
 
