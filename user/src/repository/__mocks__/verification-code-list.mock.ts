@@ -20,9 +20,15 @@ export const verificationCodeRepositoryMock = {
         }) => Promise<IDBVerificationCode>
     >(() => Promise.resolve(sampleVerificationCode as IDBVerificationCode)),
     find: jest
-        .fn<({ userId: string }) => Promise<IDBVerificationCode | null>>()
-        .mockImplementation(({ userId }) => {
-            if (userId === sampleVerificationCode.user) {
+        .fn<
+            ({
+                userId,
+            }: {
+                userId: string;
+            }) => Promise<IDBVerificationCode | null>
+        >()
+        .mockImplementation(({ userId }: { userId: string }) => {
+            if (userId == sampleVerificationCode.user.toString()) {
                 return Promise.resolve(sampleVerificationCode);
             } else return Promise.resolve(null);
         }),
