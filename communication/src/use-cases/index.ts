@@ -17,8 +17,9 @@ import buildEditMeetingUseCase from "./meeting/edit-meeting.use-case.js";
 import buildAddMessageUseCase from "./message/add-message.use-case.js";
 import buildGetMessagesUseCase from "./message/get-messages.use-case.js";
 import { uploadImageToS3 } from "../lib/file-bucket.js";
+import Meeting from "../entities/meeting.entity.js";
 
-const addMeeting = buildAddMeetingUseCase({ meetingRepository });
+const addMeeting = buildAddMeetingUseCase({ Meeting, meetingRepository });
 const getMeetings = buildGetMeetingsUseCase({ meetingRepository });
 const getMeeting = buildGetMeetingUseCase({ meetingRepository });
 const removeMeeting = buildRemoveMeetingUseCase({ meetingRepository });
