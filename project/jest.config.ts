@@ -13,6 +13,15 @@ const config: Config = {
     },
     setupFiles: ["<rootDir>/.jest/setEnvVars.js"],
     testPathIgnorePatterns: ["__tests__/index*"],
+    coveragePathIgnorePatterns: [
+        "node_modules",
+        "test-config",
+        "interfaces",
+        "jestGlobalMocks.ts",
+        ".module.ts",
+        "<rootDir>/src/events/kafka/*",
+        ".mock.ts",
+    ],
     coverageDirectory: "coverage",
     coverageProvider: "v8",
 };

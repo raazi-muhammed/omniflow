@@ -80,13 +80,17 @@ export const mockProjectRepository = {
                 memberId: string;
             }) => Promise<boolean | null>
         >(),
-    changeTeamLead:
-        jest.fn<
+    changeTeamLead: jest
+        .fn<
             (data: {
                 projectId: string;
                 userId: string;
             }) => Promise<boolean | null>
-        >(),
+        >()
+        .mockImplementation(({ projectId }) => {
+            if (projectId == sampleProjectData.id) return Promise.resolve(true);
+            return Promise.resolve(false);
+        }),
     changeMemberAccess:
         jest.fn<
             (data: {
