@@ -23,8 +23,10 @@ export default class Meeting implements IMeetingEntity {
     }
 
     validate() {
-        if (this.startDate >= this.endDate) {
-            throw new BadRequestError("Invalid due date");
+        if (this.endDate) {
+            if (this.startDate >= this.endDate) {
+                throw new BadRequestError("Invalid due date");
+            }
         }
     }
 
