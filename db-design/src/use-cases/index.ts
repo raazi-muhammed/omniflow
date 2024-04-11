@@ -14,17 +14,26 @@ import buildRemoveRelationUseCase from "./relation/remove-relation.use-case.js";
 import buildRemoveTableUseCase from "./table/remove-table.use-case.js";
 import buildEditTableFieldUseCase from "./table/edit-table.use-case.js";
 import buildRemoveTableFieldUseCase from "./table/remove-table-field.use-case.js";
+import Relation from "../entities/relation.entity.js";
+import Table from "../entities/table.entity.js";
+import TableField from "../entities/table-field.entity.js";
 
-const addTable = buildAddTableUseCase({ databaseRepository });
+const addTable = buildAddTableUseCase({ Table, databaseRepository });
 const getTables = buildGetTablesUseCase({ databaseRepository });
 const changeTablePosition = buildChangeTablePosition({ databaseRepository });
 const getTable = buildGetTableUseCase({ databaseRepository });
-const addTableField = buildAddTableFieldUseCase({ databaseRepository });
+const addTableField = buildAddTableFieldUseCase({
+    TableField,
+    databaseRepository,
+});
 const removeTableField = buildRemoveTableFieldUseCase({ databaseRepository });
 const removeTable = buildRemoveTableUseCase({ databaseRepository });
 const editTable = buildEditTableFieldUseCase({ databaseRepository });
 
-const addRelation = buildAddTableRelationUseCase({ databaseRepository });
+const addRelation = buildAddTableRelationUseCase({
+    databaseRepository,
+    Relation,
+});
 const getRelations = buildGetRelationsUseCase({ databaseRepository });
 const removeRelation = buildRemoveRelationUseCase({ databaseRepository });
 

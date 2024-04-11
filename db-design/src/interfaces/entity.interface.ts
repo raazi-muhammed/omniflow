@@ -16,6 +16,7 @@ export interface ITableEntityConstructor {
     new (data: ITable): ITableEntity;
 }
 
+/* Table field */
 export type ITableField = {
     name: string;
     type: string;
@@ -23,6 +24,15 @@ export type ITableField = {
     tableId: string;
     options?: string[];
 };
+
+export interface ITableFieldEntity extends ITableField {
+    validate: () => void;
+    get: () => ITableField;
+}
+
+export interface ITableFieldEntityConstructor {
+    new (data: ITableField): ITableFieldEntity;
+}
 
 /* Relation */
 export type IRelation = {
