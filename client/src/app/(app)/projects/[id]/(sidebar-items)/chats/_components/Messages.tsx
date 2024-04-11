@@ -36,7 +36,7 @@ export default function Messages({
                                 <>
                                     {message.type == MessageType.IMAGE ? (
                                         <img
-                                            className="mb-2 h-56 rounded"
+                                            className="mb-2 h-56 min-w-20 rounded"
                                             src={message.file.url}
                                             alt={message.file.name}
                                         />
@@ -84,7 +84,7 @@ export default function Messages({
                                     <>
                                         {message.type == MessageType.IMAGE ? (
                                             <img
-                                                className="mb-2 h-56 rounded"
+                                                className="mb-2 h-56 min-w-20 rounded"
                                                 src={message.file.url}
                                                 alt={message.file.name}
                                             />
