@@ -1,5 +1,6 @@
 import { BadRequestError } from "@omniflow/common";
 import { IVariable, IVariableEntity } from "../interfaces/entity.interface.js";
+import { Types } from "mongoose";
 
 export default class Variable implements IVariableEntity {
     name: string;
@@ -15,9 +16,7 @@ export default class Variable implements IVariableEntity {
     }
 
     validate() {
-        if (!this.type) throw new BadRequestError();
-        if (!this.endpointId) throw new BadRequestError();
-        if (!this.name) throw new BadRequestError();
+        // no validation required, added this function to keep consistency
     }
 
     get() {

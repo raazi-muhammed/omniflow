@@ -1,5 +1,6 @@
 import { BadRequestError } from "@omniflow/common";
 import { IEndpointResponse } from "../interfaces/entity.interface.js";
+import { Types } from "mongoose";
 
 export default class EndpointResponse implements IEndpointResponse {
     statusCode: number;
@@ -17,8 +18,7 @@ export default class EndpointResponse implements IEndpointResponse {
     }
 
     validate() {
-        if (!this.statusCode) throw new BadRequestError("Invalid status code");
-        if (!this.endpointId) throw new BadRequestError("Invalid endpoint");
+        // no validation required, added this function to keep consistency
     }
 
     get() {

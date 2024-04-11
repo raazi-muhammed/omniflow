@@ -1,5 +1,6 @@
 import { BadRequestError } from "@omniflow/common";
 import { ISchemaItem } from "../interfaces/entity.interface.js";
+import { Types } from "mongoose";
 
 export default class SchemaItem implements ISchemaItem {
     key: string;
@@ -15,9 +16,7 @@ export default class SchemaItem implements ISchemaItem {
     }
 
     validate() {
-        if (!this.key) throw new BadRequestError("Invalid key");
-        if (!this.type) throw new BadRequestError("Invalid type");
-        if (!this.endpointId) throw new BadRequestError("Invalid endpoint");
+        // no validation required, added this function to keep consistency
     }
 
     get() {

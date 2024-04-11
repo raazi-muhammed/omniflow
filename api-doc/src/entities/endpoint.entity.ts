@@ -1,5 +1,6 @@
 import { BadRequestError } from "@omniflow/common";
 import { IEndpoint, IEndpointEntity } from "../interfaces/entity.interface.js";
+import { Types } from "mongoose";
 
 export default class Endpoint implements IEndpointEntity {
     name: string;
@@ -19,8 +20,10 @@ export default class Endpoint implements IEndpointEntity {
     }
 
     validate() {
-        if (!this.route) {
-            throw new BadRequestError("Invalid route");
+        try {
+            new Types.ObjectId(this.projectId);
+        } catch (error) {
+            throw new BadRequestError("Invalid project");
         }
     }
 

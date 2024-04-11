@@ -15,9 +15,7 @@ export default class Header implements IHeader {
     }
 
     validate() {
-        if (!this.key) throw new BadRequestError("Invalid key");
-        if (!this.value) throw new BadRequestError("Invalid value");
-        if (!this.endpointId) throw new BadRequestError("Invalid endpoint");
+        // no validation required, added this function to keep consistency
     }
 
     get() {
