@@ -16,12 +16,6 @@ export interface IVerificationCode {
 }
 
 export interface IUserEntity extends IUser {
-    name: string;
-    username: string;
-    email: string;
-    password: string;
-    avatar?: string;
-
     validate: () => void;
     get: () => IUser;
 }
