@@ -14,7 +14,6 @@ export default class Task implements ITaskEntity {
     priority: number;
     startDate: Date;
     dueDate: Date;
-    dependencies: [string];
     module?: Types.ObjectId;
     deletedAt: Date | null;
     status: TaskStatus;
@@ -36,7 +35,7 @@ export default class Task implements ITaskEntity {
     }
 
     validate() {
-        if (this.startDate > this.dueDate)
+        if (this.startDate >= this.dueDate)
             throw new BadRequestError("Invalid due date");
     }
 
@@ -48,7 +47,6 @@ export default class Task implements ITaskEntity {
             priority: this.priority,
             dueDate: this.dueDate,
             startDate: this.startDate,
-            dependencies: this.dependencies,
             deletedAt: this.deletedAt,
             module: this.module,
             status: this.status,

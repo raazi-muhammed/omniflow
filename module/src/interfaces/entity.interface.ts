@@ -8,9 +8,9 @@ export interface IModule {
     priority: number;
     startDate: Date;
     dueDate: Date;
-    dependencies: [string];
+    dependencies: string[];
     parentModule?: Types.ObjectId;
-    deletedAt: Date | null;
+    deletedAt?: Date;
 }
 
 export interface IModuleEntity extends IModule {
@@ -34,7 +34,7 @@ export interface ITask {
     module?: Types.ObjectId;
     assignee?: Types.ObjectId | IMember;
     reporter: Types.ObjectId | IMember;
-    deletedAt: Date | null;
+    deletedAt?: Date;
 }
 
 export interface ITaskEntity extends ITask {

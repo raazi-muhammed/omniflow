@@ -1,4 +1,3 @@
-import Module from "../entities/module.entity.js";
 import buildAddModuleUseCase from "./module/add-module.use-case.js";
 import {
     moduleRepository,
@@ -14,7 +13,7 @@ import buildGetModulesUseCase from "./module/get-modules.use-case.js";
 import buildGetModuleListUseCase from "./module/get-module-list.use-case.js";
 import buildGetModuleUseCase from "./module/get-module.use-case.js";
 import buildAddTaskUseCase from "./task/add-task.use-case.js";
-import Task from "../entities/task.entity.js";
+import entities from "../entities/index.js";
 import buildGetTasksUseCase from "./task/get-tasks.use-case.js";
 import buildGetTaskUseCase from "./task/get-task.use-case.js";
 import buildEditTaskUseCase from "./task/edit-task.use-case.js";
@@ -24,6 +23,7 @@ import buildEditModuleUseCase from "./module/edit-module.use-case.js";
 import buildChangeTaskStatusUseCase from "./task/change-task-status.use-case.js";
 import buildChangeTaskAssigneeUseCase from "./task/change-task-assignee.use-case.js";
 import buildEditMemberUseCase from "./member/edit-member.use-case.js";
+const { Task, Module } = entities;
 
 const addModule = buildAddModuleUseCase({
     moduleRepository,

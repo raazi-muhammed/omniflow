@@ -9,7 +9,7 @@ export default class Module implements IModuleEntity {
     priority: number;
     startDate: Date;
     dueDate: Date;
-    dependencies: [string];
+    dependencies: string[];
     parentModule?: Types.ObjectId;
     deletedAt: Date | null;
 
@@ -26,7 +26,7 @@ export default class Module implements IModuleEntity {
     }
 
     validate() {
-        if (this.startDate > this.dueDate)
+        if (this.startDate >= this.dueDate)
             throw new BadRequestError("Invalid due date");
     }
 
