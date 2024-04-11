@@ -6,6 +6,7 @@ export default class Endpoint implements IEndpointEntity {
     name: string;
     route?: string;
     parentFolder?: string;
+    body?: string;
     method: string;
     summary: string;
     projectId: string;
@@ -17,6 +18,7 @@ export default class Endpoint implements IEndpointEntity {
         this.summary = data.summary;
         this.projectId = data.projectId;
         this.parentFolder = data.parentFolder;
+        this.body = data.body;
     }
 
     validate() {
@@ -35,6 +37,7 @@ export default class Endpoint implements IEndpointEntity {
             summary: this.summary,
             projectId: this.projectId,
             parentFolder: this.parentFolder,
+            body: this.body,
         });
     }
 }

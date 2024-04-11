@@ -18,7 +18,9 @@ export default class EndpointResponse implements IEndpointResponse {
     }
 
     validate() {
-        // no validation required, added this function to keep consistency
+        if (this.statusCode > 600 || this.statusCode < 100) {
+            throw new BadRequestError("Invalid status code");
+        }
     }
 
     get() {
