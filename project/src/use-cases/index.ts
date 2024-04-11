@@ -1,6 +1,5 @@
 import projectEntities from "../entities/index.js";
 import buildAddMemberToProjectUseCase from "./member/add-project-member.use-case.js";
-import { projectRepository, memberRepository } from "../repository/index.js";
 import Member from "../entities/member.entity.js";
 import {
     IMemberUseCase,
@@ -14,7 +13,11 @@ import { token } from "@omniflow/common";
 import buildDeleteProjectUseCase from "./project/delete-project.use-case.js";
 import buildEditProjectUseCase from "./project/edit-project.use-case.js";
 import buildRemoveMemberFromProjectUseCase from "./member/remove-project-member.use-case.js";
-import { teamProducers } from "../events/index.js";
+import {
+    teamProducers,
+    projectRepository,
+    memberRepository,
+} from "../config/dependencies.js";
 import buildEditMemberUseCase from "./member/edit-member.use-case.js";
 import buildChangeProjectMemberUseCase from "./member/change-project-member-access.use-case.js";
 

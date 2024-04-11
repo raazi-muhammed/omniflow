@@ -4,6 +4,6 @@ import { buildAddMemberToTeamProducer } from "./add-member-to-team.producer.js";
 
 const addMemberToTeam = buildAddMemberToTeamProducer(producer);
 
-export const teamProducersKafka: ITeamProducers = {
+export const teamProducers: ITeamProducers = {
     addMemberToTeam,
 };
