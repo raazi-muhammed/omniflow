@@ -8,7 +8,8 @@ const config: Config = {
         "^.+\\.(js|jsx|ts|tsx)$": "ts-jest",
     },
     moduleNameMapper: {
-        "(.+)\\.js": "$1",
+        "^ipaddr.js$": "<rootDir>/node_modules/ipaddr.js",
+        "^(.+)\\.js$": "$1",
     },
     setupFiles: ["<rootDir>/.jest/setEnvVars.js"],
     testPathIgnorePatterns: ["__tests__/index*"],
