@@ -40,7 +40,7 @@ const sampleProjectData: IProject = {
     startDate: new Date(),
 };
 
-export const projectRepositoryMock = {
+export const mockProjectRepository = {
     add: jest
         .fn<(data: IProject) => Promise<IDBProject | null>>()
         .mockResolvedValue(sampleProjectData as IDBProject),

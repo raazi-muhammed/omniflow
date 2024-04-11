@@ -7,11 +7,10 @@ import {
     IProjectRepository,
 } from "../../interfaces/repository.interface.js";
 
-export const projectRepositoryMongo: IProjectRepository =
-    buildProjectRepository({
-        database: projectModel,
-    });
+export const projectRepository: IProjectRepository = buildProjectRepository({
+    database: projectModel,
+});
 
-export const memberRepositoryMongo: IMemberRepository = buildMemberRepository({
+export const memberRepository: IMemberRepository = buildMemberRepository({
     database: memberModel,
 });

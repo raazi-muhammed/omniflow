@@ -9,7 +9,7 @@ const sampleMember: IMember & { id: string } = {
     username: "raazi",
 };
 
-export const memberRepositoryMock = {
+export const mockMemberRepository = {
     add: jest.fn<(data: IMember) => Promise<IDBMember | null>>(() =>
         Promise.resolve(sampleMember as IDBMember)
     ),

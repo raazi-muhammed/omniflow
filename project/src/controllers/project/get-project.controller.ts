@@ -9,9 +9,8 @@ export default function buildGetProjectController({
     projectUseCases: IProjectUseCase;
 }) {
     return async (req: IRequest) => {
-        const projectId = req.params?.id;
+        const projectId = req.params.id;
         const currentUser = req.currentUser;
-        if (!projectId) throw new Error("Id not passed");
 
         const { project, token, access } = await projectUseCases.getProject({
             user: currentUser,
