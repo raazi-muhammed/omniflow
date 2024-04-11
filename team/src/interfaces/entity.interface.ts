@@ -64,6 +64,7 @@ export interface ITeamEntity extends ITeam {
 }
 
 export interface IMemberEntity extends IMember {
+    validate: () => void;
     get: () => IMember;
 }
 

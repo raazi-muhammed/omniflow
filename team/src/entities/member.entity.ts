@@ -1,4 +1,6 @@
+import { z } from "zod";
 import { IMember, IMemberEntity } from "../interfaces/entity.interface.js";
+import { BadRequestError } from "@omniflow/common";
 
 export default class Member implements IMemberEntity {
     name: string;
@@ -11,6 +13,14 @@ export default class Member implements IMemberEntity {
         this.username = data.username;
         this.email = data.email;
         this.avatar = data.avatar;
+    }
+
+    validate() {
+        try {
+            z.string().email().parse(this.email);
+        } catch (error) {
+            throw new BadRequestError("Invalid email");
+        }
     }
 
     get() {
