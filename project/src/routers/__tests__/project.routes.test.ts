@@ -88,8 +88,6 @@ describe("project routes", () => {
             expect(res.body.data.id).toBe(id);
             expect(res.body.data.title).toBeDefined();
             expect(res.body.data.access).toBeDefined();
-
-            console.log("project data", res.body.data);
         });
         it(`should respond with ${STATUS_CODE_TOKEN_NOT_FOUND} without token`, async () => {
             const res = await request(app).get("/api/project/projects");
@@ -100,7 +98,7 @@ describe("project routes", () => {
         });
     });
     describe("POST /projects", () => {
-        it("should respond with status 200 and project details", async () => {
+        it("should respond with status 201 and project details", async () => {
             const id = "55153a8014829a865bbf700d";
             const res = await request(app)
                 .post(`/api/project/projects`)
@@ -109,10 +107,11 @@ describe("project routes", () => {
                     Authorization: `Bearer ${userToken}`,
                 });
 
+            expect(res.statusCode).toBe(201);
             expect(res.body.success).toBeTruthy();
             expect(res.body.data.title).toBeDefined();
         });
-        it("should respond with status 400 and project details", async () => {
+        it("should respond with status 400 without proper data", async () => {
             const id = "55153a8014829a865bbf700d";
             const res = await request(app)
                 .post(`/api/project/projects`)
@@ -132,7 +131,7 @@ describe("project routes", () => {
         });
     });
     describe("GET /projects/current", () => {
-        it("should respond with status 200 and project details", async () => {
+        it("should respond with status 200 and current project details", async () => {
             const res = await request(app)
                 .get(`/api/project/projects/current`)
                 .set({
@@ -145,14 +144,14 @@ describe("project routes", () => {
             expect(res.body.data.title).toBeDefined();
             expect(res.body.data.access).toBeDefined();
         });
-        it(`should respond with ${STATUS_CODE_TOKEN_NOT_FOUND} without token`, async () => {
+        it(`should respond with ${STATUS_CODE_TOKEN_NOT_FOUND} without user token`, async () => {
             const res = await request(app).get("/api/project/projects/current");
 
             expect(res.statusCode).toBe(STATUS_CODE_TOKEN_NOT_FOUND);
             expect(res.body.success).toBeFalsy();
             expect(res.body.message).toBe("Token not found");
         });
-        it(`should respond with ${STATUS_CODE_TOKEN_NOT_FOUND} without token`, async () => {
+        it(`should respond with ${STATUS_CODE_TOKEN_NOT_FOUND} without project token`, async () => {
             const res = await request(app)
                 .get("/api/project/projects/current")
                 .set({
@@ -165,7 +164,7 @@ describe("project routes", () => {
         });
     });
     describe("DELETE /projects/current", () => {
-        it("should respond with status 200 and project details", async () => {
+        it("should respond with status 204 after with valid data", async () => {
             const res = await request(app)
                 .delete(`/api/project/projects/current`)
                 .set({
@@ -175,14 +174,14 @@ describe("project routes", () => {
 
             expect(res.statusCode).toBe(204);
         });
-        it(`should respond with ${STATUS_CODE_TOKEN_NOT_FOUND} without token`, async () => {
+        it(`should respond with ${STATUS_CODE_TOKEN_NOT_FOUND} without user token`, async () => {
             const res = await request(app).get("/api/project/projects/current");
 
             expect(res.statusCode).toBe(STATUS_CODE_TOKEN_NOT_FOUND);
             expect(res.body.success).toBeFalsy();
             expect(res.body.message).toBe("Token not found");
         });
-        it(`should respond with ${STATUS_CODE_TOKEN_NOT_FOUND} without token`, async () => {
+        it(`should respond with ${STATUS_CODE_TOKEN_NOT_FOUND} without project token`, async () => {
             const res = await request(app)
                 .get("/api/project/projects/current")
                 .set({
@@ -195,7 +194,7 @@ describe("project routes", () => {
         });
     });
     describe("PUT /projects/current", () => {
-        it("should respond with status 200 and project details", async () => {
+        it("should respond with status 204 with valid data", async () => {
             const res = await request(app)
                 .put(`/api/project/projects/current`)
                 .send(sampleProjectData)
@@ -206,14 +205,56 @@ describe("project routes", () => {
 
             expect(res.statusCode).toBe(204);
         });
-        it(`should respond with ${STATUS_CODE_TOKEN_NOT_FOUND} without token`, async () => {
+        it(`should respond with ${STATUS_CODE_TOKEN_NOT_FOUND} without user token`, async () => {
             const res = await request(app).get("/api/project/projects/current");
 
             expect(res.statusCode).toBe(STATUS_CODE_TOKEN_NOT_FOUND);
             expect(res.body.success).toBeFalsy();
             expect(res.body.message).toBe("Token not found");
         });
-        it(`should respond with ${STATUS_CODE_TOKEN_NOT_FOUND} without token`, async () => {
+        it(`should respond with ${STATUS_CODE_TOKEN_NOT_FOUND} without project token`, async () => {
+            const res = await request(app)
+                .get("/api/project/projects/current")
+                .set({
+                    Authorization: `Bearer ${userToken}`,
+                });
+
+            expect(res.statusCode).toBe(500);
+            expect(res.body.success).toBeFalsy();
+            expect(res.body.message).toBe("Not token found");
+        });
+    });
+    describe("PATCH /projects/current/change-lead", () => {
+        it("should respond with status 204 with valid user", async () => {
+            const res = await request(app)
+                .patch(`/api/project/projects/current/change-lead`)
+                .send({ lead: "raazi@gmail.com" })
+                .set({
+                    Authorization: `Bearer ${userToken}`,
+                    Project: `Bearer ${projectToken}`,
+                });
+
+            expect(res.statusCode).toBe(204);
+        });
+        it("should respond with status 404 if user not found", async () => {
+            const res = await request(app)
+                .patch(`/api/project/projects/current/change-lead`)
+                .send({ lead: "invalid@gmail.com" })
+                .set({
+                    Authorization: `Bearer ${userToken}`,
+                    Project: `Bearer ${projectToken}`,
+                });
+
+            expect(res.statusCode).toBe(404);
+        });
+        it(`should respond with ${STATUS_CODE_TOKEN_NOT_FOUND} without user token`, async () => {
+            const res = await request(app).get("/api/project/projects/current");
+
+            expect(res.statusCode).toBe(STATUS_CODE_TOKEN_NOT_FOUND);
+            expect(res.body.success).toBeFalsy();
+            expect(res.body.message).toBe("Token not found");
+        });
+        it(`should respond with ${STATUS_CODE_TOKEN_NOT_FOUND} without project token`, async () => {
             const res = await request(app)
                 .get("/api/project/projects/current")
                 .set({

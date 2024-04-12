@@ -17,6 +17,6 @@ export default function buildChangeProjectLeadController({
         });
 
         const response = new ResponseCreator();
-        return response.setMessage("Team lead changed");
+        return response.setMessage("Team lead changed").setStatusCode(204);
     };
 }
