@@ -1,13 +1,13 @@
 import { Kafka } from "kafkajs";
-import { IProjectController } from "../../../interfaces/controller.interface.js";
-import { logger } from "@omniflow/common";
+import { logger, validateBody } from "@omniflow/common";
+import { IMemberUseCase } from "../../../interfaces/use-case.interface.js";
 
 export async function removeMemberFromProjectConsumer({
     kafka,
-    projectController,
+    memberUseCases,
 }: {
     kafka: Kafka;
-    projectController: IProjectController;
+    memberUseCases: IMemberUseCase;
 }) {
     const consumer = kafka.consumer({ groupId: "remove-member-from-project" });
 
@@ -27,7 +27,8 @@ export async function removeMemberFromProjectConsumer({
             try {
                 logger.debug(`consumer: ${topic}`);
                 const data = JSON.parse(message.value.toString());
-                await projectController.removeProjectMember(data);
+                validateBody(data, ["userEmail", "projectId"]);
+                await memberUseCases.removeMemberFromProject(data);
             } catch (error) {
                 logger.error(error);
             }

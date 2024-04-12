@@ -1,5 +1,4 @@
 import { Kafka } from "kafkajs";
-import projectController from "../../controllers/index.js";
 import { loadEnv, logger } from "@omniflow/common";
 import { removeMemberFromProjectConsumer } from "./consumers/remove-member.consumer.js";
 import { addMemberToProjectConsumer } from "./consumers/add-member.consumer.js";
@@ -24,9 +23,9 @@ producer
     .then(() => {
         logger.info("Producer status\t: Connected");
 
-        removeMemberFromProjectConsumer({ kafka, projectController });
-        addMemberToProjectConsumer({ kafka, projectController });
-        editMemberConsumer({ kafka, projectController });
+        removeMemberFromProjectConsumer({ kafka, memberUseCases });
+        addMemberToProjectConsumer({ kafka, memberUseCases });
+        editMemberConsumer({ kafka, memberUseCases });
         changeMemberAccessConsumer({ kafka, memberUseCases });
     })
     .catch((err) => {

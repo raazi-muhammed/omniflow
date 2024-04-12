@@ -1,13 +1,13 @@
 import { Kafka } from "kafkajs";
-import { IProjectController } from "../../../interfaces/controller.interface.js";
-import { logger } from "@omniflow/common";
+import { logger, validateBody } from "@omniflow/common";
+import { IMemberUseCase } from "../../../interfaces/use-case.interface.js";
 
 export async function addMemberToProjectConsumer({
     kafka,
-    projectController,
+    memberUseCases,
 }: {
     kafka: Kafka;
-    projectController: IProjectController;
+    memberUseCases: IMemberUseCase;
 }) {
     const consumer = kafka.consumer({ groupId: "add-member-to-project" });
 
@@ -29,7 +29,9 @@ export async function addMemberToProjectConsumer({
             try {
                 logger.debug(`consumer: ${topic}`);
                 const data = JSON.parse(message.value.toString());
-                await projectController.addProjectMember(data);
+                validateBody(data, ["userData", "projectId"]);
+
+                await memberUseCases.addMemberToProject(data);
             } catch (error) {
                 logger.error(error);
             }
