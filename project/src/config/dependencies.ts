@@ -1,5 +1,5 @@
-export { teamProducers } from "../events/__mocks__/producer/index.js";
+export { teamProducers } from "../events/kafka/producer/index.js";
 export {
     memberRepository,
     projectRepository,
-} from "../repository/__mocks__/index.js";
+} from "../repository/mongo/index.js";

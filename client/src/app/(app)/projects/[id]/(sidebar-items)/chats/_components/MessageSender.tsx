@@ -16,7 +16,12 @@ import { EventTypes } from "../page";
 import { z } from "zod";
 import { IMessage, IUser, MessageType } from "@/types/database";
 import { toast } from "@/components/ui/use-toast";
-import { File as FileIcon, Image as ImageIcon, SendIcon } from "lucide-react";
+import {
+    File as FileIcon,
+    Image as ImageIcon,
+    Paperclip,
+    SendIcon,
+} from "lucide-react";
 import {
     Popover,
     PopoverContent,
@@ -142,8 +147,11 @@ export default function MessageSender({
                     open={fileMenuOpen}
                     onOpenChange={(e) => setFileMenuOpen(e)}>
                     <PopoverTrigger asChild>
-                        <Button size="sm" variant="muted" className="mt-auto">
-                            +
+                        <Button
+                            size="sm"
+                            variant="muted"
+                            className="mb-1 mt-auto">
+                            <Paperclip size="1em" />
                         </Button>
                     </PopoverTrigger>
                     <PopoverContent className="m-0 grid h-16 w-fit grid-cols-2 gap-3 p-2">
@@ -152,8 +160,8 @@ export default function MessageSender({
                             name="file"
                             render={({}) => (
                                 <FormItem className="flex gap-2 rounded px-2 py-1 hover:bg-muted">
-                                    <AnimateButton>
-                                        <FormLabel className="flex gap-2">
+                                    <AnimateButton className="flex">
+                                        <FormLabel className="flex gap-1">
                                             <FileIcon className="my-auto" />
                                             <span className="my-auto text-sm">
                                                 File
@@ -192,7 +200,7 @@ export default function MessageSender({
                             name="image"
                             render={({}) => (
                                 <FormItem className="flex gap-2 rounded px-2 py-1 hover:bg-muted">
-                                    <AnimateButton>
+                                    <AnimateButton className="flex">
                                         <FormLabel className="flex gap-2">
                                             <ImageIcon className="my-auto" />
                                             <span className="my-auto text-sm">
@@ -270,7 +278,7 @@ export default function MessageSender({
                         )}
                     />
                 </div>
-                <AnimateButton>
+                <AnimateButton className="mt-auto">
                     <Button
                         type="submit"
                         size="sm"
