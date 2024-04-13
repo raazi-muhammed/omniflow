@@ -28,6 +28,8 @@ import { AuthService } from "@/services/api/auth.service";
 import { makeApiCall } from "@/lib/apicaller";
 import { IResponse } from "@/services/api/utils";
 import AnimateButton from "@/components/animated/AnimateButton";
+import Spinner from "@/components/custom/Spinner";
+import AnimatedSpinner from "@/components/custom/AnimatedSpinner";
 
 const formSchema = z.object({
     email: z.string().email(),
@@ -39,7 +41,6 @@ export default function LoginForm() {
     const { toast } = useToast();
     const router = useRouter();
     const dispatch = useDispatch<AppDispatch>();
-
     const [showPassword, setShowPassword] = useState(false);
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -51,11 +52,9 @@ export default function LoginForm() {
         mode: "onTouched",
     });
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
+    async function onSubmit(values: z.infer<typeof formSchema>) {
         const service = new AuthService();
-        makeApiCall;
-
-        makeApiCall(() => service.userLogin(values).exec(), {
+        await makeApiCall(() => service.userLogin(values).exec(), {
             toast,
             afterSuccess: (response: IResponse) => {
                 dispatch(logUser(response.data));
@@ -140,9 +139,15 @@ export default function LoginForm() {
                 />
                 <AnimateButton className="w-full">
                     <Button
-                        disabled={!form.formState.isValid}
+                        disabled={
+                            !form.formState.isValid ||
+                            form.formState.isSubmitting
+                        }
                         className="w-full"
                         type="submit">
+                        <AnimatedSpinner
+                            isLoading={form.formState.isSubmitting}
+                        />
                         Login
                     </Button>
                 </AnimateButton>
