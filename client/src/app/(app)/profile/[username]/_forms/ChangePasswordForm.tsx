@@ -22,6 +22,8 @@ import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { UserService } from "@/services/api/user.service";
 import { makeApiCall } from "@/lib/apicaller";
+import AnimatedSpinner from "@/components/custom/AnimatedSpinner";
+import { canSubmitFrom } from "@/lib/utils";
 
 const formSchema = z
     .object({
@@ -63,14 +65,14 @@ export default function ChangePasswordForm({ username }: { username: string }) {
         mode: "onTouched",
     });
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
+    async function onSubmit(values: z.infer<typeof formSchema>) {
         const data = {
             currentPassword: values.currentPassword,
             newPassword: values.newPassword,
         };
 
         const service = new UserService();
-        makeApiCall(() => service.changePassword(username, data).exec(), {
+        await makeApiCall(() => service.changePassword(username, data).exec(), {
             toast,
             afterSuccess: () => {
                 form.reset();
@@ -167,7 +169,8 @@ export default function ChangePasswordForm({ username }: { username: string }) {
                 <Button
                     className="w-full"
                     type="submit"
-                    disabled={!form.formState.isValid}>
+                    disabled={canSubmitFrom(form)}>
+                    <AnimatedSpinner isLoading={form.formState.isSubmitting} />
                     Change password
                 </Button>
             </form>

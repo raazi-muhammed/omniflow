@@ -28,7 +28,6 @@ import { AuthService } from "@/services/api/auth.service";
 import { makeApiCall } from "@/lib/apicaller";
 import { IResponse } from "@/services/api/utils";
 import AnimateButton from "@/components/animated/AnimateButton";
-import Spinner from "@/components/custom/Spinner";
 import AnimatedSpinner from "@/components/custom/AnimatedSpinner";
 
 const formSchema = z.object({

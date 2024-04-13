@@ -36,7 +36,8 @@ import { ProjectService } from "@/services/api/project.service";
 import { useAppSelector } from "@/redux/store";
 import { useRouter } from "next/navigation";
 import { makeApiCall } from "@/lib/apicaller";
-import { logger } from "@/lib/logger";
+import AnimatedSpinner from "@/components/custom/AnimatedSpinner";
+import { AddIcon } from "@/lib/icons";
 
 const formSchema = z.object({
     title: z.string().min(3, "Invalid"),
@@ -68,9 +69,8 @@ export default function AddProjectForm() {
     });
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        logger.debug(values);
         const service = new ProjectService();
-        makeApiCall(() => service.addProject(values).exec(), {
+        await makeApiCall(() => service.addProject(values).exec(), {
             toast,
             afterSuccess: () => {
                 router.push("/projects");
@@ -244,11 +244,22 @@ export default function AddProjectForm() {
 
                 <div className="ms-auto flex w-fit gap-4">
                     <Link href="/projects" legacyBehavior>
-                        <Button type="button" variant="outline">
+                        <Button type="button" variant="muted">
                             Cancel
                         </Button>
                     </Link>
-                    <Button type="submit">Add</Button>
+                    <Button
+                        type="submit"
+                        disabled={
+                            !form.formState.isValid ||
+                            form.formState.isSubmitting
+                        }>
+                        <AnimatedSpinner
+                            isLoading={form.formState.isSubmitting}
+                        />
+                        <AddIcon />
+                        Add
+                    </Button>
                 </div>
             </form>
         </Form>

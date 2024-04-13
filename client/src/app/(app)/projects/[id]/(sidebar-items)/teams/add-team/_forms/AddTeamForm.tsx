@@ -28,6 +28,8 @@ import { useRouter } from "next/navigation";
 import { TeamService } from "@/services/api/team.service";
 import { logger } from "@/lib/logger";
 import { makeApiCall } from "@/lib/apicaller";
+import AnimatedSpinner from "@/components/custom/AnimatedSpinner";
+import { canSubmitFrom } from "@/lib/utils";
 
 const formSchema = z.object({
     name: z.string().min(3, "Invalid"),
@@ -61,10 +63,8 @@ export default function AddTeamForm() {
     }, []);
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        logger.debug(values);
-
         const service = new TeamService();
-        makeApiCall(() => service.addTeam(values).exec(), {
+        await makeApiCall(() => service.addTeam(values).exec(), {
             toast,
             afterSuccess: () => {
                 router.back();
@@ -123,7 +123,11 @@ export default function AddTeamForm() {
                         </FormItem>
                     )}
                 />
-                <Button className="w-full" type="submit">
+                <Button
+                    className="w-full"
+                    type="submit"
+                    disabled={canSubmitFrom(form)}>
+                    <AnimatedSpinner isLoading={form.formState.isSubmitting} />
                     Add team
                 </Button>
             </form>

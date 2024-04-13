@@ -21,6 +21,10 @@ import { IUser } from "@/types/database";
 import { useRouter } from "next/navigation";
 import { UserService } from "@/services/api/user.service";
 import { TeamService } from "@/services/api/team.service";
+import AnimatedSpinner from "@/components/custom/AnimatedSpinner";
+import { canSubmitFrom } from "@/lib/utils";
+import { makeApiCall } from "@/lib/apicaller";
+import { IResponse } from "@/services/api/utils";
 
 const formSchema = z.object({
     email: z.string().email(),
@@ -45,13 +49,11 @@ export default function InviteMemberForm() {
         mode: "onTouched",
     });
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
+    async function onSubmit(values: z.infer<typeof formSchema>) {
         const service = new UserService();
-
-        service
-            .getPublicUser(values.email)
-            .exec()
-            .then((response) => {
+        await makeApiCall(() => service.getPublicUser(values.email).exec(), {
+            toast,
+            afterSuccess: async (response: IResponse) => {
                 const userDetails: IUser = response.data;
 
                 if (!userDetails.email || !userDetails.name) {
@@ -60,29 +62,27 @@ export default function InviteMemberForm() {
                 }
 
                 const teamService = new TeamService();
-                teamService
-                    .inviteMemberToTeam({
-                        email: userDetails.email,
-                        username: userDetails.username,
-                        avatar: userDetails.avatar,
-                        name: userDetails.name,
-                        message: values.message,
-                    })
-                    .exec()
-                    .then((response) => {
-                        toast({
-                            description: response?.message || "Success",
-                        });
-                        router.back();
-                        router.refresh();
-                    })
-                    .catch((error) => {
-                        toast({
-                            description: error || "Error",
-                        });
-                    });
-            })
-            .catch((error) => {
+                await makeApiCall(
+                    () =>
+                        teamService
+                            .inviteMemberToTeam({
+                                email: userDetails.email,
+                                username: userDetails.username,
+                                avatar: userDetails.avatar,
+                                name: userDetails.name,
+                                message: values.message,
+                            })
+                            .exec(),
+                    {
+                        toast,
+                        afterSuccess: () => {
+                            router.back();
+                            router.refresh();
+                        },
+                    }
+                );
+            },
+            afterError: (error: any) => {
                 const sanitizedError: string = error.toLowerCase();
                 if (sanitizedError.includes("user")) {
                     form.setError("email", { message: error });
@@ -91,7 +91,8 @@ export default function InviteMemberForm() {
                         description: error || "Error",
                     });
                 }
-            });
+            },
+        });
     }
 
     return (
@@ -125,9 +126,10 @@ export default function InviteMemberForm() {
                 />
 
                 <Button
-                    disabled={!form.formState.isValid}
                     className="w-full"
-                    type="submit">
+                    type="submit"
+                    disabled={canSubmitFrom(form)}>
+                    <AnimatedSpinner isLoading={form.formState.isSubmitting} />
                     Invite
                 </Button>
             </form>

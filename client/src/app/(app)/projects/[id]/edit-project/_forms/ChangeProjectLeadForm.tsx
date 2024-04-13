@@ -28,6 +28,8 @@ import { useRouter } from "next/navigation";
 import { logger } from "@/lib/logger";
 import { makeApiCall } from "@/lib/apicaller";
 import { TeamService } from "@/services/api/team.service";
+import AnimatedSpinner from "@/components/custom/AnimatedSpinner";
+import { canSubmitFrom } from "@/lib/utils";
 
 const formSchema = z.object({
     lead: z.string().min(3, "Invalid"),
@@ -57,9 +59,8 @@ export default function ChangeProjectLeadForm() {
     }, []);
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        logger.debug(values);
         const service = new ProjectService();
-        makeApiCall(() => service.changeProjectLead(values).exec(), {
+        await makeApiCall(() => service.changeProjectLead(values).exec(), {
             toast,
             afterSuccess: () => {
                 router.back();
@@ -99,7 +100,11 @@ export default function ChangeProjectLeadForm() {
                         </FormItem>
                     )}
                 />
-                <Button className="w-full" type="submit">
+                <Button
+                    className="w-full"
+                    type="submit"
+                    disabled={canSubmitFrom(form)}>
+                    <AnimatedSpinner isLoading={form.formState.isSubmitting} />
                     Change lead
                 </Button>
             </form>

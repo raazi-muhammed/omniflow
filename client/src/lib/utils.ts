@@ -1,4 +1,5 @@
 import { type ClassValue, clsx } from "clsx";
+import { UseFormReturn } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -26,4 +27,23 @@ export function getCookie(cname: string) {
         }
     }
     return "";
+}
+
+type FromType = { type?: "default" | "edit" };
+export function canSubmitFrom(
+    form: UseFormReturn<any, any, any>,
+    options?: FromType
+) {
+    if (!options) options = { type: "default" };
+    switch (options.type) {
+        case "edit":
+            return (
+                !form.formState.isValid ||
+                form.formState.isSubmitting ||
+                !form.formState.isDirty
+            );
+
+        default:
+            return !form.formState.isValid || form.formState.isSubmitting;
+    }
 }

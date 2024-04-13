@@ -25,6 +25,8 @@ import { IMemberStatus, ITeamMember, InviteStatus } from "@/types/database";
 import { useRouter } from "next/navigation";
 import { TeamService } from "@/services/api/team.service";
 import { makeApiCall } from "@/lib/apicaller";
+import AnimatedSpinner from "@/components/custom/AnimatedSpinner";
+import { canSubmitFrom } from "@/lib/utils";
 
 const formSchema = z.object({
     lead: z.string().min(3, "Invalid"),
@@ -51,7 +53,7 @@ export default function ChangeTeamLeadForm({
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         const service = new TeamService();
-        makeApiCall(
+        await makeApiCall(
             () =>
                 service.changeTeamLead({ lead: values.lead, teamName }).exec(),
             { toast, afterSuccess: () => router.refresh() }
@@ -93,7 +95,11 @@ export default function ChangeTeamLeadForm({
                         </FormItem>
                     )}
                 />
-                <Button className="w-full" type="submit">
+                <Button
+                    className="w-full"
+                    type="submit"
+                    disabled={canSubmitFrom(form)}>
+                    <AnimatedSpinner isLoading={form.formState.isSubmitting} />
                     Change lead
                 </Button>
             </form>

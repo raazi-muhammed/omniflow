@@ -19,6 +19,8 @@ import { IUser } from "@/types/database";
 import { useRouter } from "next/navigation";
 import { makeApiCall } from "@/lib/apicaller";
 import { UserService } from "@/services/api/user.service";
+import AnimatedSpinner from "@/components/custom/AnimatedSpinner";
+import { canSubmitFrom } from "@/lib/utils";
 
 const formSchema = z.object({
     name: z.string().min(3, "Invalid"),
@@ -36,9 +38,7 @@ export default function EditProfileForm({ user }: { user: IUser }) {
         mode: "onTouched",
     });
 
-    const { isDirty, isValid } = form.formState;
-
-    function onSubmit(values: z.infer<typeof formSchema>) {
+    async function onSubmit(values: z.infer<typeof formSchema>) {
         const data = new FormData();
         data.append("name", values.name);
         if (values.picture) {
@@ -47,9 +47,12 @@ export default function EditProfileForm({ user }: { user: IUser }) {
 
         const service = new UserService();
 
-        makeApiCall(() => service.editUserProfile(user.username, data).exec(), {
-            toast,
-        });
+        await makeApiCall(
+            () => service.editUserProfile(user.username, data).exec(),
+            {
+                toast,
+            }
+        );
     }
 
     return (
@@ -86,9 +89,10 @@ export default function EditProfileForm({ user }: { user: IUser }) {
                     )}
                 />
                 <Button
-                    disabled={!isDirty || !isValid}
+                    disabled={canSubmitFrom(form, { type: "edit" })}
                     className="w-full"
                     type="submit">
+                    <AnimatedSpinner isLoading={form.formState.isSubmitting} />
                     Save
                 </Button>
             </form>

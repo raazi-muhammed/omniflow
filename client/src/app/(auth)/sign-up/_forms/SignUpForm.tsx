@@ -25,6 +25,7 @@ import { useRouter } from "next/navigation";
 import { AuthService } from "@/services/api/auth.service";
 import { makeApiCall } from "@/lib/apicaller";
 import AnimateButton from "@/components/animated/AnimateButton";
+import AnimatedSpinner from "@/components/custom/AnimatedSpinner";
 
 const formSchema = z
     .object({
@@ -80,9 +81,9 @@ export default function SignUpForm() {
         mode: "onTouched",
     });
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
+    async function onSubmit(values: z.infer<typeof formSchema>) {
         const service = new AuthService();
-        makeApiCall(() => service.userSignUp(values).exec(), {
+        await makeApiCall(() => service.userSignUp(values).exec(), {
             toast,
             afterSuccess: () => {
                 router.push(`/verify-user?email=${values.email}`);
@@ -238,7 +239,13 @@ export default function SignUpForm() {
                     <Button
                         className="w-full"
                         type="submit"
-                        disabled={!form.formState.isValid}>
+                        disabled={
+                            !form.formState.isValid ||
+                            form.formState.isSubmitting
+                        }>
+                        <AnimatedSpinner
+                            isLoading={form.formState.isSubmitting}
+                        />
                         Sign Up
                     </Button>
                 </AnimateButton>

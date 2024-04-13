@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { cn } from "@/lib/utils";
+import { canSubmitFrom, cn } from "@/lib/utils";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
@@ -29,6 +29,7 @@ import { ProjectService } from "@/services/api/project.service";
 import { useRouter } from "next/navigation";
 import { logger } from "@/lib/logger";
 import { makeApiCall } from "@/lib/apicaller";
+import AnimatedSpinner from "@/components/custom/AnimatedSpinner";
 
 const formSchema = z.object({
     title: z.string().min(3, "Invalid"),
@@ -67,10 +68,8 @@ export default function EditProjectForm() {
     });
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        logger.debug(values);
-
         const service = new ProjectService();
-        makeApiCall(() => service.editProject(values).exec(), {
+        await makeApiCall(() => service.editProject(values).exec(), {
             toast,
             afterSuccess: () => {
                 router.refresh();
@@ -196,11 +195,18 @@ export default function EditProjectForm() {
 
                 <div className="ms-auto flex w-fit gap-4">
                     <Link href="/projects">
-                        <Button type="button" variant="outline">
+                        <Button type="button" variant="muted">
                             Cancel
                         </Button>
                     </Link>
-                    <Button type="submit">Save changes</Button>
+                    <Button
+                        type="submit"
+                        disabled={canSubmitFrom(form, { type: "edit" })}>
+                        <AnimatedSpinner
+                            isLoading={form.formState.isSubmitting}
+                        />
+                        Save changes
+                    </Button>
                 </div>
             </form>
         </Form>

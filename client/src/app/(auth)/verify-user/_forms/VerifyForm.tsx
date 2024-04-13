@@ -30,11 +30,12 @@ import {
 import React from "react";
 import { makeApiCall } from "@/lib/apicaller";
 import { IResponse } from "@/services/api/utils";
+import AnimatedSpinner from "@/components/custom/AnimatedSpinner";
 
 const formSchema = z.object({
     code: z
         .string()
-        .min(3, "Invalid")
+        .min(6, "Invalid")
         .refine((code) => Number(code)),
 });
 
@@ -115,7 +116,16 @@ export default function VerifyForm() {
                             )}
                         />
 
-                        <Button className="w-full" type="submit">
+                        <Button
+                            className="w-full"
+                            type="submit"
+                            disabled={
+                                !form.formState.isValid ||
+                                form.formState.isSubmitting
+                            }>
+                            <AnimatedSpinner
+                                isLoading={form.formState.isSubmitting}
+                            />
                             Verify
                         </Button>
                     </form>
