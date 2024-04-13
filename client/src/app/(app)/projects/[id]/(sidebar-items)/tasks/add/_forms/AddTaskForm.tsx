@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { cn } from "@/lib/utils";
+import { canSubmitFrom, cn } from "@/lib/utils";
 import { useForm } from "react-hook-form";
 import {
     Select,
@@ -41,6 +41,8 @@ import { useAppSelector } from "@/redux/store";
 import { ModuleService } from "@/services/api/module.service";
 import { TeamService } from "@/services/api/team.service";
 import { TaskService } from "@/services/api/task.service";
+import { AddIcon } from "@/lib/icons";
+import AnimatedSpinner from "@/components/custom/AnimatedSpinner";
 
 const formSchema = z.object({
     name: z.string().min(3, "Invalid"),
@@ -50,7 +52,7 @@ const formSchema = z.object({
     description: z.string().min(3, "Invalid"),
     module: z.string().optional(),
     status: z.string(),
-    reporter: z.string().min(1, "Invalid"),
+    reporter: z.string().min(1, "Invalid").optional(),
     assignee: z.string().min(1, "Invalid"),
 });
 
@@ -117,8 +119,6 @@ export default function AddTaskForm() {
     }, []);
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        logger.debug(values);
-
         const assignee = getMemberDetails({ email: values.assignee });
         if (!assignee) {
             toast({ description: "Assignee not found" });
@@ -127,13 +127,16 @@ export default function AddTaskForm() {
 
         const service = new TaskService();
 
-        makeApiCall(() => service.addTask({ ...values, assignee }).exec(), {
-            toast,
-            afterSuccess: () => {
-                router.back();
-                router.refresh();
-            },
-        });
+        await makeApiCall(
+            () => service.addTask({ ...values, assignee }).exec(),
+            {
+                toast,
+                afterSuccess: () => {
+                    router.back();
+                    router.refresh();
+                },
+            }
+        );
     }
 
     return (
@@ -407,11 +410,15 @@ export default function AddTaskForm() {
                     <Button
                         onClick={() => router.back()}
                         type="button"
-                        variant="outline">
+                        variant="muted">
                         Cancel
                     </Button>
-
-                    <Button type="submit">Add</Button>
+                    <Button type="submit" disabled={canSubmitFrom(form)}>
+                        <AnimatedSpinner
+                            isLoading={form.formState.isSubmitting}
+                        />
+                        <AddIcon /> Add
+                    </Button>
                 </div>
             </form>
         </Form>

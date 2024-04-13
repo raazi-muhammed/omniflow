@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { cn } from "@/lib/utils";
+import { canSubmitFrom, cn } from "@/lib/utils";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
@@ -29,6 +29,8 @@ import { logger } from "@/lib/logger";
 import { makeApiCall } from "@/lib/apicaller";
 import Heading from "@/components/custom/Heading";
 import { MeetingService } from "@/services/api/meeting.service";
+import AnimatedSpinner from "@/components/custom/AnimatedSpinner";
+import { AddIcon } from "@/lib/icons";
 
 const formSchema = z.object({
     name: z.string().min(3, "Invalid"),
@@ -58,7 +60,7 @@ export default function AddMeetingForm() {
         logger.debug(values);
         const service = new MeetingService();
 
-        makeApiCall(() => service.addMeeting(values).exec(), {
+        await makeApiCall(() => service.addMeeting(values).exec(), {
             toast,
             afterSuccess: () => {
                 router.back();
@@ -185,11 +187,18 @@ export default function AddMeetingForm() {
                     <Button
                         onClick={() => router.back()}
                         type="button"
-                        variant="outline">
+                        variant="muted">
                         Cancel
                     </Button>
-
-                    <Button type="submit">Add</Button>
+                    <Button
+                        type="submit"
+                        disabled={canSubmitFrom(form, { type: "edit" })}>
+                        <AnimatedSpinner
+                            isLoading={form.formState.isSubmitting}
+                        />
+                        <AddIcon />
+                        Add
+                    </Button>
                 </div>
             </form>
         </Form>

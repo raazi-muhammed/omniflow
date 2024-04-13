@@ -29,6 +29,8 @@ import { ApiDocService } from "@/services/api/api-doc.service";
 import { makeApiCall } from "@/lib/apicaller";
 import { useEffect, useState } from "react";
 import { IFolder } from "@/types/database";
+import AnimatedSpinner from "@/components/custom/AnimatedSpinner";
+import { canSubmitFrom } from "@/lib/utils";
 
 const formSchema = z.object({
     name: z.string().min(3, "Invalid"),
@@ -69,11 +71,8 @@ export default function AddEndpointForm() {
     }, []);
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values);
-
         const service = new ApiDocService();
-
-        makeApiCall(() => service.addEndpoint(values).exec(), {
+        await makeApiCall(() => service.addEndpoint(values).exec(), {
             toast,
             afterSuccess: () => {
                 router.back();
@@ -198,7 +197,10 @@ export default function AddEndpointForm() {
                         Cancel
                     </Button>
 
-                    <Button type="submit">
+                    <Button type="submit" disabled={canSubmitFrom(form)}>
+                        <AnimatedSpinner
+                            isLoading={form.formState.isSubmitting}
+                        />
                         <AddIcon />
                         Add
                     </Button>

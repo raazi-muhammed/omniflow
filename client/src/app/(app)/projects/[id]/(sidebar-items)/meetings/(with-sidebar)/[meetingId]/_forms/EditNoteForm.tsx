@@ -19,6 +19,8 @@ import { makeApiCall } from "@/lib/apicaller";
 import { useRouter } from "next/navigation";
 import { DeleteAlert } from "@/components/custom/DeleteAlert";
 import { MeetingService } from "@/services/api/meeting.service";
+import AnimatedSpinner from "@/components/custom/AnimatedSpinner";
+import { canSubmitFrom } from "@/lib/utils";
 
 const FormSchema = z.object({
     notes: z.string().min(10),
@@ -42,9 +44,9 @@ export default function EditNoteForm({
     const { toast } = useToast();
     const route = useRouter();
 
-    function onSubmit(data: z.infer<typeof FormSchema>) {
+    async function onSubmit(data: z.infer<typeof FormSchema>) {
         const service = new MeetingService();
-        makeApiCall(
+        await makeApiCall(
             () =>
                 service
                     .editMeetingNotes(meetingId, { notes: data.notes })
@@ -90,7 +92,14 @@ export default function EditNoteForm({
                 />
                 <div className="flex justify-between">
                     <DeleteAlert handleDelete={handleDelete} />
-                    <Button type="submit">Save</Button>
+                    <Button
+                        type="submit"
+                        disabled={canSubmitFrom(form, { type: "edit" })}>
+                        <AnimatedSpinner
+                            isLoading={form.formState.isSubmitting}
+                        />
+                        Save
+                    </Button>
                 </div>
             </form>
         </Form>

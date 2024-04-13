@@ -29,6 +29,8 @@ import { logger } from "@/lib/logger";
 import { ApiDocService } from "@/services/api/api-doc.service";
 import { makeApiCall } from "@/lib/apicaller";
 import { DeleteAlert } from "@/components/custom/DeleteAlert";
+import AnimatedSpinner from "@/components/custom/AnimatedSpinner";
+import { canSubmitFrom } from "@/lib/utils";
 
 const formSchema = z.object({
     name: z.string().min(3, "Invalid"),
@@ -63,17 +65,17 @@ export default function EditEndpointForm({
     });
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        logger.debug(values);
-
         const service = new ApiDocService();
-
-        makeApiCall(() => service.editEndpoint(endpoint.id, values).exec(), {
-            toast,
-            afterSuccess: () => {
-                setOpen(false);
-                router.refresh();
-            },
-        });
+        await makeApiCall(
+            () => service.editEndpoint(endpoint.id, values).exec(),
+            {
+                toast,
+                afterSuccess: () => {
+                    setOpen(false);
+                    router.refresh();
+                },
+            }
+        );
     }
 
     return (
@@ -179,7 +181,14 @@ export default function EditEndpointForm({
                             variant="outline">
                             Cancel
                         </Button>
-                        <Button type="submit">Save</Button>
+                        <Button
+                            type="submit"
+                            disabled={canSubmitFrom(form, { type: "edit" })}>
+                            <AnimatedSpinner
+                                isLoading={form.formState.isSubmitting}
+                            />
+                            Save
+                        </Button>
                     </div>
                 </div>
             </form>

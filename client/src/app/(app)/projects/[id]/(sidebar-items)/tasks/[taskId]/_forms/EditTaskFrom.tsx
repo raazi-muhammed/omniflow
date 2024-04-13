@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { cn } from "@/lib/utils";
+import { canSubmitFrom, cn } from "@/lib/utils";
 import { useForm } from "react-hook-form";
 import {
     Select,
@@ -40,6 +40,7 @@ import Heading from "@/components/custom/Heading";
 import { DeleteAlert } from "@/components/custom/DeleteAlert";
 import { ModuleService } from "@/services/api/module.service";
 import { TaskService } from "@/services/api/task.service";
+import AnimatedSpinner from "@/components/custom/AnimatedSpinner";
 
 const formSchema = z.object({
     name: z.string().min(3, "Invalid"),
@@ -93,7 +94,7 @@ export default function EditTaskForm({
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         const service = new TaskService();
-        makeApiCall(() => service.editTask(task.id, values).exec(), {
+        await makeApiCall(() => service.editTask(task.id, values).exec(), {
             toast,
             afterSuccess: () => {
                 router.refresh();
@@ -313,10 +314,17 @@ export default function EditTaskForm({
                         <Button
                             onClick={() => setOpen(false)}
                             type="button"
-                            variant="outline">
+                            variant="muted">
                             Cancel
                         </Button>
-                        <Button type="submit">Add</Button>
+                        <Button
+                            type="submit"
+                            disabled={canSubmitFrom(form, { type: "edit" })}>
+                            <AnimatedSpinner
+                                isLoading={form.formState.isSubmitting}
+                            />
+                            Save
+                        </Button>
                     </div>
                 </section>
             </form>

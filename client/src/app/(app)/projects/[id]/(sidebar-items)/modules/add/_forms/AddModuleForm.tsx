@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { cn } from "@/lib/utils";
+import { canSubmitFrom, cn } from "@/lib/utils";
 import { useForm } from "react-hook-form";
 import {
     Select,
@@ -39,6 +39,8 @@ import { makeApiCall } from "@/lib/apicaller";
 import Heading from "@/components/custom/Heading";
 import { Card } from "@/components/ui/card";
 import { ModuleService } from "@/services/api/module.service";
+import { AddIcon } from "@/lib/icons";
+import AnimatedSpinner from "@/components/custom/AnimatedSpinner";
 
 function getLabelFromId(modules: IModule[], id: string): string {
     return modules.reduce((a, e) => {
@@ -100,10 +102,9 @@ export default function AddModuleForm() {
             ...values,
             dependencies: dependencies.map((e) => e.id),
         };
-        logger.debug(val);
 
         const service = new ModuleService();
-        makeApiCall(() => service.addModule(val).exec(), {
+        await makeApiCall(() => service.addModule(val).exec(), {
             toast,
             afterSuccess: () => {
                 router.back();
@@ -356,11 +357,19 @@ export default function AddModuleForm() {
                     <Button
                         onClick={() => router.back()}
                         type="button"
-                        variant="outline">
+                        variant="muted">
                         Cancel
                     </Button>
 
-                    <Button type="submit">Add</Button>
+                    <Button
+                        type="submit"
+                        disabled={canSubmitFrom(form, { type: "edit" })}>
+                        <AnimatedSpinner
+                            isLoading={form.formState.isSubmitting}
+                        />
+                        <AddIcon />
+                        Add
+                    </Button>
                 </div>
             </form>
         </Form>

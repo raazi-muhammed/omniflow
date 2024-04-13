@@ -19,6 +19,8 @@ import { useRouter } from "next/navigation";
 import { Textarea } from "@/components/ui/textarea";
 import { makeApiCall } from "@/lib/apicaller";
 import { TableService } from "@/services/api/table.service";
+import AnimatedSpinner from "@/components/custom/AnimatedSpinner";
+import { canSubmitFrom } from "@/lib/utils";
 
 const formSchema = z.object({
     name: z.string().min(3, "Invalid"),
@@ -39,7 +41,7 @@ export default function AddTableForm() {
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         const service = new TableService();
-        makeApiCall(() => service.addTable(values).exec(), {
+        await makeApiCall(() => service.addTable(values).exec(), {
             toast,
             afterSuccess: () => {
                 router.back();
@@ -80,8 +82,11 @@ export default function AddTableForm() {
                         </FormItem>
                     )}
                 />
-
-                <Button className="w-full" type="submit">
+                <Button
+                    className="w-full"
+                    type="submit"
+                    disabled={canSubmitFrom(form, { type: "edit" })}>
+                    <AnimatedSpinner isLoading={form.formState.isSubmitting} />
                     Add table
                 </Button>
             </form>

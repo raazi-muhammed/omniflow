@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { cn } from "@/lib/utils";
+import { canSubmitFrom, cn } from "@/lib/utils";
 import { useForm } from "react-hook-form";
 import {
     Select,
@@ -40,6 +40,7 @@ import Heading from "@/components/custom/Heading";
 import { Card } from "@/components/ui/card";
 import { DeleteAlert } from "@/components/custom/DeleteAlert";
 import { ModuleService } from "@/services/api/module.service";
+import AnimatedSpinner from "@/components/custom/AnimatedSpinner";
 
 function getLabelFromId(modules: IModule[], id: string): string {
     return modules.reduce((a, e) => {
@@ -107,9 +108,9 @@ export default function EditModuleForm({
             ...values,
             dependencies: dependencies.map((e) => e.id),
         };
-        logger.debug(val);
+
         const service = new ModuleService();
-        makeApiCall(() => service.editModule(module.id, val).exec(), {
+        await makeApiCall(() => service.editModule(module.id, val).exec(), {
             toast,
             afterSuccess: () => {
                 closeModel();
@@ -363,11 +364,15 @@ export default function EditModuleForm({
                         <Button
                             onClick={() => router.back()}
                             type="button"
-                            variant="outline">
+                            variant="muted">
                             Cancel
                         </Button>
-
-                        <Button type="submit">Add</Button>
+                        <Button type="submit" disabled={canSubmitFrom(form)}>
+                            <AnimatedSpinner
+                                isLoading={form.formState.isSubmitting}
+                            />
+                            Save
+                        </Button>
                     </div>
                 </section>
             </form>

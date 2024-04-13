@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { AddIcon } from "@/lib/icons";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
-import { logger } from "@/lib/logger";
 import { ApiDocService } from "@/services/api/api-doc.service";
 import { makeApiCall } from "@/lib/apicaller";
 
@@ -26,12 +25,9 @@ export default function AddBodyForm({
     const { toast } = useToast();
     const router = useRouter();
 
-    function handleAddBody() {
-        logger.debug({ body: code });
-
+    async function handleAddBody() {
         const service = new ApiDocService();
-
-        makeApiCall(
+        await makeApiCall(
             () => service.addEndpointBody(endpointId, { body: code }).exec(),
             { toast, afterSuccess: () => router.refresh() }
         );

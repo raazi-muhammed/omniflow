@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { cn } from "@/lib/utils";
+import { canSubmitFrom, cn } from "@/lib/utils";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
@@ -31,6 +31,7 @@ import { makeApiCall } from "@/lib/apicaller";
 import Heading from "@/components/custom/Heading";
 import { MeetingService } from "@/services/api/meeting.service";
 import { DeleteAlert } from "@/components/custom/DeleteAlert";
+import AnimatedSpinner from "@/components/custom/AnimatedSpinner";
 
 const formSchema = z.object({
     name: z.string().min(3, "Invalid"),
@@ -204,10 +205,17 @@ export default function EditMeetingForm({
                         <Button
                             onClick={() => closeDialog()}
                             type="button"
-                            variant="outline">
+                            variant="muted">
                             Cancel
                         </Button>
-                        <Button type="submit">Edit</Button>
+                        <Button
+                            type="submit"
+                            disabled={canSubmitFrom(form, { type: "edit" })}>
+                            <AnimatedSpinner
+                                isLoading={form.formState.isSubmitting}
+                            />
+                            Save
+                        </Button>
                     </div>
                 </section>
             </form>

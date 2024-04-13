@@ -28,6 +28,8 @@ import { dataValueTypes } from "@/types/database";
 import { logger } from "@/lib/logger";
 import { makeApiCall } from "@/lib/apicaller";
 import { ApiDocService } from "@/services/api/api-doc.service";
+import AnimatedSpinner from "@/components/custom/AnimatedSpinner";
+import { canSubmitFrom } from "@/lib/utils";
 
 const formSchema = z.object({
     name: z.string().min(1, "Invalid"),
@@ -57,11 +59,9 @@ export default function AddVariableForm({
         mode: "onTouched",
     });
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        logger.debug(values);
-
+    async function onSubmit(values: z.infer<typeof formSchema>) {
         const service = new ApiDocService();
-        makeApiCall(
+        await makeApiCall(
             () => service.addEndpointVariable(endpointId, values).exec(),
             {
                 toast,
@@ -145,9 +145,10 @@ export default function AddVariableForm({
                     )}
                 />
                 <Button
-                    disabled={!form.formState.isValid}
                     type="submit"
-                    className="w-full">
+                    className="w-full"
+                    disabled={canSubmitFrom(form, { type: "edit" })}>
+                    <AnimatedSpinner isLoading={form.formState.isSubmitting} />
                     <AddIcon />
                     Add
                 </Button>

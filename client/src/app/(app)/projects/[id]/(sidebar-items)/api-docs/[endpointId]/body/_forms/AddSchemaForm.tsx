@@ -31,6 +31,8 @@ import { HelpCircle, Key, Sparkles } from "lucide-react";
 import { logger } from "@/lib/logger";
 import { makeApiCall } from "@/lib/apicaller";
 import { ApiDocService } from "@/services/api/api-doc.service";
+import AnimatedSpinner from "@/components/custom/AnimatedSpinner";
+import { canSubmitFrom } from "@/lib/utils";
 
 const formSchema = z.object({
     key: z.string().min(1, "Invalid"),
@@ -53,11 +55,9 @@ export default function AddSchemaForm({ endpointId }: { endpointId: string }) {
         mode: "onTouched",
     });
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        logger.debug(values);
-
+    async function onSubmit(values: z.infer<typeof formSchema>) {
         const service = new ApiDocService();
-        makeApiCall(
+        await makeApiCall(
             () => service.addEndpointSchema(endpointId, values).exec(),
             {
                 toast,
@@ -156,9 +156,10 @@ export default function AddSchemaForm({ endpointId }: { endpointId: string }) {
                     </ToggleGroup>
                 </div>
                 <Button
-                    disabled={!form.formState.isValid}
                     className="mt-8 w-full"
-                    type="submit">
+                    type="submit"
+                    disabled={canSubmitFrom(form, { type: "edit" })}>
+                    <AnimatedSpinner isLoading={form.formState.isSubmitting} />
                     <AddIcon />
                     Add
                 </Button>

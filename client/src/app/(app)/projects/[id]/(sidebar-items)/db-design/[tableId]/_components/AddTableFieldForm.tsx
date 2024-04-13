@@ -30,6 +30,8 @@ import { makeApiCall } from "@/lib/apicaller";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useState } from "react";
 import { HelpCircle, Key, Sparkles } from "lucide-react";
+import { canSubmitFrom } from "@/lib/utils";
+import AnimatedSpinner from "@/components/custom/AnimatedSpinner";
 
 const formSchema = z.object({
     name: z.string().min(1, "Invalid"),
@@ -57,9 +59,9 @@ export default function AddTableFieldForm({ tableId }: { tableId: string }) {
         mode: "onTouched",
     });
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
+    async function onSubmit(values: z.infer<typeof formSchema>) {
         const service = new TableService();
-        makeApiCall(() => service.addTableField(tableId, values).exec(), {
+        await makeApiCall(() => service.addTableField(tableId, values).exec(), {
             toast,
             afterSuccess: () => {
                 router.refresh();
@@ -169,9 +171,10 @@ export default function AddTableFieldForm({ tableId }: { tableId: string }) {
                     </ToggleGroup>
                 </div>
                 <Button
-                    disabled={!form.formState.isValid}
                     type="submit"
-                    className="w-full">
+                    className="w-full"
+                    disabled={canSubmitFrom(form)}>
+                    <AnimatedSpinner isLoading={form.formState.isSubmitting} />
                     <AddIcon />
                     Add
                 </Button>

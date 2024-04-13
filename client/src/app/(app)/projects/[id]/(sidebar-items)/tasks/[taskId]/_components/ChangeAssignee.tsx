@@ -1,6 +1,7 @@
 "use client";
 
 import AnimateButton from "@/components/animated/AnimateButton";
+import AnimatedSpinner from "@/components/custom/AnimatedSpinner";
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -24,6 +25,7 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
 import { makeApiCall } from "@/lib/apicaller";
+import { canSubmitFrom } from "@/lib/utils";
 import { TaskService } from "@/services/api/task.service";
 import { TeamService } from "@/services/api/team.service";
 import { IAllMemberList } from "@/types/database";
@@ -85,7 +87,7 @@ export default function ChangeAssignee({ taskId }: { taskId: string }) {
             return;
         }
         const service = new TaskService();
-        makeApiCall(
+        await makeApiCall(
             () => service.changeTaskAssignee({ taskId, assignee }).exec(),
             {
                 toast,
@@ -146,7 +148,14 @@ export default function ChangeAssignee({ taskId }: { taskId: string }) {
                                 </FormItem>
                             )}
                         />
-                        <Button>Change</Button>
+                        <Button
+                            className="w-full"
+                            disabled={canSubmitFrom(form)}>
+                            <AnimatedSpinner
+                                isLoading={form.formState.isSubmitting}
+                            />
+                            Change
+                        </Button>
                     </form>
                 </Form>
             </PopoverContent>

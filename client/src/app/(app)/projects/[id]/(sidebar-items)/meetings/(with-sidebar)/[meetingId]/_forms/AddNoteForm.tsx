@@ -18,6 +18,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { makeApiCall } from "@/lib/apicaller";
 import { useRouter } from "next/navigation";
 import { MeetingService } from "@/services/api/meeting.service";
+import AnimatedSpinner from "@/components/custom/AnimatedSpinner";
+import { canSubmitFrom } from "@/lib/utils";
 
 const FormSchema = z.object({
     notes: z.string().min(10),
@@ -33,9 +35,9 @@ export default function AddNoteForm({ moduleId }: { moduleId: string }) {
     const { toast } = useToast();
     const route = useRouter();
 
-    function onSubmit(data: z.infer<typeof FormSchema>) {
+    async function onSubmit(data: z.infer<typeof FormSchema>) {
         const service = new MeetingService();
-        makeApiCall(
+        await makeApiCall(
             () =>
                 service.addMeetingNotes(moduleId, { notes: data.notes }).exec(),
             {
@@ -65,7 +67,11 @@ export default function AddNoteForm({ moduleId }: { moduleId: string }) {
                         </FormItem>
                     )}
                 />
-                <Button className="me-0 ms-auto flex" type="submit">
+                <Button
+                    className="me-0 ms-auto flex"
+                    type="submit"
+                    disabled={canSubmitFrom(form, { type: "edit" })}>
+                    <AnimatedSpinner isLoading={form.formState.isSubmitting} />
                     Add
                 </Button>
             </form>
