@@ -249,3 +249,9 @@ export enum AccessLevels {
     CAN_VIEW = 1,
     CAN_EDIT = 2,
 }
+
+export enum EventTypes {
+    JOIN_ROOM = "JOIN_ROOM",
+    LEAVE_ROOM = "LEAVE_ROOM",
+    MESSAGE = "MESSAGE",
+}

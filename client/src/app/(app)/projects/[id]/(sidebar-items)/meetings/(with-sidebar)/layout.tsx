@@ -1,6 +1,4 @@
 import AnimateButton from "@/components/animated/AnimateButton";
-import AnimateCard from "@/components/animated/AnimateCard";
-import CustomLink from "@/components/custom/CustomLink";
 import ErrorMessage from "@/components/custom/ErrorMessage";
 import Heading from "@/components/custom/Heading";
 import Container from "@/components/layout/Container";
@@ -10,13 +8,10 @@ import {
     SectionSplitter,
 } from "@/components/layout/SectinSplitter";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
 import { PROJECT_TOKEN_COOKIE, USER_TOKEN_COOKIE } from "@/constants/cookies";
 import { AddIcon } from "@/lib/icons";
 import { MeetingService } from "@/services/api/meeting.service";
 import { IMeeting } from "@/types/database";
-import moment from "moment";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import React, { ReactNode } from "react";
@@ -71,6 +66,7 @@ export default async function page({
                         <Heading variant="sm">Upcoming Meetings</Heading>
                         {upcomingMeetings.map((meeting) => (
                             <MeetingCard
+                                key={meeting.id}
                                 projectId={params.projectId}
                                 meeting={meeting}
                             />
@@ -89,6 +85,7 @@ export default async function page({
                                 </Heading>
                                 {previousMeetings.map((meeting) => (
                                     <MeetingCard
+                                        key={meeting.id}
                                         projectId={params.projectId}
                                         meeting={meeting}
                                     />

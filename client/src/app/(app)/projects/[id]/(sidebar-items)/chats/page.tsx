@@ -6,19 +6,13 @@ import Heading from "@/components/custom/Heading";
 import React, { useEffect, useState } from "react";
 import Container from "@/components/layout/Container";
 import { useAppSelector } from "@/redux/store";
-import { IMessage } from "@/types/database";
+import { EventTypes, IMessage } from "@/types/database";
 import { ChatService } from "@/services/api/chat.service";
 import { makeApiCall } from "@/lib/apicaller";
 import { IResponse } from "@/services/api/utils";
 import Messages from "./_components/Messages";
 import MessageSender from "./_components/MessageSender";
 const socket = new WebSocket("ws://localhost:4040");
-
-export enum EventTypes {
-    JOIN_ROOM = "JOIN_ROOM",
-    LEAVE_ROOM = "LEAVE_ROOM",
-    MESSAGE = "MESSAGE",
-}
 
 export default function Chats() {
     const project = useAppSelector((state) => state.projectReducer.projectData);
@@ -34,7 +28,7 @@ export default function Chats() {
                 setMessages(response.data);
             },
         });
-    }, [project?.id]);
+    }, [project]);
 
     useEffect(() => {
         try {
@@ -42,13 +36,13 @@ export default function Chats() {
                 toast({ description: "no project id found" });
                 return;
             }
-
             socket.send(
                 JSON.stringify({
                     type: EventTypes.JOIN_ROOM,
                     roomId: project.id,
                 })
             );
+            toast({ description: "room joined" });
         } catch (error) {
             toast({ description: "failed" });
         }
@@ -60,16 +54,15 @@ export default function Chats() {
                         roomId: project?.id,
                     })
                 );
+                toast({ description: "room left" });
             } catch (error) {
                 toast({ description: "failed" });
             }
         };
-    }, [socket, project?.id, socket.readyState]);
+    }, [project]);
 
     socket.addEventListener("message", ({ data }) => {
         const message = JSON.parse(data);
-        console.log("message recived", message);
-
         setMessages([...messages, message.content]);
     });
 

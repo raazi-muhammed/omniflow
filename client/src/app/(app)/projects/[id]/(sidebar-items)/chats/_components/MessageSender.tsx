@@ -12,9 +12,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChatService } from "@/services/api/chat.service";
 import { makeApiCall } from "@/lib/apicaller";
-import { EventTypes } from "../page";
 import { z } from "zod";
-import { IMessage, IUser, MessageType } from "@/types/database";
+import { EventTypes, IMessage, IUser, MessageType } from "@/types/database";
 import { toast } from "@/components/ui/use-toast";
 import {
     File as FileIcon,
@@ -69,8 +68,7 @@ export default function MessageSender({
         },
     });
 
-    function onSubmit(values: z.infer<typeof FormSchema>) {
-        console.log(values.message);
+    async function onSubmit(values: z.infer<typeof FormSchema>) {
         if (!user) {
             toast({ description: "user detail not found" });
             return;
@@ -94,7 +92,6 @@ export default function MessageSender({
         };
 
         if (values.image?.length) {
-            console.log(values.image[0]);
             data.append("file", values.image[0]);
             dataToPreview.type = MessageType.IMAGE;
             if (preview) {
@@ -102,7 +99,6 @@ export default function MessageSender({
             }
         }
         if (values.file?.length) {
-            console.log(values.file[0]);
             data.append("file", values.file[0]);
             dataToPreview.type = MessageType.FILE;
             if (preview) {
@@ -113,7 +109,7 @@ export default function MessageSender({
         setMessages([...messages, dataToPreview]);
         setPreview(null);
         const service = new ChatService();
-        makeApiCall(
+        await makeApiCall(
             () => service.addMessage({ roomId: projectId, data }).exec(),
             {
                 afterSuccess: (response: IResponse) => {
@@ -134,7 +130,6 @@ export default function MessageSender({
                 },
             }
         );
-
         form.reset();
     }
 
@@ -216,7 +211,6 @@ export default function MessageSender({
                                                 form.register("image").onChange(
                                                     e
                                                 );
-                                                console.log(e.target.files);
                                                 if (e.target.files) {
                                                     setPreview({
                                                         type: "img",

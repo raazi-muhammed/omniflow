@@ -25,9 +25,10 @@ export default function Messages({
 
     return (
         <section className="flex flex-col gap-2">
-            {messages.map((message) =>
+            {messages.map((message, index) =>
                 userName == message.from.username ? (
                     <motion.section
+                        key={index}
                         initial={{ scale: 0.5, x: 20 }}
                         animate={{ scale: 1, x: 0 }}
                         className="me-0 ms-auto grid w-fit">
@@ -69,6 +70,7 @@ export default function Messages({
                     </motion.section>
                 ) : (
                     <motion.section
+                        key={index}
                         initial={{ scale: 0.5, x: -20 }}
                         animate={{ scale: 1, x: 0 }}
                         className="me-auto ms-0 flex w-fit gap-2">

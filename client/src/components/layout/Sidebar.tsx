@@ -171,8 +171,8 @@ function SidebarItems({
                 <p className="text-xl font-semibold">Ominflow</p>
             </div>
             <div className="grid gap-2">
-                {options.map((opt) => (
-                    <AnimateButton>
+                {options.map((opt, index) => (
+                    <AnimateButton key={opt.identifier || index}>
                         {opt.type !== "separator" ? (
                             <>
                                 {urls[0] === opt.identifier ? (

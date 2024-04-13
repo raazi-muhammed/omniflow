@@ -15,7 +15,6 @@ import {
     SectionSplitter,
 } from "@/components/layout/SectinSplitter";
 import { Card } from "@/components/ui/card";
-import CustomLink from "@/components/custom/CustomLink";
 import AnimateButton from "@/components/animated/AnimateButton";
 import AnimateCard from "@/components/animated/AnimateCard";
 
@@ -55,7 +54,7 @@ export default async function page({ children }: { children: ReactNode }) {
                     )}
                     <section className="space-y-4">
                         {teams.map((team) => (
-                            <AnimateCard type="subtle">
+                            <AnimateCard key={team.name} type="subtle">
                                 <Link href={`${team.name}`}>
                                     <Card className="p-4">
                                         <section className="flex justify-between">

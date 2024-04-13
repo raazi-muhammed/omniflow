@@ -27,7 +27,16 @@ server.on("connection", (socket) => {
                 }
                 break;
             case EventTypes.LEAVE_ROOM:
-                rooms.delete(data.roomId);
+                if (rooms.has(data.roomId)) {
+                    const currentMembers: any[] = rooms.get(data.roomId);
+
+                    const newMembers = currentMembers.filter(
+                        (a) => a != socket
+                    );
+                    rooms.set(data.roomId, newMembers);
+                } else {
+                    rooms.set(data.roomId, [socket]);
+                }
                 break;
             case EventTypes.MESSAGE:
                 if (!rooms.has(data.roomId)) {

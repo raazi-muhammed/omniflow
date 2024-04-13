@@ -40,17 +40,14 @@ function Navbar() {
             () =>
                 teamService
                     .getMemberAccess({
-                        username: userData.userData?.username || "asdf",
+                        username: userData.userData?.username || "user",
                     })
                     .exec(),
             {
                 toast,
-                afterSuccess: (response: IResponse) => {
-                    console.log(response.data);
-                },
             }
         );
-    }, [dispatch, toast]);
+    }, [dispatch, toast, userData]);
 
     function handleLogout() {
         const service = new AuthService();

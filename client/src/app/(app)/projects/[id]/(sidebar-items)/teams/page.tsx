@@ -54,7 +54,7 @@ export default async function page() {
                     )}
                     <section className="space-y-4">
                         {teams.map((team) => (
-                            <AnimateCard type="subtle">
+                            <AnimateCard key={team.name} type="subtle">
                                 <Link href={`teams/${team.name}`}>
                                     <Card className="p-4">
                                         <section className="flex justify-between">
