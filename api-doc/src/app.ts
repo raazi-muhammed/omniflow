@@ -12,6 +12,7 @@ import {
     schemaRoutes,
     variableRoutes,
 } from "./routes/index.js";
+import { metricMiddleware } from "./config/metrics.js";
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 
 const app = express();
@@ -37,6 +38,8 @@ const stream = {
     write: (message: string) => logger.http(message.trim()),
 };
 app.use(morgan("dev", { stream }));
+
+app.use(metricMiddleware());
 
 app.use("/api/api-doc", endpointRoutes);
 app.use("/api/api-doc", headerRoutes);

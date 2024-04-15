@@ -5,6 +5,7 @@ import cors from "cors";
 import morgan from "morgan";
 import { ErrorHandlingMiddleware, loadEnv, logger } from "@omniflow/common";
 import { authRoutes, userRoutes } from "./routers/index.js";
+import { metricMiddleware } from "./config/metrics.js";
 
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 const app = express();
@@ -35,6 +36,8 @@ const stream = {
     write: (message: string) => logger.http(message.trim()),
 };
 app.use(morgan("dev", { stream }));
+
+app.use(metricMiddleware());
 
 app.use("/api/user", authRoutes);
 app.use("/api/user", userRoutes);

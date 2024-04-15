@@ -31,6 +31,7 @@ services:
             DB_URL: mongodb://root:example@db-user:27017
             KAFKA_BROKER: redpanda:29092
             KAFKA_CLIENT_ID: my-app
+            LOGGER_URL: http://loki:3100
         develop:
             watch:
                 - action: sync
@@ -56,6 +57,7 @@ services:
             KAFKA_BROKER: redpanda:29092
             KAFKA_CLIENT_ID: my-app
             DB_URL: mongodb://root:example@db-project:27017
+            LOGGER_URL: http://loki:3100
         develop:
             watch:
                 - action: sync
@@ -81,6 +83,7 @@ services:
             KAFKA_BROKER: redpanda:29092
             KAFKA_CLIENT_ID: my-app
             DB_URL: mongodb://root:example@db-team:27017
+            LOGGER_URL: http://loki:3100
         develop:
             watch:
                 - action: sync
@@ -105,6 +108,7 @@ services:
         environment:
             KAFKA_BROKER: redpanda:29092
             DB_URL: postgres://user:pass@db-api-doc:5432/db
+            LOGGER_URL: http://loki:3100
         develop:
             watch:
                 - action: sync
@@ -127,6 +131,7 @@ services:
               required: true
         environment:
             DB_URL: postgres://user:pass@db-db-design:5432/db
+            LOGGER_URL: http://loki:3100
         develop:
             watch:
                 - action: sync
@@ -152,6 +157,7 @@ services:
             KAFKA_BROKER: redpanda:29092
             KAFKA_CLIENT_ID: my-app
             DB_URL: mongodb://root:example@db-module:27017
+            LOGGER_URL: http://loki:3100
         develop:
             watch:
                 - action: sync
@@ -175,6 +181,7 @@ services:
               required: true
         environment:
             DB_URL: mongodb://root:example@db-communication:27017
+            LOGGER_URL: http://loki:3100
         develop:
             watch:
                 - action: sync
@@ -273,6 +280,20 @@ services:
             - --advertise-kafka-addr PLAINTEXT://redpanda:29092
         ports:
             - 29092:29092
+    prom-server:
+        image: prom/prometheus
+        ports:
+            - 9090:9090
+        volumes:
+            - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    grafana:
+        image: grafana/grafana-oss
+        ports:
+            - 3030:3000
+    loki:
+        image: grafana/loki
+        ports:
+            - 3100:3100
 
 volumes:
     db_user:

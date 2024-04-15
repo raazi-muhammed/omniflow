@@ -1,0 +1,16 @@
+global:
+    scrape_interval: 4s
+
+scrape_configs:
+    - job_name: prometheus
+      static_configs:
+          - targets:
+                [
+                    "user:4000",
+                    "team:4010",
+                    "project:4005",
+                    "api-doc:4015",
+                    "db-design:4030",
+                    "module:4020",
+                    "communication:4025",
+                ]
