@@ -1,11 +1,13 @@
 name: tests-module
 
 on:
-  pull_request
+    pull_request:
+        paths:
+            - "module/**"
 
-jobs: 
-  build: 
-    runs-on: ubuntu-latest
-    steps: 
-      - uses: actions/checkout@v2
-      - run: cd module && npm install && npm run test
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - run: cd module && npm install && npm run test
