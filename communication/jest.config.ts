@@ -13,6 +13,7 @@ const config: Config = {
     setupFiles: ["<rootDir>/.jest/setEnvVars.js"],
     testPathIgnorePatterns: ["__tests__/index*"],
     coverageDirectory: "coverage",
+    forceExit: true,
     coverageProvider: "v8",
 };
 

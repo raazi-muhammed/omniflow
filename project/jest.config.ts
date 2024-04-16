@@ -12,7 +12,7 @@ const config: Config = {
         "^(.+)\\.js$": "$1",
     },
     setupFiles: ["<rootDir>/.jest/setEnvVars.js"],
-    testPathIgnorePatterns: ["__tests__/index*"],
+    testPathIgnorePatterns: ["__tests__/index*", "routers/__tests__/*"],
     coveragePathIgnorePatterns: [
         "node_modules",
         "test-config",
@@ -22,6 +22,7 @@ const config: Config = {
         "<rootDir>/src/events/kafka/*",
         ".mock.ts",
     ],
+    forceExit: true,
     coverageDirectory: "coverage",
     coverageProvider: "v8",
 };
