@@ -1,4 +1,4 @@
-name: deploy-team
+name: deploy-communication
 
 on: pull_request
 
@@ -7,10 +7,10 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
-            - run: cd team && npm install && npm run test
-            - run: cd team && docker build -t raazimuhammed/omniflow-team .
+            - run: cd communication && npm install && npm run test
+            - run: cd communication && docker build -t raazimuhammed/omniflow-communication .
             - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
               env:
                   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
                   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-            - run: docker push raazimuhammed/omniflow-team
+            - run: docker push raazimuhammed/omniflow-communication
