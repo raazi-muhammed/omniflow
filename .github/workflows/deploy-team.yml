@@ -11,7 +11,7 @@ jobs:
         steps:
             - uses: actions/checkout@v2
             - run: cd team && npm install && npm run test
-            - run: docker build -t raazimuhammed/omniflow-team .
+            - run: cd team && docker build -t raazimuhammed/omniflow-team .
             - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
               env:
                   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
