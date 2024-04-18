@@ -27,7 +27,7 @@ spec:
                       - name: DB_URL
                         value: "mongodb://team-mongo-service:27017/db"
 
----
+
 apiVersion: v1
 kind: Service
 metadata:
