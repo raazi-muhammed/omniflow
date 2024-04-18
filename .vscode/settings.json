@@ -1,3 +1,6 @@
 {
-    "cSpell.words": ["hookform", "kafkajs", "lucide", "omniflow", "openapi"]
+    "cSpell.words": ["hookform", "kafkajs", "lucide", "omniflow", "openapi"],
+    "vs-kubernetes": {
+        "disable-linters": ["resource-limits"]
+    }
 }

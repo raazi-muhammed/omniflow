@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: user-deploy
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: user
+    template:
+        metadata:
+            labels:
+                app: user
+        spec:
+            containers:
+                - name: user
+                  image: raazimuhammed/omniflow-user
+                  env:
+                      - name: PORT
+                        value: "4000"
+                      - name: SERVER_NAME
+                        value: user
+                      - name: CORS_ORIGINS
+                        value: http://www.omni-flow.live
+                      - name: DB_URL
+                        value: "mongodb://user-mongo-service:27017/db"
+                      - name: KAFKA_CLIENT_ID
+                        value: my-app
+                      - name: KAFKA_BROKER
+                        value: http://localhost:3000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: user-service
+spec:
+    selector:
+        app: user
+    ports:
+        - name: user
+          protocol: TCP
+          port: 4000
+          targetPort: 4000
