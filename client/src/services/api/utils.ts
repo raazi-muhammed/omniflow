@@ -1,6 +1,7 @@
 import { AxiosError, AxiosResponse } from "axios";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+const BASE_URL_INGRESS = process.env.NEXT_PUBLIC_BASE_URL_INGRESS;
 const USER_SERVICE_URL = process.env.NEXT_PUBLIC_USER_SERVICE_URL;
 const PROJECT_SERVICE_URL = process.env.NEXT_PUBLIC_PROJECT_SERVICE_URL;
 const TEAM_SERVICE_URL = process.env.NEXT_PUBLIC_TEAM_SERVICE_URL;
@@ -14,7 +15,15 @@ export class BuildUrl {
 
     constructor() {
         if (!BASE_URL) throw new Error("Missing Base URL");
-        this.baseUrl = BASE_URL;
+
+        const isRunningOnNode = typeof window === "undefined";
+
+        this.baseUrl = isRunningOnNode
+            ? BASE_URL_INGRESS || BASE_URL
+            : BASE_URL;
+
+        console.log({ isRunningOnNode, baseUrl: this.baseUrl });
+
         return this;
     }
 
