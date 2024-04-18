@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: client-deploy
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: client
+    template:
+        metadata:
+            labels:
+                app: client
+        spec:
+            containers:
+                - name: client
+                  image: raazimuhammed/omniflow-client
+                  env:
+                      - name: NEXT_PUBLIC_BASE_URL
+                        value: http://www.omni-flow.live
+                      - name: NEXT_PUBLIC_BASE_URL_INGRESS
+                        value: http://www.omni-flow.live
+                      - name: NEXT_PUBLIC_PROJECT_SERVICE_URL
+                        value: /api/project
+                      - name: NEXT_PUBLIC_USER_SERVICE_URL
+                        value: /api/user
+                      - name: NEXT_PUBLIC_TEAM_SERVICE_URL
+                        value: /api/team
+                      - name: NEXT_PUBLIC_API_DOC_SERVICE_URL
+                        value: /api/api-doc
+                      - name: NEXT_PUBLIC_COMMUNICATION_SERVICE_URL
+                        value: /api/communication
+                      - name: NEXT_PUBLIC_DB_DESIGN_SERVICE_URL
+                        value: /api/db-design
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: client-service
+spec:
+    selector:
+        app: client
+    ports:
+        - name: client
+          protocol: TCP
+          port: 3000
+          targetPort: 3000
