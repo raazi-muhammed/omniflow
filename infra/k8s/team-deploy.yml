@@ -24,28 +24,10 @@ spec:
                         value: http://localhost:3000
                       - name: CLIENT_URL
                         value: http://localhost:3000
-                      - name: ACCESS_TOKEN_SECRET
-                        value: bug7DB375N
                       - name: DB_URL
                         value: "mongodb://team-mongo-service:27017/db"
-                      - name: LOGGER_URL
-                        value: "mongodb://team-mongo-service:27017/db"
-                      - name: KAFKA_CLIENT_ID
-                        value: my-app
-                      - name: KAFKA_BROKER
-                        value: http://localhost:3000
-                      - name: SMPT_HOST
-                        value: smtp.gmail.com
-                      - name: SMPT_PORT
-                        value: "456"
-                      - name: SMPT_SERVICE
-                        value: gmail
-                      - name: SMPT_PASSWORD
-                        value: fmnbybawrjasibnb
-                      - name: SMPT_MAIL
-                        value: raaziprojects@gmail.com
 
----
+
 apiVersion: v1
 kind: Service
 metadata:

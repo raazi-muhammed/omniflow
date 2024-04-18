@@ -32,7 +32,7 @@ export default function buildLoginController({
         return response
             .setData(user)
             .setHeaders({
-                "Set-Cookie": `${TOKEN_COOKIE_NAME}=${token}; Path=/; Expires=${expires}; HttpOnly`,
+                "Set-Cookie": `${TOKEN_COOKIE_NAME}=${token}; Path=/; Expires=${expires}`,
             })
             .setStatusCode(200)
             .setMessage("Login successful");
