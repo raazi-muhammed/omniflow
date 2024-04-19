@@ -20,10 +20,6 @@ spec:
                         value: "4005"
                       - name: SERVER_NAME
                         value: project
-                      - name: CORS_ORIGINS
-                        value: http://localhost:3000
-                      - name: ACCESS_TOKEN_SECRET
-                        value: bug7DB375N
                       - name: DB_URL
                         value: "mongodb://project-mongo-service:27017/db"
                       - name: LOGGER_URL
@@ -32,6 +28,16 @@ spec:
                         value: my-app
                       - name: KAFKA_BROKER
                         value: http://localhost:3000
+                      - name: CORS_ORIGINS
+                        valueFrom:
+                            secretKeyRef:
+                                name: common-secret
+                                key: CORS_ORIGINS
+                      - name: ACCESS_TOKEN_SECRET
+                        valueFrom:
+                            secretKeyRef:
+                                name: common-secret
+                                key: ACCESS_TOKEN_SECRET
 
 ---
 apiVersion: v1

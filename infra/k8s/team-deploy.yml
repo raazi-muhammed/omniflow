@@ -20,12 +20,54 @@ spec:
                         value: "4010"
                       - name: SERVER_NAME
                         value: team
-                      - name: CORS_ORIGINS
-                        value: http://localhost:3000
-                      - name: CLIENT_URL
-                        value: http://localhost:3000
                       - name: DB_URL
                         value: "mongodb://team-mongo-service:27017/db"
+                      - name: LOGGER_URL
+                        value: "mongodb://team-mongo-service:27017/db"
+                      - name: KAFKA_CLIENT_ID
+                        value: my-app
+                      - name: KAFKA_BROKER
+                        value: kafka-service:9092
+                      - name: CLIENT_URL
+                        valueFrom:
+                            secretKeyRef:
+                                name: common-secret
+                                key: CORS_ORIGINS
+                      - name: CORS_ORIGINS
+                        valueFrom:
+                            secretKeyRef:
+                                name: common-secret
+                                key: CORS_ORIGINS
+                      - name: ACCESS_TOKEN_SECRET
+                        valueFrom:
+                            secretKeyRef:
+                                name: common-secret
+                                key: ACCESS_TOKEN_SECRET
+                      - name: SMPT_HOST
+                        valueFrom:
+                            secretKeyRef:
+                                name: email-secret
+                                key: SMPT_HOST
+                      - name: SMPT_PORT
+                        valueFrom:
+                            secretKeyRef:
+                                name: email-secret
+                                key: SMPT_PORT
+                      - name: SMPT_SERVICE
+                        valueFrom:
+                            secretKeyRef:
+                                name: email-secret
+                                key: SMPT_SERVICE
+                      - name: SMPT_PASSWORD
+                        valueFrom:
+                            secretKeyRef:
+                                name: email-secret
+                                key: SMPT_PASSWORD
+                      - name: SMPT_MAIL
+                        valueFrom:
+                            secretKeyRef:
+                                name: email-secret
+                                key: SMPT_MAIL
 
 ---
 apiVersion: v1
