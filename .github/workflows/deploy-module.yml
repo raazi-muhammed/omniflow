@@ -1,6 +1,9 @@
 name: deploy-module
 
-on: pull_request
+on:
+    pull_request:
+        paths:
+            - "module/**"
 
 jobs:
     build:

@@ -1,6 +1,9 @@
 name: deploy-project
 
-on: pull_request
+on:
+    pull_request:
+        paths:
+            - "project/**"
 
 jobs:
     build:
