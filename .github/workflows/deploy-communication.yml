@@ -1,6 +1,9 @@
 name: deploy-communication
 
-on: pull_request
+on:
+    pull_request:
+        paths:
+            - "communication/**"
 
 jobs:
     build:

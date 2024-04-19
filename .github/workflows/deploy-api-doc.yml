@@ -1,6 +1,9 @@
 name: deploy-api-doc
 
-on: pull_request
+on:
+    pull_request:
+        paths:
+            - "api-doc/**"
 
 jobs:
     build:
