@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: api-doc-db-deploy
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: api-doc-db
+    template:
+        metadata:
+            labels:
+                app: api-doc-db
+        spec:
+            containers:
+                - name: api-doc-db
+                  image: postgres
+                  env:
+                      - name: POSTGRES_USER
+                        value: user
+                      - name: POSTGRES_PASSWORD
+                        value: pass
+                      - name: POSTGRES_DB
+                        value: db
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: api-doc-db-service
+spec:
+    selector:
+        app: api-doc-db
+    ports:
+        - name: db
+          protocol: TCP
+          port: 5432
+          targetPort: 5432

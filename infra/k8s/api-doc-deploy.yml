@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: api-doc-deploy
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: api-doc
+    template:
+        metadata:
+            labels:
+                app: api-doc
+        spec:
+            containers:
+                - name: api-doc
+                  image: raazimuhammed/omniflow-api-doc
+                  env:
+                      - name: PORT
+                        value: "4015"
+                      - name: SERVER_NAME
+                        value: api-doc
+                      - name: DB_URL
+                        value: "postgres://user:pass@api-doc-db-service:5432/db"
+                      - name: LOGGER_URL
+                        value: "http://localhost:3000"
+                      - name: KAFKA_CLIENT_ID
+                        value: my-app
+                      - name: KAFKA_BROKER
+                        value: kafka-service:9092
+                      - name: CORS_ORIGINS
+                        valueFrom:
+                            secretKeyRef:
+                                name: common-secret
+                                key: CORS_ORIGINS
+                      - name: ACCESS_TOKEN_SECRET
+                        valueFrom:
+                            secretKeyRef:
+                                name: common-secret
+                                key: ACCESS_TOKEN_SECRET
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: api-doc-service
+spec:
+    selector:
+        app: api-doc
+    ports:
+        - name: api-doc
+          protocol: TCP
+          port: 4015
+          targetPort: 4015

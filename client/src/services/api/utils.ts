@@ -9,6 +9,7 @@ const API_DOC_SERVICE_URL = process.env.NEXT_PUBLIC_API_DOC_SERVICE_URL;
 const COMMUNICATION_SERVICE_URL =
     process.env.NEXT_PUBLIC_COMMUNICATION_SERVICE_URL;
 const DB_DESIGN_SERVICE_URL = process.env.NEXT_PUBLIC_DB_DESIGN_SERVICE_URL;
+const MODULE_SERVICE_URL = process.env.NEXT_PUBLIC_MODULE_SERVICE_URL;
 
 export class BuildUrl {
     private baseUrl: string;
@@ -56,10 +57,10 @@ export class BuildUrl {
         return this.baseUrl + url + endpoint;
     }
     module(endpoint: string) {
-        if (!PROJECT_SERVICE_URL) {
+        if (!MODULE_SERVICE_URL) {
             throw new Error("Missing Module Service URL");
         }
-        const url = "localhost:4020/api/module";
+        const url = MODULE_SERVICE_URL;
         return this.baseUrl + url + endpoint;
     }
     communication(endpoint: string) {

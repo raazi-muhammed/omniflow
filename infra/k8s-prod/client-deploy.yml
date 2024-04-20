@@ -32,6 +32,8 @@ spec:
                         value: /api/communication
                       - name: NEXT_PUBLIC_DB_DESIGN_SERVICE_URL
                         value: /api/db-design
+                      - name: NEXT_PUBLIC_MODULE_SERVICE_URL
+                        value: /api/module
 
 ---
 apiVersion: v1

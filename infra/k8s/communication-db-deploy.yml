@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: communication-mongo-deploy
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: communication-mongo
+    template:
+        metadata:
+            labels:
+                app: communication-mongo
+        spec:
+            containers:
+                - name: communication-mongo
+                  image: mongo
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: communication-mongo-service
+spec:
+    selector:
+        app: communication-mongo
+    ports:
+        - name: db
+          protocol: TCP
+          port: 27017
+          targetPort: 27017
