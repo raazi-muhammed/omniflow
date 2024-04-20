@@ -17,9 +17,9 @@ spec:
                   image: raazimuhammed/omniflow-client
                   env:
                       - name: NEXT_PUBLIC_BASE_URL
-                        value: http://www.omni-flow.live
+                        value: https://omni-flow.live
                       - name: NEXT_PUBLIC_BASE_URL_INGRESS
-                        value: http://www.omni-flow.live
+                        value: https://omni-flow.live
                       - name: NEXT_PUBLIC_PROJECT_SERVICE_URL
                         value: /api/project
                       - name: NEXT_PUBLIC_USER_SERVICE_URL

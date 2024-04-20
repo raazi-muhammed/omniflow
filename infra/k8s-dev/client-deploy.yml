@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
     name: client-deploy
+    namespace: app
 spec:
     replicas: 1
     selector:
@@ -13,7 +14,7 @@ spec:
                 app: client
         spec:
             containers:
-                - name: client
+                - name: app
                   image: raazimuhammed/omniflow-client
                   env:
                       - name: NEXT_PUBLIC_BASE_URL
