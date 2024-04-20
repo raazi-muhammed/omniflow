@@ -31,6 +31,34 @@ spec:
                             name: team-service
                             port:
                                 number: 4010
+                  - path: /api/api-doc/?(.*)
+                    pathType: Prefix
+                    backend:
+                        service:
+                            name: api-doc-service
+                            port:
+                                number: 4015
+                  - path: /api/db-design/?(.*)
+                    pathType: Prefix
+                    backend:
+                        service:
+                            name: db-design-service
+                            port:
+                                number: 4030
+                  - path: /api/module/?(.*)
+                    pathType: Prefix
+                    backend:
+                        service:
+                            name: module-service
+                            port:
+                                number: 4020
+                  - path: /api/communication/?(.*)
+                    pathType: Prefix
+                    backend:
+                        service:
+                            name: communication-service
+                            port:
+                                number: 4025
                   - path: /?(.*)
                     pathType: Prefix
                     backend:

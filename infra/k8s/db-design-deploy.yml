@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: db-design-deploy
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: db-design
+    template:
+        metadata:
+            labels:
+                app: db-design
+        spec:
+            containers:
+                - name: db-design
+                  image: raazimuhammed/omniflow-db-design
+                  env:
+                      - name: PORT
+                        value: "4030"
+                      - name: SERVER_NAME
+                        value: db-design
+                      - name: DB_URL
+                        value: "postgres://user:pass@db-design-db-service:5432/db"
+                      - name: LOGGER_URL
+                        value: "http://localhost:3000"
+                      - name: KAFKA_CLIENT_ID
+                        value: my-app
+                      - name: KAFKA_BROKER
+                        value: kafka-service:9092
+                      - name: CORS_ORIGINS
+                        valueFrom:
+                            secretKeyRef:
+                                name: common-secret
+                                key: CORS_ORIGINS
+                      - name: ACCESS_TOKEN_SECRET
+                        valueFrom:
+                            secretKeyRef:
+                                name: common-secret
+                                key: ACCESS_TOKEN_SECRET
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: db-design-service
+spec:
+    selector:
+        app: db-design
+    ports:
+        - name: db-design
+          protocol: TCP
+          port: 4030
+          targetPort: 4030

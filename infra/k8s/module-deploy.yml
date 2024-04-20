@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: module-deploy
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: module
+    template:
+        metadata:
+            labels:
+                app: module
+        spec:
+            containers:
+                - name: module
+                  image: raazimuhammed/omniflow-module
+                  env:
+                      - name: PORT
+                        value: "4020"
+                      - name: SERVER_NAME
+                        value: module
+                      - name: DB_URL
+                        value: "mongodb://module-mongo-service:27017/db"
+                      - name: LOGGER_URL
+                        value: "http://localhost:3000"
+                      - name: KAFKA_CLIENT_ID
+                        value: my-app
+                      - name: KAFKA_BROKER
+                        value: kafka-service:9092
+                      - name: CORS_ORIGINS
+                        valueFrom:
+                            secretKeyRef:
+                                name: common-secret
+                                key: CORS_ORIGINS
+                      - name: ACCESS_TOKEN_SECRET
+                        valueFrom:
+                            secretKeyRef:
+                                name: common-secret
+                                key: ACCESS_TOKEN_SECRET
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: module-service
+spec:
+    selector:
+        app: module
+    ports:
+        - name: module
+          protocol: TCP
+          port: 4020
+          targetPort: 4020
