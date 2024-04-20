@@ -27,7 +27,7 @@ spec:
                       - name: KAFKA_CLIENT_ID
                         value: my-app
                       - name: KAFKA_BROKER
-                        value: http://localhost:3000
+                        value: kafka-service:9092
                       - name: CORS_ORIGINS
                         valueFrom:
                             secretKeyRef:
