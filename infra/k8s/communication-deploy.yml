@@ -28,6 +28,8 @@ spec:
                         value: my-app
                       - name: KAFKA_BROKER
                         value: kafka-service:9092
+                      - name: SOCKET_PORT
+                        value: "4040"
                       - name: CORS_ORIGINS
                         valueFrom:
                             secretKeyRef:
@@ -38,6 +40,26 @@ spec:
                             secretKeyRef:
                                 name: common-secret
                                 key: ACCESS_TOKEN_SECRET
+                      - name: BUCKET_REGION
+                        valueFrom:
+                            secretKeyRef:
+                                name: aws-secret
+                                key: BUCKET_REGION
+                      - name: AWS_ACCESS_KEY
+                        valueFrom:
+                            secretKeyRef:
+                                name: aws-secret
+                                key: AWS_ACCESS_KEY
+                      - name: AWS_SECRET_KEY
+                        valueFrom:
+                            secretKeyRef:
+                                name: aws-secret
+                                key: AWS_SECRET_KEY
+                      - name: BUCKET_NAME
+                        valueFrom:
+                            secretKeyRef:
+                                name: aws-secret
+                                key: CHAT_BUCKET_NAME
 
 ---
 apiVersion: v1

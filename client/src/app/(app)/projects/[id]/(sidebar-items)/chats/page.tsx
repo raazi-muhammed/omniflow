@@ -12,7 +12,11 @@ import { makeApiCall } from "@/lib/apicaller";
 import { IResponse } from "@/services/api/utils";
 import Messages from "./_components/Messages";
 import MessageSender from "./_components/MessageSender";
-const socket = new WebSocket("ws://localhost:4040");
+
+const SOCKET_URL = process.env.NEXT_PUBLIC_SOCKET_URL;
+if (!SOCKET_URL) throw new Error("ENV NOT FOUND: socket url not found");
+
+const socket = new WebSocket(SOCKET_URL);
 
 export default function Chats() {
     const project = useAppSelector((state) => state.projectReducer.projectData);
