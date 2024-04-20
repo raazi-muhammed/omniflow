@@ -16,8 +16,6 @@ import AnimateCard from "@/components/animated/AnimateCard";
 import AnimateButton from "@/components/animated/AnimateButton";
 
 async function getProjectsData() {
-    console.log("cookies::project", cookies().getAll());
-
     const token = cookies().get(USER_TOKEN_COOKIE)?.value;
 
     const service = new ProjectService({
