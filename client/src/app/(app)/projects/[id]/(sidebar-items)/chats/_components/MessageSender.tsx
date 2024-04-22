@@ -80,6 +80,13 @@ export default function MessageSender({
             return;
         }
 
+        if (!socket.readyState) {
+            toast({
+                description: "Not joined on room",
+            });
+            return;
+        }
+
         const data = new FormData();
         data.append("content", values.message);
 
@@ -113,10 +120,6 @@ export default function MessageSender({
             () => service.addMessage({ roomId: projectId, data }).exec(),
             {
                 afterSuccess: (response: IResponse) => {
-                    setMessages((m) => {
-                        m.pop();
-                        return m;
-                    });
                     socket.send(
                         JSON.stringify({
                             type: EventTypes.MESSAGE,

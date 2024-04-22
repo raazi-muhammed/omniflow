@@ -5,6 +5,10 @@ import {
 } from "@omniflow/common";
 import { Router } from "express";
 import { IModuleController } from "../interfaces/controller.interface.js";
+import {
+    verifyEditAccess,
+    verifyViewAccess,
+} from "../lib/access-middlewares.js";
 
 export default function buildModuleRoutes({
     router,
@@ -37,6 +41,7 @@ export default function buildModuleRoutes({
         "/modules",
         verifyUser,
         verifyProject,
+        verifyViewAccess,
         makeCallback(moduleController.getModules)
     );
 
@@ -60,6 +65,7 @@ export default function buildModuleRoutes({
         "/modules/list",
         verifyUser,
         verifyProject,
+        verifyViewAccess,
         makeCallback(moduleController.getModuleList)
     );
 
@@ -89,6 +95,7 @@ export default function buildModuleRoutes({
         "/modules/:moduleId",
         verifyUser,
         verifyProject,
+        verifyViewAccess,
         makeCallback(moduleController.getModule)
     );
 
@@ -126,6 +133,7 @@ export default function buildModuleRoutes({
         "/modules",
         verifyUser,
         verifyProject,
+        verifyEditAccess,
         makeCallback(moduleController.addModule)
     );
 
@@ -170,6 +178,7 @@ export default function buildModuleRoutes({
         "/modules/:moduleId",
         verifyUser,
         verifyProject,
+        verifyEditAccess,
         makeCallback(moduleController.editModule)
     );
 
@@ -195,6 +204,7 @@ export default function buildModuleRoutes({
         "/modules/:moduleId",
         verifyUser,
         verifyProject,
+        verifyEditAccess,
         makeCallback(moduleController.deleteModule)
     );
 

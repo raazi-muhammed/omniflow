@@ -21,7 +21,11 @@ const socket = new WebSocket(SOCKET_URL);
 export default function Chats() {
     const project = useAppSelector((state) => state.projectReducer.projectData);
     const user = useAppSelector((state) => state.authReducer.userData);
-
+    const [rejoin, setRejoin] = useState(new Date());
+    const retryJoin = () => {
+        rejoin.setSeconds(rejoin.getSeconds() + 1);
+        if (rejoin < new Date()) setRejoin(new Date());
+    };
     const [messages, setMessages] = useState<IMessage[]>([]);
 
     useEffect(() => {
@@ -46,9 +50,10 @@ export default function Chats() {
                     roomId: project.id,
                 })
             );
-            toast({ description: "room joined" });
+            toast({ description: "chat joined" });
         } catch (error) {
             toast({ description: "failed" });
+            retryJoin();
         }
         return () => {
             try {
@@ -58,16 +63,30 @@ export default function Chats() {
                         roomId: project?.id,
                     })
                 );
-                toast({ description: "room left" });
+                toast({ description: "chat left" });
             } catch (error) {
                 toast({ description: "failed" });
             }
         };
-    }, [project]);
+    }, [project, rejoin, socket.readyState]);
 
     socket.addEventListener("message", ({ data }) => {
-        const message = JSON.parse(data);
-        setMessages([...messages, message.content]);
+        const messageData = JSON.parse(data);
+        const message = messageData.content as IMessage;
+
+        if (message.from.username == user?.username) {
+            const updatedMessages = messages.map((e) => {
+                if (e.content === message.content) {
+                    return {
+                        ...e,
+                        isLoading: false,
+                    };
+                } else return e;
+            });
+            setMessages(updatedMessages);
+        } else {
+            setMessages([...messages, message]);
+        }
     });
 
     return (

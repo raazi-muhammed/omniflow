@@ -24,6 +24,7 @@ export async function makeApiCall(
         if (afterError) afterError(error);
         if (toast) {
             toast({
+                variant: "destructive",
                 description: error,
             });
         } else {

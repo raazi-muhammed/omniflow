@@ -41,6 +41,7 @@ export default function Sidebar() {
     const projectInfo = useAppSelector(
         (state) => state.projectReducer.projectData
     );
+    const userData = useAppSelector((state) => state.authReducer);
 
     useEffect(() => {
         const service = new ProjectService();

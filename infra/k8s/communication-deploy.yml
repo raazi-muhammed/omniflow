@@ -81,7 +81,6 @@ kind: Service
 metadata:
     name: socket-connection-service
 spec:
-    type: NodePort
     selector:
         app: communication
     ports:
