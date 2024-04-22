@@ -85,5 +85,7 @@ spec:
     selector:
         app: communication
     ports:
-        - port: 4040
+        - name: communication
+          protocol: TCP
+          port: 4040
           targetPort: 4040

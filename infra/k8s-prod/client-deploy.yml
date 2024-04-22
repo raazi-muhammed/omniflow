@@ -35,7 +35,7 @@ spec:
                       - name: NEXT_PUBLIC_MODULE_SERVICE_URL
                         value: /api/module
                       - name: NEXT_PUBLIC_SOCKET_URL
-                        value: wss://socket-connection-service:4040
+                        value: wss://socket.omni-flow.live
 
 ---
 apiVersion: v1
