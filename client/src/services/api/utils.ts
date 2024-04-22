@@ -23,8 +23,6 @@ export class BuildUrl {
             ? BASE_URL_INGRESS || BASE_URL
             : BASE_URL;
 
-        console.log({ isRunningOnNode, baseUrl: this.baseUrl });
-
         return this;
     }
 

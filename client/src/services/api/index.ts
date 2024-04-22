@@ -54,12 +54,9 @@ export class Service {
 
             this.apiCall()
                 .then((response) => {
-                    console.log(this.url, { response });
-
                     resolve(adaptSuccessResponse(response));
                 })
                 .catch((error) => {
-                    console.log(this.url, { error });
                     reject(adaptErrorResponse(error));
                 });
         });

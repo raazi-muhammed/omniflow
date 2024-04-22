@@ -5,12 +5,11 @@ import Container from "./Container";
 import { AppDispatch, useAppSelector } from "@/redux/store";
 import { Button } from "../ui/button";
 import Link from "next/link";
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import { logout } from "@/redux/features/authSlice";
 import { useToast } from "../ui/use-toast";
 import { makeApiCall } from "@/lib/apicaller";
-import { IResponse } from "@/services/api/utils";
 import {
     NavigationMenu,
     NavigationMenuContent,
@@ -26,28 +25,12 @@ import {
 } from "lucide-react";
 import { AuthService } from "@/services/api/auth.service";
 import { useRouter } from "next/navigation";
-import { TeamService } from "@/services/api/team.service";
 
 function Navbar() {
     const { toast } = useToast();
     const router = useRouter();
     const userData = useAppSelector((state) => state.authReducer);
     const dispatch = useDispatch<AppDispatch>();
-    useEffect(() => {
-        const teamService = new TeamService();
-
-        makeApiCall(
-            () =>
-                teamService
-                    .getMemberAccess({
-                        username: userData.userData?.username || "user",
-                    })
-                    .exec(),
-            {
-                toast,
-            }
-        );
-    }, [dispatch, toast, userData]);
 
     function handleLogout() {
         const service = new AuthService();

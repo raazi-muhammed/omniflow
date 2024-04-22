@@ -5,6 +5,10 @@ import {
 } from "@omniflow/common";
 import { Router } from "express";
 import { ITaskController } from "../interfaces/controller.interface.js";
+import {
+    verifyEditAccess,
+    verifyViewAccess,
+} from "../lib/access-middlewares.js";
 
 export default function buildTaskRoutes({
     router,
@@ -37,6 +41,7 @@ export default function buildTaskRoutes({
         "/tasks",
         verifyUser,
         verifyProject,
+        verifyViewAccess,
         makeCallback(taskController.getTasks)
     );
 
@@ -76,6 +81,7 @@ export default function buildTaskRoutes({
         "/tasks",
         verifyUser,
         verifyProject,
+        verifyEditAccess,
         makeCallback(taskController.addTask)
     );
 
@@ -105,6 +111,7 @@ export default function buildTaskRoutes({
         "/tasks/:taskId",
         verifyUser,
         verifyProject,
+        verifyViewAccess,
         makeCallback(taskController.getTask)
     );
 
@@ -151,6 +158,7 @@ export default function buildTaskRoutes({
         "/tasks/:taskId",
         verifyUser,
         verifyProject,
+        verifyEditAccess,
         makeCallback(taskController.editTask)
     );
 
@@ -176,6 +184,7 @@ export default function buildTaskRoutes({
         "/tasks/:taskId",
         verifyUser,
         verifyProject,
+        verifyEditAccess,
         makeCallback(taskController.deleteTask)
     );
 
@@ -212,6 +221,7 @@ export default function buildTaskRoutes({
         "/tasks/:taskId/status",
         verifyUser,
         verifyProject,
+        verifyEditAccess,
         makeCallback(taskController.changeTaskStatus)
     );
 
@@ -248,6 +258,7 @@ export default function buildTaskRoutes({
         "/tasks/:taskId/assignee",
         verifyUser,
         verifyProject,
+        verifyEditAccess,
         makeCallback(taskController.changeTaskAssignee)
     );
 
