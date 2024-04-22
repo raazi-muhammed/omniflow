@@ -111,7 +111,6 @@ export default function Messages({
                     </motion.section>
                 )
             )}
-
             <div id="messages-chat" className="h-20" />
         </section>
     );
