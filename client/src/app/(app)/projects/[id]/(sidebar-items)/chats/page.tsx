@@ -21,9 +21,11 @@ const socket = new WebSocket(SOCKET_URL);
 export default function Chats() {
     const project = useAppSelector((state) => state.projectReducer.projectData);
     const user = useAppSelector((state) => state.authReducer.userData);
-    const [rejoin, setRejoin] = useState(false);
-    const retryJoin = () => setRejoin((r) => !r);
-
+    const [rejoin, setRejoin] = useState(new Date());
+    const retryJoin = () => {
+        rejoin.setSeconds(rejoin.getSeconds() + 1);
+        if (rejoin < new Date()) setRejoin(new Date());
+    };
     const [messages, setMessages] = useState<IMessage[]>([]);
 
     useEffect(() => {
@@ -66,7 +68,7 @@ export default function Chats() {
                 toast({ description: "failed" });
             }
         };
-    }, [project, rejoin]);
+    }, [project, rejoin, socket.readyState]);
 
     socket.addEventListener("message", ({ data }) => {
         const messageData = JSON.parse(data);
