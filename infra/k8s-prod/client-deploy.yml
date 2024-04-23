@@ -36,6 +36,16 @@ spec:
                         value: /api/module
                       - name: NEXT_PUBLIC_SOCKET_URL
                         value: wss://socket.omni-flow.live
+                      - name: NEXT_PUBLIC_ZEGO_APP_ID
+                        valueFrom:
+                            secretKeyRef:
+                                name: zego-secret
+                                key: NEXT_PUBLIC_ZEGO_APP_ID
+                      - name: NEXT_PUBLIC_ZEGO_ZEGO_SERVER_SECRET
+                        valueFrom:
+                            secretKeyRef:
+                                name: zego-secret
+                                key: NEXT_PUBLIC_ZEGO_ZEGO_SERVER_SECRET
 
 ---
 apiVersion: v1
