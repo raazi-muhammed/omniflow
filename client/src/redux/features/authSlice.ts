@@ -14,11 +14,13 @@ export const fetchCurrentUser = createAsyncThunk(
 type InitialState = {
     isAuth: boolean;
     userData: null | IUser;
+    isLoading: boolean;
 };
 
 const initialState: InitialState = {
     isAuth: false,
     userData: null,
+    isLoading: false,
 };
 
 export const auth = createSlice({
@@ -34,9 +36,18 @@ export const auth = createSlice({
         },
     },
     extraReducers: (builder) => {
-        builder.addCase(fetchCurrentUser.fulfilled, (state, action) => {
-            (state.isAuth = true), (state.userData = action.payload);
-        });
+        builder
+            .addCase(fetchCurrentUser.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(fetchCurrentUser.fulfilled, (state, action) => {
+                state.isAuth = true;
+                state.userData = action.payload;
+                state.isLoading = false;
+            })
+            .addCase(fetchCurrentUser.rejected, (state) => {
+                state.isLoading = false;
+            });
     },
 });
 
