@@ -4,6 +4,7 @@ export type ITeamProducers = {
             avatar?: string;
             username: string;
             email: string;
+            name: string;
         };
         projectId: string;
     }) => Promise<void>;

@@ -86,7 +86,6 @@ export default function buildInviteMemberUseCase({
             info: userToInvite.id,
             deletedAt: null,
         });
-        console.log({ memberData });
 
         const tokenData: InvitationTokenData = {
             projectId,

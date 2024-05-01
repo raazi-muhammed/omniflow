@@ -1,8 +1,7 @@
-import { AnErrorOccurredError, ConflictError, loadEnv } from "@omniflow/common";
+import { AnErrorOccurredError, ConflictError } from "@omniflow/common";
 import {
     IMemberRepository,
     IMemberStatusRepository,
-    ITeamRepository,
 } from "../../interfaces/repository.interface.js";
 import {
     IMemberEntityConstructor,
@@ -33,6 +32,7 @@ export default function buildAddProjectLeadUseCase({
         name: string;
     }) => {
         let userToAdd = await memberRepository.getByEmail(email);
+
         if (!userToAdd) {
             const memberEntity = new MemberCreator({
                 email,
