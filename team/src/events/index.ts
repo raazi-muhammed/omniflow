@@ -2,6 +2,7 @@ import { Kafka } from "kafkajs";
 import { loadEnv, logger } from "@omniflow/common";
 import { addMemberToTeamConsumer } from "./consumer/add-member-to-team.consumer.js";
 import { memberUseCases } from "../use-cases/index.js";
+import { editMemberConsumer } from "./consumer/edit-member.consumer.js";
 
 const { KAFKA_BROKER, KAFKA_CLIENT_ID } = loadEnv([
     "KAFKA_BROKER",
@@ -19,6 +20,7 @@ producer
     .then(() => {
         logger.info("Producer status\t: Connected");
         addMemberToTeamConsumer({ kafka, memberUseCases });
+        editMemberConsumer({ kafka, memberUseCases });
     })
     .catch((err) => {
         logger.error("Producer status\t: Not connected", err);
