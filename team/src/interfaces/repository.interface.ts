@@ -75,6 +75,11 @@ export type IMemberRepository = {
     getByUsername: (username: string) => Promise<IDBMember | null>;
     getByEmail: (email: string) => Promise<IDBMember | null>;
     getById: (id: string) => Promise<IDBMember | null>;
+    editUser: (data: {
+        avatar?: string;
+        username: string;
+        name: string;
+    }) => Promise<boolean>;
 };
 
 export type IMemberAccessRepository = {

@@ -82,4 +82,9 @@ export type IMemberUseCases = {
         projectId: string;
         name: string;
     }) => Promise<IDBMemberStatus | null>;
+    editMember: (data: {
+        name: string;
+        avatar?: string;
+        username: string;
+    }) => Promise<void>;
 };

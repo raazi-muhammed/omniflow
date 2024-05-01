@@ -32,5 +32,20 @@ export default function buildMemberRepository({
         getById: async (id: string) => {
             return (await database.findOne({ _id: id })) as IDBMember;
         },
+        editUser: async ({
+            username,
+            name,
+            avatar,
+        }: {
+            avatar?: string;
+            username: string;
+            name: string;
+        }) => {
+            const updated = await database.updateOne(
+                { username },
+                { name, avatar }
+            );
+            return updated.modifiedCount > 0;
+        },
     });
 }

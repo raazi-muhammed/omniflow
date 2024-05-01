@@ -1,7 +1,6 @@
 import { Kafka } from "kafkajs";
 import { logger, validateBody } from "@omniflow/common";
 import { IMemberUseCases } from "../../interfaces/use-case.interface.js";
-import { memberAccessRepository } from "../../repository/mongo/index.js";
 import { AccessLevels } from "../../interfaces/entity.interface.js";
 
 export async function addMemberToTeamConsumer({

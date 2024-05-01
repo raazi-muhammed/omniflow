@@ -79,6 +79,7 @@ export default function buildAddProjectUseCase({
                 email: projectLead.email,
                 username: projectLead.username,
                 avatar: projectLead.avatar,
+                name: projectLead.name,
             },
             projectId: projectAdded.id,
         });
