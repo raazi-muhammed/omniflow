@@ -18,7 +18,7 @@ export class ProjectService extends Service {
         startDate: Date;
         dueDate: Date;
         projectLead: string;
-        description: string;
+        description?: string;
     }) {
         this.url = new BuildUrl().project("/projects");
         this.axiosPost(values);
@@ -28,7 +28,7 @@ export class ProjectService extends Service {
         title: string;
         startDate: Date;
         dueDate: Date;
-        description: string;
+        description?: string;
     }) {
         this.url = new BuildUrl().project("/projects/current");
         this.axiosPut(values);

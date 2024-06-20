@@ -34,7 +34,7 @@ import { canSubmitFrom } from "@/lib/utils";
 
 const formSchema = z.object({
     name: z.string().min(3, "Invalid"),
-    summary: z.string().min(3, "Invalid"),
+    summary: z.string().optional(),
     route: z.string().min(3, "Invalid"),
     method: z.string(),
     parentFolder: z.string().optional(),

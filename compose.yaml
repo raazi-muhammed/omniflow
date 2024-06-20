@@ -286,14 +286,20 @@ services:
             - 9090:9090
         volumes:
             - ./prometheus.yml:/etc/prometheus/prometheus.yml
+        profiles:
+            - donotstart
     grafana:
         image: grafana/grafana-oss
         ports:
             - 3030:3000
+        profiles:
+            - donotstart
     loki:
         image: grafana/loki
         ports:
             - 3100:3100
+        profiles:
+            - donotstart
 
 volumes:
     db_user:

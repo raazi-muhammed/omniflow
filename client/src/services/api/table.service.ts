@@ -8,7 +8,7 @@ export class TableService extends Service {
         super(config);
     }
 
-    addTable(values: { name: string; description: string }) {
+    addTable(values: { name: string; description?: string }) {
         this.url = new BuildUrl().dbDesign("/tables");
         this.axiosPost(values);
         return this;
@@ -33,7 +33,7 @@ export class TableService extends Service {
     }
     editTable(
         tableId: string,
-        tableData: { name: string; description: string }
+        tableData: { name: string; description?: string }
     ) {
         this.url = new BuildUrl().dbDesign(`/tables/${tableId}`);
         this.axiosPut(tableData);
@@ -52,7 +52,7 @@ export class TableService extends Service {
         tableId: string,
         values: {
             name: string;
-            description: string;
+            description?: string;
             type: string;
             options?: string[];
         }

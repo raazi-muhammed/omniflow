@@ -25,7 +25,7 @@ import { canSubmitFrom } from "@/lib/utils";
 const formSchema = z.object({
     key: z.string().min(1, "Invalid"),
     value: z.string().min(1, "Invalid"),
-    description: z.string().min(1, "Invalid"),
+    description: z.string().optional(),
 });
 
 export default function AddHeadersForm({ endpointId }: { endpointId: string }) {

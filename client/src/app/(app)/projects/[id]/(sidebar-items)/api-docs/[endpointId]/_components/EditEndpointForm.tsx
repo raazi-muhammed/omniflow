@@ -25,7 +25,6 @@ import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { IEndpoint } from "@/types/database";
 import { Dispatch, SetStateAction } from "react";
-import { logger } from "@/lib/logger";
 import { ApiDocService } from "@/services/api/api-doc.service";
 import { makeApiCall } from "@/lib/apicaller";
 import { DeleteAlert } from "@/components/custom/DeleteAlert";
@@ -34,7 +33,7 @@ import { canSubmitFrom } from "@/lib/utils";
 
 const formSchema = z.object({
     name: z.string().min(3, "Invalid"),
-    summary: z.string().min(3, "Invalid"),
+    summary: z.string().optional(),
     route: z.string().min(3, "Invalid"),
     method: z.string(),
 });
