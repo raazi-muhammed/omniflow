@@ -55,9 +55,15 @@ export default function Page({ params }: { params: { id: string } }) {
                         <Label>Title</Label>
                         <Heading>{project.title}</Heading>
                         <br />
-                        <Label>Description</Label>
-                        <p className="max-w-2xl">{project.description}</p>
-                        <br />
+                        {!!project.description && (
+                            <>
+                                <Label>Description</Label>
+                                <p className="max-w-2xl">
+                                    {project.description}
+                                </p>
+                                <br />
+                            </>
+                        )}
                         <Label>Start Date</Label>
                         <p>{moment(project.startDate).format("LL")}</p>
                         <br />

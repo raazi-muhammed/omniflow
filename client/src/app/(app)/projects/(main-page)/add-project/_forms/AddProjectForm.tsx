@@ -45,7 +45,7 @@ const formSchema = z.object({
     startDate: z.date(),
     dueDate: z.date(),
     projectLead: z.string().min(3, "Invalid"),
-    description: z.string().min(3, "Invalid"),
+    description: z.string().optional(),
 });
 
 export default function AddProjectForm() {

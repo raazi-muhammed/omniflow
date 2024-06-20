@@ -40,7 +40,7 @@ const formSchema = z.object({
             required_error: "Please select a type.",
         })
         .min(1, "Invalid"),
-    description: z.string().min(1, "Invalid"),
+    description: z.string().optional(),
     options: z.array(z.string()).optional().default([]),
 });
 
@@ -53,7 +53,7 @@ export default function AddTableFieldForm({ tableId }: { tableId: string }) {
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: "",
-            type: "",
+            type: "STRING",
             description: "",
         },
         mode: "onTouched",

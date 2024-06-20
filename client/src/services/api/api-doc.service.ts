@@ -10,7 +10,7 @@ export class ApiDocService extends Service {
 
     addEndpoint(values: {
         name: string;
-        summary: string;
+        summary?: string;
         route: string;
         method: string;
     }) {
@@ -35,7 +35,12 @@ export class ApiDocService extends Service {
 
     editEndpoint(
         id: string,
-        values: { name: string; summary: string; route: string; method: string }
+        values: {
+            name: string;
+            summary?: string;
+            route: string;
+            method: string;
+        }
     ) {
         this.url = new BuildUrl().apiDoc(`/endpoints/${id}`);
         this.axiosPut(values);

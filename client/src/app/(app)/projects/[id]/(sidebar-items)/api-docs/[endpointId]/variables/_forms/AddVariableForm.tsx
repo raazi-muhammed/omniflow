@@ -38,7 +38,7 @@ const formSchema = z.object({
             required_error: "Please select a language.",
         })
         .min(1, "Invalid"),
-    description: z.string().min(1, "Invalid"),
+    description: z.string().optional(),
 });
 
 export default function AddVariableForm({
@@ -53,7 +53,7 @@ export default function AddVariableForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: "",
-            type: "",
+            type: "STRING",
             description: "",
         },
         mode: "onTouched",

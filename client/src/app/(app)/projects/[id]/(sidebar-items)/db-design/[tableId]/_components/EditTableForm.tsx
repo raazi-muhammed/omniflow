@@ -24,8 +24,8 @@ import AnimatedSpinner from "@/components/custom/AnimatedSpinner";
 import { canSubmitFrom } from "@/lib/utils";
 
 const formSchema = z.object({
-    name: z.string().min(3, "Invalid"),
-    description: z.string().min(3, "Invalid"),
+    name: z.string().min(2, "Invalid"),
+    description: z.string().optional(),
 });
 
 export default function EditTableForm({ table }: { table: ITable }) {
