@@ -7,7 +7,7 @@ export default function loading() {
     return (
         <div className="w-screen">
             <FormWrapper className="space-y-4">
-                <Heading variant="spaced">Add endpoint</Heading>
+                <Heading variant="spaced">Add table</Heading>
                 <Skeleton className="h-12 w-full" />
                 <Skeleton className="h-12 w-full" />
                 <Skeleton className="h-12 w-full" />

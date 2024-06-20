@@ -14,7 +14,6 @@ export default function loading() {
                 <SectionContent>
                     <Heading variant="spaced">Edit Project</Heading>
                     <FormWrapper className="space-y-4">
-                        <Heading variant="spaced">Add Project</Heading>
                         <Skeleton className="h-12 w-full" />
                         <Skeleton className="h-12 w-full" />
                         <Skeleton className="h-12 w-full" />
