@@ -8,7 +8,7 @@ export default function loading() {
     return (
         <div className="w-screen">
             <FormWrapper className="space-y-4">
-                <Heading variant="spaced">Add Team</Heading>
+                <Heading variant="spaced">Add a Team</Heading>
                 <Skeleton className="h-12 w-full" />
                 <Skeleton className="h-12 w-full" />
             </FormWrapper>
