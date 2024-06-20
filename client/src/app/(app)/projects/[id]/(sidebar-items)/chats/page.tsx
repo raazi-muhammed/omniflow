@@ -12,17 +12,27 @@ import { makeApiCall } from "@/lib/apicaller";
 import { IResponse } from "@/services/api/utils";
 import Messages from "./_components/Messages";
 import MessageSender from "./_components/MessageSender";
+import { logger } from "@/lib/logger";
 
 const SOCKET_URL = process.env.NEXT_PUBLIC_SOCKET_URL;
 if (!SOCKET_URL) throw new Error("ENV NOT FOUND: socket url not found");
 
 const socket = new WebSocket(SOCKET_URL);
-
+enum ChatStates {
+    CONNECTING = "Connecting",
+    CONNECTED = "Connected",
+    FAILED = "Failed",
+}
 export default function Chats() {
     const project = useAppSelector((state) => state.projectReducer.projectData);
     const user = useAppSelector((state) => state.authReducer.userData);
+    const [chatState, setChatState] = useState<ChatStates>(
+        ChatStates.CONNECTING
+    );
     const [rejoin, setRejoin] = useState(new Date());
     const retryJoin = () => {
+        toast({ description: "retrying" });
+
         rejoin.setSeconds(rejoin.getSeconds() + 1);
         if (rejoin < new Date()) setRejoin(new Date());
     };
@@ -41,19 +51,21 @@ export default function Chats() {
     useEffect(() => {
         try {
             if (!project?.id) {
-                toast({ description: "no project id found" });
+                toast({ description: "No project id found" });
                 return;
             }
+
             socket.send(
                 JSON.stringify({
                     type: EventTypes.JOIN_ROOM,
                     roomId: project.id,
                 })
             );
-            toast({ description: "chat joined" });
+            setChatState(ChatStates.CONNECTED);
         } catch (error) {
-            toast({ description: "failed" });
             retryJoin();
+            toast({ description: "Failed to join Chat" });
+            setChatState(ChatStates.FAILED);
         }
         return () => {
             try {
@@ -63,9 +75,8 @@ export default function Chats() {
                         roomId: project?.id,
                     })
                 );
-                toast({ description: "chat left" });
             } catch (error) {
-                toast({ description: "failed" });
+                logger.error(error);
             }
         };
     }, [project, rejoin, socket.readyState]);
@@ -93,7 +104,16 @@ export default function Chats() {
         <div className="relative w-full">
             <main className="h-screen-without-navbar w-full overflow-auto">
                 <Container>
-                    <Heading>{project ? project.title : "Chats"}</Heading>
+                    <section className="absolute left-0 right-0 top-0 z-20 bg-black bg-opacity-50 p-3 px-8 backdrop-blur-sm">
+                        <Container className="grid gap-0">
+                            <Heading>
+                                {project ? project.title : "Chats"}
+                            </Heading>
+                            <small className="-mt-2 text-secondary">
+                                {chatState}
+                            </small>
+                        </Container>
+                    </section>
                     <Messages
                         messages={messages}
                         userName={user?.username || ""}

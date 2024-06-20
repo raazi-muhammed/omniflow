@@ -70,7 +70,7 @@ export default function MessageSender({
 
     async function onSubmit(values: z.infer<typeof FormSchema>) {
         if (!user) {
-            toast({ description: "user detail not found" });
+            toast({ description: "User detail not found" });
             return;
         }
         if (!projectId) {
@@ -82,7 +82,7 @@ export default function MessageSender({
 
         if (!socket.readyState) {
             toast({
-                description: "Not joined on room",
+                description: "Room not joined",
             });
             return;
         }
